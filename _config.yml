@@ -4,7 +4,7 @@
 
 url: http://xiekunRonaldo.github.io
 title: AllenToFight Blog
-subtitle: A blogging framework for hackers.
+subtitle: Life To Code.
 author: AllenToFight
 simple_search: http://google.com/search
 description:
@@ -19,7 +19,8 @@ date_format: "ordinal"
 subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
-email:
+# email: xiekun605746@163.com
+email_md5: 27a0140c11f18fab9bf284743d2b2b4c
 
 # ----------------------- #
 #    Jekyll & Plugins     #
@@ -61,6 +62,10 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # ----------------------- #
 #   3rd Party Settings    #
 # ----------------------- #
+
+# Weibo
+weibo_user: 1876496750 # 微博数字 ID 或域名 ID
+weibo_share: true # 是否开启微博分享按钮
 
 # Github repositories
 github_user:
