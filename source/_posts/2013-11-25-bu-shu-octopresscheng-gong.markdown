@@ -15,3 +15,4 @@ categories:
 	* 彻底解决：取消zsh的通配(GLOB), 在.zshrc中加入alias rake="noglob rake"点
 	
 		参考[这里](http://fancyoung.com/blog/use-octopress-new-post-function-with-zsh/)
+3. 安装多说评论系统,请点击[这里](http://beyondvincent.com/blog/2013/07/27/107-hello-page-of-github/)，需要注意的是,在文章的C步中,船哥有个地方笔误了,请将`post/duoshuo1.html`改为`post/duoshuo.html`

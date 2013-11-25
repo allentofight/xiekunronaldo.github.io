@@ -67,6 +67,10 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 weibo_user: 1876496750 # 微博数字 ID 或域名 ID
 weibo_share: true # 是否开启微博分享按钮
 
+#duoshuo
+duoshuo_comments: true
+duoshuo_short_name: allentofight
+
 # Github repositories
 github_user:
 github_repo_count: 0
@@ -91,12 +95,12 @@ pinboard_user:
 pinboard_count: 3
 
 # Delicious
-delicious_user:
-delicious_count: 3
+# delicious_user:
+# delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
+# disqus_short_name:
+# disqus_show_comment_count: false
 
 # Google Analytics
 google_analytics_tracking_id:
