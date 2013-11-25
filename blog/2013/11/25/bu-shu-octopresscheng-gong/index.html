@@ -9,7 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content=" 部署octopress成功 ">
+	<meta name="description" content="部署octopress成功 今天经过一番探索,按船哥的博文指引，查阅了一些资料后，终于成功的部署了octopress博客系统，成功地写出了博客，用得主题是很流行的greyshade主题,整理一下需要注意的几个问题 侧栏social links支持众多社交网站,但不支持微博,可以点这里查看解决方法 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,21 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">部署octopress成功</h1>
-	<div class="entry-content" itemprop="articleBody">
+	<div class="entry-content" itemprop="articleBody"><p>今天经过一番探索,按船哥的<a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">博文指引</a>，查阅了一些资料后，终于成功的部署了octopress博客系统，成功地写出了博客，用得主题是很流行的<a href="https://github.com/shashankmehta/greyshade">greyshade</a>主题,整理一下需要注意的几个问题</p>
+
+<ol>
+<li>侧栏social links支持众多社交网站,但不支持微博,可以点<a href="http://www.imallen.com/blog/2013/05/12/add-support-for-weibo-and-dribbble-to-greyshade.html">这里</a>查看解决方法</li>
+<li><p>写博客时用到的命令rake new_post[&ldquo;title&rdquo;]，在zsh下无效，会出现<code>zsh: no matches found</code>的错误，原因：zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, or ‘?’符号，则将其识别为查找文件名的通配符</p>
+
+<ul>
+<li><p>快速解决：用引号括起来$ rake &ldquo;new_post[arch-linux-reinstall-glibc.markdown]&rdquo;</p></li>
+<li><p>彻底解决：取消zsh的通配(GLOB), 在.zshrc中加入alias rake=&ldquo;noglob rake&#8221;点</p>
+
+<p>  参考<a href="http://fancyoung.com/blog/use-octopress-new-post-function-with-zsh/">这里</a></p></li>
+</ul>
+</li>
+</ol>
+
 </div>
 
 </article>
@@ -105,7 +119,14 @@
 </div>
 
 
-</div>
+
+
+｛% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %｝
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite">｛% include post/duoshuo1.html %｝</div>
+  </section>
+｛% endif %｝</div>
 			</div>
 			<footer id="footer" class="inner"><p>
   Copyright &copy; 2013 - AllenToFight -
