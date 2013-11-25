@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2013-11-25T18:21:42+08:00</updated>
+  <updated>2013-11-25T21:37:31+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,5 +12,14 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[部署octopress成功]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2013/11/25/bu-shu-octopresscheng-gong/"/>
+    <updated>2013-11-25T21:35:14+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2013/11/25/bu-shu-octopresscheng-gong</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
 </feed>
