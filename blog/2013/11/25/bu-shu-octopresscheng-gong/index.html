@@ -102,6 +102,7 @@
 <p>  参考<a href="http://fancyoung.com/blog/use-octopress-new-post-function-with-zsh/">这里</a></p></li>
 </ul>
 </li>
+<li>安装多说评论系统,请点击<a href="http://beyondvincent.com/blog/2013/07/27/107-hello-page-of-github/">这里</a>，需要注意的是,在文章的C步中,船哥有个地方笔误了,请将<code>post/duoshuo1.html</code>改为<code>post/duoshuo.html</code></li>
 </ol>
 
 </div>
@@ -121,12 +122,25 @@
 
 
 
-｛% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %｝
+
   <section>
     <h1>Comments</h1>
-    <div id="comments" aria-live="polite">｛% include post/duoshuo1.html %｝</div>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
   </section>
-｛% endif %｝</div>
+</div>
 			</div>
 			<footer id="footer" class="inner"><p>
   Copyright &copy; 2013 - AllenToFight -

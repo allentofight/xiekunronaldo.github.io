@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2013-11-25T22:50:51+08:00</updated>
+  <updated>2013-11-26T10:39:51+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -31,6 +31,7 @@
 <p>  参考<a href="http://fancyoung.com/blog/use-octopress-new-post-function-with-zsh/">这里</a></p></li>
 </ul>
 </li>
+<li>安装多说评论系统,请点击<a href="http://beyondvincent.com/blog/2013/07/27/107-hello-page-of-github/">这里</a>，需要注意的是,在文章的C步中,船哥有个地方笔误了,请将<code>post/duoshuo1.html</code>改为<code>post/duoshuo.html</code></li>
 </ol>
 
 ]]></content>
