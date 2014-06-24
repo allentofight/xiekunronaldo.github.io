@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-06-24T09:36:18+08:00</updated>
+  <updated>2014-06-24T09:39:47+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -18,7 +18,9 @@
     <link href="http://xiekunRonaldo.github.io/blog/2014/06/24/c-plus-plus-and-objective-c/"/>
     <updated>2014-06-24T07:58:39+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/06/24/c-plus-plus-and-objective-c</id>
-    <content type="html"><![CDATA[<h2>C++ 是一辆手动档汽车</h2>
+    <content type="html"><![CDATA[<p>译自<a href="http://paralaxer.com/cpp-vs-objective-c/">C++ vs Objective C</a></p>
+
+<h2>C++ 是一辆手动档汽车</h2>
 
 <p>如果说object C是一辆自动档汽车，那么C++就是一辆手动档的汽车</p>
 
