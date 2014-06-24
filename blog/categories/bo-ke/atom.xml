@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 博客 | AllenToFight Blog]]></title>
+  <link href="http://xiekunRonaldo.github.io/blog/categories/bo-ke/atom.xml" rel="self"/>
+  <link href="http://xiekunRonaldo.github.io/"/>
+  <updated>2014-06-24T20:42:11+08:00</updated>
+  <id>http://xiekunRonaldo.github.io/</id>
+  <author>
+    <name><![CDATA[AllenToFight]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[部署octopress成功]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2013/11/25/bu-shu-octopresscheng-gong/"/>
+    <updated>2013-11-25T21:35:14+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2013/11/25/bu-shu-octopresscheng-gong</id>
+    <content type="html"><![CDATA[<p>今天经过一番探索,按船哥的<a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">博文指引</a>，查阅了一些资料后，终于成功的部署了octopress博客系统，成功地写出了博客，用得主题是很流行的<a href="https://github.com/shashankmehta/greyshade">greyshade</a>主题,整理一下需要注意的几个问题</p>
+
+<ol>
+<li>侧栏social links支持众多社交网站,但不支持微博,可以点<a href="http://www.imallen.com/blog/2013/05/12/add-support-for-weibo-and-dribbble-to-greyshade.html">这里</a>查看解决方法</li>
+<li><p>写博客时用到的命令rake new_post[&ldquo;title&rdquo;]，在zsh下无效，会出现<code>zsh: no matches found</code>的错误，原因：zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, or ‘?’符号，则将其识别为查找文件名的通配符</p>
+
+<ul>
+<li><p>快速解决：用引号括起来$ rake &ldquo;new_post[arch-linux-reinstall-glibc.markdown]&rdquo;</p></li>
+<li><p>彻底解决：取消zsh的通配(GLOB), 在.zshrc中加入alias rake=&ldquo;noglob rake"点</p>
+
+<p>  参考<a href="http://fancyoung.com/blog/use-octopress-new-post-function-with-zsh/">这里</a></p></li>
+</ul>
+</li>
+<li>安装多说评论系统,请点击<a href="http://beyondvincent.com/blog/2013/07/27/107-hello-page-of-github/">这里</a>，需要注意的是,在文章的C步中,船哥有个地方笔误了,请将<code>post/duoshuo1.html</code>改为<code>post/duoshuo.html</code></li>
+</ol>
+
+
+<p>参考</p>
+
+<ol>
+<li><a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">利用Octopress搭建一个Github博客</a></li>
+<li><a href="http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/">Clone Your Octopress to Blog From Two Places</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
