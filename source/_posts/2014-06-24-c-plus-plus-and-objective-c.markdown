@@ -5,6 +5,7 @@ date: 2014-06-24 07:58:39 +0800
 comments: true
 categories: 
 ---
+译自[C++ vs Objective C](http://paralaxer.com/cpp-vs-objective-c/)
 
 ##  C++ 是一辆手动档汽车
 
