@@ -3,7 +3,7 @@ layout: post
 title: "C++ &amp; Objective C"
 date: 2014-06-24 07:58:39 +0800
 comments: true
-categories: 
+categories: 编程语言
 ---
 译自[C++ vs Objective C](http://paralaxer.com/cpp-vs-objective-c/)
 

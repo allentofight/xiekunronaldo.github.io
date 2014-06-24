@@ -3,7 +3,7 @@ layout: post
 title: "部署octopress成功"
 date: 2013-11-25 21:35:14 +0800
 comments: true
-categories: 
+categories: 博客
 ---
 今天经过一番探索,按船哥的[博文指引](http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/)，查阅了一些资料后，终于成功的部署了octopress博客系统，成功地写出了博客，用得主题是很流行的[greyshade](https://github.com/shashankmehta/greyshade)主题,整理一下需要注意的几个问题
 
