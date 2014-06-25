@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: C笔记 | AllenToFight Blog]]></title>
+  <link href="http://xiekunRonaldo.github.io/blog/categories/cbi-ji/atom.xml" rel="self"/>
+  <link href="http://xiekunRonaldo.github.io/"/>
+  <updated>2014-06-25T21:43:44+08:00</updated>
+  <id>http://xiekunRonaldo.github.io/</id>
+  <author>
+    <name><![CDATA[AllenToFight]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[C指针所引发的一个问题]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-%5B%3F%5D-ge-wen-ti/"/>
+    <updated>2014-06-25T21:39:33+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-[?]-ge-wen-ti</id>
+    <content type="html"><![CDATA[<h2>C指针产生的一个问题</h2>
+
+<pre><code>void fortune_cookie(char msg[]) {
+     printf("Message reads: %s\n", msg);
+     printf("msg occupies %i bytes\n", sizeof(msg)); 
+} 
+
+int main () {
+    char msg[] = "Turtles!";
+    fortune_cookie(msg);
+    return 0;
+}
+</code></pre>
+
+<p>运行以上代码会输出什么,有人说是</p>
+
+<pre><code>Message reads Turtles!
+msg occupies 9 bytes("Turtles!"的8个字节再加代表字符串结尾的\0这个字节，所以是9个字节)
+</code></pre>
+
+<p>如果你这么想，那就错了,实际的结果是</p>
+
+<pre><code>Message reads Turtles!
+msg occupies 4 (or 8) bytes
+</code></pre>
+
+<p>解释如下</p>
+
+<h2>数组变量就像指针一样</h2>
+
+<p>是的，只是像，而不等于指针</p>
+
+<p>当你创建了一个数组,数组变量其实可以被当作指向数组首元素地址的指针,当写了如下代码时</p>
+
+<pre><code>char quote[] = "Cookies make you fat";
+</code></pre>
+
+<p>实际上quote代表的是string中的首字符的地址，即字符'C'对应的地址</p>
+
+<pre><code>printf("The quote string is stored at: %p\n", quote);
+</code></pre>
+
+<p>以上将打印一个16进制的地址,尽管quote是一个数组，但是你可以把"quote"当成一个指针变量，因为它本身就是代表首字符串中的首字符的地址.</p>
+
+<p>所以当调用</p>
+
+<pre><code>fortune_cookie(msg);
+</code></pre>
+
+<p>时，其实我们给fortune_cookie函数传的是一个指针,它返回的是指向一个字符串的指针的大小，在32位上操作系统，一个指针占了4个字节的空间，而在64位上，一个指针则占据了8个字节,故有以上结果</p>
+]]></content>
+  </entry>
+  
+</feed>
