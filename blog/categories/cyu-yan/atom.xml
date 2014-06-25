@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Head | AllenToFight Blog]]></title>
-  <link href="http://xiekunRonaldo.github.io/blog/categories/head/atom.xml" rel="self"/>
+  <title><![CDATA[Category: C语言 | AllenToFight Blog]]></title>
+  <link href="http://xiekunRonaldo.github.io/blog/categories/cyu-yan/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-06-25T21:46:04+08:00</updated>
+  <updated>2014-06-25T21:47:50+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
