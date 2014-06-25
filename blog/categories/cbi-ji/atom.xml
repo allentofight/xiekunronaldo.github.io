@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C笔记 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/cbi-ji/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-06-25T21:43:44+08:00</updated>
+  <updated>2014-06-25T21:46:04+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -18,9 +18,7 @@
     <link href="http://xiekunRonaldo.github.io/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-%5B%3F%5D-ge-wen-ti/"/>
     <updated>2014-06-25T21:39:33+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-[?]-ge-wen-ti</id>
-    <content type="html"><![CDATA[<h2>C指针产生的一个问题</h2>
-
-<pre><code>void fortune_cookie(char msg[]) {
+    <content type="html"><![CDATA[<pre><code>void fortune_cookie(char msg[]) {
      printf("Message reads: %s\n", msg);
      printf("msg occupies %i bytes\n", sizeof(msg)); 
 } 

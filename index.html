@@ -9,7 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jun 25th, 2014 C笔记, First, Head C指针所引发的一个问题 C指针产生的一个问题 void fortune_cookie(char msg[]) { printf("Message reads: %s\n", msg); printf("msg occupies %i &hellip;">
+	<meta name="description" content="Jun 25th, 2014 C笔记, First, Head C指针所引发的一个问题 void fortune_cookie(char msg[]) { printf("Message reads: %s\n", msg); printf("msg occupies %i bytes\n", &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -117,9 +117,7 @@
 	</div>
 	<h1 class="title" itemprop="name"><a href="/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-%5B%3F%5D-ge-wen-ti/" itemprop="url">C指针所引发的一个问题</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<h2>C指针产生的一个问题</h2>
-
-<pre><code>void fortune_cookie(char msg[]) {
+		<pre><code>void fortune_cookie(char msg[]) {
      printf("Message reads: %s\n", msg);
      printf("msg occupies %i bytes\n", sizeof(msg)); 
 } 
