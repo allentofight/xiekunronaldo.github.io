@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-06-26T20:21:55+08:00</updated>
+  <updated>2014-06-26T20:27:12+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -87,6 +87,10 @@ char *t = s;
 <p> 由于数组变量没有任何的存储空间，所以它不能指向任何地方</p></li>
 </ol>
 
+
+<h2>指针退化(Pointer decay)</h2>
+
+<p>由于数组变量和指针变量有些区别，当你把数组赋给指针时需要特别小心，如果你将一个数组赋给一个指针变量，此时的指针变量将只包含数组的地址,没法知道数组的大小，所以一些信息丢失了，这种丢失信息的情况就叫做指针退化</p>
 ]]></content>
   </entry>
   
