@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-06-25T21:47:50+08:00</updated>
+  <updated>2014-06-26T20:21:55+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -66,6 +66,27 @@ msg occupies 4 (or 8) bytes
 </code></pre>
 
 <p>时，其实我们给fortune_cookie函数传的是一个指针,它返回的是指向一个字符串的指针的大小，在32位上操作系统，一个指针占了4个字节的空间，而在64位上，一个指针则占据了8个字节,故有以上结果</p>
+
+<h2>数组变量不是指针</h2>
+
+<p>尽管在调用函数时，数组参数是可以被当作指针传递，但实际上仍有一些不同，考虑以下情况</p>
+
+<pre><code>char s[] = "How big is it?"; 
+char *t = s;
+</code></pre>
+
+<ol>
+<li>sizeof(数组) 是一个数组的大小.
+ sizeof(s) = 15   sizeof(t) = 4 或 8</li>
+<li>数组的地址
+ &amp;s = s     &amp;t != t
+如果你写&amp;s,表示数组s的地址是什么,数组s的地址就是s,&amp;t表示t变量的地址，显然不等于t(表示s的地址)</li>
+<li><p>一个数组变量不能指向任何地方
+ 如果你创建了一个指针，机器将会为之分配4或8个字节来存储它,但如果你创建了一个数组，机器将为此<code>数组</code>分配空间，而不分为此<code>数组变量</code>分配<strong>任何</strong>的空间,数组变量仅代表数组的首地址</p>
+
+<p> 由于数组变量没有任何的存储空间，所以它不能指向任何地方</p></li>
+</ol>
+
 ]]></content>
   </entry>
   
