@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Runloop"
+date: 2014-06-27 21:38:47 +0800
+comments: true
+categories: iOS开发
+---
+参考
+
+* [http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4](http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4)
+
+* [http://blog.csdn.net/devday/article/details/6928432?reload](http://blog.csdn.net/devday/article/details/6928432?reload)
