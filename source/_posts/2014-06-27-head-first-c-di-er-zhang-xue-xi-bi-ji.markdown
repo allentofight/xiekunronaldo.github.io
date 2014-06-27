@@ -3,7 +3,7 @@ layout: post
 title: "Head First C 第二章学习笔记"
 date: 2014-06-27 22:01:57 +0800
 comments: true
-categories: c语言
+categories: C语言
 ---
 ##内存与指针
 
