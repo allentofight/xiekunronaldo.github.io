@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C语言 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/cyu-yan/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-06-27T21:41:23+08:00</updated>
+  <updated>2014-06-27T22:03:09+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -14,83 +14,137 @@
 
   
   <entry>
-    <title type="html"><![CDATA[C指针所引发的一个问题]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-%5B%3F%5D-ge-wen-ti/"/>
-    <updated>2014-06-25T21:39:33+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-[?]-ge-wen-ti</id>
-    <content type="html"><![CDATA[<pre><code>void fortune_cookie(char msg[]) {
-     printf("Message reads: %s\n", msg);
-     printf("msg occupies %i bytes\n", sizeof(msg)); 
-} 
+    <title type="html"><![CDATA[Head First C 第二章学习笔记]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji/"/>
+    <updated>2014-06-27T22:01:57+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji</id>
+    <content type="html"><![CDATA[<h2>内存与指针</h2>
 
-int main () {
-    char msg[] = "Turtles!";
-    fortune_cookie(msg);
-    return 0;
-}
+<h5>问:运算符和函数的区别</h5>
+
+<p>答:运算符会被编译器编译成一串指令，而如果调用了函数，则会跳到一块单独的代码块中,也就是说在编译的时候sizeof就被执行了，因为编译器能在编译的时候就知道存储空间的大小了</p>
+
+<h5>问:为何在不同的机器上，指针的大小是不同的?</h5>
+
+<p>答:在32位OS上，一个内存地址以一个32比特的数字来表示，这也是它被称为32位的原因,32bit = 8bytes,则也是为何64位OS用8bytes来存储一个地址的原因</p>
+
+<h5>写一个函数，则函数只打印一个字符串的第7个字符以后的信息</h5>
+
+<pre><code>void skip(char *msg) {      puts( msg + 6 );    } 
 </code></pre>
 
-<p>运行以上代码会输出什么,有人说是</p>
+<p>以下写法是错误的</p>
 
-<pre><code>Message reads Turtles!
-msg occupies 9 bytes("Turtles!"的8个字节再加代表字符串结尾的\0这个字节，所以是9个字节)
+<pre><code>char food[5];   printf("Enter favorite food: ");    scanf("%s", food);
 </code></pre>
 
-<p>如果你这么想，那就错了,实际的结果是</p>
+<p>应改为</p>
 
-<pre><code>Message reads Turtles!
-msg occupies 4 (or 8) bytes
+<pre><code>scanf("%4s", food);
 </code></pre>
 
-<p>解释如下</p>
+<p>否则将导致缓冲区溢出(buffer overflow),或者说栈错误(segmentation fault)</p>
 
-<h2>数组变量就像指针一样</h2>
+<h2>fgets()是一种替代方式</h2>
 
-<p>是的，只是像，而不等于指针</p>
+<p>它接受一个char的指针，但不像scanf(),fgets()必须指定一个最大长度</p>
 
-<p>当你创建了一个数组,数组变量其实可以被当作指向数组首元素地址的指针,当写了如下代码时</p>
-
-<pre><code>char quote[] = "Cookies make you fat";
+<pre><code>char food[5];   printf("Enter favorite food: ");    fgets(food, sizeof(food), stdin);
 </code></pre>
 
-<p>实际上quote代表的是string中的首字符的地址，即字符'C'对应的地址</p>
+<p><code>注意点</code>:不过需要注意的是sizeof返回 的是一个变量所占据的空间,以上的例子中,food是一个数组变量 ,所以sizeof返回了数组的大小，如果food只是一个指针变量,sizeof将返回一个指针的大小如果你知道你所传的参数是一个数组变量,那用sizeof是ok的，如果你传的是一个指针变量，你需要传入确定的大小,如下</p>
 
-<pre><code>printf("The quote string is stored at: %p\n", quote);
+<pre><code>printf("Enter favorite food: "); 
+fgets(food, 5, stdin);
 </code></pre>
 
-<p>以上将打印一个16进制的地址,尽管quote是一个数组，但是你可以把"quote"当成一个指针变量，因为它本身就是代表首字符串中的首字符的地址.</p>
-
-<p>所以当调用</p>
-
-<pre><code>fortune_cookie(msg);
-</code></pre>
-
-<p>时，其实我们给fortune_cookie函数传的是一个指针,它返回的是指向一个字符串的指针的大小，在32位上操作系统，一个指针占了4个字节的空间，而在64位上，一个指针则占据了8个字节,故有以上结果</p>
-
-<h2>数组变量不是指针</h2>
-
-<p>尽管在调用函数时，数组参数是可以被当作指针传递，但实际上仍有一些不同，考虑以下情况</p>
-
-<pre><code>char s[] = "How big is it?"; 
-char *t = s;
-</code></pre>
+<h2>fgets和scanf的比较</h2>
 
 <ol>
-<li>sizeof(数组) 是一个数组的大小.
- sizeof(s) = 15   sizeof(t) = 4 或 8</li>
-<li>数组的地址
- &amp;s = s     &amp;t != t
-如果你写&amp;s,表示数组s的地址是什么,数组s的地址就是s,&amp;t表示t变量的地址，显然不等于t(表示s的地址)</li>
-<li><p>一个数组变量不能指向任何地方
- 如果你创建了一个指针，机器将会为之分配4或8个字节来存储它,但如果你创建了一个数组，机器将为此<code>数组</code>分配空间，而不分为此<code>数组变量</code>分配<strong>任何</strong>的空间,数组变量仅代表数组的首地址</p>
+<li><p>输入大小限制</p>
 
-<p> 由于数组变量没有任何的存储空间，所以它不能指向任何地方,当程序编译时，所以的数组变量都被数组的地址替换了，所以数组变量并不存在最后的可执行文件中，这也就是为什么数组变量不能指向任何其他地方的原因</p></li>
+<ul>
+<li>scanf()能限制输入的大小，只要你记得在输入的字符串格式上加上相应的大小即可,如"%4s"</li>
+<li>fgets()有一个强制输入大小的限制</li>
+</ul>
+</li>
+<li><p>输入类型</p>
+
+<ul>
+<li>scanf()不仅仅能让你输入多种类型，还让你指定比如在相应的输入数据之间用什么数据来分隔,如scanf(&ldquo;%d,%d&rdquo;)表示输入的两个整数之间必须用",&ldquo;隔开</li>
+<li>fgets()只允许你输入一个字符串到缓冲区中,其他数据类型都是不允许的</li>
+</ul>
+</li>
+<li><p>字符串中的空格</p>
+
+<ul>
+<li>对scanf()来说，如果它用%s来输入一个字符串,如果碰到一个空格时，它将马上终止输入,所以如果你想输入两个单词，要么你调用两次scanf()来输入，要么你用一些古怪的正则表达式来操作</li>
+<li>fgets()无任何问题,每次fgets()都可读入整个string</li>
+</ul>
+</li>
 </ol>
 
 
-<h2>指针退化(Pointer decay)</h2>
+<h2>字符串常量不能被修改</h2>
 
-<p>由于数组变量和指针变量有些区别，当你把数组赋给指针时需要特别小心，如果你将一个数组赋给一个指针变量，此时的指针变量将只包含数组的地址,没法知道数组的大小，所以一些信息丢失了，这种丢失信息的情况就叫做指针退化</p>
+<pre><code>char *cards = "JQK"
+cards[0] = 'H'
+</code></pre>
+
+<p>错误！字符串常量被存储在常量存储区，这个区域是只读的,如果你想要改变一个字符串，copy它，你需要将string拷贝到一个可写的内存区域，这样你就能修改它了,如下</p>
+
+<pre><code>char cards[] = "JQK";
+</code></pre>
+
+<p>可能你不清楚发生了什么，所有的string都是数组，但在之前的错误代码中，cards仅仅是一个指针，在新代码中，如果你定义了一个叫做cards的数组，然后将一个字符串常量赋值给它，cards数组得到的是一份全新的拷贝，此时"JQK"在栈上
+为了避免当cards是指针时修改它产生错误，你应该按哪下方式进行声明</p>
+
+<pre><code>const char *s = "JQK";
+</code></pre>
+
+<p>这样，如果编译器看到试图修改此string的代码，就会报错</p>
+
+<pre><code>s[0] = 'S'      //error: assignment of read-only location
+</code></pre>
+
+<h2>cards[]还是cards*</h2>
+
+<p>如果你看到以下的声明，意味着什么</p>
+
+<pre><code>char cards[]
+</code></pre>
+
+<p>一切取决于你在哪看到它的，如果是一个正常的声明，那么意味着它是一个数组，必须给它赋值</p>
+
+<pre><code>int my_function()   {
+    //此时cards是一个数组        char cards[] = "JQK"; ...   }
+</code></pre>
+
+<p>如果cards出现在一个函数的参数中，此时cards表示一个指针</p>
+
+<pre><code>void stack_deck(char cards[])   {       }
+</code></pre>
+
+<p>等价于</p>
+
+<pre><code>void stack_deck(char *cards) {      }
+</code></pre>
+
+<h2>存储区</h2>
+
+<ul>
+<li>栈
+栈用来存储局部变量,每次你调用一个函数，所有此函数的局部变量都创建在栈上，它被称称栈，是因为它像一叠盘子,将你创建一个函数的时候，变量被加到栈中，将你离开一个函数时，这些变量又会变销毁，奇怪的是栈的工作方式，总是从高地址开始，向低地址增长</li>
+<li>堆
+堆主要用在动态内存分配上,创建在堆上的数据在程序运行时即可创建，不过会保持相当长的一段时间，直到你手动释放它</li>
+<li>全局存储区
+一个全局存储区的作用域在所有函数之外，并且对所有函数可见，全局变量在程序首次运行的时候创建，你可以随意改变它们，但却不像&hellip;</li>
+<li>常量存储区
+常量也在用户首次运行的时候创建，但它们只存储在只读的存储区域中,常量就像字符串字面量一样，程序运行的时候你可能需要它们，但你却无法改变它们</li>
+<li>代码存储区
+许多操作系统将代码存储区置于最低的内存地址中,代码存储区是只读的，这里实际上是汇编代码加载的区域</li>
+</ul>
+
 ]]></content>
   </entry>
   
