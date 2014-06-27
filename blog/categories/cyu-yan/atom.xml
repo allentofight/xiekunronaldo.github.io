@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C语言 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/cyu-yan/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-06-28T07:56:59+08:00</updated>
+  <updated>2014-06-28T07:59:21+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -14,15 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Head First C 第二章学习笔记]]></title>
+    <title type="html"><![CDATA[Head First C 第二章学习笔记-内存与指针]]></title>
     <link href="http://xiekunRonaldo.github.io/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji/"/>
     <updated>2014-06-27T22:01:57+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji</id>
-    <content type="html"><![CDATA[<h2>内存与指针</h2>
-
-<hr />
-
-<h5>问:运算符和函数的区别</h5>
+    <content type="html"><![CDATA[<h5>问:运算符和函数的区别</h5>
 
 <p>答:运算符会被编译器编译成一串指令，而如果调用了函数，则会跳到一块单独的代码块中,也就是说在编译的时候sizeof就被执行了，因为编译器能在编译的时候就知道存储空间的大小了</p>
 
