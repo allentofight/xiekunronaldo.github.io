@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-06-26T22:46:02+08:00</updated>
+  <updated>2014-06-27T21:41:23+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Runloop]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/06/27/runloop/"/>
+    <updated>2014-06-27T21:38:47+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/06/27/runloop</id>
+    <content type="html"><![CDATA[<p>参考</p>
+
+<ul>
+<li><p><a href="http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4">http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4</a></p></li>
+<li><p><a href="http://blog.csdn.net/devday/article/details/6928432?reload">http://blog.csdn.net/devday/article/details/6928432?reload</a></p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[C指针所引发的一个问题]]></title>
