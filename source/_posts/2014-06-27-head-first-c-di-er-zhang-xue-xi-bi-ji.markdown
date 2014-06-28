@@ -86,5 +86,19 @@ categories: C语言
 * 代码存储区
   许多操作系统将代码存储区置于最低的内存地址中,代码存储区是只读的，这里实际上是汇编代码加载的区域
   
+##字符串
+使用前#include<string.h>
+提供的函数如下
 
+1. strchr() : 寻找字符串中某个字符的位置
+2. strcmp() : 比较两个字符串
+3. strstr() : 寻找字符串中对应字符串的位置
+
+如果找到了，返回被寻找的字符串的位置，如果没有，返回0
+	
+	char s0[] = "dysfunctional"; char s1[] = "fun";	if (strstr(s0, s1))	puts("I found the fun in dysfunctional!");
+	
+4. strcpy() : 拷贝字符串
+5. strlen() : 求字符串的长度
+6. strcat() : 连接两个字符串
   
