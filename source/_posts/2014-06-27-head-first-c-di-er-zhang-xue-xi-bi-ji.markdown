@@ -84,4 +84,4 @@ categories: C语言
 * 代码存储区
   许多操作系统将代码存储区置于最低的内存地址中,代码存储区是只读的，这里实际上是汇编代码加载的区域
   
-  {% img right /images/memory_memorizer.png 350 350 'image' 'images' %}
+  {% img right /images/memory_memorizer.png 350 350 'image' %}
