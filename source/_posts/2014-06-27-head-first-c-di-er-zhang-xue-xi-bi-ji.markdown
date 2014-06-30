@@ -73,7 +73,7 @@ categories: C语言
 等价于
 	void stack_deck(char *cards) {		}
 ##存储区
-  {% img left /images/memory_memorizer.png 350 350 'image' %}
+  {% img left /images/2014/6/memory_memorizer.png 350 350 'image' %}
   
 * 栈
   栈用来存储局部变量,每次你调用一个函数，所有此函数的局部变量都创建在栈上，它被称称栈，是因为它像一叠盘子,将你创建一个函数的时候，变量被加到栈中，将你离开一个函数时，这些变量又会变销毁，奇怪的是栈的工作方式，总是从高地址开始，向低地址增长

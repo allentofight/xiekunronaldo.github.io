@@ -1,0 +1,230 @@
+---
+layout: post
+title: "Head First C 第三章学习笔记-创建小工具"
+date: 2014-06-29 18:44:13 +0800
+comments: true
+categories: C语言
+---
+###要点
+Linux/Unix系统有很多小工具,这些小工具执行一些特定的任务，比如读写文件，过滤数据等，这些工具都只负责处理自己的事情，各司其职，无需顾虑其他的工具所做的事，这样做的好处可以如果你需要处理一个比较复杂的任务，你可以将它分割成各个小任务，每个小任务由相应的工具完成，就有效地做到了解耦,同时这么做也使得每个小程序更容易调试
+
+此章介绍我们将学习如何了解命令行参数，处理流信息，重定向，并快速地将各个工具组合起来
+
+本章我们主要以将以下数据格式
+
+	42.363327,-71.097588,Speed = 23 
+	42.363255,-71.096710,Speed = 17
+转换成以下的JSON形式进行讨论分析
+
+	[{latitude: 42.363400, longitude: -71.098465, info: 'Speed = 21'},
+	 {latitude: 42.363327, longitude: -71.097588, info: 'Speed = 23'}, 
+	 {latitude: 42.363255, longitude: -71.096710, info: 'Speed = 17'},	...]
+
+以下程序(geo2json)能从命令行中读取以逗号分隔的行，并将它以JSON的形式展示出来
+
+	//geo2json
+	#include <stdio.h>	int main() {		float latitude;		float longitude;		char info[80]; intstarted= 0 ￼ ￼ ;		puts("data=["); 		while (scanf("%f,%f,%79[^\n]", &latitude, &longitude, info) == 3) {			if (started) 				printf(",\n");			else				started= 1 ;
+			if ((latitude < -90.0) || (latitude > 90.0)) { 				printf(“Invalid latitude: %f\n”, latitude);				return 2;
+			}			if ((longitude < -180.0) || (longitude > 180.0)) {				printf(“Invalid longitude: %f\n”, longitude);				return 2; 			}			printf("{latitude: %f, longitude: %f, info: '%s'}", latitude , longitude , info );		}		puts("\n]");		return 0; 	}
+
+
+scanf()会返回输入的参数个数
+
+	while (scanf("%f,%f,%79[^\n]", , , ) == 3)
+	
+* 注意以上的[^\n]表示第三个输入参数的内容为除换行以外的字符串
+
+以上程序让你在键盘上输入GPS数据，将将它们在JSON的形式输出到屏幕上,问题是输入和输出混起来了，如果有许多的数据，你肯定不想在键盘上手动输入，你肯定希望能用一个小工具(geo2json)将大量的数据通过读取文件来获取.
+
+在以上的程序中，你用scanf()和printf()来从键盘中读取数据并将它显示到显示器上，但实际上它们并不直接和键盘和显示器交互，它们用了标准输入(Standard Input)和标准输出(Standard Output)来和相应的输入输出设备交互,输入输出在程序运行的时候由操作系统创建
+
+操作系统决定了数据如何进出标准输入输出的，如果你从终端运行一个程序，操作系统将把所有的按键信息发送给标准输入，如果操作系统从标准输出中获取数据，默认情况下它将把数据输入出显示器上
+scanf()和printf()两个函数并不关心数据来自哪里，去向何方，它们从标准输入和标准输出中读写数据
+可能你会问，为何这两个函数不直接和键盘，屏幕交互，难道不是更简单吗
+
+程序系统用标准输入和标准输出的形式与程序进行交互有一个很好的理由:
+你可以重定向标准输入和标准输出到其他地方，比如文件
+
+你可以用"<"来重定向标准输入:
+
+	./geo2json < gpsdata.csv
+	
+"<"告诉操作系统程序的标准输入应与gpsdata.csv文件连接，而非键盘，所以你可以通过文件向程序传送数据
+
+你也可以用">"来重定向标准输出
+
+	./geo2json < gpsdata.csv > output.json
+将你执行以上命令，你将发现在屏幕上没有任何数据，因为结果已经输出到output.json这个文件去了
+
+以上的程序(geo2json)虽然加了错误判断，但如果有非法数据，在最后的输出文件中，一样会有非法数据
+如果发生错误，如何发现错误码(以上为2)
+	
+	echo $?
+如果数据错误了，能有专门针对这些错误的输出该多好!
+标准错误(Stand Error)应运而生!它就是专门针对错误信息的输出，默认情况下，标准错误与屏幕相连,以下是默认状态下的三种标准对应设备的图
+
+ {% img /images/2014/6/standardIOE.png %}  
+ 
+ 
+ 也就是说如果重定向了标准出入和标准输出，标准错误仍将发送数据到屏幕上
+ 
+ {% img /images/2014/6/standardIOE2.png%}
+ 
+### fprintf()输出到一个数据流中(标准输出或标准错误)
+我们已经知道print()将数据输出到标准输出中，实际上print()只是fprintf()的一个特例而已
+当你调用
+
+	printf("I like Turtles!");
+时，实际上它调用的是
+
+	fprintf(stdout, "I like Turtles!");
+以上清楚地显示了字符串"I like Turtles"输出到stdout,你可以告诉fprintf()发送数据到stdout或stderr
+既然知道了fprintf()的用法，我们就可以修改geo2json了
+ {% img /images/2014/7/updategeo2json.png%}
+这样错误信息就与标准错误而不是标准输出关联了,重新运行代码，你将看到尽管标准输出重定向到了output.json文件，错误信息仍然打印到屏幕上，这是因为标准错误信息默认就是打印到屏幕上
+
+ {% img /images/2014/7/stderroutput.png%}
+ 
+标准错误的创建其实就是为了将错误信息和正常的输出区分开来，不过要记得，标准错误和标准输出都是输出流，你可以随心所欲地用按自己的想法利用它们
+####要点
+* printf()默认发送数据到标准输出
+* 标准输出默认输出数据到屏幕上
+* 在命令行中你可以用'>'来重定向标准输出,用'2>'来重定向标准错
+
+在以上处理经纬度数据的程序中，如果你想得到一定范围内的数据，如下图
+{% img /images/2014/7/range.png%}
+ 
+为了不改变geo2json这个工具，你可以另外创建一个工具(称它为bermude吧)来过滤不在以上范围的数据
+
+	//bermude
+	#include <stdio.h>	int main()
+	{
+		float latitude;		float longitude;		char info[80];		while (scanf("%f,%f,%79[^\n]", &latitude, &longitude , info ￼) == 3)
+		if (( ￼ ￼ latitude ￼ > ￼ ￼ 26 ￼ ) ￼ ￼ && ￼ ( ￼ ￼ latitude ￼ < ￼ ￼ 34 ￼ ))		￼￼￼￼￼￼￼if (( longitude > -76 ) && ( longitude < -64 )) 
+			printf("%f,%f,%s\n", latitude , longitude , info );		￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼return 0;
+	}	
+这样，你可以通过管道'|'将"bermude"的输出连接到geo2json的标准输入上，进而得到相应的结果
+
+{% img /images/2014/7/pipe.png%}
+
+操作系统将处理管道工作的细节，你需要做的只是运行一下以下的命令
+	
+	bermuda | geo2json
+操作系统将同时运行两个程序，完整的命令操作如下
+	
+	(./bermuda | ./geo2json) < spooky.csv > output.json
+通过管道将两个程序联合起来一起运行，你可以把两个程序当作一个进行看待，这样，你就能像之前那样重定向标准输出和标准输出了，注意括号是必要的！，这样保证了文件的内容将传到bermuda程序的标准输入中
+思考：如果多个程序通过管道连接起来，此时我用">"和"<"来重定向标准输入和标准输出，哪一个程序将让它们的输入输出重定向
+答:"<"将把文件的内容传到管道中的第一个程序中,">"将从管道中的最后一个程序中获取标准输出
+#### 如果你想将输出传到多个文件中去呢?
+我们已经知道如何用重定向从一个文件中读取数据和写入数据到一个文件中去了，那如果程序想做一些更复杂的，比如发送数据到多个文件中去该如何操作呢？
+假设你需要另外一个工具，这个工具将从一个文件中读取一系列的数据，并将数据分割到多个文件中去
+{% img /images/2014/7/threefiles.png%}
+问题是什么？你最多只能重定向到两个文件中，分别从标准输出和标准错误中重定向，那第三个文件该怎么办呢?
+####用FILE
+每一个数据流由一个指向文件的指针表示，你可以用fopen()来创建一个数据流
+
+	FILE *in_file = fopen("input.txt", "r");
+以上创建了一个数据流，从一个文件中读取数据
+
+	ILE *out_file = fopen("output.txt", "w");以上创建的一个数据流，将写入数据到文件中
+一旦你创建了一个数据流，你可以用fprintf()将输出的数据指向此文件中
+	
+	fprintf(out_file, "Don't wear %s with %s", "red", "green");
+那如果想从文件中读取数据呢，用fscanf()
+
+	fscanf(in_file, "%79[^\n]\n", sentence);
+最后，当你处理完了以上针对文件的数据流操作，你需要关闭它，实际上当程序结束的时候所有的数据流都会自动关闭，不过在不需要它们时手动关闭数据流总量一个好习惯
+回到以上的问题，现在我们能把数据输出到3个文件中去了，示例如下
+
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+	int main() {		char line[80];		FILE *in = fopen("spooky.csv","r");		FILE *file1 = fopen("ufos.csv", “w”);
+		FILE *file2 = fopen("disappearances.csv","w");
+		FILE *file3 = fopen("others.csv","w");	
+		while(fscanf(in,"%79[^\n]\n", line) == 1){
+			if (strstr(line, "UFO"))				fprintf (file1, "%s\n", line);			else if (strstr(line, "Disappearance")) 
+				fprintf (file2, "%s\n", line);			else fprintf (file3, "%s\n", line);		}
+		fclose (file1); 		fclose (file2);		fclose (file3);		return 0;
+	}	
+ 程序正常运行了，当你编译并执行以下命令
+{% img /images/2014/7/threefilesok.png%}
+
+程序正常运行，并将结果输出到3个文件中
+问题是如果你想数据输出到不同的文件(而不是指定的文件)，又该如何操作呢，每次用户都需要重新编译程序吗
+####main()函数的参数
+实际上，任何你写的程序都需要给用户改变程序工作方式的灵活性，如果是一个GUI程序，你需要提供它的偏好设置，如果是一个命令行程序，就像我们的categorize工具，它需要提供给用户传送命令行参数的能力
+{% img /images/2014/7/commandlineparam.png%}
+那么，如何从程序中读取命令行参数呢，目前为止，你用的是main()函数，没有包含任何参数，实际上，你还可以用上main()函数的第二个版本
+
+	int main(int argc, char *argv[])
+	{
+		......Do stuff
+	}
+以上的main()函数把命令行的参数当作一个字符串数组，实际上，由于C没有内置的字符串类型，它将用一个指针数组来指向这些命令行参数
+{% img /images/2014/7/argv.png%}
+
+像C数组一样,你也需要知道一个数组的长度，argc就表示此长度
+命令行参数给了你程序很大的灵活性，确实需要仔细考虑下在程序运行时该让用户传哪些参数，它将让你的程序更有价值
+以下是使用命令行参数的完整示例
+	
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>	int main(int argc, char *argv[]) {		char line[80];
+		if (argc != 6) {
+			fprintf(stderr, "You need to give 6 arguments\n");
+			return 1;
+		}
+		
+		FILE *in = fopen("spooky.csv", "r");
+		
+		FILE *file1 = fopen(argv[2], "w");
+		
+		FILE *file2 = fopen(argv[4], "w");
+		
+		FILE *file3 = fopen(argv[5], "w");
+		
+		while (fscanf(in, "%79[^\n]\n", line) == 1) {
+			if (strstr(line, argv[1]))
+				fprintf(file1, "%s\n", line);
+			else if (strstr(line, argv[3]))
+				fprintf(file2, "%s\n", line);
+			else 
+				fprintf(file3, "%s\n", line);
+		}
+		
+		fclose(file1);
+		fclose(file2);
+		fclose(file3); 
+		return 0;
+	}
+运行以上程序，你首选需要以下格式的`spooky.csv`文件
+	
+	30.685163,-68.137207,Type=Yeti 28.304380,-74.575195,Type=UFO 	29.132971,-71.136475,Type=Ship 28.343065,-62.753906,Type=Elvis 	27.868217,-68.005371,Type=Goatsucker 30.496017,-73.333740,Type=Disappearance 	26.224447,-71.477051,Type=UFO 29.401320,-66.027832,Type=Ship 	37.879536,-69.477539,Type=Elvis
+这样，在命令行中输出以下格式运行程序
+
+	categorize UFO aliens.csv Elvis elvises.csv the_rest.csv
+当程序运行后，产生了以下三个文件
+{% img /images/2014/7/3outputfiles.png%}	
+尽管在以上的程序中我们打开关闭程序没有出现错误，在实际操作中是很可能犯错的，幸运的是，如果在打开数据流发生了错误,fopen()将返回0，因此，以上的程序中，你应该将以下的程序
+	
+	FILE *in = fopen("i_dont_exist.txt", "r");改为
+	FILE *in;	if (!(in = fopen("dont_exist.txt", "r"))) {		fprintf(stderr, "Can't open the file.\n");		return 1; 	}
+很可能你写的程序需要一些选项，如果你创建了一个聊天程序，它需要一些偏好设置，如果你写了一个命令行工具，你可能需要提供类似以下的命令行的一些选项
+
+	ps -ae
+ 	tail -f logfile.out
+有一个叫做getopt()的库函数能让你更好地处理命令行选项,每次你调用它，它将返回下一个在命令行中的命令行选项
+假设你有一个函数，能提供多个命令行选项
+
+	rocket_to -e 4 -a Brasilia Tokyo London这个函数将需要两个个选项，其中一个选项需要提供一个值，另一个仅仅表示此选项是否开关,你可以在一个循环中调用getopt()来处理这些选项，如下
+{% img /images/2014/7/getopt.png%}
+在循环中，你用switch来处理每一个合法的选项,字符串"ae:"告知getopt()函数a和e是合法的选项，紧跟在e之后的冒号表示-e后面需要一个的值，getopt()将用optarg变量表示这个值当循环结束，你让argv和argc变量跳过所有的选项，此时它们表示跟随这些选项之后的命令行参数，这样，argv数组表示如下
+
+{% img /images/2014/7/skipargv.png%}我们也可以将两个选项结合起来
+如用-td而不是-t -d
+默认情况下，如果程序在命令行中看到以"-"开头的命令行，程序将会把它当作命令行选项，如果要避免此种情况，可以在"-"前加--,这样，在"--"之后的参数就被当作普通的参数了
+
+	set_temperature -c -- -4
+以上的命令行中，-4就被当作普通的参数而非命令行选项
