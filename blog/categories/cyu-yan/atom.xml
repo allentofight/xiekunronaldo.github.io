@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C语言 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/cyu-yan/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-11T08:06:53+08:00</updated>
+  <updated>2014-07-13T11:07:26+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Head First C第五章学习笔记]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-wu-zhang-xue-xi-bi-ji/"/>
+    <updated>2014-07-13T09:22:09+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-wu-zhang-xue-xi-bi-ji</id>
+    <content type="html"><![CDATA[<h4>Union的初始化</h4>
+
+<pre><code>typedef union { 
+    short count;
+    float weight;
+    float volume;   } quantity;
+//By name   quantity q = {.weight=1.5};
+//By dot notation
+quantity q;
+q.volume = 3.7;struct也可以按名字(Designated initializer)来进行初始化
+typedef struct {        const char *color;      int gears;      int height; } bike; bike b = {.height=17, .gears=21};
+</code></pre>
+
+<p>union可以用在struct中</p>
+
+<pre><code>typedef struct {        const char *name;       const char *country;        quantity amount;    } fruit_order;
+</code></pre>
+
+<p>你可以通过.或->来访问成员值</p>
+
+<pre><code>fruit_order apples = {"apples", "England", .amount.weight=4.2};
+</code></pre>
+
+<p>假设有一下定义</p>
+
+<pre><code>typedef union { 
+    float lemon;
+    int lime_pieces;    } lemon_lime;
+typedef struct {     float tequila;  float cointreau;    lemon_lime citrus; } margarita;
+</code></pre>
+
+<p>则以下定义是错误的</p>
+
+<pre><code>margarita m;    m = {2.0, 1.0, {0.5}};  //编译器会认为是数组
+</code></pre>
+
+<p>以下定义才是对的</p>
+
+<pre><code>margarita m = {2.0, 1.0, {0.5}};
+</code></pre>
+
+<p>在一个union里，可能会有很多可能的值，但一旦被赋值，你没法知道它存储的值的类型
+我们可能为某些字段设定了值却访问了另一个字段，这可能出现大问题,假设有以下程序</p>
+
+<pre><code>#include &lt;stdio.h&gt; 
+typedef union { 
+  float weight;   int count;    } cupcake;
+    int main() {        cupcake order = {2};        printf("Cupcakes quantity: %i\n", order.count);     return 0;   }
+</code></pre>
+
+<p>运行程序将会出现以下结果</p>
+
+<pre><code>gcc badunion.c -o badunion &amp;&amp; ./badunion 
+Cupcakes quantity: 1073741824可以用enum来避免此类问题
+</code></pre>
+
+<h4>Bitfiled</h4>
+
+<p>bitfield能让你指定struct里的field能有几位，你可以按如下方式定义struct</p>
+
+<pre><code>typedef struct {
+    unsigned int low_pass_vcf:1;
+    unsigned int filter_coupler:1;  } synth;
+</code></pre>
+
+<p>用bitfield，你能让每个field都只占一位
+如果你有一连串的bitfields,计算机能将它们排列压缩以节省空间，所以如果你有8个1位的bitfields，电脑将会把它们存储到一个字节里
+bitfield的不仅可以节省空间，也可以读写某些二进制文件</p>
+
+<ul>
+<li>bitfield应该被声明为unsigned int</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Head First C第四章学习笔记]]></title>
