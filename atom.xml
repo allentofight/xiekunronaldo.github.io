@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-13T11:09:19+08:00</updated>
+  <updated>2014-07-13T11:56:05+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -14,23 +14,56 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Head First C第六章-数据结构和动态内存]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-liu-zhang-shu-ju-jie-gou-he-dong-tai-nei-cun/"/>
+    <updated>2014-07-13T11:19:10+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-liu-zhang-shu-ju-jie-gou-he-dong-tai-nei-cun</id>
+    <content type="html"><![CDATA[<p>这一章中我们将学习到如何用结构体指针来将自定义的数据类型连接成一个更大更复杂的数据结构，我们通过创建链表来了解结构体指针的用处，也将学习到如何在堆上分配内存，并在你用完之后释放它，我们也将学习到valgrind的使用</p>
+
+<h4>在堆上分配内存以及释放内存</h4>
+
+<pre><code>typedef struct island{ 
+    char *name;
+    char *opens;
+    char *closes;
+    island *next;   } island;
+
+#include&lt;stdlib.h&gt;
+island *p = malloc(sizeof(island))
+free(p);
+</code></pre>
+
+<p>以下函数有何问题</p>
+
+<pre><code>island* create(char *name) {        island *i = malloc(sizeof(island));         i-&gt;name = name;     i-&gt;opens = "09:00";     i-&gt;closes = "17:00";        i-&gt;next = NULL;     return i; 
+}
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Head First C第五章学习笔记]]></title>
     <link href="http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-wu-zhang-xue-xi-bi-ji/"/>
     <updated>2014-07-13T09:22:09+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-wu-zhang-xue-xi-bi-ji</id>
     <content type="html"><![CDATA[<h4>Union的初始化</h4>
 
-<pre><code>typedef union { 
-    short count;
-    float weight;
-    float volume;   } quantity;
-//By name   quantity q = {.weight=1.5};
-//By dot notation
-quantity q;
-q.volume = 3.7;
-struct也可以按名字(Designated initializer)来进行初始化
-typedef struct {        const char *color;      int gears;      int height; } bike; bike b = {.height=17, .gears=21};
-</code></pre>
+<ol>
+<li><p>用.来初始化</p>
+
+<pre><code> typedef union { 
+     short count;
+     float weight;
+     float volume;       } quantity;
+ //By name       quantity q = {.weight=1.5};
+ //By dot notation
+ quantity q;
+ q.volume = 3.7;
+</code></pre></li>
+<li><p>struct也可以按名字(Designated initializer)来进行初始化
+         typedef struct {            const char *color;          int gears;          int height;     } bike;     bike b = {.height=17, .gears=21};</p></li>
+</ol>
+
 
 <p>union可以用在struct中</p>
 
@@ -47,7 +80,7 @@ typedef struct {        const char *color;      int gears;      int height; } bi
 <pre><code>typedef union { 
     float lemon;
     int lime_pieces;    } lemon_lime;
-typedef struct {     float tequila;  float cointreau;    lemon_lime citrus; } margarita;
+typedef struct {        float tequila;      float cointreau;        lemon_lime citrus;  } margarita;
 </code></pre>
 
 <p>则以下定义是错误的</p>
