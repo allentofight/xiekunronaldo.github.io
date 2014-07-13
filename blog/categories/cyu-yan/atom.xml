@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C语言 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/cyu-yan/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-13T11:07:26+08:00</updated>
+  <updated>2014-07-13T11:09:19+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -27,7 +27,8 @@
 //By name   quantity q = {.weight=1.5};
 //By dot notation
 quantity q;
-q.volume = 3.7;struct也可以按名字(Designated initializer)来进行初始化
+q.volume = 3.7;
+struct也可以按名字(Designated initializer)来进行初始化
 typedef struct {        const char *color;      int gears;      int height; } bike; bike b = {.height=17, .gears=21};
 </code></pre>
 
