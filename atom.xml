@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-13T11:56:05+08:00</updated>
+  <updated>2014-07-15T22:05:52+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -22,22 +22,94 @@
 
 <h4>在堆上分配内存以及释放内存</h4>
 
-<pre><code>typedef struct island{ 
-    char *name;
-    char *opens;
-    char *closes;
-    island *next;   } island;
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef struct island{ 
+</span><span class='line'>  char *name;
+</span><span class='line'>  char *opens;
+</span><span class='line'>  char *closes;
+</span><span class='line'>  island *next;   } island;
+</span><span class='line'>
+</span><span class='line'>#include&lt;stdlib.h&gt;
+</span><span class='line'>island *p = malloc(sizeof(island))
+</span><span class='line'>free(p);</span></code></pre></td></tr></table></div></figure>
 
-#include&lt;stdlib.h&gt;
-island *p = malloc(sizeof(island))
-free(p);
-</code></pre>
 
 <p>以下函数有何问题</p>
 
-<pre><code>island* create(char *name) {        island *i = malloc(sizeof(island));         i-&gt;name = name;     i-&gt;opens = "09:00";     i-&gt;closes = "17:00";        i-&gt;next = NULL;     return i; 
-}
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>island* create(char *name) {
+</span><span class='line'>      island *i = malloc(sizeof(island)); 
+</span><span class='line'>      i-&gt;name = name;
+</span><span class='line'>      i-&gt;opens = "09:00";
+</span><span class='line'>      i-&gt;closes = "17:00";
+</span><span class='line'>      i-&gt;next = NULL;
+</span><span class='line'>      return i; 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当在程序里调用如下代码时</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>char name[80];fgets(name, 80, stdin);island *p_island0 = create(name); 
+</span><span class='line'>fgets(name, 80, stdin);island *p_island1 = create(name);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>p_island0和p_island1的name是一样的！！！原来是create函数传入的只是name的地址，两者的地址是一样的，你必须用strdup函数copy字符串,故以上create函数的代码中的</p>
+
+<pre><code>i-&gt;name = name;
 </code></pre>
+
+<p>可改为</p>
+
+<pre><code>i-&gt;name = strdup(name);
+</code></pre>
+
+<p>不过要记得用strdup()拷贝字符串，最后需要用free()将此拷贝字符串release掉</p>
+
+<h3>valgrind可用来检测内存泄漏</h3>
+
+<p>valgrind能模拟在堆上分配的数据，它通过创建模拟的malloc()版本来工作，当你的程序想要分配一些堆上的内存时，valgrind将截获你对malloc()和free()的调用并运行它自己的模拟版本的malloc()和free(),valgrind版本的malloc()将记录调用它的那些代码以及它所分配的那部分内存,当你的程序终止时,valgrind将会报告任何堆上还存在的数据并且告诉你这些数据由哪些代码调用产生的</p>
+
+<h4>准备:添加debug信息</h4>
+
+<p>用valgrind运行之前你不需要对你的代码作任何操作，你甚至不需要重新编译代码，但是为了更好地利用valgrind，代需要确保你的可执行代码包含debug信息，debug信息是在编译代码后嵌入到可执行文件里的额外数据，比如代码对应的行数，如果debug信息存在了，valgrind将能给你许多内存泄漏的具体信息
+测试所用程序<a href="https://gist.github.com/xiekunRonaldo/cdde073cac5636270322">spies</a>
+用valgrind结合&mdash;leak-check=full选项进行以下测试</p>
+
+<p><img src="http://xiekunRonaldo.github.io/images/2014/7/valgrind1.png"></p>
+
+<p>从上图可以看出，当SPIES退出后，堆上已无对象，再运行一遍试试看，然后告诉程序有一个Hayden Fantucci的嫌疑人会怎样</p>
+
+<p><img src="http://xiekunRonaldo.github.io/images/2014/7/valgrind2.png"></p>
+
+<p>这次,valgrind发现了内存泄漏,从上图可看出，在程序结束时，堆上有19个字节的空间未释放,valgrind告诉你以下信息</p>
+
+<ol>
+<li>19个字节的内存分配了但未释放</li>
+<li>分配了11次的内存空间，但只释放了10次</li>
+<li>这几行给了我们什么线索</li>
+<li>为什么是19个字节？说明了什么?
+从以个信息可得,&ldquo;Loretta Barnsworth&#8221;占了19个字节,strdup导致了内存泄漏！</li>
+<li>valgrind是如何截获对malloc()和free()的调用的
+答:malloc()和free() 实际上是标准库函数，不过valgrind包含一个它自己的malloc()和free()版本的标准库函数，当你用valgrind来运行程序时，你的程序将用valgrind的malloc()和free()函数，而非C的标准库函数</li>
+</ol>
+
 ]]></content>
   </entry>
   
