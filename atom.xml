@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-15T22:05:52+08:00</updated>
+  <updated>2014-07-16T14:16:37+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Head First C第七章笔记-高级函数]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/07/15/head-first-cdi-qi-zhang-bi-ji-gao-ji-han-shu/"/>
+    <updated>2014-07-15T22:11:00+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/07/15/head-first-cdi-qi-zhang-bi-ji-gao-ji-han-shu</id>
+    <content type="html"><![CDATA[<p>导读:这一章我们将学习函数的一些高级特性,如</p>
+
+<ol>
+<li>将函数作为一个参数进行传递</li>
+<li>用比较函数进行排序</li>
+<li>用可变参数的函数让你的代码变得更加灵活</li>
+</ol>
+
+
+<h5>函数指针</h5>
+
+<pre><code>int (*warp_fn)(int);
+</code></pre>
+
+<p>将函数指针当作参数传递给函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void find(int (*mactch)(char *)){
+</span><span class='line'>  if (match(ADS[i])){
+</span><span class='line'>      //char *ADS[] = {"one", "two"};
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>用函数指针来排序</h5>
+
+<p>C标准库里有一个排序指针如下</p>
+
+<p><img src="http://xiekunRonaldo.github.io/images/2014/7/qsort.png"></p>
+
+<p>假设你有以下整形数组，你想按升序排序，该如何写排序函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int scores[] = {543,323,32,554,11,3,112};
+</span><span class='line'>int compare_scores(const void* score_a, const void* score_b)
+</span><span class='line'>{
+</span><span class='line'>  int a = *(int*)score_a; 
+</span><span class='line'>  int b = *(int*)score_b;
+</span><span class='line'>  return a-b;
+</span><span class='line'>}
+</span><span class='line'>qsort(scores, 7, sizeof(int), compare_scores);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是一个char *p[]数组呢，该如何写compare函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int compare_names(const void* a, const void* b){
+</span><span class='line'>  char** sa = (char**)a;
+</span><span class='line'>  char** sb = (char**)b; 
+</span><span class='line'>  return strcmp(*sa, *sb);￼￼￼￼￼￼￼￼
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Head First C第六章-数据结构和动态内存]]></title>
