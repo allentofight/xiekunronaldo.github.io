@@ -163,6 +163,55 @@ void &hellip;">
 </span><span class='line'>  return strcmp(*sa, *sb);￼￼￼￼￼￼￼￼
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
+
+<h5>函数指针数组</h5>
+
+<pre><code>//dump,second_change, marriage都是函数
+void (*replies[])(response) = {dump, second_chance, marriage};
+</code></pre>
+
+<p>判断调用的是否是某个函数</p>
+
+<pre><code>enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+replies[SECOND_CHANCE] == second_chance完整的demo
+typedef struct {    char *name; enum response_type type; } response;    enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+void (*replies[])(response) = {dump, second_chance, marriage};
+
+int main()
+{
+    response r[] = {            {"Mike", DUMP}, {"Luis", SECOND_CHANCE},            {"Matt", SECOND_CHANCE}, {"William", MARRIAGE}      };
+    int i;
+    for (i = 0; i &lt; 4; i++){
+        (replies[r[i].type])(r[i]);
+    }
+}
+</code></pre>
+
+<h5>可变参函数</h5>
+
+<p>demo1</p>
+
+<pre><code>#include &lt;stdarg.h&gt;
+void print_ints(int args, ....){
+    va_list ap; 
+    va_start(ap, args);
+    int i;
+    for (i = 0; i &lt; args; i++) {            printf("argument: %i\n", va_arg(ap, int));      }
+    va_end(ap);
+}
+</code></pre>
+
+<p>注:va_end,va_start是宏</p>
+
+<p>demo2</p>
+
+<pre><code>enum drink {    MUDSLIDE, FUZZY_NAVEL, MONKEY_GLAND, ZOMBIE };
+printf("Price is %.2f\n", total(3, MONKEY_GLAND, MUDSLIDE, FUZZY_NAVEL));
+double total(int args, ...)
+{
+    double total = 0;       va_list ap;     va_start(ap, args);     int i;      for(i = 0; i &lt; args; i++) {     enum drink d = va_arg(ap, enum drink);      total = total + price(d); }     va_end(ap);     return total;
+}
+</code></pre>
 </div>
 
 </article>
