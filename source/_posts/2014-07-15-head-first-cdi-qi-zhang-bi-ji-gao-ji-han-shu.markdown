@@ -52,3 +52,45 @@ int compare_names(const void* a, const void* b){
 	return strcmp(*sa, *sb);￼￼￼￼￼￼￼￼
 }
 ```
+#####函数指针数组
+
+	//dump,second_change, marriage都是函数
+	void (*replies[])(response) = {dump, second_chance, marriage};
+判断调用的是否是某个函数
+
+	enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+	replies[SECOND_CHANCE] == second_chance完整的demo
+	typedef struct {	char *name;	enum response_type type; } response;	enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+	void (*replies[])(response) = {dump, second_chance, marriage};
+	
+	int main()
+	{
+		response r[] = {			{"Mike", DUMP}, {"Luis", SECOND_CHANCE}, 			{"Matt", SECOND_CHANCE}, {"William", MARRIAGE}		};
+		int i;
+		for (i = 0; i < 4; i++){
+			(replies[r[i].type])(r[i]);
+		}
+	}
+#####可变参函数
+demo1
+
+	#include <stdarg.h>
+	void print_ints(int args, ....){
+		va_list ap; 
+		va_start(ap, args);
+		int i;
+		for (i = 0; i < args; i++) {			printf("argument: %i\n", va_arg(ap, int)); 		}
+		va_end(ap);
+	}
+注:va_end,va_start是宏
+
+demo2
+
+	enum drink {	MUDSLIDE, FUZZY_NAVEL, MONKEY_GLAND, ZOMBIE	};
+	printf("Price is %.2f\n", total(3, MONKEY_GLAND, MUDSLIDE, FUZZY_NAVEL));
+	double total(int args, ...)
+	{
+		double total = 0;		va_list ap;		va_start(ap, args);		int i;		for(i = 0; i < args; i++) {		enum drink d = va_arg(ap, enum drink);		total = total + price(d); }		va_end(ap);		return total;
+	}
+	
+	
