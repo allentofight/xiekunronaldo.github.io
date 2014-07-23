@@ -1,10 +1,11 @@
 ---
 layout: post
-title: "Ruby.new"
-date: 2014-07-22 07:31:58 +0800
+title: "Ruby-new"
+date: 2014-07-23 20:11:08 +0800
 comments: true
 categories: Ruby
 ---
+
 ####Ruby中一切皆对象
 创建对象，假设有一个Song的类，按如下方式创建实例
 
