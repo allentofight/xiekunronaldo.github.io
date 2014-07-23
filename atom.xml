@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-23T20:09:37+08:00</updated>
+  <updated>2014-07-23T20:13:37+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Ruby.new]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/07/22/ruby-dot-new/"/>
-    <updated>2014-07-22T07:31:58+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/07/22/ruby-dot-new</id>
+    <title type="html"><![CDATA[Ruby-new]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/07/23/ruby-new/"/>
+    <updated>2014-07-23T20:11:08+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/07/23/ruby-new</id>
     <content type="html"><![CDATA[<h4>Ruby中一切皆对象</h4>
 
 <p>创建对象，假设有一个Song的类，按如下方式创建实例</p>
