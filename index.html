@@ -9,9 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jul 15th, 2014 Head First C第七章笔记-高级函数 导读:这一章我们将学习函数的一些高级特性,如 将函数作为一个参数进行传递
-用比较函数进行排序
-用可变参数的函数让你的代码变得更加灵活 函数指针 int (*warp_fn)(int); 将函数指针当作参数传递给函数 1 &hellip;">
+	<meta name="description" content="Jul 22nd, 2014 Ruby Ruby.new Ruby中一切皆对象 创建对象，假设有一个Song的类，按如下方式创建实例 song1 = Song.new("Ruby Tuesday") song2 = Song.new("Enveloped in Python") &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +89,552 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-22T07:31:58+08:00" data-updated="true" itemprop="datePublished">Jul 22<span>nd</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/22/ruby-dot-new/" itemprop="url">Ruby.new</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h4>Ruby中一切皆对象</h4>
+
+<p>创建对象，假设有一个Song的类，按如下方式创建实例</p>
+
+<pre><code>song1 = Song.new("Ruby Tuesday")    song2 = Song.new("Enveloped in Python")
+</code></pre>
+
+<p>如何理解一切皆对象，看以下demo</p>
+
+<pre><code>puts "gin joint".length 
+puts "Rick".index("c") 
+puts 42.even?           //42是否是偶数 puts sam.play(song)
+</code></pre>
+
+<p>在java中，如果要算一个值的绝对值，可按如下方式</p>
+
+<pre><code>num = Math.abs(num)
+</code></pre>
+
+<p>但在Ruby中，由于一切皆对象，可按如下方式</p>
+
+<pre><code>um = -1234          # =&gt; -1234 
+positive = num.abs  # =&gt; 1234
+</code></pre>
+
+<p>同样的规则适用于所有的Ruby对象，在C中，你可以写strlen(name)，但在ruby中，你可以写name.length,无比轻松</p>
+
+<h5>Ruby中的方法</h5>
+
+<p>形式如下</p>
+
+<pre><code>def say_goodnight(name)     result = "Good night, " + name      return result   end
+    # Time for bed...   puts say_goodnight("John-Boy")  puts say_goodnight("Mary-Ellen")无需分号表示每个语句的结尾，只要你把每一条语句都放在一单独的行上    puts say_goodnight("Mary-Ellen")
+</code></pre>
+
+<p>相当于</p>
+
+<pre><code>puts(say_goodnight("Mary-Ellen"))
+</code></pre>
+
+<h5>字符串</h5>
+
+<p>创建字符串有两种方法，一种是单引号括起来的，一种是双引号括起来的,双引号括起来的字符串，ruby需要做更多的工作，首先，ruby会寻找以反斜杠开头的序列，并将它替换为一个二进制的值,如&#8221;\n&#8221;,另外，双引号形式的字符串还需要做的将#{expression}序列替换成expression的值,我们能用它来替换之前我们写的程序</p>
+
+<pre><code>def say_goodnight(name)     result = "Good night, #{name}"      return result   end puts say_goodnight('Pa') 
+produces:   Good night, Pa
+</code></pre>
+
+<p>任意的复杂的表达式都能放在#{&hellip;}里，如下</p>
+
+<pre><code>def say_goodnight(name)     result = "Good night, #{name.capitalize}"       return result   end puts say_goodnight('uncle')     produces:   Good night, Uncle
+</code></pre>
+
+<p>我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句</p>
+
+<pre><code>    def say_goodnight(name)     "Good night, #{name.capitalize}"    end puts say_goodnight('ma')    produces:   Good night, Ma
+</code></pre>
+
+<h4>Ruby的名字</h4>
+
+<p>ruby的命名遵循以下惯例,第一个名字的首字符表示这个名字的使用场合</p>
+
+<ul>
+<li>局部变量，方法参数，方法名都 以一个小写字母或下划线开头</li>
+<li>全局变量以一个$符开头，对象实例变量以@开头</li>
+<li>类变量以两个@@开头</li>
+<li><p>类名，模块名，常量必须以大写字母开头
+使用的demo如下</p>
+
+<pre><code>  Local Variable:     name fish_and_chips x_axis thx1138 _x _26
+  Instance Variable:  @name @point_1 @X @_ @plan9
+  Class Variable:     @@total @@symtab @@N @@x_pos @@SINGLE
+  Global Variable:   $debug $CUSTOMER $_ $plan9 $Global
+  Class Name:         String ActiveRecord MyClass     Constant Name:      FEET_PER_MILE DEBUG
+</code></pre>
+
+<h4>数组和哈希字典</h4>
+
+<p>数组</p>
+
+<pre><code>  a = [ 1, 'cat', 3.14 ] # array with three elements 
+  puts "The first element is #{a[0]}"     # set the third element     a[2] = nil      puts "The array is now #{a.inspect}"        produces:        The first element is 1        The array is now [1, "cat", nil]
+</code></pre>
+
+<p>简便地创建数组的方法</p>
+
+<pre><code>  a = %w{ ant bee cat dog elk } 
+  a[0] # =&gt; "ant"     a[3] # =&gt; "dog"
+</code></pre>
+
+<p>哈希字典
+  inst_section = {        &lsquo;cello&rsquo; => &lsquo;string&rsquo;,        &lsquo;clarinet&rsquo; => &lsquo;woodwind&rsquo;,       &lsquo;drum&rsquo; => &lsquo;percussion&rsquo;,         &lsquo;oboe&rsquo; => &lsquo;woodwind&rsquo;,       &lsquo;trumpet&rsquo; => &lsquo;brass&rsquo;,       &lsquo;violin&rsquo; => &lsquo;string&rsquo;    }<code>=&gt;</code>符号的左为key，右为value
+在控制台上我们用p而不是puts，因为p可以更显式地打印nil值</p>
+
+<p>  p inst_section[&lsquo;oboe&rsquo;]  p inst_section[&lsquo;cello&rsquo;] p inst_section[&lsquo;bassoon&rsquo;]</p>
+
+<p>  produces:    &ldquo;woodwind&rdquo;    &ldquo;string&rdquo;    nil
+默认情况下hash的key如果对应的value不存在，则value的值为nil，我们可以改变这个默认傎</p>
+
+<p>  histogram = Hash.new(0)
+  histogram[&lsquo;ruby&rsquo;] # => 0    histogram[&lsquo;ruby&rsquo;] = histogram[&lsquo;ruby&rsquo;] + 1   histogram[&lsquo;ruby&rsquo;] # => 1</p>
+
+<h4>符号(Symbols)</h4>
+
+<p>通常在编程的时候，你需要为某些重要的东西指定一个名字，比如，你也许想要用名字来指示指南针的方向，所以，你可以像以下这么写</p>
+
+<p>  NORTH = 1
+  EAST =2
+  SOUTH = 3
+  WEST =4
+定义好之后，你就可以用这些名字而不是数字了</p>
+
+<p>  walk(NORTH) look(EAST)
+然而，很多时候，这些名字对应的数值是不相关的(只要它们是唯一的)你所要做的只是区分这四个方向而已
+Ruby提供了一个很简单的替代方案:符号(Symbols).Symbols只是常量名字，不过你无需定义它，并且它们也保证是唯一的，一个符号常量以:开头，紧跟着字符串
+walk(:north)
+look(:east)
+无须为一个symbol赋任何值,Ruby已经为你考虑好了.Ruby保证不管符号出现在你，一个特定和符号总量有相同的值，因此，你可以按如下方式使用symbol</p>
+
+<p>  def walk(direction)     if direction == :north      # &hellip;   end end
+symbols通常被用来当作hash的key，我们可以将我们之前写的hash写为以下形式
+      inst_section = {        :cello => &lsquo;string&rsquo;,         :clarinet => &lsquo;woodwind&rsquo;,        :drum => &lsquo;percussion&rsquo;,      :oboe => &lsquo;woodwind&rsquo;,        :trumpet => &lsquo;brass&rsquo;,        :violin => &lsquo;string&rsquo; }
+事实上，symbols是如此频繁地被当作hash的键，ruby提供了一个更简洁的语法，你可以用name:value的形式来创建hash，如果key是symbols的话</p>
+
+<p>  inst_section = {        cello: &lsquo;string&rsquo;,        clarinet: &lsquo;woodwind&rsquo;,       drum: &lsquo;percussion&rsquo;,         oboe: &lsquo;woodwind&rsquo;,       trumpet: &lsquo;brass&rsquo;,       violin: &lsquo;string&rsquo;    }
+  puts &ldquo;An oboe is a #{inst_section[:oboe]} instrument&rdquo;   produces:   An oboe is a woodwind instrument</p>
+
+<h4>条件语句</h4>
+
+<p>if语句</p>
+
+<p>  today = Time.now    if today.saturday?      puts &ldquo;Do chores around the house&rdquo;   elsif today.sunday?      puts &ldquo;Relax&rdquo;   else         puts &ldquo;Go to work&rdquo; end  produces:   Go to work
+较短的if语句也可以这么写</p>
+
+<p>  puts &ldquo;Danger, Will Robinson&rdquo; if radiation > 3000
+while语句</p>
+
+<p>  while weight &lt; 100 and num_pallets &lt;= 5          pallet  = next_pallet()             weight += pallet.weight             num_pallets += 1   end
+较短的while语句也可以这么写</p>
+
+<p>  square = 4  square = square*square while square &lt; 1000ruby中的许多语句返回一个值，这意味着你可以用它们作为条件判断，比如,内核方法gets从标准输入流中返回下一行或者当到达文件的末尾时会返回nil，由于Ruby有条件语句中将nil视为假的，你可以用以下代码来处理文件对应的行</p>
+
+<p>  while line = gets
+      puts line.downcase  end####正则表达式</p>
+
+<p>  /\d\d:\d\d:\d\d/    # a time such as 12:34:56   /Perl.<em>Python/      # Perl, zero or more other chars, then Python   /Perl Python/       # Perl, a space, and Python /Perl </em>Python/     # Perl, zero or more spaces, and Python  /Perl +Python/     # Perl, one or more spaces, and Python   /Perl\s+Python/   # Perl, whitespace characters, then Python    /Ruby (Perl|Python)/ # Ruby, a space, and either Perl or Python结果if语句使用
+  line = gets if line =~ /Perl|Python/    puts &ldquo;Scripting language mentioned: #{line}&rdquo; end
+正则表达式的替代方法</p>
+
+<p>  line = gets newline = line.sub(/Perl/, &lsquo;Ruby&rsquo;) # replace first &lsquo;Perl&rsquo; with &lsquo;Ruby&rsquo; newerline =   newline.gsub(/Python/, &lsquo;Ruby&rsquo;) # replace every &lsquo;Python&rsquo; with &lsquo;Ruby&rsquo;</p>
+
+<h4>Blocks和迭代器</h4>
+
+<p>我们首先看看代码块(code blocks),code blocks是一串代码，你能将它与方法调用结合起来,就当它们是参数一样,这是难以置信的强大特性
+你用代码块来实现回调(但比java中的匿名内部类简单),把它们像C中的函数指针那样来传递(比C函数指针更简单)，或者实现迭代器的功能
+代码块的形式如下
+  { puts &ldquo;Hello&rdquo; }
+或</p>
+
+<p>  do    club.enroll(person)     person.socialize  end
+&ldquo;{}&#8221;block主要用在单行中,&#8221;do&hellip;.end&#8221;主要用在多行中
+你可以将block放在一个调用方法的尾部</p>
+
+<p>  greet { puts &ldquo;Hi&rdquo; } //greet是方法
+如果方法有参数，则将block放在这些参数的最后</p>
+
+<p>  verbose_greet(&ldquo;Dave&rdquo;, &ldquo;loyal customer&rdquo;) { puts &ldquo;Hi&rdquo; }
+方法可以用Ruby提供的yield来调用block多次</p>
+
+<p>  def call_block      puts &ldquo;Start of method&rdquo; yield        yield       puts &ldquo;End of method&rdquo;    end
+      call_block { puts &ldquo;In the block&rdquo; }
+打印结果
+      Start of method     In the block        In the block        End of method
+调用yield的时候可以带参数,这些参数将被传到block中去，在block中，你将这些被接收的参数用|params&hellip;|的形式列出来,如下</p>
+
+<p>  def who_says_what yield(&ldquo;Dave&rdquo;, &ldquo;hello&rdquo;)
+      yield(&ldquo;Andy&rdquo;, &ldquo;goodbye&rdquo;)    end
+  who_says_what {|person, phrase| puts &ldquo;#{person} says #{phrase}&rdquo;}
+打印结果</p>
+
+<p>  Dave says hello Andy says goodbye
+Code blocks广泛用在ruby的库中用来实现迭代器</p>
+
+<pre><code>  animals = %w( ant bee cat dog ) # create an array   animals.each {|animal| puts animal }    # iterate over the contents
+</code></pre>
+
+<p>  produces:
+  ant bee cat dog再来看几个例子
+      [ &lsquo;cat&rsquo;, &lsquo;dog&rsquo;, &lsquo;horse&rsquo; ].each {|name| print name, &ldquo; &rdquo; }    5.times { print &ldquo;<em>&rdquo; }   3.upto(6) {|i| print i }    (&lsquo;a&rsquo;..&lsquo;e&rsquo;).each {|char| print char }    puts    produces:   cat dog horse </em>****3456abcde####读写</p>
+
+<p>  printf(&ldquo;Number: %5.2f,\nString: %s\n&rdquo;, 1.23, &ldquo;hello&rdquo;)</p>
+
+<p>  produces:    Number:  1.23,    String: hello有很多方法可以将输入读入程序中，最常见的gets方法，它返回标准输入流的下一行
+  line = gets print line</p>
+
+<h4>命令行参数</h4>
+
+<p>当你从命令行运行一个Ruby程序时，你能传送一些参数给它，你能用两种不同的参数来访问这些参数
+首先，ARGV就是这些参数组成的数组，假设有一个叫cmd_line.rb的程序如下</p>
+
+<p>  puts &ldquo;You gave #{ARGV.size} arguments&rdquo;
+  p ARGV
+当我们向此程序传入这些参数时，我们参看到输出结果</p>
+
+<p>  $ ruby cmd_line.rb ant bee cat dog
+  You gave 4 arguments    [&ldquo;ant&rdquo;, &ldquo;bee&rdquo;, &ldquo;cat&rdquo;, &ldquo;dog&rdquo;]
+通常，传入的参数是你要处理的文件的名字，这种情况下，你应该用第二种技巧,<code>ARGF</code>,它是一种特别的I/O对象，代表了通过命令行传入的文件名的所有内容, 我们之后再学习它</p></li>
+</ul>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-21T22:23:15+08:00" data-updated="true" itemprop="datePublished">Jul 21<span>st</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/21/chu-shi-ruby/" itemprop="url">初识Ruby</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>在终端中输入irb与ruby交互</p>
+
+<pre><code>    2.1.2 :002 &gt; def sum(n1, n2)
+    2.1.2 :003?&gt;   n1+n2
+    2.1.2 :004?&gt;   end
+     =&gt; :sum
+    2.1.2 :005 &gt; sum(3, 4)
+     =&gt; 7
+</code></pre>
+
+<p>通常我们将ruby程序写在文件里，假设现在有一个myprog.rb的程序如下</p>
+
+<pre><code>    gettingstarted/myprog.rb        puts "Hello, Ruby Programmer"       puts "It is now #{Time.now}"
+</code></pre>
+
+<p>现在我们可以敲入以下命令来运行程序</p>
+
+<pre><code>    $ ruby myprog.rb        Hello, Ruby Programmer)     It is noew 2014-07-21 22:27:47 +0800
+</code></pre>
+
+<p>在Unix中，我们可以在程序的第一行添加&#8221;shebang&#8221;的符号，如下</p>
+
+<pre><code>    #! /usr/bin/ruby
+    puts "Hello, Ruby Programmer" 
+    puts "It is now #{Time.now}"
+</code></pre>
+
+<p>如果你用<code>chmod+x myprog.rb</code>命令让此文件成为可执行程序，Unix能让你将此文件作为一个程序来运行</p>
+
+<pre><code>    $ ./myprog.rb       Hello, Ruby Programmer      It is now 2013-05-27 12:30:36 -0500####Ruby文档:RDoc和ri
+</code></pre>
+
+<p>Ruby库越来越大，已经不可能将有关它们的文档写进一本书中了，ruby的标准库有9000多个！幸运的是，一种为这些方法(类，模块)提供文档的方法是存在的，许多在它们内部写文档的方法是采用一个RDoc的工具
+如果一个源文件用RDoc来文档注释，那么它的文档是可以被提取出来并被转化成HTML和ri的形式的
+ri是一个浏览本地RDoc的，命令行浏览器，许多ruby的发行版现在用ri程序来安装文档资源
+要发现针对某个类的文档，我们可以在命令行敲入<code>ri ClassName</code>的形式来查看,如以下</p>
+
+<pre><code>$ ri GC
+----------------------------------------------------------------------------------- 
+The GC module provides an interface to Ruby's garbage collection mechanism. Some of the underlying  methods are also available via the ObjectSpace module.           You may obtain information about the operation of the GC through GC::Profiler.    -----------------------------------------------------------------------------------    Class methods:      count, disable, enable, malloc_allocated_size, malloc_allocations,      start, stat, stress, stress=    Instance methods:      garbage_collect
+</code></pre>
+
+<p>查看某个指定类的方法</p>
+
+<pre><code>ri GC::enable
+--------------------------------------------------------------- GC::enable GC.enable =&gt; true or false   --------------------------------------------------------------------------- Enables garbage collection, returning true if garbage collection was    disabled.   GC.disable  GC.enable   GC.enable   #=&gt; false   #=&gt; true    #=&gt; false   
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-16T21:54:55+08:00" data-updated="true" itemprop="datePublished">Jul 16<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/16/head-first-cdi-ba-zhang-jing-tai-ku-he-dong-tai-ku/" itemprop="url">Head First C第八章-静态库和动态库</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>这一章中，我们将学习如何创建自己的动态库，并在多个程序中用到同样的代码
+来看下以下代码
+加密代码</p>
+
+<pre><code>//encyrpt.h
+void encrypt(char *message)
+
+//encrypt.c
+#include "encrypt.h"    void encrypt(char *message) {       while (*message) {          *message = *message ^ 31; message++;        }    }
+</code></pre>
+
+<p>校验代码</p>
+
+<pre><code>//checksum.h
+int checksum(char *message);
+
+//checksum.c
+#include "checksum.h"   int checksum(char *message) {       int c = 0;      while (*message) {      c += c ^ (int)(*message);       message++; }        return c; 
+}
+</code></pre>
+
+<p>加密和校验两段代码构成了我们接下来将要进行的密码库的基础
+假设我们已经将以上的代码编译成了目标代码</p>
+
+<pre><code>gcc -c encrypt.c -o encrypt.o
+gcc -c checksum.c -o checksum.o
+</code></pre>
+
+<p>现在我们写一段测试程序</p>
+
+<pre><code>#include &lt;stdio.h&gt; 
+#include &lt;encrypt.h&gt; 
+#include &lt;checksum.h&gt;   int main() {        char s[] = "Speak friend and enter"; encrypt(s);        printf("Encrypted to '%s'\n", s); printf("Checksum is %i\n", checksum(s)); encrypt(s);      printf("Decrypted back to '%s'\n", s); printf("Checksum is %i\n", checksum(s));     return 0;   }
+</code></pre>
+
+<p>当我们编译时，会出现以下错误</p>
+
+<pre><code>gcc test_code.c encrypt.o checksum.o -o test_code 
+test_code.c:2:21: error: encrypt.h: No such file or directory 
+test_code.c:3:22: error: checksum.h: No such file or directory
+</code></pre>
+
+<p>错误在以下两行</p>
+
+<pre><code>#include &lt;encrypt.h&gt; 
+#include &lt;checksum.h&gt;
+</code></pre>
+
+<p>尖括号将在标准头文件目录中寻找，在Mac或Linux系统中，编译器在以下目录中寻找这些文件</p>
+
+<pre><code>/user/local/include     //此目录下通常存放一些第三方库
+/user/include           //此目录通常存放一些操作系统相关的头文件
+</code></pre>
+
+<h4>该如何共享代码</h4>
+
+<p>有时你想写一些代码用在很多程序中，无论它们是在不同的文件夹下，还是在整个电脑中，你该如何做呢?
+一般来说我们想在多个程序中共享两种文件,头文件(.h)和目标文件(.o),让我们看看如何操作</p>
+
+<h5>共享.h头文件,有以下几种文件</h5>
+
+<ol>
+<li><p>将它们存储在标准目录中
+如果你将你的头文件拷贝到标准目标如/usr/local/include中，你可以用尖括号来引用它们</p>
+
+<pre><code>  #include&lt;encrypt.h&gt;
+</code></pre></li>
+<li><p>在include中写下此文件所在的完整路径
+假设你的文件存储在/my_header_files目录下,你可以按以下方式来引用代码</p>
+
+<pre><code>  #include "/my_header_files/encrypt.h"
+</code></pre></li>
+<li><p>你可以告诉编译器去哪来搜寻它们
+用gcc编译时加上-I选项</p>
+
+<pre><code>  gcc -I /my_header_files test_code.c ... -o test_code
+</code></pre>
+
+-I选项告诉gcc编译器在/my_header_files这个目录下你能找到所需要的头文件，<code>注意</code>，gcc仍将在标准目录中寻找头文件，但是<code>首先</code>它将在-I选项对应的目录中寻找此文件
+
+<h5>通过写完整路径的方式来共享.o目标文件</h5>
+
+<pre><code>  gcc -I/my_header_files test_code.c /my_object_files/encrypt.o /my_object_files/checksum.o -o test_code
+</code></pre>
+
+/my_object_files目录就像是存储目标文件的中枢,用目标文件的完整路径意味着你不需要为每一个程序拷贝一份单独的目标文件
+如果只有一两个需要共享的目标文件还好，如果有许多目标文件呢，不是要在所有的目标文件前都加上它们的完整路径了?
+<code>解决方法</code>:你可以将许多目标文件打包成一个.a文件,这样你一次就能告诉编译器所有目标文件的所在了(都在.a文件里)
+
+<h6>让我们看下如何打包</h6>
+
+<p>我们用过.zip和.tar文件，这些文件包含了多个文件,.a文件与此类似，一个文件包含了多个.o文件
+打开命令行，切换到库目录下，比如/usr/lib里。在此目录上，你将看到许多.a文件,有一个nm的命令可以用来查看.a文件里有哪些.o文件
+<img src="/images/2014/7/libl.png">
+<img src="/images/2014/7/nm.png">
+在我们用.a文件编译程序之前,先看看如何将encrypt.o和checksum.o文件存储到一个.a文件里吧
+用ar命令来创建一个.a文件</p>
+
+<pre><code>  ar -rcs libhfsecurity.a encrypt.o checksum.o
+</code></pre>
+
+<p>rcs三个选项的解释如下
+-r表示如果(.a)文件已经存在,文件将被更新
+-c表示.a创建成功与否都无任何反馈信息
+-s告诉ar在文件的开头创建一个索引
+注意到了吗，所有的.a文件都有lib<something>.a形式的命名,名字以lib开头，因为它们是静态库，我们将很快学习到什么是静态库</p></li>
+</ol>
+
+
+<p>创建好了标准库文件后，该如何使用呢</p>
+
+<ul>
+<li><p>将它放到一个标准目录如/user/local/lib里
+一些码农在确认.a文件能工作后喜欢将.a文件放在一标准库里，在Linux和Mac里/usr/local/lib目录是一个很好的选择，因为这个目录就是专门用来放置你自己的库文件的</p></li>
+<li><p>将.a文件放到你自己喜欢放置的库文件目录下,如/my_lib中
+既然库创建好了，那我们来看看怎么利用这些库来编译用到这些库的程序</p></li>
+<li>如果你将.a文件放到标准库目录中,你可以按以下方式来编译代码
+<img src="/images/2014/7/nm.png"></li>
+<li><p>如果你是将.a文件放在你自己的库文件目录下，可按以下方式来编译代码</p>
+
+<pre><code> gcc test_code.c -L/my_lib -lhfsecurity -o test_code
+</code></pre>
+
+<p>-L选项告诉编译器去哪个目录寻找库文件</p></li>
+</ul>
+
+
+<p>现在有一个搞安全的哥们在用最新的加密库编译一个银行相关的程序时遇到了一点麻烦，他把源码和 ecnrypt，checksum 的源码放在了同一个目录下，他想要在同一个目录下创建一个libhfsecurity.a库并用它去编译程序，你能帮助它修改它的makefile文件吗
+这个程序叫band_vault，它用了以下的include语句</p>
+
+<pre><code>#include&lt;encrypt.h&gt;
+#include&lt;checksum.h&gt;
+</code></pre>
+
+<p>由于用到了尖括号，编译器需要使用用-I选项告知头文件在哪
+makefile文件如下
+<img src="/images/2014/7/bank_vault_makefile.png"><br/>
+-L选项必须出现在源文件后面才行
+从.a文件中提取中某个目标文件</p>
+
+<pre><code>ar -x libhfsecurity.a encrypt.o
+</code></pre>
+
+<p>再来看一个例子</p>
+
+<pre><code>//hfcal.c
+#include &lt;stdio.h&gt; 
+#include &lt;hfcal.h&gt;
+
+void display_calories(float weight, float distance, float coeff) {      printf("Weight: %3.2f lbs\n", weight);      printf("Distance: %3.2f miles\n", distance);        printf("Calories burned: %4.2f cal\n", coeff * weight * distance);  }
+
+//elliptical.c
+#include &lt;stdio.h&gt;
+#include &lt;hfcal.h&gt;  int main() {        display_calories(115.2, 11.3, 0.79);        return 0;   }
+</code></pre>
+
+<p>下面我们来看看如何编译代码</p>
+
+<ol>
+<li><p>首先，创建hfcal.o文件,hfcal.h头文件存储在./includes</p>
+
+<pre><code> gcc -I./includes -c hfcal.c -o hfcal.o
+</code></pre>
+
+<p>-c选项表示只是创建目标文件，不链接</p></li>
+<li><p>创建elliptical.o文件</p>
+
+<pre><code> gcc -I./includes -c elliptical.c -o elliptical.o
+</code></pre>
+
+<p>同样的，你需要告诉编译器头文件在./includes下的</p></li>
+<li><p>你需要从hfcal.o中创建一个.a文件，并将它存储在./libs中</p>
+
+<pre><code> ar -rcs ./libs/libhfcal.a hfcal.o
+</code></pre></li>
+</ol>
+
+
+<p>被打包的libhfcal.a文件将被放在./libs目录下</p>
+
+<ol>
+<li><p>最后，用elliptical.o和libhfcal.a创建elliptical可执行文件</p>
+
+<pre><code> gcc elliptical.o -L./libs -lhfcal -o elliptical
+</code></pre></li>
+</ol>
+
+
+<p>现在你能执行elliptical可执行文件了</p>
+
+<pre><code>&gt; ./elliptical  Weight: 115.20 lbs  Distance: 11.30 miles   Calories burned: 1028.39 cal    &gt;
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -228,7 +772,9 @@ void print_ints(int args, ....){
 printf("Price is %.2f\n", total(3, MONKEY_GLAND, MUDSLIDE, FUZZY_NAVEL));
 double total(int args, ...)
 {
-    double total = 0;       va_list ap;     va_start(ap, args);     int i;      for(i = 0; i &lt; args; i++) {     enum drink d = va_arg(ap, enum drink);      total = total + price(d); }     va_end(ap);     return total;
+    double total = 0;       va_list ap;
+    va_start(ap, args);             int i;
+    for(i = 0; i &lt; args; i++) {         enum drink d = va_arg(ap, enum drink);          total = total + price(d);       }       va_end(ap);     return total;
 }
 </code></pre>
 
@@ -1162,531 +1708,11 @@ cards[0] = 'H'
 
 </article>
 
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-25T21:39:33+08:00" data-updated="true" itemprop="datePublished">Jun 25<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-%5B%3F%5D-ge-wen-ti/" itemprop="url">C指针所引发的一个问题</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<pre><code>void fortune_cookie(char msg[]) {
-     printf("Message reads: %s\n", msg);
-     printf("msg occupies %i bytes\n", sizeof(msg)); 
-} 
-
-int main () {
-    char msg[] = "Turtles!";
-    fortune_cookie(msg);
-    return 0;
-}
-</code></pre>
-
-<p>运行以上代码会输出什么,有人说是</p>
-
-<pre><code>Message reads Turtles!
-msg occupies 9 bytes("Turtles!"的8个字节再加代表字符串结尾的\0这个字节，所以是9个字节)
-</code></pre>
-
-<p>如果你这么想，那就错了,实际的结果是</p>
-
-<pre><code>Message reads Turtles!
-msg occupies 4 (or 8) bytes
-</code></pre>
-
-<p>解释如下</p>
-
-<h2>数组变量就像指针一样</h2>
-
-<p>是的，只是像，而不等于指针</p>
-
-<p>当你创建了一个数组,数组变量其实可以被当作指向数组首元素地址的指针,当写了如下代码时</p>
-
-<pre><code>char quote[] = "Cookies make you fat";
-</code></pre>
-
-<p>实际上quote代表的是string中的首字符的地址，即字符&#8217;C&#8217;对应的地址</p>
-
-<pre><code>printf("The quote string is stored at: %p\n", quote);
-</code></pre>
-
-<p>以上将打印一个16进制的地址,尽管quote是一个数组，但是你可以把&#8221;quote&#8221;当成一个指针变量，因为它本身就是代表首字符串中的首字符的地址.</p>
-
-<p>所以当调用</p>
-
-<pre><code>fortune_cookie(msg);
-</code></pre>
-
-<p>时，其实我们给fortune_cookie函数传的是一个指针,它返回的是指向一个字符串的指针的大小，在32位上操作系统，一个指针占了4个字节的空间，而在64位上，一个指针则占据了8个字节,故有以上结果</p>
-
-<h2>数组变量不是指针</h2>
-
-<p>尽管在调用函数时，数组参数是可以被当作指针传递，但实际上仍有一些不同，考虑以下情况</p>
-
-<pre><code>char s[] = "How big is it?"; 
-char *t = s;
-</code></pre>
-
-<ol>
-<li>sizeof(数组) 是一个数组的大小.
- sizeof(s) = 15   sizeof(t) = 4 或 8</li>
-<li>数组的地址
- &amp;s = s     &amp;t != t
-如果你写&amp;s,表示数组s的地址是什么,数组s的地址就是s,&amp;t表示t变量的地址，显然不等于t(表示s的地址)</li>
-<li><p>一个数组变量不能指向任何地方
- 如果你创建了一个指针，机器将会为之分配4或8个字节来存储它,但如果你创建了一个数组，机器将为此<code>数组</code>分配空间，而不分为此<code>数组变量</code>分配<strong>任何</strong>的空间,数组变量仅代表数组的首地址</p>
-
-<p> 由于数组变量没有任何的存储空间，所以它不能指向任何地方,当程序编译时，所以的数组变量都被数组的地址替换了，所以数组变量并不存在最后的可执行文件中，这也就是为什么数组变量不能指向任何其他地方的原因</p></li>
-</ol>
-
-
-<h2>指针退化(Pointer decay)</h2>
-
-<p>由于数组变量和指针变量有些区别，当你把数组赋给指针时需要特别小心，如果你将一个数组赋给一个指针变量，此时的指针变量将只包含数组的地址,没法知道数组的大小，所以一些信息丢失了，这种丢失信息的情况就叫做指针退化</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-24T07:58:39+08:00" data-updated="true" itemprop="datePublished">Jun 24<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/bian-cheng-yu-yan/'>编程语言</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/24/c-plus-plus-and-objective-c/" itemprop="url">C++ &amp; Objective C</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>译自<a href="http://paralaxer.com/cpp-vs-objective-c/">C++ vs Objective C</a></p>
-
-<h2>C++ 是一辆手动档汽车</h2>
-
-<p>如果说object C是一辆自动档汽车，那么C++就是一辆手动档的汽车</p>
-
-<p>也许有人会说自动档汽车更好，因为它更容易操纵，不过,用自动档的人可能会在经过一条石子路时因没有将离和器置空档的经验而无法让车停下来</p>
-
-<p>C的运行速度更快，也能对它进行更多的掌控，然而相应得，它对程序员的技能提出了更高的要求</p>
-
-<p>比如，C++在解引用指针前不检查指针(是否为空或有效)来节省时间，这提升了你游戏的运行速度,给了你更多的掌控，同时它也使得你必须在debug模式下使用用assert</p>
-
-<h2>发送消息给空对象</h2>
-
-<p>我们来看一下ObjC和C++的一个最根本的区别之一</p>
-
-<p>用Object C,你能安全地发送信息给nil对象(付出的代价是程序的执行时间会慢一点)</p>
-
-<pre><code>// in Objective C
-Node* node = nil;
-
-// this will not crash, it will just do nothing
-[node setPosition:Point(10,10)];
-</code></pre>
-
-<p>在C++中，如果你解引用一个空指针，将会产生一个运行时错误</p>
-
-<pre><code>// in C++
-Node* node = nullptr; // nullptr introduced in C++11
-
-// this will crash
-node-&gt;setPosition(Point(10,10));
-
-// using a safeguard, this will not crash
-if(node)
-   node-&gt;setPosition(Point(10,10));
-
-// using an assertion will trigger a debuggable error
-assert(node);
-node-&gt;setPosition(Point(10,10));
-</code></pre>
-
-<p>在底层，Objc实际上实现了一个空对象，对任何发送给它的消息，它都返回0，这种实现方式让编程更安全，也更简单，不过，这么做也会导致一些bug难以察觉</p>
-
-<p>C++在解引用前不会检查一个指针是否为空,如上所示,如果node为null,C++会用null去执行setPosition函数,如果通过一个null指针去访问它的成员变量,你的程序将会崩溃</p>
-
-<p>一种解决方法是用<a href="http://www.cplusplus.com/reference/cassert/assert/">断言</a>,它仅在非发布模式下起作用,如果传给断言的表达式为假，程序终止，如果此时有个调试器，程序终止时将停在断言失败的那一行，这样，你就能看到哪一行代码出问题了</p>
-
-<pre><code>Node* node = nullptr;
-
-// this will pause execution when debugging
-assert(node);
-</code></pre>
-
-<p>由于断言通常被定义为宏,用它的一个好处是在发布模式下(或者其他任何定义了NDEBUG的模式中)，此断言宏不做任何事情,本质上,编译器不会为它产生任何二进制的代码，这样，在debug模式时，你就可以放心地用它,同时,也保证了发布模式下的程序运行速度(由于针对assert的二进制代码被忽略掉了)</p>
-
-<h2>可读性</h2>
-
-<p>我们来看看两者的另一个基本的区别,Object C生来就比C++有更好的可读性,因为方法的参数名称也集成到了方法名中</p>
-
-<pre><code>// Objective C
-[layer addChild:sprite z:1];
-
-// C++
-layer-&gt;addChild(sprite, 1);
-</code></pre>
-
-<p>你能看到两者在可读性上的差别吗?</p>
-
-<p>Objective C有更好的可读性因为addChild方法中的第二个参数清楚地显示了z参数,在C++中,没人知道1代表什么</p>
-
-<p>如今,像Xcode之类IDE提供了自动补全的功能，这也减轻了你写代码的负担，当你敲addChild时，IDE们会自动为你显示参数类型和名字,这样IDE就为你清楚地显示了相应的参数是什么(类型和名字),不过如果你好久没碰你的项目了，然后回头看addChild方法的时候，你就会感到困惑，不明白第二个参数代表什么意思</p>
-
-<p>用一些名字定义良好的变量，你可以让C++代码更具有可读性</p>
-
-<pre><code>int z = 1;
-layer-&gt;addChild(sprite, z);
-</code></pre>
-
-<h2>速度和可移植性</h2>
-
-<p>我们已经讨论了C++为何比Objective C更快,那么可移植性呢,这才是C++闪光的地方</p>
-
-<p>C++比OC更具有可移植性,它可以在多个平台上(如Windows,Mac, Linux,iOS,Android等平台上)被原生的编译集成</p>
-
-<p>说到Android,如果你升级NDK的GCC编译器，技术上是可以编译OC的,但要注意，你需要所有的Foundation 类</p>
-
-<p>还记得 NSObject, NSString, NSArray否？它们在Mac上完美的实现了，而在Windows上则没有,所有这些都必须用一种跨平台的方式重新实现</p>
-
-<p>幸运的是,有一些像<a href="http://www.cocotron.org">Cocotron</a>这样的项目致力于此,然而如果到一些android相关的具体问题上,比如输入和声音,你仍然需要一个跨平台的库, 这些库实现了相应平台的细节，所以你就不需要做了.</p>
-
-<p>这就是为什么C++和Cocos2dX 如此cool的原因,cocos2dx处理了平台相关的问题,并且用C++来实现它们</p>
-
-<p>除了速度，可移植性和可读性，我们来看看更具体的区别,比如oc的dClass和id类型</p>
-
-<h2>Class和id类型</h2>
-
-<p>OC有一个叫Class类型的实现,它允许你获得对象的类并且将你存储在一个变量中.</p>
-
-<p>C++并没有相应的Class类型的实现方式，但它有一个叫做运行时类型信息(RTTI)的东西,可以粗略地将一个指针转换为一个字符串,这个字符串包含有一个以<a href="http://www.cplusplus.com/reference/typeinfo/type_info/">typeid</a>表示的对象类,不过,由于各个平台的转换结果不同,这种解决方式似乎并不可靠</p>
-
-<p>OC的Class类型使得从字符串创建类可以变得相当优雅，考虑以下情况</p>
-
-<pre><code>// Objective C
-NSString* string = @"Hammer";
-Class class = NSClassFromString(string);
-id object = [[class alloc] init];
-
-// C++
-Tool* tool = nullptr;
-std::string string = "Hammer";
-if( string == "Hammer" )
-   tool = new Hammer;
-</code></pre>
-
-<p>以上显示了OC的类类型的优雅以及在C++中相应的可能的解决方式</p>
-
-<p>你可以看到以上代码中我们用了ObjC的id类型,它本质上是一个指向对象类型的指针,大致相当于C++中的void*,但仍有不用两者的许多理由</p>
-
-<h2>惰性</h2>
-
-<p>假设有一个叫做Parent的父类,有一个继续它的Child子类，同时有一个叫做goToSleep的方法</p>
-
-<p>在C++中,如果你在Child中重新定义了Child的接口，你就不得不在Child的接口中(头文件中)重新定义goToSleep这个方法，但在OC中，你无需这么做，只要在@implementation中实现它即可</p>
-
-<pre><code>/ Objective C
-@interface Parent : NSObject
-   -(void) goToSleep;
-@end
-
-@interface Child : Parent
-   // woo! don't have to redefine goToSleep
-@end
-
-@implementation Parent
-   -(void) goToSleep {}
-@end
-
-@implementation Child
-   -(void) goToSleep {}
-@end
-
-// C++
-class Parent
-{
-   public:
-      virtual void goToSleep();
-};
-
-class Child : public Parent
-{
-   public:
-      // goToSleep has to be redefined
-      // if it is to be overridden
-      virtual void goToSleep();
-};
-
-void Parent::goToSleep() {}
-
-void Child::goToSleep() {}
-</code></pre>
-
-<p>C++之所以迫使程序员重新定义被重写的函数的原因是因为这么做可以让编译器的工作变得更加容易，编辑器无需因为一些神秘的方法去检查类的继承关系</p>
-
-<h2>虚函数</h2>
-
-<p>在以上的例子中,我们看到了C++中virtual关键字的使用,当virtual被用在函数时，位于继承层次中最低的那个类有最高的优先级调用此函数(比如以上例子中，Child的goToSleep先被调用)</p>
-
-<p>在OC中,所以的方法本质上是虚函数,这让编程变得简单，不过相应的，这么做也导致了<a href="http://stackoverflow.com/questions/4882105/c-polymorphism-inheritance-question-redefinition-of-base-functions-vs-virtual/4882155#4882155">性能的下降</a></p>
-
-<p>另外，如前所述，C++相当于手动档汽车,你可以根据需要指定或不指定函数为virtual</p>
-
-<h2>栈</h2>
-
-<p>在OC中，你只能在堆上分配对象
-在C++中，你可以在栈上分配对象，有栈上创建对象比在堆上创建快，同时也保证了，对象超出相应的作用范围时析构函数能被调用,即便在已经抛出异常的情况下</p>
-
-<p>举个例子</p>
-
-<pre><code>// Objective C
-// 仅分配在堆上
-Tool* tool = [[Tool alloc] init];
-
-// C++
-//我们采用了快速的，可信任的栈分配
-Tool tool;
-</code></pre>
-
-<h2>运算符重载</h2>
-
-<p>在C++中，你可以重载运算符,比如，如果你写了一个Vector对象,你可以重载&#8221;+&ldquo;符号,这样Vector的对象就能进行相加的运算了</p>
-
-<pre><code>// C++
-class Vector
-{
-   const Vector operator+(const Vector&amp; v) const
-   {
-      return Vector(x + v.x, y + v.y, z + v.z);
-   }
-}
-
-// this '+' calls the overloaded operator+
-// isn't it nice?
-Vector v1,v2,v3;
-v3 = v1 + v2;
-</code></pre>
-
-<p>而在OC中，则不能重载运行符，不过你可以在方法命名上动些脑筋</p>
-
-<pre><code>// Objective C
-v3 = [v1 addVector:v2];
-</code></pre>
-
-<p>不过，这样一来，OC在处理一些事情时便显得有些哆嗦了，如下</p>
-
-<pre><code>// Objective C
-NSString* a = @"something";
-NSString* b = @"else";
-if( [a isEqualToString:b] )
-   [self doSomething];
-
-// C++
-string a = "something";
-string b = "else";
-if( a == b )
-   doSomething();
-</code></pre>
-
-<h2>私有性</h2>
-
-<p>OC在技术上是没有私有方法的，不过我们可以在.m文件中定义一个空的类别，并在此空的类别中定义此方法(来模拟私有方法),达种方法是很优雅的,因为这样一来私有方法就无需在公共接口中声明了(因此由于头文件的变化，你的代码将会重新进行索引和编译)</p>
-
-<pre><code>// 在OC的头文件中 (.h)
-@interface Something : NSObject
-   // See? No private method
-@end
-
-// 在实现文件中 (.m)
-// 用一个类别来扩展接口
-// (空类别代表私有的一些属性)
-@interface Something () // a blank category
-   -(void) privateMethod;
-@end
-</code></pre>
-
-<p>在C++中，有公有和私有的概念，不过私有的属性或方法必须在公有接口另声明</p>
-
-<p>如果你确实不想在公有接口中声明私有的方法，你可以采用在.m文件中声明静态函数的形式来避免它(这和之前提到的OC的空类别有点类似)</p>
-
-<h2>类扩展</h2>
-
-<p>如上例所示，OC可以用一个类别来扩展一个类</p>
-
-<p>类别是很优雅的，因为一个类可以在任何地方被扩展,如在.h和.m文件中，或是其他地方</p>
-
-<p>技术上C++是不能扩展一个类的，不过它有<a href="http://www.cprogramming.com/tutorial/multiple_inheritance.html">多继承</a></p>
-
-<h2>默认参数</h2>
-
-<p>C++还有一个很cool的地方:默认参数.函数中的参数可以有一个默认值,这样我们可以选择在调用函数时是否给此参数传值</p>
-
-<pre><code>// C++
-class Something
-{
-   void doSomething(int i, float f = 0.0f) {}
-};
-
-Something s;
-
-// can be called with or without the f parameter
-s.doSomething(5);
-s.doSomething(5, 1.0f);
-</code></pre>
-
-<p>OC则没有默认参数，不过它可以采用定义多个方法的形式来实现</p>
-
-<pre><code>// Objective C
-@interface Something : NSObject
-   -(void) doSomething:(int)i;
-   -(void) doSomething:(int)i withF:(float)f;
-@end
-
-@implementation Something
-   -(void) doSomething:(int)i
-   {
-      [self doSomething:i withF:0.0f];
-   }
-
-   -(void) doSomething:(int)i withF:(float)f
-   {
-      // do something with i and f...
-   }
-@end
-
-Something* s = [[Something alloc] init];
-
-// either method can be called, however
-// two separate methods have been implemented
-[s doSomething:5];
-[s doSomething:5 withF:1.0f];
-</code></pre>
-
-<h2>结论:混合使用C++和OC</h2>
-
-<p>以上就是C++和OC的主要区别
-需要记住两者总是可以共存的，实际上你可以采用<a href="http://en.wikipedia.org/wiki/Objective-C#Objective-C.2B.2B">Objecttive C++</a>的使用来让两者共存</p>
-
-<p>你可以将.m文件改为.mm文件，这样编辑器就知道是用Object C++了，从而可以使用Object C,C++或者两者混用</p>
-
-<pre><code>// In the file AppDelegate.mm
-@implementation AppDelegate
-   -(void) applicationDidFinishLaunching:(NSNotification*)aNotification
-   {
-      // Do some Objective C stuff
-      window = [[Window alloc] initWithContentRect:...];
-
-      // Now switch to C++ and launch Cocos2dx
-      Application::getInstance()-&gt;run();
-   }
-@end
-</code></pre>
-
-<p>如以上例子所见,Objective C++是很常见的,它对于在同一个方法中响应iOS和Mac的通知并启动Cocos2d-x是必须的</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-25T21:35:14+08:00" data-updated="true" itemprop="datePublished">Nov 25<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/bo-ke/'>博客</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/25/bu-shu-octopresscheng-gong/" itemprop="url">部署octopress成功</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>今天经过一番探索,按船哥的<a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">博文指引</a>，查阅了一些资料后，终于成功的部署了octopress博客系统，成功地写出了博客，用得主题是很流行的<a href="https://github.com/shashankmehta/greyshade">greyshade</a>主题,整理一下需要注意的几个问题</p>
-
-<ol>
-<li>侧栏social links支持众多社交网站,但不支持微博,可以点<a href="http://www.imallen.com/blog/2013/05/12/add-support-for-weibo-and-dribbble-to-greyshade.html">这里</a>查看解决方法</li>
-<li><p>写博客时用到的命令rake new_post[&ldquo;title&rdquo;]，在zsh下无效，会出现<code>zsh: no matches found</code>的错误，原因：zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, or ‘?’符号，则将其识别为查找文件名的通配符</p>
-
-<ul>
-<li><p>快速解决：用引号括起来$ rake &ldquo;new_post[arch-linux-reinstall-glibc.markdown]&rdquo;</p></li>
-<li><p>彻底解决：取消zsh的通配(GLOB), 在.zshrc中加入alias rake=&ldquo;noglob rake&#8221;点</p>
-
-<p>  参考<a href="http://fancyoung.com/blog/use-octopress-new-post-function-with-zsh/">这里</a></p></li>
-</ul>
-</li>
-<li>安装多说评论系统,请点击<a href="http://beyondvincent.com/blog/2013/07/27/107-hello-page-of-github/">这里</a>，需要注意的是,在文章的C步中,船哥有个地方笔误了,请将<code>post/duoshuo1.html</code>改为<code>post/duoshuo.html</code></li>
-</ol>
-
-
-<p>参考</p>
-
-<ol>
-<li><a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">利用Octopress搭建一个Github博客</a></li>
-<li><a href="http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/">Clone Your Octopress to Blog From Two Places</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-</article>
-
 </div>
 <nav id="pagenavi">
     
+    
+        <a href="/blog/page/2/" class="next">Next</a>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
