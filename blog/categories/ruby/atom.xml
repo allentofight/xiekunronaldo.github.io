@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-23T13:44:38+08:00</updated>
+  <updated>2014-07-23T13:48:27+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -27,9 +27,8 @@
 <pre><code>song1 = Song.new("Ruby Tuesday")    song2 = Song.new("Enveloped in Python")
 </code></pre>
 
-<p>```</p>
-
-<p>如何理解一切皆对象，看以下demo</p>
+<p>```
+如何理解一切皆对象，看以下demo</p>
 
 <p>```</p>
 
@@ -38,8 +37,9 @@ puts "Rick".index("c")
 puts 42.even?           //42是否是偶数 puts sam.play(song)
 </code></pre>
 
-<p>```
-在java中，如果要算一个值的绝对值，可按如下方式</p>
+<p>```</p>
+
+<p>在java中，如果要算一个值的绝对值，可按如下方式</p>
 
 <pre><code>num = Math.abs(num)
 </code></pre>

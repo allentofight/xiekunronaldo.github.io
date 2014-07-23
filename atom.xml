@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-23T13:44:38+08:00</updated>
+  <updated>2014-07-23T13:48:27+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -25,10 +25,8 @@
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>song1 = Song.new("Ruby Tuesday") song2 = Song.new("Enveloped in Python")
 </span><span class='line'>```
-</span><span class='line'>
 </span><span class='line'>如何理解一切皆对象，看以下demo   
 </span></code></pre></td></tr></table></div></figure>
 
@@ -97,7 +95,9 @@ puts 42.even?           //42是否是偶数 puts sam.play(song)
 <span class='line-number'>57</span>
 <span class='line-number'>58</span>
 <span class='line-number'>59</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>在java中，如果要算一个值的绝对值，可按如下方式
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>在java中，如果要算一个值的绝对值，可按如下方式
 </span><span class='line'>
 </span><span class='line'>  num = Math.abs(num)
 </span><span class='line'>但在Ruby中，由于一切皆对象，可按如下方式
