@@ -9,10 +9,8 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jul 22nd, 2014 Ruby Ruby.new Ruby中一切皆对象 创建对象，假设有一个Song的类，按如下方式创建实例 1
-2
-3
-song1 = Song.new("Ruby Tuesday") song2 = Song.new("Enveloped in Python &hellip;">
+	<meta name="description" content="Jul 22nd, 2014 Ruby Ruby.new Ruby中一切皆对象 创建对象，假设有一个Song的类，按如下方式创建实例 song1 = Song.new("Ruby Tuesday")
+song2 = Song.new("Enveloped in Python") &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -124,166 +122,162 @@ song1 = Song.new("Ruby Tuesday") song2 = Song.new("Enveloped in Python &hellip;"
 
 <p>创建对象，假设有一个Song的类，按如下方式创建实例</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>song1 = Song.new("Ruby Tuesday") song2 = Song.new("Enveloped in Python")
-</span><span class='line'>```
-</span><span class='line'>如何理解一切皆对象，看以下demo   
-</span></code></pre></td></tr></table></div></figure>
+<pre><code>song1 = Song.new("Ruby Tuesday")
+song2 = Song.new("Enveloped in Python")
+</code></pre>
 
+<p>如何理解一切皆对象，看以下demo</p>
 
 <pre><code>puts "gin joint".length 
 puts "Rick".index("c") 
-puts 42.even?           //42是否是偶数 puts sam.play(song)
+puts 42.even?           //42是否是偶数
+puts sam.play(song)
 </code></pre>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>
-</span><span class='line'>在java中，如果要算一个值的绝对值，可按如下方式
-</span><span class='line'>
-</span><span class='line'>  num = Math.abs(num)
-</span><span class='line'>但在Ruby中，由于一切皆对象，可按如下方式
-</span><span class='line'>
-</span><span class='line'>  um = -1234          # =&gt; -1234 
-</span><span class='line'>  positive = num.abs  # =&gt; 1234
-</span><span class='line'>同样的规则适用于所有的Ruby对象，在C中，你可以写strlen(name)，但在ruby中，你可以写name.length,无比轻松
-</span><span class='line'>
-</span><span class='line'>#####Ruby中的方法
-</span><span class='line'>形式如下
-</span><span class='line'>
-</span><span class='line'>  def say_goodnight(name)     result = "Good night, " + name      return result   end
-</span><span class='line'>      # Time for bed...   puts say_goodnight("John-Boy")  puts say_goodnight("Mary-Ellen")无需分号表示每个语句的结尾，只要你把每一条语句都放在一单独的行上    puts say_goodnight("Mary-Ellen")
-</span><span class='line'>相当于
-</span><span class='line'>  
-</span><span class='line'>  puts(say_goodnight("Mary-Ellen"))
-</span><span class='line'>#####字符串
-</span><span class='line'>创建字符串有两种方法，一种是单引号括起来的，一种是双引号括起来的,双引号括起来的字符串，ruby需要做更多的工作，首先，ruby会寻找以反斜杠开头的序列，并将它替换为一个二进制的值,如"\n",另外，双引号形式的字符串还需要做的将#{expression}序列替换成expression的值,我们能用它来替换之前我们写的程序
-</span><span class='line'>
-</span><span class='line'>  def say_goodnight(name)     result = "Good night, #{name}"      return result   end puts say_goodnight('Pa') 
-</span><span class='line'>  produces:   Good night, Pa
-</span><span class='line'>任意的复杂的表达式都能放在#{...}里，如下
-</span><span class='line'>  
-</span><span class='line'>  def say_goodnight(name)     result = "Good night, #{name.capitalize}"       return result   end puts say_goodnight('uncle')     produces:   Good night, Uncle
-</span><span class='line'>我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句
-</span><span class='line'>
-</span><span class='line'>      def say_goodnight(name)     "Good night, #{name.capitalize}"    end puts say_goodnight('ma')    produces:   Good night, Ma
-</span><span class='line'>####Ruby的名字
-</span><span class='line'>ruby的命名遵循以下惯例,第一个名字的首字符表示这个名字的使用场合
-</span><span class='line'>
-</span><span class='line'>* 局部变量，方法参数，方法名都 以一个小写字母或下划线开头
-</span><span class='line'>* 全局变量以一个$符开头，对象实例变量以@开头
-</span><span class='line'>* 类变量以两个@@开头
-</span><span class='line'>* 类名，模块名，常量必须以大写字母开头
-</span><span class='line'>使用的demo如下
-</span><span class='line'>  
-</span><span class='line'>      Local Variable:     name fish_and_chips x_axis thx1138 _x _26
-</span><span class='line'>      Instance Variable:  @name @point_1 @X @_ @plan9
-</span><span class='line'>      Class Variable:     @@total @@symtab @@N @@x_pos @@SINGLE
-</span><span class='line'>      Global Variable:   $debug $CUSTOMER $_ $plan9 $Global
-</span><span class='line'>      Class Name:         String ActiveRecord MyClass     Constant Name:      FEET_PER_MILE DEBUG
-</span><span class='line'>####数组和哈希字典
-</span><span class='line'>数组
-</span><span class='line'>
-</span><span class='line'>      a = [ 1, 'cat', 3.14 ] # array with three elements 
-</span><span class='line'>      puts "The first element is #{a[0]}"     # set the third element     a[2] = nil      puts "The array is now #{a.inspect}"        produces:        The first element is 1        The array is now [1, "cat", nil]
-</span><span class='line'>简便地创建数组的方法
-</span><span class='line'>  
-</span><span class='line'>      a = %w{ ant bee cat dog elk } 
-</span><span class='line'>      a[0] # =&gt; "ant"      a[3] # =&gt; "dog"
-</span><span class='line'>哈希字典
-</span><span class='line'>  inst_section = {        'cello' =&gt; 'string',         'clarinet' =&gt; 'woodwind',        'drum' =&gt; 'percussion',      'oboe' =&gt; 'woodwind',        'trumpet' =&gt; 'brass',        'violin' =&gt; 'string' }`=&gt;`符号的左为key，右为value
-</span><span class='line'>在控制台上我们用p而不是puts，因为p可以更显式地打印nil值
-</span><span class='line'>  
-</span><span class='line'>  p inst_section['oboe']  p inst_section['cello'] p inst_section['bassoon']
-</span><span class='line'>  
-</span><span class='line'>  produces:    "woodwind"    "string"    nil
-</span><span class='line'>默认情况下hash的key如果对应的value不存在，则value的值为nil，我们可以改变这个默认傎
-</span></code></pre></td></tr></table></div></figure>
+<p>在java中，如果要算一个值的绝对值，可按如下方式</p>
 
+<pre><code>num = Math.abs(num)
+</code></pre>
+
+<p>但在Ruby中，由于一切皆对象，可按如下方式</p>
+
+<pre><code>um = -1234          # =&gt; -1234 
+positive = num.abs  # =&gt; 1234
+</code></pre>
+
+<p>同样的规则适用于所有的Ruby对象，在C中，你可以写strlen(name)，但在ruby中，你可以写name.length,无比轻松</p>
+
+<h5>Ruby中的方法</h5>
+
+<p>形式如下</p>
+
+<pre><code>def say_goodnight(name)     result = "Good night, " + name      return result   end
+    # Time for bed...
+puts say_goodnight("John-Boy") 
+puts say_goodnight("Mary-Ellen")
+</code></pre>
+
+<p>无需分号表示每个语句的结尾，只要你把每一条语句都放在一单独的行上    puts say_goodnight(&ldquo;Mary-Ellen&rdquo;)
+相当于</p>
+
+<pre><code>puts(say_goodnight("Mary-Ellen"))
+</code></pre>
+
+<h5>字符串</h5>
+
+<p>创建字符串有两种方法，一种是单引号括起来的，一种是双引号括起来的,双引号括起来的字符串，ruby需要做更多的工作，首先，ruby会寻找以反斜杠开头的序列，并将它替换为一个二进制的值,如&#8221;\n&#8221;,另外，双引号形式的字符串还需要做的将#{expression}序列替换成expression的值,我们能用它来替换之前我们写的程序</p>
+
+<pre><code>def say_goodnight(name)
+    result = "Good night, #{name}" 
+    return result
+end
+puts say_goodnight('Pa') 
+produces:   Good night, Pa
+</code></pre>
+
+<p>任意的复杂的表达式都能放在#{&hellip;}里，如下</p>
+
+<pre><code>def say_goodnight(name)     result = "Good night, #{name.capitalize}"       return result   end puts say_goodnight('uncle')     produces:   Good night, Uncle
+</code></pre>
+
+<p>我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句</p>
+
+<pre><code>    def say_goodnight(name)
+    "Good night, #{name.capitalize}"
+end
+puts say_goodnight('ma') 
+produces:   Good night, Ma
+</code></pre>
+
+<h4>Ruby的名字</h4>
+
+<p>ruby的命名遵循以下惯例,第一个名字的首字符表示这个名字的使用场合</p>
+
+<ul>
+<li>局部变量，方法参数，方法名都 以一个小写字母或下划线开头</li>
+<li>全局变量以一个$符开头，对象实例变量以@开头</li>
+<li>类变量以两个@@开头</li>
+<li><p>类名，模块名，常量必须以大写字母开头
+使用的demo如下</p>
+
+<pre><code>  Local Variable:     name fish_and_chips x_axis thx1138 _x _26
+  Instance Variable:  @name @point_1 @X @_ @plan9
+  Class Variable:     @@total @@symtab @@N @@x_pos @@SINGLE
+  Global Variable:   $debug $CUSTOMER $_ $plan9 $Global
+  Class Name:         String ActiveRecord MyClass     Constant Name:      FEET_PER_MILE DEBUG
+</code></pre>
+
+<h4>数组和哈希字典</h4>
+
+<p>数组</p>
+
+<pre><code>  a = [ 1, 'cat', 3.14 ] # array with three elements 
+  puts "The first element is #{a[0]}"
+  # set the third element
+  a[2] = nil
+  puts "The array is now #{a.inspect}"
+  produces:
+  The first element is 1
+  The array is now [1, "cat", nil]
+</code></pre>
+
+<p>简便地创建数组的方法</p>
+
+<pre><code>  a = %w{ ant bee cat dog elk } 
+  a[0] # =&gt; "ant"
+  a[3] # =&gt; "dog"
+</code></pre>
+
+<p>哈希字典</p>
+
+<pre><code>  inst_section = {
+  'cello' =&gt; 'string', 
+  'clarinet' =&gt; 'woodwind', 
+  'drum' =&gt; 'percussion', 
+  'oboe' =&gt; 'woodwind', 
+  'trumpet' =&gt; 'brass', 
+  'violin' =&gt; 'string'    }
+</code></pre>
+
+<p><code>=&gt;</code>符号的左为key，右为value
+在控制台上我们用p而不是puts，因为p可以更显式地打印nil值</p>
+
+<pre><code>  p inst_section['oboe']
+  p inst_section['cello']
+  p inst_section['bassoon']
+</code></pre></li>
+</ul>
+
+
+<p>produces:</p>
+
+<pre><code>    "woodwind"
+    "string"
+    nil
+</code></pre>
+
+<p>默认情况下hash的key如果对应的value不存在，则value的值为nil，我们可以改变这个默认傎</p>
 
 <pre><code>histogram = Hash.new(0)
-histogram['ruby'] # =&gt; 0    histogram['ruby'] = histogram['ruby'] + 1   histogram['ruby'] # =&gt; 1```
+histogram['ruby'] # =&gt; 0
+histogram['ruby'] = histogram['ruby'] + 1 
+histogram['ruby'] # =&gt; 1
 </code></pre>
 
 <h4>符号(Symbols)</h4>
 
 <p>通常在编程的时候，你需要为某些重要的东西指定一个名字，比如，你也许想要用名字来指示指南针的方向，所以，你可以像以下这么写</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NORTH = 1 
-</span><span class='line'>EAST =2 
-</span><span class='line'>SOUTH = 3 
-</span><span class='line'>WEST =4</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>NORTH = 1 
+EAST =2 
+SOUTH = 3 
+WEST =4
+</code></pre>
 
 <p>定义好之后，你就可以用这些名字而不是数字了</p>
 
-<p>&#8220;`</p>
-
-<pre><code>walk(NORTH) look(EAST)```
+<pre><code>walk(NORTH)
+look(EAST)
 </code></pre>
 
 <p>然而，很多时候，这些名字对应的数值是不相关的(只要它们是唯一的)你所要做的只是区分这四个方向而已
@@ -292,25 +286,57 @@ walk(:north)
 look(:east)
 无须为一个symbol赋任何值,Ruby已经为你考虑好了.Ruby保证不管符号出现在你，一个特定和符号总量有相同的值，因此，你可以按如下方式使用symbol</p>
 
-<pre><code>def walk(direction)     if direction == :north      # ...   end end
+<pre><code>def walk(direction)
+    if direction == :north
+    # ...
+    end
+ end
 </code></pre>
 
 <p>symbols通常被用来当作hash的key，我们可以将我们之前写的hash写为以下形式</p>
 
-<pre><code>    inst_section = {        :cello =&gt; 'string',         :clarinet =&gt; 'woodwind',        :drum =&gt; 'percussion',      :oboe =&gt; 'woodwind',        :trumpet =&gt; 'brass',        :violin =&gt; 'string' }
+<pre><code>    inst_section = {
+    :cello =&gt; 'string', 
+    :clarinet =&gt; 'woodwind', 
+    :drum =&gt; 'percussion', 
+    :oboe =&gt; 'woodwind', 
+    :trumpet =&gt; 'brass', 
+    :violin =&gt; 'string'
+}
 </code></pre>
 
 <p>事实上，symbols是如此频繁地被当作hash的键，ruby提供了一个更简洁的语法，你可以用name:value的形式来创建hash，如果key是symbols的话</p>
 
-<pre><code>inst_section = {        cello: 'string',        clarinet: 'woodwind',       drum: 'percussion',         oboe: 'woodwind',       trumpet: 'brass',       violin: 'string'    }
-puts "An oboe is a #{inst_section[:oboe]} instrument"   produces:   An oboe is a woodwind instrument
+<pre><code>inst_section = {
+    cello: 'string', 
+    clarinet: 'woodwind', 
+    drum: 'percussion', 
+    oboe: 'woodwind', 
+    trumpet: 'brass', 
+    violin: 'string'
+}
+puts "An oboe is a #{inst_section[:oboe]} instrument"
+produces:
+An oboe is a woodwind instrument
 </code></pre>
 
 <h4>条件语句</h4>
 
 <p>if语句</p>
 
-<pre><code>today = Time.now    if today.saturday?      puts "Do chores around the house"   elsif today.sunday?      puts "Relax"   else         puts "Go to work" end  produces:   Go to work
+<pre><code>today = Time.now
+if today.saturday?
+    puts "Do chores around the house"
+elsif today.sunday?
+     puts "Relax"
+else
+     puts "Go to work" 
+end
+</code></pre>
+
+<p>produces:</p>
+
+<pre><code>Go to work
 </code></pre>
 
 <p>较短的if语句也可以这么写</p>
@@ -320,23 +346,49 @@ puts "An oboe is a #{inst_section[:oboe]} instrument"   produces:   An oboe is a
 
 <p>while语句</p>
 
-<pre><code>while weight &lt; 100 and num_pallets &lt;= 5          pallet  = next_pallet()             weight += pallet.weight             num_pallets += 1   end
+<pre><code>while weight &lt; 100 and num_pallets &lt;= 5
+         pallet  = next_pallet()
+         weight += pallet.weight
+         num_pallets += 1
+end
 </code></pre>
 
 <p>较短的while语句也可以这么写</p>
 
-<pre><code>square = 4  square = square*square while square &lt; 1000ruby中的许多语句返回一个值，这意味着你可以用它们作为条件判断，比如,内核方法gets从标准输入流中返回下一行或者当到达文件的末尾时会返回nil，由于Ruby有条件语句中将nil视为假的，你可以用以下代码来处理文件对应的行
+<pre><code>    square = 4
+    square = square*square while square &lt; 1000
+</code></pre>
 
-while line = gets 
-    puts line.downcase  end####正则表达式
+<p>ruby中的许多语句返回一个值，这意味着你可以用它们作为条件判断，比如,内核方法gets从标准输入流中返回下一行或者当到达文件的末尾时会返回nil，由于Ruby有条件语句中将nil视为假的，你可以用以下代码来处理文件对应的行</p>
 
-/\d\d:\d\d:\d\d/    # a time such as 12:34:56   /Perl.*Python/      # Perl, zero or more other chars, then Python   /Perl Python/       # Perl, a space, and Python /Perl *Python/     # Perl, zero or more spaces, and Python  /Perl +Python/     # Perl, one or more spaces, and Python   /Perl\s+Python/   # Perl, whitespace characters, then Python    /Ruby (Perl|Python)/ # Ruby, a space, and either Perl or Python结果if语句使用
-line = gets if line =~ /Perl|Python/    puts "Scripting language mentioned: #{line}" end
+<pre><code>while line = gets 
+    puts line.downcase
+end
+</code></pre>
+
+<h4>正则表达式</h4>
+
+<pre><code>/\d\d:\d\d:\d\d/    # a time such as 12:34:56
+/Perl.*Python/      # Perl, zero or more other chars, then Python
+/Perl Python/       # Perl, a space, and Python
+/Perl *Python/     # Perl, zero or more spaces, and Python
+/Perl +Python/     # Perl, one or more spaces, and Python
+/Perl\s+Python/   # Perl, whitespace characters, then Python
+/Ruby (Perl|Python)/ # Ruby, a space, and either Perl or Python
+</code></pre>
+
+<p>结果if语句使用</p>
+
+<pre><code>line = gets
+if line =~ /Perl|Python/
+    puts "Scripting language mentioned: #{line}" 
+end
 </code></pre>
 
 <p>正则表达式的替代方法</p>
 
-<pre><code>line = gets newline = line.sub(/Perl/, 'Ruby') # replace first 'Perl' with 'Ruby' newerline =   newline.gsub(/Python/, 'Ruby') # replace every 'Python' with 'Ruby'
+<pre><code>line = gets
+newline = line.sub(/Perl/, 'Ruby') # replace first 'Perl' with 'Ruby'   newerline =     newline.gsub(/Python/, 'Ruby') # replace every 'Python' with 'Ruby'
 </code></pre>
 
 <h4>Blocks和迭代器</h4>
@@ -350,7 +402,10 @@ line = gets if line =~ /Perl|Python/    puts "Scripting language mentioned: #{li
 
 <p>或</p>
 
-<pre><code>do    club.enroll(person)     person.socialize  end
+<pre><code>do
+  club.enroll(person)
+  person.socialize
+end
 </code></pre>
 
 <p>&ldquo;{}&#8221;block主要用在单行中,&#8221;do&hellip;.end&#8221;主要用在多行中
@@ -372,7 +427,10 @@ line = gets if line =~ /Perl|Python/    puts "Scripting language mentioned: #{li
 
 <p>打印结果</p>
 
-<pre><code>    Start of method     In the block        In the block        End of method
+<pre><code>    Start of method
+    In the block
+    In the block
+    End of method
 </code></pre>
 
 <p>调用yield的时候可以带参数,这些参数将被传到block中去，在block中，你将这些被接收的参数用|params&hellip;|的形式列出来,如下</p>
@@ -389,15 +447,30 @@ who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
 
 <p>Code blocks广泛用在ruby的库中用来实现迭代器</p>
 
-<pre><code>    animals = %w( ant bee cat dog ) # create an array   animals.each {|animal| puts animal }    # iterate over the contents
-produces:
-ant bee cat dog再来看几个例子
-    [ 'cat', 'dog', 'horse' ].each {|name| print name, " " }    5.times { print "*" }   3.upto(6) {|i| print i }    ('a'..'e').each {|char| print char }    puts    produces:   cat dog horse *****3456abcde####读写
+<pre><code>    animals = %w( ant bee cat dog ) # create an array
+animals.each {|animal| puts animal }    # iterate over the contents
+</code></pre>
+
+<p>produces:</p>
+
+<pre><code>ant bee cat dog再来看几个例子
+    [ 'cat', 'dog', 'horse' ].each {|name| print name, " " } 
+5.times { print "*" }
+3.upto(6) {|i| print i }
+('a'..'e').each {|char| print char }
+puts
+</code></pre>
+
+<p>produces:</p>
+
+<pre><code>cat dog horse *****3456abcde####读写
 
 printf("Number: %5.2f,\nString: %s\n", 1.23, "hello")
+</code></pre>
 
-produces:    Number:  1.23,    String: hello有很多方法可以将输入读入程序中，最常见的gets方法，它返回标准输入流的下一行
-line = gets print line
+<p>produces:    Number:  1.23,    String: hello有很多方法可以将输入读入程序中，最常见的gets方法，它返回标准输入流的下一行</p>
+
+<pre><code>line = gets print line
 </code></pre>
 
 <h4>命令行参数</h4>

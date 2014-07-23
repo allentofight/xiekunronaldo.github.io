@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-23T13:48:27+08:00</updated>
+  <updated>2014-07-23T20:09:37+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -22,22 +22,17 @@
 
 <p>创建对象，假设有一个Song的类，按如下方式创建实例</p>
 
-<p>```</p>
-
-<pre><code>song1 = Song.new("Ruby Tuesday")    song2 = Song.new("Enveloped in Python")
+<pre><code>song1 = Song.new("Ruby Tuesday")
+song2 = Song.new("Enveloped in Python")
 </code></pre>
 
-<p>```
-如何理解一切皆对象，看以下demo</p>
-
-<p>```</p>
+<p>如何理解一切皆对象，看以下demo</p>
 
 <pre><code>puts "gin joint".length 
 puts "Rick".index("c") 
-puts 42.even?           //42是否是偶数 puts sam.play(song)
+puts 42.even?           //42是否是偶数
+puts sam.play(song)
 </code></pre>
-
-<p>```</p>
 
 <p>在java中，如果要算一个值的绝对值，可按如下方式</p>
 
@@ -57,10 +52,13 @@ positive = num.abs  # =&gt; 1234
 <p>形式如下</p>
 
 <pre><code>def say_goodnight(name)     result = "Good night, " + name      return result   end
-    # Time for bed...   puts say_goodnight("John-Boy")  puts say_goodnight("Mary-Ellen")无需分号表示每个语句的结尾，只要你把每一条语句都放在一单独的行上    puts say_goodnight("Mary-Ellen")
+    # Time for bed...
+puts say_goodnight("John-Boy") 
+puts say_goodnight("Mary-Ellen")
 </code></pre>
 
-<p>相当于</p>
+<p>无需分号表示每个语句的结尾，只要你把每一条语句都放在一单独的行上    puts say_goodnight(&ldquo;Mary-Ellen&rdquo;)
+相当于</p>
 
 <pre><code>puts(say_goodnight("Mary-Ellen"))
 </code></pre>
@@ -69,7 +67,11 @@ positive = num.abs  # =&gt; 1234
 
 <p>创建字符串有两种方法，一种是单引号括起来的，一种是双引号括起来的,双引号括起来的字符串，ruby需要做更多的工作，首先，ruby会寻找以反斜杠开头的序列，并将它替换为一个二进制的值,如"\n",另外，双引号形式的字符串还需要做的将#{expression}序列替换成expression的值,我们能用它来替换之前我们写的程序</p>
 
-<pre><code>def say_goodnight(name)     result = "Good night, #{name}"      return result   end puts say_goodnight('Pa') 
+<pre><code>def say_goodnight(name)
+    result = "Good night, #{name}" 
+    return result
+end
+puts say_goodnight('Pa') 
 produces:   Good night, Pa
 </code></pre>
 
@@ -80,7 +82,11 @@ produces:   Good night, Pa
 
 <p>我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句</p>
 
-<pre><code>    def say_goodnight(name)     "Good night, #{name.capitalize}"    end puts say_goodnight('ma')    produces:   Good night, Ma
+<pre><code>    def say_goodnight(name)
+    "Good night, #{name.capitalize}"
+end
+puts say_goodnight('ma') 
+produces:   Good night, Ma
 </code></pre>
 
 <h4>Ruby的名字</h4>
@@ -106,37 +112,61 @@ produces:   Good night, Pa
 <p>数组</p>
 
 <pre><code>  a = [ 1, 'cat', 3.14 ] # array with three elements 
-  puts "The first element is #{a[0]}"     # set the third element     a[2] = nil      puts "The array is now #{a.inspect}"        produces:        The first element is 1        The array is now [1, "cat", nil]
+  puts "The first element is #{a[0]}"
+  # set the third element
+  a[2] = nil
+  puts "The array is now #{a.inspect}"
+  produces:
+  The first element is 1
+  The array is now [1, "cat", nil]
 </code></pre>
 
 <p>简便地创建数组的方法</p>
 
 <pre><code>  a = %w{ ant bee cat dog elk } 
-  a[0] # =&gt; "ant"     a[3] # =&gt; "dog"
+  a[0] # =&gt; "ant"
+  a[3] # =&gt; "dog"
 </code></pre>
 
-<p>哈希字典
-  inst_section = {        &lsquo;cello&rsquo; => &lsquo;string&rsquo;,        &lsquo;clarinet&rsquo; => &lsquo;woodwind&rsquo;,       &lsquo;drum&rsquo; => &lsquo;percussion&rsquo;,         &lsquo;oboe&rsquo; => &lsquo;woodwind&rsquo;,       &lsquo;trumpet&rsquo; => &lsquo;brass&rsquo;,       &lsquo;violin&rsquo; => &lsquo;string&rsquo;    }<code>=&gt;</code>符号的左为key，右为value
+<p>哈希字典</p>
+
+<pre><code>  inst_section = {
+  'cello' =&gt; 'string', 
+  'clarinet' =&gt; 'woodwind', 
+  'drum' =&gt; 'percussion', 
+  'oboe' =&gt; 'woodwind', 
+  'trumpet' =&gt; 'brass', 
+  'violin' =&gt; 'string'    }
+</code></pre>
+
+<p><code>=&gt;</code>符号的左为key，右为value
 在控制台上我们用p而不是puts，因为p可以更显式地打印nil值</p>
 
-<p>  p inst_section[&lsquo;oboe&rsquo;]  p inst_section[&lsquo;cello&rsquo;] p inst_section[&lsquo;bassoon&rsquo;]</p>
-
-<p>  produces:    &ldquo;woodwind&rdquo;    &ldquo;string&rdquo;    nil
-默认情况下hash的key如果对应的value不存在，则value的值为nil，我们可以改变这个默认傎</p></li>
+<pre><code>  p inst_section['oboe']
+  p inst_section['cello']
+  p inst_section['bassoon']
+</code></pre></li>
 </ul>
 
 
-<p>```</p>
+<p>produces:</p>
+
+<pre><code>    "woodwind"
+    "string"
+    nil
+</code></pre>
+
+<p>默认情况下hash的key如果对应的value不存在，则value的值为nil，我们可以改变这个默认傎</p>
 
 <pre><code>histogram = Hash.new(0)
-histogram['ruby'] # =&gt; 0    histogram['ruby'] = histogram['ruby'] + 1   histogram['ruby'] # =&gt; 1```
+histogram['ruby'] # =&gt; 0
+histogram['ruby'] = histogram['ruby'] + 1 
+histogram['ruby'] # =&gt; 1
 </code></pre>
 
 <h4>符号(Symbols)</h4>
 
 <p>通常在编程的时候，你需要为某些重要的东西指定一个名字，比如，你也许想要用名字来指示指南针的方向，所以，你可以像以下这么写</p>
-
-<p>```</p>
 
 <pre><code>NORTH = 1 
 EAST =2 
@@ -144,12 +174,10 @@ SOUTH = 3
 WEST =4
 </code></pre>
 
-<p>```
-定义好之后，你就可以用这些名字而不是数字了</p>
+<p>定义好之后，你就可以用这些名字而不是数字了</p>
 
-<p>```</p>
-
-<pre><code>walk(NORTH) look(EAST)```
+<pre><code>walk(NORTH)
+look(EAST)
 </code></pre>
 
 <p>然而，很多时候，这些名字对应的数值是不相关的(只要它们是唯一的)你所要做的只是区分这四个方向而已
@@ -158,25 +186,57 @@ walk(:north)
 look(:east)
 无须为一个symbol赋任何值,Ruby已经为你考虑好了.Ruby保证不管符号出现在你，一个特定和符号总量有相同的值，因此，你可以按如下方式使用symbol</p>
 
-<pre><code>def walk(direction)     if direction == :north      # ...   end end
+<pre><code>def walk(direction)
+    if direction == :north
+    # ...
+    end
+ end
 </code></pre>
 
 <p>symbols通常被用来当作hash的key，我们可以将我们之前写的hash写为以下形式</p>
 
-<pre><code>    inst_section = {        :cello =&gt; 'string',         :clarinet =&gt; 'woodwind',        :drum =&gt; 'percussion',      :oboe =&gt; 'woodwind',        :trumpet =&gt; 'brass',        :violin =&gt; 'string' }
+<pre><code>    inst_section = {
+    :cello =&gt; 'string', 
+    :clarinet =&gt; 'woodwind', 
+    :drum =&gt; 'percussion', 
+    :oboe =&gt; 'woodwind', 
+    :trumpet =&gt; 'brass', 
+    :violin =&gt; 'string'
+}
 </code></pre>
 
 <p>事实上，symbols是如此频繁地被当作hash的键，ruby提供了一个更简洁的语法，你可以用name:value的形式来创建hash，如果key是symbols的话</p>
 
-<pre><code>inst_section = {        cello: 'string',        clarinet: 'woodwind',       drum: 'percussion',         oboe: 'woodwind',       trumpet: 'brass',       violin: 'string'    }
-puts "An oboe is a #{inst_section[:oboe]} instrument"   produces:   An oboe is a woodwind instrument
+<pre><code>inst_section = {
+    cello: 'string', 
+    clarinet: 'woodwind', 
+    drum: 'percussion', 
+    oboe: 'woodwind', 
+    trumpet: 'brass', 
+    violin: 'string'
+}
+puts "An oboe is a #{inst_section[:oboe]} instrument"
+produces:
+An oboe is a woodwind instrument
 </code></pre>
 
 <h4>条件语句</h4>
 
 <p>if语句</p>
 
-<pre><code>today = Time.now    if today.saturday?      puts "Do chores around the house"   elsif today.sunday?      puts "Relax"   else         puts "Go to work" end  produces:   Go to work
+<pre><code>today = Time.now
+if today.saturday?
+    puts "Do chores around the house"
+elsif today.sunday?
+     puts "Relax"
+else
+     puts "Go to work" 
+end
+</code></pre>
+
+<p>produces:</p>
+
+<pre><code>Go to work
 </code></pre>
 
 <p>较短的if语句也可以这么写</p>
@@ -186,23 +246,49 @@ puts "An oboe is a #{inst_section[:oboe]} instrument"   produces:   An oboe is a
 
 <p>while语句</p>
 
-<pre><code>while weight &lt; 100 and num_pallets &lt;= 5          pallet  = next_pallet()             weight += pallet.weight             num_pallets += 1   end
+<pre><code>while weight &lt; 100 and num_pallets &lt;= 5
+         pallet  = next_pallet()
+         weight += pallet.weight
+         num_pallets += 1
+end
 </code></pre>
 
 <p>较短的while语句也可以这么写</p>
 
-<pre><code>square = 4  square = square*square while square &lt; 1000ruby中的许多语句返回一个值，这意味着你可以用它们作为条件判断，比如,内核方法gets从标准输入流中返回下一行或者当到达文件的末尾时会返回nil，由于Ruby有条件语句中将nil视为假的，你可以用以下代码来处理文件对应的行
+<pre><code>    square = 4
+    square = square*square while square &lt; 1000
+</code></pre>
 
-while line = gets 
-    puts line.downcase  end####正则表达式
+<p>ruby中的许多语句返回一个值，这意味着你可以用它们作为条件判断，比如,内核方法gets从标准输入流中返回下一行或者当到达文件的末尾时会返回nil，由于Ruby有条件语句中将nil视为假的，你可以用以下代码来处理文件对应的行</p>
 
-/\d\d:\d\d:\d\d/    # a time such as 12:34:56   /Perl.*Python/      # Perl, zero or more other chars, then Python   /Perl Python/       # Perl, a space, and Python /Perl *Python/     # Perl, zero or more spaces, and Python  /Perl +Python/     # Perl, one or more spaces, and Python   /Perl\s+Python/   # Perl, whitespace characters, then Python    /Ruby (Perl|Python)/ # Ruby, a space, and either Perl or Python结果if语句使用
-line = gets if line =~ /Perl|Python/    puts "Scripting language mentioned: #{line}" end
+<pre><code>while line = gets 
+    puts line.downcase
+end
+</code></pre>
+
+<h4>正则表达式</h4>
+
+<pre><code>/\d\d:\d\d:\d\d/    # a time such as 12:34:56
+/Perl.*Python/      # Perl, zero or more other chars, then Python
+/Perl Python/       # Perl, a space, and Python
+/Perl *Python/     # Perl, zero or more spaces, and Python
+/Perl +Python/     # Perl, one or more spaces, and Python
+/Perl\s+Python/   # Perl, whitespace characters, then Python
+/Ruby (Perl|Python)/ # Ruby, a space, and either Perl or Python
+</code></pre>
+
+<p>结果if语句使用</p>
+
+<pre><code>line = gets
+if line =~ /Perl|Python/
+    puts "Scripting language mentioned: #{line}" 
+end
 </code></pre>
 
 <p>正则表达式的替代方法</p>
 
-<pre><code>line = gets newline = line.sub(/Perl/, 'Ruby') # replace first 'Perl' with 'Ruby' newerline =   newline.gsub(/Python/, 'Ruby') # replace every 'Python' with 'Ruby'
+<pre><code>line = gets
+newline = line.sub(/Perl/, 'Ruby') # replace first 'Perl' with 'Ruby'   newerline =     newline.gsub(/Python/, 'Ruby') # replace every 'Python' with 'Ruby'
 </code></pre>
 
 <h4>Blocks和迭代器</h4>
@@ -216,7 +302,10 @@ line = gets if line =~ /Perl|Python/    puts "Scripting language mentioned: #{li
 
 <p>或</p>
 
-<pre><code>do    club.enroll(person)     person.socialize  end
+<pre><code>do
+  club.enroll(person)
+  person.socialize
+end
 </code></pre>
 
 <p>&ldquo;{}"block主要用在单行中,"do&hellip;.end"主要用在多行中
@@ -238,7 +327,10 @@ line = gets if line =~ /Perl|Python/    puts "Scripting language mentioned: #{li
 
 <p>打印结果</p>
 
-<pre><code>    Start of method     In the block        In the block        End of method
+<pre><code>    Start of method
+    In the block
+    In the block
+    End of method
 </code></pre>
 
 <p>调用yield的时候可以带参数,这些参数将被传到block中去，在block中，你将这些被接收的参数用|params&hellip;|的形式列出来,如下</p>
@@ -255,15 +347,30 @@ who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
 
 <p>Code blocks广泛用在ruby的库中用来实现迭代器</p>
 
-<pre><code>    animals = %w( ant bee cat dog ) # create an array   animals.each {|animal| puts animal }    # iterate over the contents
-produces:
-ant bee cat dog再来看几个例子
-    [ 'cat', 'dog', 'horse' ].each {|name| print name, " " }    5.times { print "*" }   3.upto(6) {|i| print i }    ('a'..'e').each {|char| print char }    puts    produces:   cat dog horse *****3456abcde####读写
+<pre><code>    animals = %w( ant bee cat dog ) # create an array
+animals.each {|animal| puts animal }    # iterate over the contents
+</code></pre>
+
+<p>produces:</p>
+
+<pre><code>ant bee cat dog再来看几个例子
+    [ 'cat', 'dog', 'horse' ].each {|name| print name, " " } 
+5.times { print "*" }
+3.upto(6) {|i| print i }
+('a'..'e').each {|char| print char }
+puts
+</code></pre>
+
+<p>produces:</p>
+
+<pre><code>cat dog horse *****3456abcde####读写
 
 printf("Number: %5.2f,\nString: %s\n", 1.23, "hello")
+</code></pre>
 
-produces:    Number:  1.23,    String: hello有很多方法可以将输入读入程序中，最常见的gets方法，它返回标准输入流的下一行
-line = gets print line
+<p>produces:    Number:  1.23,    String: hello有很多方法可以将输入读入程序中，最常见的gets方法，它返回标准输入流的下一行</p>
+
+<pre><code>line = gets print line
 </code></pre>
 
 <h4>命令行参数</h4>
