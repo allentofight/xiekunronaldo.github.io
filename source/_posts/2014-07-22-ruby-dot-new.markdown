@@ -1,0 +1,177 @@
+---
+layout: post
+title: "Ruby.new"
+date: 2014-07-22 07:31:58 +0800
+comments: true
+categories: Ruby
+---
+####Ruby中一切皆对象
+创建对象，假设有一个Song的类，按如下方式创建实例
+
+	song1 = Song.new("Ruby Tuesday")	song2 = Song.new("Enveloped in Python")
+如何理解一切皆对象，看以下demo	
+	puts "gin joint".length 
+	puts "Rick".index("c") 
+	puts 42.even?			//42是否是偶数	puts sam.play(song)
+在java中，如果要算一个值的绝对值，可按如下方式
+
+	num = Math.abs(num)
+但在Ruby中，由于一切皆对象，可按如下方式
+
+	um = -1234 			# => -1234 
+	positive = num.abs	# => 1234
+同样的规则适用于所有的Ruby对象，在C中，你可以写strlen(name)，但在ruby中，你可以写name.length,无比轻松
+
+#####Ruby中的方法
+形式如下
+
+	def say_goodnight(name)		result = "Good night, " + name		return result	end
+	    # Time for bed...	puts say_goodnight("John-Boy") 	puts say_goodnight("Mary-Ellen")无需分号表示每个语句的结尾，只要你把每一条语句都放在一单独的行上	puts say_goodnight("Mary-Ellen")
+相当于
+	
+	puts(say_goodnight("Mary-Ellen"))
+#####字符串
+创建字符串有两种方法，一种是单引号括起来的，一种是双引号括起来的,双引号括起来的字符串，ruby需要做更多的工作，首先，ruby会寻找以反斜杠开头的序列，并将它替换为一个二进制的值,如"\n",另外，双引号形式的字符串还需要做的将#{expression}序列替换成expression的值,我们能用它来替换之前我们写的程序
+
+	def say_goodnight(name)		result = "Good night, #{name}" 		return result	end	puts say_goodnight('Pa') 
+	produces:	Good night, Pa
+任意的复杂的表达式都能放在#{...}里，如下
+	
+	def say_goodnight(name)		result = "Good night, #{name.capitalize}" 		return result	end	puts say_goodnight('uncle') 	produces:	Good night, Uncle
+我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句
+
+		def say_goodnight(name)		"Good night, #{name.capitalize}"	end	puts say_goodnight('ma') 	produces:	Good night, Ma
+####Ruby的名字
+ruby的命名遵循以下惯例,第一个名字的首字符表示这个名字的使用场合
+
+* 局部变量，方法参数，方法名都 以一个小写字母或下划线开头
+* 全局变量以一个$符开头，对象实例变量以@开头
+* 类变量以两个@@开头
+* 类名，模块名，常量必须以大写字母开头
+使用的demo如下
+	
+		Local Variable:		name fish_and_chips x_axis thx1138 _x _26
+		Instance Variable:	@name @point_1 @X @_ @plan9
+		Class Variable:		@@total @@symtab @@N @@x_pos @@SINGLE
+		Global Variable:   $debug $CUSTOMER $_ $plan9 $Global
+		Class Name:			String ActiveRecord MyClass		Constant Name:		FEET_PER_MILE DEBUG
+####数组和哈希字典
+数组
+
+		a = [ 1, 'cat', 3.14 ] # array with three elements 
+		puts "The first element is #{a[0]}"		# set the third element		a[2] = nil		puts "The array is now #{a.inspect}"		produces:        The first element is 1        The array is now [1, "cat", nil]
+简便地创建数组的方法
+	
+		a = %w{ ant bee cat dog elk } 
+		a[0] # => "ant"		a[3] # => "dog"
+哈希字典
+	inst_section = {		'cello' => 'string', 		'clarinet' => 'woodwind', 		'drum' => 'percussion', 		'oboe' => 'woodwind', 		'trumpet' => 'brass', 		'violin' => 'string'	}`=>`符号的左为key，右为value
+在控制台上我们用p而不是puts，因为p可以更显式地打印nil值
+	
+	p inst_section['oboe']	p inst_section['cello']	p inst_section['bassoon']
+	
+	produces:    "woodwind"    "string"    nil
+默认情况下hash的key如果对应的value不存在，则value的值为nil，我们可以改变这个默认傎
+
+	histogram = Hash.new(0)
+	histogram['ruby'] # => 0	histogram['ruby'] = histogram['ruby'] + 1 	histogram['ruby'] # => 1
+####符号(Symbols)
+通常在编程的时候，你需要为某些重要的东西指定一个名字，比如，你也许想要用名字来指示指南针的方向，所以，你可以像以下这么写
+
+	NORTH = 1 
+	EAST =2 
+	SOUTH = 3 
+	WEST =4
+定义好之后，你就可以用这些名字而不是数字了
+	
+	walk(NORTH)	look(EAST)
+然而，很多时候，这些名字对应的数值是不相关的(只要它们是唯一的)你所要做的只是区分这四个方向而已
+Ruby提供了一个很简单的替代方案:符号(Symbols).Symbols只是常量名字，不过你无需定义它，并且它们也保证是唯一的，一个符号常量以:开头，紧跟着字符串
+walk(:north)
+look(:east)
+无须为一个symbol赋任何值,Ruby已经为你考虑好了.Ruby保证不管符号出现在你，一个特定和符号总量有相同的值，因此，你可以按如下方式使用symbol
+
+	def walk(direction)		if direction == :north		# ...	end end
+symbols通常被用来当作hash的key，我们可以将我们之前写的hash写为以下形式
+		inst_section = {		:cello => 'string', 		:clarinet => 'woodwind', 		:drum => 'percussion', 		:oboe => 'woodwind', 		:trumpet => 'brass', 		:violin => 'string'	}
+事实上，symbols是如此频繁地被当作hash的键，ruby提供了一个更简洁的语法，你可以用name:value的形式来创建hash，如果key是symbols的话
+
+	inst_section = {		cello: 'string', 		clarinet: 'woodwind', 		drum: 'percussion', 		oboe: 'woodwind', 		trumpet: 'brass', 		violin: 'string'	}
+	puts "An oboe is a #{inst_section[:oboe]} instrument"	produces:	An oboe is a woodwind instrument
+####条件语句
+if语句 
+
+	today = Time.now	if today.saturday?		puts "Do chores around the house"	elsif today.sunday?		 puts "Relax"	else		 puts "Go to work" end	produces:	Go to work
+较短的if语句也可以这么写
+
+	puts "Danger, Will Robinson" if radiation > 3000
+while语句
+
+	while weight < 100 and num_pallets <= 5	         pallet  = next_pallet()	         weight += pallet.weight	         num_pallets += 1	end
+较短的while语句也可以这么写
+
+	square = 4	square = square*square while square < 1000ruby中的许多语句返回一个值，这意味着你可以用它们作为条件判断，比如,内核方法gets从标准输入流中返回下一行或者当到达文件的末尾时会返回nil，由于Ruby有条件语句中将nil视为假的，你可以用以下代码来处理文件对应的行
+
+	while line = gets 
+		puts line.downcase	end####正则表达式
+	
+	/\d\d:\d\d:\d\d/	# a time such as 12:34:56	/Perl.*Python/		# Perl, zero or more other chars, then Python	/Perl Python/		# Perl, a space, and Python	/Perl *Python/     # Perl, zero or more spaces, and Python	/Perl +Python/	   # Perl, one or more spaces, and Python	/Perl\s+Python/   # Perl, whitespace characters, then Python	/Ruby (Perl|Python)/ # Ruby, a space, and either Perl or Python结果if语句使用
+	line = gets	if line =~ /Perl|Python/	puts "Scripting language mentioned: #{line}" end
+正则表达式的替代方法
+
+	line = gets	newline = line.sub(/Perl/, 'Ruby') # replace first 'Perl' with 'Ruby' newerline = 	newline.gsub(/Python/, 'Ruby') # replace every 'Python' with 'Ruby'
+####Blocks和迭代器
+我们首先看看代码块(code blocks),code blocks是一串代码，你能将它与方法调用结合起来,就当它们是参数一样,这是难以置信的强大特性
+你用代码块来实现回调(但比java中的匿名内部类简单),把它们像C中的函数指针那样来传递(比C函数指针更简单)，或者实现迭代器的功能
+代码块的形式如下
+	{ puts "Hello" }
+或
+	
+	do	  club.enroll(person)	  person.socialize	end
+"{}"block主要用在单行中,"do....end"主要用在多行中
+你可以将block放在一个调用方法的尾部
+
+	greet { puts "Hi" }	//greet是方法
+如果方法有参数，则将block放在这些参数的最后
+
+	verbose_greet("Dave", "loyal customer") { puts "Hi" }
+方法可以用Ruby提供的yield来调用block多次
+
+	def call_block		puts "Start of method" yield		yield		puts "End of method"	end
+		call_block { puts "In the block" }
+打印结果
+		Start of method		In the block		In the block		End of method
+调用yield的时候可以带参数,这些参数将被传到block中去，在block中，你将这些被接收的参数用|params...|的形式列出来,如下
+
+	def who_says_what yield("Dave", "hello") 
+		yield("Andy", "goodbye")	end
+	who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
+打印结果
+
+	Dave says hello	Andy says goodbye
+Code blocks广泛用在ruby的库中用来实现迭代器
+
+		animals = %w( ant bee cat dog ) # create an array	animals.each {|animal| puts animal } 	# iterate over the contents
+	produces:
+	ant	bee	cat	dog再来看几个例子
+		[ 'cat', 'dog', 'horse' ].each {|name| print name, " " } 	5.times { print "*" }	3.upto(6) {|i| print i }	('a'..'e').each {|char| print char }	puts	produces:	cat dog horse *****3456abcde####读写
+	
+	printf("Number: %5.2f,\nString: %s\n", 1.23, "hello")
+	
+	produces:    Number:  1.23,    String: hello有很多方法可以将输入读入程序中，最常见的gets方法，它返回标准输入流的下一行
+	line = gets	print line
+####命令行参数
+当你从命令行运行一个Ruby程序时，你能传送一些参数给它，你能用两种不同的参数来访问这些参数
+首先，ARGV就是这些参数组成的数组，假设有一个叫cmd_line.rb的程序如下
+
+	puts "You gave #{ARGV.size} arguments" 
+	p ARGV
+当我们向此程序传入这些参数时，我们参看到输出结果
+
+	$ ruby cmd_line.rb ant bee cat dog 
+	You gave 4 arguments	["ant", "bee", "cat", "dog"]
+通常，传入的参数是你要处理的文件的名字，这种情况下，你应该用第二种技巧,`ARGF`,它是一种特别的I/O对象，代表了通过命令行传入的文件名的所有内容, 我们之后再学习它
+	
+
+	     
+
