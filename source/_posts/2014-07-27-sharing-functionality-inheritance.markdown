@@ -72,7 +72,7 @@ Modules提供了一种将方法，类和常量聚合在同一空间名下的方�
 		y = Trig.sin(Trig::PI/4)
 		wrongdoing = Moral.sin(Moral::VERY_BAD)
 ####Mixins
-Modules还有另外一个很好用的功能，它们可以在很大程序上避免继承的使用,这种方式叫mixin
+Modules还有另外一个很好用的功能，它们可以在很大程序上避免继承的使用,这种方式叫mixin.
 从以上的module的demo中我们可以看到，如果我们定义modules的方法，这些方法前面加了module的名字,如果你想到了类方法，那么你可能会想"我是否能在module里定义instance方法"!好问题，一个module不能有instances，因为modules不是类，不过你可以将一个module添加到一个类的定义中，这样，所有的modules的instance方法就同类中的instance方法一样可用了，它们mixed in了，实际上 mixed-in 模块有效地充当了superclass的角色
 来看下demo
 
