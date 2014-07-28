@@ -1,0 +1,242 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Standard Types - AllenToFight Blog</title>
+	<meta name="author" content="AllenToFight">
+
+	
+	<meta name="description" content="Standard Types 这一章主要介绍Ruby中的几个标准类型:numbers,strings,ranges,regular expressions Numbers Integers可以是任何长度(内存有多大，长度就有多大),在一定范围内(通常是pow(-2,30)&hellip;pow( &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="AllenToFight Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/2014/07/28/standard-types/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
+	
+</div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Standard Types</h1>
+	<div class="entry-content" itemprop="articleBody"><p> 这一章主要介绍Ruby中的几个标准类型:numbers,strings,ranges,regular expressions</p>
+
+<h4>Numbers</h4>
+
+<p>Integers可以是任何长度(内存有多大，长度就有多大),在一定范围内(通常是pow(-2,30)&hellip;pow(2,30)-1或是pow(-2,62)&hellip;pow(2,62)-1)的Integers是类Fixnum的对象,超出此范围的则是类Bignum的对象,这个转化过程由Ruby自动来处理</p>
+
+<pre><code>num = 10001 4.times do
+    puts "#{num.class}: #{num}" num *= num
+end
+    produces:
+       Fixnum: 10001           Fixnum: 100020001           Fixnum: 10004000600040001           Bignum: 100080028005600700056002800080001
+</code></pre>
+
+<p>我们可以在数字前添加0x,0b等前缀,或是下划线</p>
+
+<pre><code>123456 =&gt; 123456    # Fixnum    0d123456 =&gt; 123456      # Fixnum    123_456 =&gt; 123456       # Fixnum - underscore ignored   -543 =&gt; -543            # Fixnum - negative number  0xaabb =&gt; 43707         # Fixnum - hexadecimal  0377 =&gt; 255             # Fixnum - octal    -0b10_1010 =&gt; -42       # Fixnum - binary (negated) 123_456_789_123_456_789 =&gt; 123456789123456789 # Bignum
+</code></pre>
+
+<p>Ruby支持rational和complex number,Rational numbers是两个整数的比</p>
+
+<pre><code>Rational(3, 4) * Rational(2, 3) # =&gt; (1/2) Rational("3/4") * Rational("2/3") # =&gt; (1/2)
+Complex(1, 2) * Complex(3, 4) # =&gt; (-5+10i) Complex("1+2i") * Complex("3+4i") # =&gt; (-5+10i)
+</code></pre>
+
+<p>需要注意的是,不像Perl，在表达式计算时，Strings中的数字并不会自动转为数字
+假设有一个文字如下，我们需要计算每行两个数字的和</p>
+
+<pre><code>3   4 
+
+5   6 
+
+7   8
+</code></pre>
+
+<p>以下的代码并不工作</p>
+
+<pre><code>some_file.each do |line| 
+
+v1, v2 = line.split         # split line on spaces
+
+print v1 + v2, " "
+    end
+produces:
+34 56 78应该先把strings转为integers
+
+some_file.each do |line|
+    v1, v2 = line.split
+print Integer(v1) + Integer(v2), " "
+end produces:   7 11 15
+</code></pre>
+
+<h5>How Number interact</h5>
+
+<pre><code>1 + 2                   # =&gt; 3
+1 + 2.0                 # =&gt; 3.0
+1.0+2                   # =&gt; 3.0
+
+1.0 + Complex(1,2)      # =&gt; (2.0+2i)   1 + Rational(2,3)       # =&gt; (5/3)  1.0 + Rational(2,3)     # =&gt; 1.6666666666666665
+</code></pre>
+
+<p>如果你需要除法能返回 一个Rational number,则需引入mathn库,这个库能帮我们以最<code>自然</code>的方式展示两数运算的结果</p>
+
+<pre><code>22 / 7 # =&gt; 3
+
+Complex::I * Complex::I # =&gt; (-1+0i)    require 'mathn' 22 / 7 # =&gt; (22/7) 
+Complex::I * Complex::I # =&gt; -1
+</code></pre>
+
+<h5>Looping Using Numbers</h5>
+
+<pre><code>3.times { print "X " } 
+
+1.upto(5) {|i| print i, " " } 
+
+99.downto(95) {|i| print i, " " } 
+
+50.step(80, 5) {|i| print i, " " }
+
+produces:
+    X X X 1 2 3 4 5 99 98 97 96 95 50 55 60 65 70 75 80
+</code></pre>
+
+<p>同其他迭代器一样，如果其后没有block，则会返回一个Enumerator对象</p>
+
+<pre><code>10.downto(7).with_index {|num, index| puts "#{index}: #{num}"}  produces:       0: 10       1: 9       2: 8       3: 7
+</code></pre>
+
+<h4>Strings</h4>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+	
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

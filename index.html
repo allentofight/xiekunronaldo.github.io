@@ -9,10 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jul 27th, 2014 Sharing Functionality: Inheritance 继承和消息 class Parent def say_hello puts "Hello from #{self}" end
-end
-p = Parent.new
-p.say_hello &hellip;">
+	<meta name="description" content="Jul 28th, 2014 Ruby Standard Types 这一章主要介绍Ruby中的几个标准类型:numbers,strings,ranges,regular expressions Numbers Integers可以是任何长度(内存有多大，长度就有多大),在一定范围内( &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,6 +89,128 @@ p.say_hello &hellip;">
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T08:10:44+08:00" data-updated="true" itemprop="datePublished">Jul 28<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/28/standard-types/" itemprop="url">Standard Types</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p> 这一章主要介绍Ruby中的几个标准类型:numbers,strings,ranges,regular expressions</p>
+
+<h4>Numbers</h4>
+
+<p>Integers可以是任何长度(内存有多大，长度就有多大),在一定范围内(通常是pow(-2,30)&hellip;pow(2,30)-1或是pow(-2,62)&hellip;pow(2,62)-1)的Integers是类Fixnum的对象,超出此范围的则是类Bignum的对象,这个转化过程由Ruby自动来处理</p>
+
+<pre><code>num = 10001 4.times do
+    puts "#{num.class}: #{num}" num *= num
+end
+    produces:
+       Fixnum: 10001           Fixnum: 100020001           Fixnum: 10004000600040001           Bignum: 100080028005600700056002800080001
+</code></pre>
+
+<p>我们可以在数字前添加0x,0b等前缀,或是下划线</p>
+
+<pre><code>123456 =&gt; 123456    # Fixnum    0d123456 =&gt; 123456      # Fixnum    123_456 =&gt; 123456       # Fixnum - underscore ignored   -543 =&gt; -543            # Fixnum - negative number  0xaabb =&gt; 43707         # Fixnum - hexadecimal  0377 =&gt; 255             # Fixnum - octal    -0b10_1010 =&gt; -42       # Fixnum - binary (negated) 123_456_789_123_456_789 =&gt; 123456789123456789 # Bignum
+</code></pre>
+
+<p>Ruby支持rational和complex number,Rational numbers是两个整数的比</p>
+
+<pre><code>Rational(3, 4) * Rational(2, 3) # =&gt; (1/2) Rational("3/4") * Rational("2/3") # =&gt; (1/2)
+Complex(1, 2) * Complex(3, 4) # =&gt; (-5+10i) Complex("1+2i") * Complex("3+4i") # =&gt; (-5+10i)
+</code></pre>
+
+<p>需要注意的是,不像Perl，在表达式计算时，Strings中的数字并不会自动转为数字
+假设有一个文字如下，我们需要计算每行两个数字的和</p>
+
+<pre><code>3   4 
+
+5   6 
+
+7   8
+</code></pre>
+
+<p>以下的代码并不工作</p>
+
+<pre><code>some_file.each do |line| 
+
+v1, v2 = line.split         # split line on spaces
+
+print v1 + v2, " "
+    end
+produces:
+34 56 78应该先把strings转为integers
+
+some_file.each do |line|
+    v1, v2 = line.split
+print Integer(v1) + Integer(v2), " "
+end produces:   7 11 15
+</code></pre>
+
+<h5>How Number interact</h5>
+
+<pre><code>1 + 2                   # =&gt; 3
+1 + 2.0                 # =&gt; 3.0
+1.0+2                   # =&gt; 3.0
+
+1.0 + Complex(1,2)      # =&gt; (2.0+2i)   1 + Rational(2,3)       # =&gt; (5/3)  1.0 + Rational(2,3)     # =&gt; 1.6666666666666665
+</code></pre>
+
+<p>如果你需要除法能返回 一个Rational number,则需引入mathn库,这个库能帮我们以最<code>自然</code>的方式展示两数运算的结果</p>
+
+<pre><code>22 / 7 # =&gt; 3
+
+Complex::I * Complex::I # =&gt; (-1+0i)    require 'mathn' 22 / 7 # =&gt; (22/7) 
+Complex::I * Complex::I # =&gt; -1
+</code></pre>
+
+<h5>Looping Using Numbers</h5>
+
+<pre><code>3.times { print "X " } 
+
+1.upto(5) {|i| print i, " " } 
+
+99.downto(95) {|i| print i, " " } 
+
+50.step(80, 5) {|i| print i, " " }
+
+produces:
+    X X X 1 2 3 4 5 99 98 97 96 95 50 55 60 65 70 75 80
+</code></pre>
+
+<p>同其他迭代器一样，如果其后没有block，则会返回一个Enumerator对象</p>
+
+<pre><code>10.downto(7).with_index {|num, index| puts "#{index}: #{num}"}  produces:       0: 10       1: 9       2: 8       3: 7
+</code></pre>
+
+<h4>Strings</h4>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -864,12 +983,12 @@ enum_in_threes.to_a # =&gt; [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]
 <p>Generators</p>
 
 <pre><code>triangular_numbers = Enumerator.new do |yielder| number = 0
-count = 1
-loop do
-    number += count
-    count += 1
-    yielder.yield number
-end
+    count = 1
+            loop do
+                number += count
+                count += 1
+                yielder.yield number
+            end
 
 end
 5.times { print triangular_numbers.next, " " } 
@@ -2397,148 +2516,6 @@ bitfield的不仅可以节省空间，也可以读写某些二进制文件</p>
 <li>bitfield应该被声明为unsigned int</li>
 </ul>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-01T19:23:15+08:00" data-updated="true" itemprop="datePublished">Jul 1<span>st</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/01/head-first-cdi-si-zhang-xue-xi-bi-ji/" itemprop="url">Head First C第四章学习笔记</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p><code>#include &lt;limits.h&gt;</code>此头文件包含一些整型如int和char的值,可打印整型的最大最小值,如</p>
-
-<pre><code>printf("The value of INT_MAX is %i\n", INT_MAX); 
-printf("The value of INT_MIN is %i\n", INT_MIN);
-</code></pre>
-
-<p><code>#include &lt;float.h&gt;</code>此头文件包含一些浮点型如float和double的值,可打印浮点的最大最小值,如</p>
-
-<pre><code>printf("The value of FLT_MAX is %f\n", FLT_MAX);
-printf("The value of FLT_MIN is %.50f\n", FLT_MIN);
-</code></pre>
-
-<p>如果你想知道char,short,double或long的具体细节呢,没问题，只要将INT和FLT替换成CHAR,DBL,SHRT,LNG即可
-不过你会发现在不同的机器上，这些值都是不一样的，因为C在不同的OS和处理器上用了不同的数据类型，这么做允许它最大限度地利用了硬件的特性,那么C是如何做的呢
-当C被发明时，许多机器是8位的，现在，许多机器是32位或64位的，由于C并不指定数据类型的确切大小，这样，它有很好的移植性，随着越来越多的机器被发明出来，C将能够有限地利用它们</p>
-
-<p><code>这里我们说的8位和64位是什么意思</code>
-一台计算机的位大小实际上表示多种情况，比如它的CPU指令的大小或者CPU一次能从内存中读取的数据大小，位大小是一台计算机能处理地最优大小
-<code>那么这和ints或doubles的大小有何关系呢</code>
-如果一台计算机能最优地处理32位的数，那么基本的数据类型，如int也会被设置成32位
-<code>floats和doubles是如何存储的</code>
-<a href="http://tinyurl.com/6defkv6">http://tinyurl.com/6defkv6</a>
-一段代码引发的思考
-<img src="/images/2014/7/errorcode.png"></p>
-
-<p>运行以上代码</p>
-
-<p><img src="/images/2014/7/errorcommandline.png"></p>
-
-<p><code>error: conflicting types for 'add_with_tax'</code>此话何解</p>
-
-<p><code>当编译器看到以下的代码时会发生什么</code></p>
-
-<pre><code>printf("Total so far: %.2f\n", add_with_tax(val));
-</code></pre>
-
-<p>编译器将看到一个对不认识的函数的调用，它并不抱怨，编译器会猜想它会在源文件的随后部分发现更多此函数的信息，不幸的是，这就是问题所在,编译器会想，这个函数我从来没见过，但我要先记录它以便在源文件的后半部分对它进行处理
-<code>问题是编译需要知道此函数的返回类型</code>当然，编译器此时并不知道函数的返回类型，所以它就作 了一个假设，编译器假设此函数返回int值
-<code>但当编译器到达此函数的定义时，它将返回一个“conflicting types for ‘add_with_tax’”错误</code>
-这是因为编译器认为它看到了两个同名函数，一个是实际存在文件中的函数，一个则是编译器假设的，返回int型的函数
-<code>那么如何解决此问题呢，你可能会认为，把函数放在调用代码的前面按正确地顺序书写不就ok了吗</code>
-这么做确实可以解决问题，但<code>修改函数的顺序是件很痛苦的事</code>,假设有以下情况，你添加了一个很棒的新函数</p>
-
-<pre><code>int do_whatever(){...}  float do_something_fantastic(int awesome_level) {...} int do_stuff() {  do_something_fantastic(11); }
-</code></pre>
-
-<p>此时你改变注意想在do_whatever调用do_something_fantastic函数呢，那你不得不将do_something_fantastic函数移do_whatever前面,很麻烦，更麻烦的是，有些递归函数将在它被定义前调用自己,如</p>
-
-<pre><code>float ping(){
-    pong();
-}
-float pong(){
-    ping();
-}
-</code></pre>
-
-<p>如果你有两个相互调用的函数，其中一个必然会在它定义之前被调用，这样必然性错误，解决方法是
-<code>将声明和定义分隔开来</code>,将声明放在头文件(.h)将定义放在实现文件(.c)
-<code>要点</code>
-* 从以上可得知实际上你无须为返回值为int函数声明
-将多个源文件编译成一个可执行程序</p>
-
-<pre><code>gcc message_hider.c encrypt.c -o message_hider
-</code></pre>
-
-<p><code>编译</code>   gcc -c *.c</p>
-
-<p><code>链接</code>   gcc *.o -o launch</p>
-
-<p>问题是如果有非常多的源文件，当你修改一个，你需要把所有的这些源文件全都编译一遍，要浪费很多时间!那如何解决呢</p>
-
-<h4>make工具</h4>
-
-<p>make是一种能自动编译你的源文件的一种工具
-<img src="/images/2014/7/theater.png">
-如上所未，你如何断定thruster.o文件需要重新编译呢，看时间戳，如果thruster.o文件早于thruster.c,thruster.o就需要重新创建了，相当简单的规则，不是吗，既然明白了规则，我们就可以用make工具自动进行此过程，make将会比较源文件和目标文件的时间戳，如果某些目标文件的时间戳早于源文件，则它将对这些源文件重新编译，但在此之前，你需要告诉make这个工具一些信息，包括文件的信赖关系等，你需要确切地告诉它你想要如何编译代码</p>
-
-<h4>make需要知道哪些东西</h4>
-
-<p>如果你想将thruster.c编辑成一个叫thruster.o的目标文件,依赖文件和配方分别是什么,thruster.o是目标文件,因为这是你想要生成的文件，thruster.c就是信赖文件，因为它是编译所需的转化为thruster.o的源文件，那么配方是什么呢，是将thruster.c转化为thruster.o的编译器命令</p>
-
-<pre><code>gcc -c thruster.c
-</code></pre>
-
-<p>明白了吗？如果你告诉make工具相应的信赖文件和配方,你就能让make工具知道何时它需要重新编译成thruster.o了
-但你可以更进一步，一旦你编译了thruster.o的目标文件，你就将用它创建launch程序了，也就是说，launch文件也可以被设置成一个目标，因为它是你要产生的文件，launch的依赖文件是所有的.o的目标文件，配方是以下命令</p>
-
-<pre><code>gcc *.o -o launch
-</code></pre>
-
-<p>一旦make知道了所有的依赖文件和规则，你所要做的就是告诉它去创建launch文件了
-<img src="/images/2014/7/make.png"></p>
-
-<p>以下是make文件的内容
-<img src="/images/2014/7/makefile.png"></p>
-
-<p>最后输入以下命令
-<img src="/images/2014/7/makelaunch.png">
-你能看到make能够执行创建launch程序所需的命令，那么我们看看如果你改变了thruster.c文件然后重新执行make命令会发生什么
-<img src="/images/2014/7/remake.png">
-我们可以看到，它只编译thruster.o了，然后重新链接</p>
-
-<pre><code>注:由于make文件调用OS底层的操作系统，有时同一个make文件并不适用在不同的OS上
-</code></pre>
-
-<p>除了编译代码，make也可用作command-line installer,或源码管理工具，实际上，有命令行上你几乎可以把make用在任何你想执行的任务上</p>
-
-<p>如果你觉得make还不够自动化，你可以试试<a href="http://www.gnu.org/software/autoconf/">autoconf</a>用来产生make文件</p>
 
 		
 		

@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-27T22:35:39+08:00</updated>
+  <updated>2014-07-28T08:43:09+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Standard Types]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/07/28/standard-types/"/>
+    <updated>2014-07-28T08:10:44+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/07/28/standard-types</id>
+    <content type="html"><![CDATA[<p> 这一章主要介绍Ruby中的几个标准类型:numbers,strings,ranges,regular expressions</p>
+
+<h4>Numbers</h4>
+
+<p>Integers可以是任何长度(内存有多大，长度就有多大),在一定范围内(通常是pow(-2,30)&hellip;pow(2,30)-1或是pow(-2,62)&hellip;pow(2,62)-1)的Integers是类Fixnum的对象,超出此范围的则是类Bignum的对象,这个转化过程由Ruby自动来处理</p>
+
+<pre><code>num = 10001 4.times do
+    puts "#{num.class}: #{num}" num *= num
+end
+    produces:
+       Fixnum: 10001           Fixnum: 100020001           Fixnum: 10004000600040001           Bignum: 100080028005600700056002800080001
+</code></pre>
+
+<p>我们可以在数字前添加0x,0b等前缀,或是下划线</p>
+
+<pre><code>123456 =&gt; 123456    # Fixnum    0d123456 =&gt; 123456      # Fixnum    123_456 =&gt; 123456       # Fixnum - underscore ignored   -543 =&gt; -543            # Fixnum - negative number  0xaabb =&gt; 43707         # Fixnum - hexadecimal  0377 =&gt; 255             # Fixnum - octal    -0b10_1010 =&gt; -42       # Fixnum - binary (negated) 123_456_789_123_456_789 =&gt; 123456789123456789 # Bignum
+</code></pre>
+
+<p>Ruby支持rational和complex number,Rational numbers是两个整数的比</p>
+
+<pre><code>Rational(3, 4) * Rational(2, 3) # =&gt; (1/2) Rational("3/4") * Rational("2/3") # =&gt; (1/2)
+Complex(1, 2) * Complex(3, 4) # =&gt; (-5+10i) Complex("1+2i") * Complex("3+4i") # =&gt; (-5+10i)
+</code></pre>
+
+<p>需要注意的是,不像Perl，在表达式计算时，Strings中的数字并不会自动转为数字
+假设有一个文字如下，我们需要计算每行两个数字的和</p>
+
+<pre><code>3   4 
+
+5   6 
+
+7   8
+</code></pre>
+
+<p>以下的代码并不工作</p>
+
+<pre><code>some_file.each do |line| 
+
+v1, v2 = line.split         # split line on spaces
+
+print v1 + v2, " "
+    end
+produces:
+34 56 78应该先把strings转为integers
+
+some_file.each do |line|
+    v1, v2 = line.split
+print Integer(v1) + Integer(v2), " "
+end produces:   7 11 15
+</code></pre>
+
+<h5>How Number interact</h5>
+
+<pre><code>1 + 2                   # =&gt; 3
+1 + 2.0                 # =&gt; 3.0
+1.0+2                   # =&gt; 3.0
+
+1.0 + Complex(1,2)      # =&gt; (2.0+2i)   1 + Rational(2,3)       # =&gt; (5/3)  1.0 + Rational(2,3)     # =&gt; 1.6666666666666665
+</code></pre>
+
+<p>如果你需要除法能返回 一个Rational number,则需引入mathn库,这个库能帮我们以最<code>自然</code>的方式展示两数运算的结果</p>
+
+<pre><code>22 / 7 # =&gt; 3
+
+Complex::I * Complex::I # =&gt; (-1+0i)    require 'mathn' 22 / 7 # =&gt; (22/7) 
+Complex::I * Complex::I # =&gt; -1
+</code></pre>
+
+<h5>Looping Using Numbers</h5>
+
+<pre><code>3.times { print "X " } 
+
+1.upto(5) {|i| print i, " " } 
+
+99.downto(95) {|i| print i, " " } 
+
+50.step(80, 5) {|i| print i, " " }
+
+produces:
+    X X X 1 2 3 4 5 99 98 97 96 95 50 55 60 65 70 75 80
+</code></pre>
+
+<p>同其他迭代器一样，如果其后没有block，则会返回一个Enumerator对象</p>
+
+<pre><code>10.downto(7).with_index {|num, index| puts "#{index}: #{num}"}  produces:       0: 10       1: 9       2: 8       3: 7
+</code></pre>
+
+<h4>Strings</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sharing Functionality: Inheritance]]></title>
@@ -744,12 +840,12 @@ enum_in_threes.to_a # =&gt; [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]
 <p>Generators</p>
 
 <pre><code>triangular_numbers = Enumerator.new do |yielder| number = 0
-count = 1
-loop do
-    number += count
-    count += 1
-    yielder.yield number
-end
+    count = 1
+            loop do
+                number += count
+                count += 1
+                yielder.yield number
+            end
 
 end
 5.times { print triangular_numbers.next, " " } 
