@@ -9,7 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jul 28th, 2014 Ruby Standard Types 这一章主要介绍Ruby中的几个标准类型:numbers,strings,ranges,regular expressions Numbers Integers可以是任何长度(内存有多大，长度就有多大),在一定范围内( &hellip;">
+	<meta name="description" content="Jul 29th, 2014 Ruby Regular Expression 正则表达式如下 /cat/ /123/ 正则表达式/.../里的常量和双引号的字符串类似,实际上，你可以在正则里，你也可以用#{...}表达式的替换形式 Matching Strings with Patterns / &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,138 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-29T12:59:58+08:00" data-updated="true" itemprop="datePublished">Jul 29<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/29/regular-expression/" itemprop="url">Regular Expression</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>正则表达式如下</p>
+
+<pre><code>/cat/
+
+/123/
+</code></pre>
+
+<p>正则表达式<code>/.../</code>里的常量和双引号的字符串类似,实际上，你可以在正则里，你也可以用<code>#{...}</code>表达式的替换形式</p>
+
+<h5>Matching Strings with Patterns</h5>
+
+<pre><code>/cat/ =~ "dog and cat" # =&gt; 8 
+
+/cat/ =~ "catch" # =&gt; 0 
+
+/cat/ =~ "Cat" # =&gt; nil
+</code></pre>
+
+<p>如果你喜欢也可以把字符串放在前面</p>
+
+<pre><code>"dog and cat" =~ /cat/ # =&gt; 8 
+
+"catch" =~ /cat/ # =&gt; 0 
+
+"Cat" =~ /cat/ # =&gt; nil
+</code></pre>
+
+<p>模式匹配如果失败，会返回nil、，而nil在条件表达式中相当于false，所以可以把正则表达式的匹配结果作为if和while的条件语句</p>
+
+<pre><code>str = "cat and dog"
+    if str =~ /cat/
+puts "There's a cat here somewhere"
+end
+produces:
+There's a cat here somewhere
+</code></pre>
+
+<p>以下的代码打印&#8221;testfile&#8221;文件中有&#8221;on&#8221;字符串的行</p>
+
+<pre><code>File.foreach("testfile").with_index do |line, index| 
+
+puts "#{index}: #{line}" if line =~ /on/
+    end
+produces:
+0: This is line one
+3: And so on...你可以用!~来查找`不匹配`的字符串
+
+File.foreach("testfile").with_index do |line, index| 
+
+    puts "#{index}: #{line}" if line !~ /on/
+        end
+produces:
+1: This is line two
+2: This is line three
+</code></pre>
+
+<h5>Changing Strings with Patterns</h5>
+
+<p>sub方法用来查找并替换匹配的字符串</p>
+
+<pre><code>str = "Dog and Cat"
+    new_str = str.sub(/Cat/, "Gerbil")
+puts "Let's go to the #{new_str} for a pint."
+produces:
+Let's go to the Dog and Gerbil for a pint.
+</code></pre>
+
+<p>sub只是替换第一个匹配的，要替换全局匹配的，就用gsub</p>
+
+<pre><code>str = "Dog and Cat"
+    new_str1 = str.sub(/a/, "*") 
+new_str2 = str.gsub(/a/, "*") 
+puts "Using sub: #{new_str1}" 
+puts "Using gsub: #{new_str2}"
+produces:
+Using sub: Dog *nd Cat
+Using gsub: Dog *nd C*t 
+</code></pre>
+
+<p>需要注意的是，sub和gsub都返回一个全新的string,不论是否替换！如果替换，也返回原string的一个copy
+如果你想要修改原始的string，你可以用sub!和gsub!的形式</p>
+
+<pre><code>str = "now is the time" 
+
+str.sub!(/i/, "*") 
+
+str.gsub!(/t/, "T") 
+
+puts str
+    produces:
+now *s The Time
+</code></pre>
+
+<p>不过不像sub和gsub，sub!和gsub!只有在匹配正则表达式时才返回string，如果不匹配，则返回nil，这意味着你可以将它放在条件语句中</p>
+
+<h5>Digging Deeper</h5>
+
+<p>未完待续&hellip;.</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -2657,119 +2789,6 @@ double total(int args, ...)
 <li>valgrind是如何截获对malloc()和free()的调用的
 答:malloc()和free() 实际上是标准库函数，不过valgrind包含一个它自己的malloc()和free()版本的标准库函数，当你用valgrind来运行程序时，你的程序将用valgrind的malloc()和free()函数，而非C的标准库函数</li>
 </ol>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-13T09:22:09+08:00" data-updated="true" itemprop="datePublished">Jul 13<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/13/head-first-cdi-wu-zhang-xue-xi-bi-ji/" itemprop="url">Head First C第五章学习笔记</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h4>Union的初始化</h4>
-
-<ol>
-<li><p>用.来初始化</p>
-
-<pre><code> typedef union { 
-     short count;
-     float weight;
-     float volume;       } quantity;
- //By name       quantity q = {.weight=1.5};
- //By dot notation
- quantity q;
- q.volume = 3.7;
-</code></pre></li>
-<li><p>struct也可以按名字(Designated initializer)来进行初始化
-         typedef struct {            const char *color;          int gears;          int height;     } bike;     bike b = {.height=17, .gears=21};</p></li>
-</ol>
-
-
-<p>union可以用在struct中</p>
-
-<pre><code>typedef struct {        const char *name;       const char *country;        quantity amount;    } fruit_order;
-</code></pre>
-
-<p>你可以通过.或->来访问成员值</p>
-
-<pre><code>fruit_order apples = {"apples", "England", .amount.weight=4.2};
-</code></pre>
-
-<p>假设有一下定义</p>
-
-<pre><code>typedef union { 
-    float lemon;
-    int lime_pieces;    } lemon_lime;
-typedef struct {        float tequila;      float cointreau;        lemon_lime citrus;  } margarita;
-</code></pre>
-
-<p>则以下定义是错误的</p>
-
-<pre><code>margarita m;    m = {2.0, 1.0, {0.5}};  //编译器会认为是数组
-</code></pre>
-
-<p>以下定义才是对的</p>
-
-<pre><code>margarita m = {2.0, 1.0, {0.5}};
-</code></pre>
-
-<p>在一个union里，可能会有很多可能的值，但一旦被赋值，你没法知道它存储的值的类型
-我们可能为某些字段设定了值却访问了另一个字段，这可能出现大问题,假设有以下程序</p>
-
-<pre><code>#include &lt;stdio.h&gt; 
-typedef union { 
-  float weight;   int count;    } cupcake;
-    int main() {        cupcake order = {2};        printf("Cupcakes quantity: %i\n", order.count);     return 0;   }
-</code></pre>
-
-<p>运行程序将会出现以下结果</p>
-
-<pre><code>gcc badunion.c -o badunion &amp;&amp; ./badunion 
-Cupcakes quantity: 1073741824可以用enum来避免此类问题
-</code></pre>
-
-<h4>Bitfiled</h4>
-
-<p>bitfield能让你指定struct里的field能有几位，你可以按如下方式定义struct</p>
-
-<pre><code>typedef struct {
-    unsigned int low_pass_vcf:1;
-    unsigned int filter_coupler:1;  } synth;
-</code></pre>
-
-<p>用bitfield，你能让每个field都只占一位
-如果你有一连串的bitfields,计算机能将它们排列压缩以节省空间，所以如果你有8个1位的bitfields，电脑将会把它们存储到一个字节里
-bitfield的不仅可以节省空间，也可以读写某些二进制文件</p>
-
-<ul>
-<li>bitfield应该被声明为unsigned int</li>
-</ul>
 
 
 		

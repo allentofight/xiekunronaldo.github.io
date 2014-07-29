@@ -1,0 +1,252 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Regular Expression - AllenToFight Blog</title>
+	<meta name="author" content="AllenToFight">
+
+	
+	<meta name="description" content="Regular Expression 正则表达式如下 /cat/ /123/ 正则表达式/.../里的常量和双引号的字符串类似,实际上，你可以在正则里，你也可以用#{...}表达式的替换形式 Matching Strings with Patterns /cat/ =~ "dog and cat &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="AllenToFight Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/2014/07/29/regular-expression/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
+	
+</div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Regular Expression</h1>
+	<div class="entry-content" itemprop="articleBody"><p>正则表达式如下</p>
+
+<pre><code>/cat/
+
+/123/
+</code></pre>
+
+<p>正则表达式<code>/.../</code>里的常量和双引号的字符串类似,实际上，你可以在正则里，你也可以用<code>#{...}</code>表达式的替换形式</p>
+
+<h5>Matching Strings with Patterns</h5>
+
+<pre><code>/cat/ =~ "dog and cat" # =&gt; 8 
+
+/cat/ =~ "catch" # =&gt; 0 
+
+/cat/ =~ "Cat" # =&gt; nil
+</code></pre>
+
+<p>如果你喜欢也可以把字符串放在前面</p>
+
+<pre><code>"dog and cat" =~ /cat/ # =&gt; 8 
+
+"catch" =~ /cat/ # =&gt; 0 
+
+"Cat" =~ /cat/ # =&gt; nil
+</code></pre>
+
+<p>模式匹配如果失败，会返回nil、，而nil在条件表达式中相当于false，所以可以把正则表达式的匹配结果作为if和while的条件语句</p>
+
+<pre><code>str = "cat and dog"
+    if str =~ /cat/
+puts "There's a cat here somewhere"
+end
+produces:
+There's a cat here somewhere
+</code></pre>
+
+<p>以下的代码打印&#8221;testfile&#8221;文件中有&#8221;on&#8221;字符串的行</p>
+
+<pre><code>File.foreach("testfile").with_index do |line, index| 
+
+puts "#{index}: #{line}" if line =~ /on/
+    end
+produces:
+0: This is line one
+3: And so on...你可以用!~来查找`不匹配`的字符串
+
+File.foreach("testfile").with_index do |line, index| 
+
+    puts "#{index}: #{line}" if line !~ /on/
+        end
+produces:
+1: This is line two
+2: This is line three
+</code></pre>
+
+<h5>Changing Strings with Patterns</h5>
+
+<p>sub方法用来查找并替换匹配的字符串</p>
+
+<pre><code>str = "Dog and Cat"
+    new_str = str.sub(/Cat/, "Gerbil")
+puts "Let's go to the #{new_str} for a pint."
+produces:
+Let's go to the Dog and Gerbil for a pint.
+</code></pre>
+
+<p>sub只是替换第一个匹配的，要替换全局匹配的，就用gsub</p>
+
+<pre><code>str = "Dog and Cat"
+    new_str1 = str.sub(/a/, "*") 
+new_str2 = str.gsub(/a/, "*") 
+puts "Using sub: #{new_str1}" 
+puts "Using gsub: #{new_str2}"
+produces:
+Using sub: Dog *nd Cat
+Using gsub: Dog *nd C*t 
+</code></pre>
+
+<p>需要注意的是，sub和gsub都返回一个全新的string,不论是否替换！如果替换，也返回原string的一个copy
+如果你想要修改原始的string，你可以用sub!和gsub!的形式</p>
+
+<pre><code>str = "now is the time" 
+
+str.sub!(/i/, "*") 
+
+str.gsub!(/t/, "T") 
+
+puts str
+    produces:
+now *s The Time
+</code></pre>
+
+<p>不过不像sub和gsub，sub!和gsub!只有在匹配正则表达式时才返回string，如果不匹配，则返回nil，这意味着你可以将它放在条件语句中</p>
+
+<h5>Digging Deeper</h5>
+
+<p>未完待续&hellip;.</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+	
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>
