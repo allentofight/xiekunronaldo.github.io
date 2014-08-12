@@ -247,7 +247,11 @@ while语句
 	verbose_greet("Dave", "loyal customer") { puts "Hi" }
 方法可以用Ruby提供的yield来调用block多次
 
-	def call_block		puts "Start of method" yield		yield		puts "End of method"	end
+	def call_block
+		puts "Start of method" yield
+		yield
+		puts "End of method"
+	end
 		call_block { puts "In the block" }
 打印结果
 		Start of method
@@ -258,7 +262,8 @@ while语句
 调用yield的时候可以带参数,这些参数将被传到block中去，在block中，你将这些被接收的参数用|params...|的形式列出来,如下
 
 	def who_says_what yield("Dave", "hello") 
-		yield("Andy", "goodbye")	end
+		yield("Andy", "goodbye")
+	end
 	who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
 打印结果
 
@@ -268,7 +273,12 @@ Code blocks广泛用在ruby的库中用来实现迭代器
 		animals = %w( ant bee cat dog ) # create an array
 	animals.each {|animal| puts animal } 	# iterate over the contents
 produces:
-	ant	bee	cat	dog再来看几个例子
+	ant
+	bee
+	cat
+	dog
+
+再来看几个例子
 		[ 'cat', 'dog', 'horse' ].each {|name| print name, " " } 
 	5.times { print "*" }
 	3.upto(6) {|i| print i }
@@ -290,7 +300,8 @@ produces:    Number:  1.23,    String: hello有很多方法可以将输入�
 当我们向此程序传入这些参数时，我们参看到输出结果
 
 	$ ruby cmd_line.rb ant bee cat dog 
-	You gave 4 arguments	["ant", "bee", "cat", "dog"]
+	You gave 4 arguments
+	["ant", "bee", "cat", "dog"]
 通常，传入的参数是你要处理的文件的名字，这种情况下，你应该用第二种技巧,`ARGF`,它是一种特别的I/O对象，代表了通过命令行传入的文件名的所有内容, 我们之后再学习它
 	
 
