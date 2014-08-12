@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-07-30T15:39:29+08:00</updated>
+  <updated>2014-08-12T17:34:50+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Whats new in xcode6]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/08/03/whats-new-in-xcode6/"/>
+    <updated>2014-08-03T15:35:28+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/08/03/whats-new-in-xcode6</id>
+    <content type="html"><![CDATA[<p>Storyboard中能实时看到Custom Fonts</p>
+
+<p><img src="http://xiekunRonaldo.github.io/images/2014/8/customfont.png"></p>
+
+<p>swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import modules,
+创建.swift文件时，默认创建了.h头文件，所以如果在.m文件中引用swift文件中的类，可以用import .swift对应的头文件来引用
+在ios8中，可以@import第三方的framework了!</p>
+
+<h5>在IB中动态改变显示效果，如动态改变圆角</h5>
+
+<p>注意以下几个方法的使用
+<code>class</code>前写@IBDesignable,属性前写@IBInspectable,还有override以下方法</p>
+
+<p>@override func prepareForInterfaceBuilder(){}</p>
+
+<p><code>Size Classes</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fibers Threads Processes]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/07/30/fibers-threads-processes/"/>
+    <updated>2014-07-30T15:42:25+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/07/30/fibers-threads-processes</id>
+    <content type="html"><![CDATA[<p>Ruby gives you two basic ways to organize your program so that you can run different parts of it apparently “at the same time.” Fibers let you suspend execution of one part of your program and run some other part. For more decoupled execution, you can split up cooper- ating tasks within the program, using multiple threads, or you can split up tasks between different programs, using multiple processes. Let’s look at each in turn.####Fibers
+Ruby 1.9引入了fibers的概念,尽管名字意味着某种轻量级的线程，实际上，fibers仅仅是一种非常简单的coroutine机制，它能让你写一些看起来用了线程的程序，实际上没有引发任何线程中内在的复杂机制
+计算一个文件中单词的出现次数，不用fibers版本</p>
+
+<pre><code>counts = Hash.new(0) 
+File.foreach("testfile") do |line|
+    line.scan(/\w+/) do |word| 
+    word = word.downcase 
+    counts[word] += 1
+    end 
+end
+counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
+produces:
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1这段代码非常的ugly,它混合了查找word和计算word两种逻辑,来看看用Fiber的方法
+words = Fiber.new do 
+    File.foreach("testfile") do |line|          line.scan(/\w+/) do |word| 
+        Fiber.yield word.downcase
+        end 
+    end     nil ￼end
+counts = Hash.new(0)
+while word = words.resume 
+    counts[word] += 1
+end
+counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
+produces:
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
+</code></pre>
+
+<p>再来看一个demo</p>
+
+<pre><code>twos = Fiber.new do 
+    num = 2     loop do         Fiber.yield(num) unless num % 3 == 0 
+        num += 2
+        end 
+    end 10.times { print twos.resume, " " } 
+produces:
+2 4 8 10 14 16 20 22 26 28
+</code></pre>
+
+<p>以上也可以用之前提到的lazy Enumberators中实现由于fibers也是对象，你可以将它们存储在变量中，并且fibers只能在创建它们的线程中resume
+fibers can yield control only back to the code that resumed them,不过Ruby提供了两种标准库来拓展这种行为fiber库和continuation库</p>
+
+<h4>多线程</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Basic Input and Output]]></title>
@@ -2700,7 +2775,12 @@ end
 
 <p>以此创建的类无任何信息，我们可以为此类提供一个initialize的方法，此方法能让我们在每个对象都创建好后就设置对象的状态，我们将此状态存储在实例变量中(以@开头),现在我们更新如下</p>
 
-<pre><code>class BookInStock       def initialize(isbn, price)         @isbn = isbn            @price = Float(price)       end     end
+<pre><code>class BookInStock
+    def initialize(isbn, price)
+        @isbn = isbn
+        @price = Float(price)
+    end 
+end
 </code></pre>
 
 <p>initialize是一个特别的方法，当你调用BookInStore.new去创建一个对象的时候,Ruby分配了一些内存给此未初始化的对象，然后调用了initialize的方法，传递了任何传递给new方法的参数，这样就给了你一次设置对象状态的机会</p>
@@ -2714,22 +2794,48 @@ produces:
 
 <p>p方法能打印出一个对象的内部表示形式(如@isbn, @price)而puts方法只是简单地将字符串输出到标准输出上，当你将一个对象传给puts时，由于puts不知道如何处理，所以它作了一个简单地处理:对象类的名字+:+对象的内存地址,我们可以改变puts的这种输出形式，只要重写to_s即可</p>
 
-<pre><code>class BookInStock       def initialize(isbn, price)             @isbn = isbn                @price = Float(price)       end
-        def to_s        "ISBN: #{@isbn}, price: #{@price}"      end end
-        b1 = BookInStock.new("isbn1", 3)    puts b1
-结果  ISBN: isbn1, price: 3.0
+<pre><code>class BookInStock
+    def initialize(isbn, price)
+            @isbn = isbn
+            @price = Float(price)
+    end
+        def to_s
+    "ISBN: #{@isbn}, price: #{@price}" 
+    end
+end
+        b1 = BookInStock.new("isbn1", 3)
+puts b1
 </code></pre>
+
+<p>结果  ISBN: isbn1, price: 3.0</p>
 
 <h5>对象和属性</h5>
 
 <p>以上的@isbn, @price不能访问，无任何意义，可以为它添加get方法</p>
 
-<pre><code>class BookInStock       def initialize(isbn, price)         @isbn = isbn            @price = Float(price)       end     def isbn            @isbn       end
-    def price           @price      end # ..    end
+<pre><code>class BookInStock
+    def initialize(isbn, price)
+        @isbn = isbn
+        @price = Float(price)
+    end
+    def isbn
+        @isbn
+    end
+
+    def price 
+        @price
+    end
+# ..
+end
 book = BookInStock.new("isbn1", 12.34) 
-puts "ISBN = #{book.isbn}"  puts "Price = #{book.price}"
-结果
-    ISBN   = isbn1
+
+puts "ISBN = #{book.isbn}"
+puts "Price = #{book.price}"
+</code></pre>
+
+<p>结果</p>
+
+<pre><code>    ISBN   = isbn1
 Price  = 12.34
 </code></pre>
 
@@ -2740,19 +2846,40 @@ Price  = 12.34
 
 puts "ISBN = #{book.isbn}"
     puts "Price = #{book.price}"
-结果: ISBN   = isbn1  Price  = 12.34对应,attr_reader后面跟的是symbols
 </code></pre>
 
-<p>这里通常有一个误解，特别是那些学过Java和C#的人,他们认为attr_reader在某种程序上声明了实例变量，实际上是没有的，它只是生成了访问方法，但无声明任何变量，这些变量只有在你使用它们的时候才出现，Ruby是完全让实例变量与访问方法解藕的</p>
+<p>结果: ISBN   = isbn1  Price  = 12.34对应,attr_reader后面跟的是symbols
+这里通常有一个误解，特别是那些学过Java和C#的人,他们认为attr_reader在某种程序上声明了实例变量，实际上是没有的，它只是生成了访问方法，但无声明任何变量，这些变量只有在你使用它们的时候才出现，Ruby是完全让实例变量与访问方法解藕的</p>
 
 <h4>可写属性</h4>
 
 <p>以上我们只是设置了只读方法,现在我看看如何设置可写方法</p>
 
-<pre><code>class BookInStock       attr_reader :isbn, :price       def initialize(isbn, price) 
-        @isbn = isbn            @price = Float(price)       end     def price=(new_price)           @price = new_price      end # ...   end
+<pre><code>class BookInStock
+    attr_reader :isbn, :price
+    def initialize(isbn, price) 
 
-book = BookInStock.new("isbn1", 33.80)  puts "ISBN = #{book.isbn}"  puts "Price = #{book.price}" book.price = book.price * 0.75 puts "New price = #{book.price}"    结果: ISBN      = isbn1   Price     = 33.8    New price = 25.349999999999998
+        @isbn = isbn
+        @price = Float(price)
+    end
+    def price=(new_price) 
+        @price = new_price
+    end
+# ...
+end
+
+book = BookInStock.new("isbn1", 33.80) 
+puts "ISBN = #{book.isbn}"
+puts "Price = #{book.price}" 
+book.price = book.price * 0.75
+puts "New price = #{book.price}"
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code>ISBN      = isbn1
+Price     = 33.8
+New price = 25.349999999999998
 </code></pre>
 
 <p>同样的,Ruby也提供了一个创建属性设置方法的捷径，如果你想有一个只写不可读的方法，可以使用attr_writer,不过这种情况极其罕见，如果你想为某个属性设置可读可写的方法，你可以用attr_accessor</p>
@@ -2787,8 +2914,10 @@ book = BookInStock.new("isbn1", 33.80)
 puts "Price = #{book.price}"
 puts "Price in cents = #{book.price_in_cents}" 
 
-book.price_in_cents = 1234  puts "Price = #{book.price}"    puts "Price in cents = #{book.price_in_cents}"  produces:   Price          = 33.8   Price in cents = 3380   Price          = 12.34  Price in cents = 1234####类与其他类的协同工作
+book.price_in_cents = 1234  puts "Price = #{book.price}"    puts "Price in cents = #{book.price_in_cents}"  produces:   Price          = 33.8   Price in cents = 3380   Price          = 12.34  Price in cents = 1234
 </code></pre>
+
+<h4>类与其他类的协同工作</h4>
 
 <p>已知BookInStock定义如上,现在不少csv文件，我们需要将csv文件的每一行转为一个BookInStock,并将每一个BookInStock保存到一个数组中，然后计算所有书的总价,所计算的几个csv文件我们通过命令行传入,现在我们将这个程序分成三个rb文件来操作(假设这三个文件在同一目录下)</p>
 
@@ -2796,7 +2925,13 @@ book.price_in_cents = 1234  puts "Price = #{book.price}"    puts "Price in cents
 <li><p>book_in_stock.rb</p>
 
 <pre><code> class BookInStock 
-     attr_reader :isbn, :price           def initialize(isbn, price)                 @isbn = isbn                @price = Float(price)           end end
+
+     attr_reader :isbn, :price
+     def initialize(isbn, price) 
+         @isbn = isbn
+         @price = Float(price)
+     end 
+ end
 </code></pre></li>
 </ol>
 
@@ -2804,10 +2939,20 @@ book.price_in_cents = 1234  puts "Price = #{book.price}"    puts "Price in cents
 <p>2.csv_reader.rb
 此文件有两个外部信赖，它需要标准的CSV的库，也需要存储在book_in_stock.rb中的BookInStock的类,我们用require来加载Ruby的CSV库，用require_relative来加载book_in_stock文件</p>
 
-<pre><code>require 'csv'   require_relative 'book_in_stock'
+<pre><code>require 'csv'
+require_relative 'book_in_stock'
+
 class CsvReader 
-    def initialize          @books_in_stock = []        end     def read_in_csv_data(csv_file_name)             CSV.foreach(csv_file_name, headers: true) do |row|          @books_in_stock &lt;&lt; BookInStock.new(row["ISBN"], row["Price"]) 
-        end end end
+
+    def initialize
+        @books_in_stock = []
+    end
+    def read_in_csv_data(csv_file_name) 
+        CSV.foreach(csv_file_name, headers: true) do |row|
+            @books_in_stock &lt;&lt; BookInStock.new(row["ISBN"], row["Price"]) 
+        end
+    end 
+end
 </code></pre>
 
 <p>3.stock_stats.rb
@@ -2815,12 +2960,15 @@ class CsvReader
 
 <pre><code>require_relative 'csv_reader'   reader = CsvReader.new
 ARGV.each do |csv_file_name|        STDERR.puts "Processing #{csv_file_name}" 
-    reader.read_in_csv_data(csv_file_name)  end ￼￼￼puts "Total value = #{reader.total_value_in_stock}"
+    reader.read_in_csv_data(csv_file_name)  end
+￼￼￼puts "Total value = #{reader.total_value_in_stock}"
 </code></pre>
 
 <p>运行程序如下</p>
 
-<pre><code>$ ruby stock_stats.rb data.csv  Processing data.csv Total value = 122.07000000000001
+<pre><code>$ ruby stock_stats.rb data.csv
+Processing data.csv
+Total value = 122.07000000000001
 </code></pre>
 
 <h5>访问控制</h5>
@@ -2838,44 +2986,66 @@ ARGV.each do |csv_file_name|        STDERR.puts "Processing #{csv_file_name}"
 <p>有以下两种方法</p>
 
 <pre><code>  class MyClass
+
       def method1     # 默认是 'public'
+
           #...
+
       end
+
   protected
+
       def method2
+
           #....
+
       end
+
   private 
+
       def method3
+
           #...
+
       end
+
   end
-</code></pre>
+</code></pre></li>
+</ul>
+
 
 <p>或</p>
 
-<pre><code>      class MyClass 
-          def method1 
+<pre><code>        class MyClass 
 
-          end             def method2                 end     # ... and so on           public    :method1, :method4            protected :method2              private   :method3        end
+            def method1 
+
+            end             def method2                 end
+    # ... and so on           public    :method1, :method4            protected :method2              private   :method3        end
 </code></pre>
 
 <h4>变量</h4>
 
-<pre><code>  person = "Tim"      puts "The object in 'person' is a #{person.class}" 
-  puts "The object has an id of #{person.object_id}" 
-  puts "and a value of '#{person}'"       produces:          The object in 'person' is a String          The object has an id of 70230663692980          and a value of 'Tim'
+<pre><code>    person = "Tim"
+    puts "The object in 'person' is a #{person.class}" 
+    puts "The object has an id of #{person.object_id}" 
+    puts "and a value of '#{person}'"
+    produces:
+       The object in 'person' is a String
+       The object has an id of 70230663692980
+       and a value of 'Tim'
 </code></pre>
 
 <p>那么，变量是否是一个对象呢，答案是否定的，一个变量只是一个对象的引用,来看以下例子，一目了然</p>
 
-<pre><code>  person1 = "Tim"
-  person2 = person1 
-  person1[0] = 'J'        puts "person1 is #{person1}" 
-  puts "person2 is #{person2}"        produces:                      person1 is Jim              person2 is Jim
-</code></pre></li>
-</ul>
+<pre><code>    person1 = "Tim"
 
+    person2 = person1 
+
+    person1[0] = 'J'
+    puts "person1 is #{person1}" 
+    puts "person2 is #{person2}"        produces:                      person1 is Jim              person2 is Jim
+</code></pre>
 
 <p>你可以用String的
 dup方法来创建一个全新的对象</p>
@@ -4396,102 +4566,6 @@ cards[0] = 'H'
 <li>strcat() : 连接两个字符串</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Runloop]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/06/27/runloop/"/>
-    <updated>2014-06-27T21:38:47+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/06/27/runloop</id>
-    <content type="html"><![CDATA[<p>参考</p>
-
-<ul>
-<li><p><a href="http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4">http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4</a></p></li>
-<li><p><a href="http://blog.csdn.net/devday/article/details/6928432?reload">http://blog.csdn.net/devday/article/details/6928432?reload</a></p></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[C指针所引发的一个问题]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-%5B%3F%5D-ge-wen-ti/"/>
-    <updated>2014-06-25T21:39:33+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-[?]-ge-wen-ti</id>
-    <content type="html"><![CDATA[<pre><code>void fortune_cookie(char msg[]) {
-     printf("Message reads: %s\n", msg);
-     printf("msg occupies %i bytes\n", sizeof(msg)); 
-} 
-
-int main () {
-    char msg[] = "Turtles!";
-    fortune_cookie(msg);
-    return 0;
-}
-</code></pre>
-
-<p>运行以上代码会输出什么,有人说是</p>
-
-<pre><code>Message reads Turtles!
-msg occupies 9 bytes("Turtles!"的8个字节再加代表字符串结尾的\0这个字节，所以是9个字节)
-</code></pre>
-
-<p>如果你这么想，那就错了,实际的结果是</p>
-
-<pre><code>Message reads Turtles!
-msg occupies 4 (or 8) bytes
-</code></pre>
-
-<p>解释如下</p>
-
-<h2>数组变量就像指针一样</h2>
-
-<p>是的，只是像，而不等于指针</p>
-
-<p>当你创建了一个数组,数组变量其实可以被当作指向数组首元素地址的指针,当写了如下代码时</p>
-
-<pre><code>char quote[] = "Cookies make you fat";
-</code></pre>
-
-<p>实际上quote代表的是string中的首字符的地址，即字符&#8217;C&#8217;对应的地址</p>
-
-<pre><code>printf("The quote string is stored at: %p\n", quote);
-</code></pre>
-
-<p>以上将打印一个16进制的地址,尽管quote是一个数组，但是你可以把&#8221;quote&#8221;当成一个指针变量，因为它本身就是代表首字符串中的首字符的地址.</p>
-
-<p>所以当调用</p>
-
-<pre><code>fortune_cookie(msg);
-</code></pre>
-
-<p>时，其实我们给fortune_cookie函数传的是一个指针,它返回的是指向一个字符串的指针的大小，在32位上操作系统，一个指针占了4个字节的空间，而在64位上，一个指针则占据了8个字节,故有以上结果</p>
-
-<h2>数组变量不是指针</h2>
-
-<p>尽管在调用函数时，数组参数是可以被当作指针传递，但实际上仍有一些不同，考虑以下情况</p>
-
-<pre><code>char s[] = "How big is it?"; 
-char *t = s;
-</code></pre>
-
-<ol>
-<li>sizeof(数组) 是一个数组的大小.
- sizeof(s) = 15   sizeof(t) = 4 或 8</li>
-<li>数组的地址
- &amp;s = s     &amp;t != t
-如果你写&amp;s,表示数组s的地址是什么,数组s的地址就是s,&amp;t表示t变量的地址，显然不等于t(表示s的地址)</li>
-<li><p>一个数组变量不能指向任何地方
- 如果你创建了一个指针，机器将会为之分配4或8个字节来存储它,但如果你创建了一个数组，机器将为此<code>数组</code>分配空间，而不分为此<code>数组变量</code>分配<strong>任何</strong>的空间,数组变量仅代表数组的首地址</p>
-
-<p> 由于数组变量没有任何的存储空间，所以它不能指向任何地方,当程序编译时，所以的数组变量都被数组的地址替换了，所以数组变量并不存在最后的可执行文件中，这也就是为什么数组变量不能指向任何其他地方的原因</p></li>
-</ol>
-
-
-<h2>指针退化(Pointer decay)</h2>
-
-<p>由于数组变量和指针变量有些区别，当你把数组赋给指针时需要特别小心，如果你将一个数组赋给一个指针变量，此时的指针变量将只包含数组的地址,没法知道数组的大小，所以一些信息丢失了，这种丢失信息的情况就叫做指针退化</p>
 ]]></content>
   </entry>
   

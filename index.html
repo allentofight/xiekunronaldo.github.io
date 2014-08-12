@@ -9,8 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jul 30th, 2014 Ruby Basic Input and Output 两个I/O routines
-第一个是基本的交互界面 print "Enter your name: " name = gets 一系列I/O相关的方法在Kernel module里实现gets, open, &hellip;">
+	<meta name="description" content="Aug 3rd, 2014 wwdc2014 Whats New in Xcode6 Storyboard中能实时看到Custom Fonts swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +89,133 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-03T15:35:28+08:00" data-updated="true" itemprop="datePublished">Aug 3<span>rd</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/wwdc2014/'>wwdc2014</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/08/03/whats-new-in-xcode6/" itemprop="url">Whats New in Xcode6</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Storyboard中能实时看到Custom Fonts</p>
+
+<p><img src="/images/2014/8/customfont.png"></p>
+
+<p>swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import modules,
+创建.swift文件时，默认创建了.h头文件，所以如果在.m文件中引用swift文件中的类，可以用import .swift对应的头文件来引用
+在ios8中，可以@import第三方的framework了!</p>
+
+<h5>在IB中动态改变显示效果，如动态改变圆角</h5>
+
+<p>注意以下几个方法的使用
+<code>class</code>前写@IBDesignable,属性前写@IBInspectable,还有override以下方法</p>
+
+<p>@override func prepareForInterfaceBuilder(){}</p>
+
+<p><code>Size Classes</code></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-30T15:42:25+08:00" data-updated="true" itemprop="datePublished">Jul 30<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/30/fibers-threads-processes/" itemprop="url">Fibers Threads Processes</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Ruby gives you two basic ways to organize your program so that you can run different parts of it apparently “at the same time.” Fibers let you suspend execution of one part of your program and run some other part. For more decoupled execution, you can split up cooper- ating tasks within the program, using multiple threads, or you can split up tasks between different programs, using multiple processes. Let’s look at each in turn.####Fibers
+Ruby 1.9引入了fibers的概念,尽管名字意味着某种轻量级的线程，实际上，fibers仅仅是一种非常简单的coroutine机制，它能让你写一些看起来用了线程的程序，实际上没有引发任何线程中内在的复杂机制
+计算一个文件中单词的出现次数，不用fibers版本</p>
+
+<pre><code>counts = Hash.new(0) 
+File.foreach("testfile") do |line|
+    line.scan(/\w+/) do |word| 
+    word = word.downcase 
+    counts[word] += 1
+    end 
+end
+counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
+produces:
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1这段代码非常的ugly,它混合了查找word和计算word两种逻辑,来看看用Fiber的方法
+words = Fiber.new do 
+    File.foreach("testfile") do |line|          line.scan(/\w+/) do |word| 
+        Fiber.yield word.downcase
+        end 
+    end     nil ￼end
+counts = Hash.new(0)
+while word = words.resume 
+    counts[word] += 1
+end
+counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
+produces:
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
+</code></pre>
+
+<p>再来看一个demo</p>
+
+<pre><code>twos = Fiber.new do 
+    num = 2     loop do         Fiber.yield(num) unless num % 3 == 0 
+        num += 2
+        end 
+    end 10.times { print twos.resume, " " } 
+produces:
+2 4 8 10 14 16 20 22 26 28
+</code></pre>
+
+<p>以上也可以用之前提到的lazy Enumberators中实现由于fibers也是对象，你可以将它们存储在变量中，并且fibers只能在创建它们的线程中resume
+fibers can yield control only back to the code that resumed them,不过Ruby提供了两种标准库来拓展这种行为fiber库和continuation库</p>
+
+<h4>多线程</h4>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -2941,653 +3067,6 @@ a=1
 b = [2, 3, 4] in block2
 ￼
 </code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-23T21:41:14+08:00" data-updated="true" itemprop="datePublished">Jul 23<span>rd</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/23/lei-dui-xiang-bian-liang/" itemprop="url">类-对象-变量</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>假设有以下文件</p>
-
-<pre><code>        //data.csv
-
-        "Date","ISBN","Price"
-        "2013-04-12","978-1-9343561-0-4",39.45
-        "2013-04-13","978-1-9343561-6-6",45.67
-        "2013-04-14","978-1-9343560-7-4",36.95
-</code></pre>
-
-<p>现在我们的任务就是从这个CSV文件中计算出有相同title的书各有多少本，以及书的总价
-我们设计了一个BookInStock的类</p>
-
-<pre><code>class BookInStock
-
-end
-</code></pre>
-
-<p>用new来创建对象</p>
-
-<pre><code>a_book = BookInStock.new
-</code></pre>
-
-<p>以此创建的类无任何信息，我们可以为此类提供一个initialize的方法，此方法能让我们在每个对象都创建好后就设置对象的状态，我们将此状态存储在实例变量中(以@开头),现在我们更新如下</p>
-
-<pre><code>class BookInStock       def initialize(isbn, price)         @isbn = isbn            @price = Float(price)       end     end
-</code></pre>
-
-<p>initialize是一个特别的方法，当你调用BookInStore.new去创建一个对象的时候,Ruby分配了一些内存给此未初始化的对象，然后调用了initialize的方法，传递了任何传递给new方法的参数，这样就给了你一次设置对象状态的机会</p>
-
-<pre><code>    b1 = BookInStock.new("isbn1", 3) 
-p b1
-
-produces:
-    #&lt;BookInStock:0x007fac4910f3e0 @isbn="isbn1", @price=3.0&gt;
-</code></pre>
-
-<p>p方法能打印出一个对象的内部表示形式(如@isbn, @price)而puts方法只是简单地将字符串输出到标准输出上，当你将一个对象传给puts时，由于puts不知道如何处理，所以它作了一个简单地处理:对象类的名字+:+对象的内存地址,我们可以改变puts的这种输出形式，只要重写to_s即可</p>
-
-<pre><code>class BookInStock       def initialize(isbn, price)             @isbn = isbn                @price = Float(price)       end
-        def to_s        "ISBN: #{@isbn}, price: #{@price}"      end end
-        b1 = BookInStock.new("isbn1", 3)    puts b1
-结果  ISBN: isbn1, price: 3.0
-</code></pre>
-
-<h5>对象和属性</h5>
-
-<p>以上的@isbn, @price不能访问，无任何意义，可以为它添加get方法</p>
-
-<pre><code>class BookInStock       def initialize(isbn, price)         @isbn = isbn            @price = Float(price)       end     def isbn            @isbn       end
-    def price           @price      end # ..    end
-book = BookInStock.new("isbn1", 12.34) 
-puts "ISBN = #{book.isbn}"  puts "Price = #{book.price}"
-结果
-    ISBN   = isbn1
-Price  = 12.34
-</code></pre>
-
-<p>由于get方法的使用是如此频繁,Ruby提供了一个简便的方法，attr_reader能为你创建这些属性的get方法</p>
-
-<pre><code>class BookInStock   
-  attr_reader :isbn, :price     def initialize(isbn, price)             @isbn = isbn            @price = Float(price)       end     # ..    end book = BookInStock.new("isbn1", 12.34) 
-
-puts "ISBN = #{book.isbn}"
-    puts "Price = #{book.price}"
-结果: ISBN   = isbn1  Price  = 12.34对应,attr_reader后面跟的是symbols
-</code></pre>
-
-<p>这里通常有一个误解，特别是那些学过Java和C#的人,他们认为attr_reader在某种程序上声明了实例变量，实际上是没有的，它只是生成了访问方法，但无声明任何变量，这些变量只有在你使用它们的时候才出现，Ruby是完全让实例变量与访问方法解藕的</p>
-
-<h4>可写属性</h4>
-
-<p>以上我们只是设置了只读方法,现在我看看如何设置可写方法</p>
-
-<pre><code>class BookInStock       attr_reader :isbn, :price       def initialize(isbn, price) 
-        @isbn = isbn            @price = Float(price)       end     def price=(new_price)           @price = new_price      end # ...   end
-
-book = BookInStock.new("isbn1", 33.80)  puts "ISBN = #{book.isbn}"  puts "Price = #{book.price}" book.price = book.price * 0.75 puts "New price = #{book.price}"    结果: ISBN      = isbn1   Price     = 33.8    New price = 25.349999999999998
-</code></pre>
-
-<p>同样的,Ruby也提供了一个创建属性设置方法的捷径，如果你想有一个只写不可读的方法，可以使用attr_writer,不过这种情况极其罕见，如果你想为某个属性设置可读可写的方法，你可以用attr_accessor</p>
-
-<pre><code>    class BookInStock       attr_reader :isbn 
-    attr_accessor :price
-    def initialize(isbn, price)             @isbn = isbn            @price = Float(price)       end # ...   end book = BookInStock.new("isbn1", 33.80) 
-puts "ISBN = #{book.isbn}"
-puts "Price = #{book.price}" 
-book.price = book.price * 0.75
-puts "New price = #{book.price}"
-结果: ISBN      = isbn1
-Price     = 33.8
-New price = 25.349999999999998
-</code></pre>
-
-<h4>虚属性</h4>
-
-<pre><code>class BookInStock 
-    attr_reader :isbn       attr_accessor :price        def initialize(isbn, price) 
-        @isbn = isbn            @price = Float(price)       end     def price_in_cents          Integer(price*100 + 0.5)        end # ...   end我们看看以下会输出什么
-puts "Price in cents = #{book.price_in_cents}"  结果
-rice in cents = 3380
-</code></pre>
-
-<p><code>book.price_in_cents</code>表示的就是虚属性，由于<code>price_in_cents</code>不对应任何对象的属性，但我们却提供了访问方法，依然可以通过.的形式访问它,同样的，我们也可以提供一个它的写方法</p>
-
-<pre><code>def price_in_cents=(cents) 
-    @price = cents / 100.0  end
-
-book = BookInStock.new("isbn1", 33.80)
-puts "Price = #{book.price}"
-puts "Price in cents = #{book.price_in_cents}" 
-
-book.price_in_cents = 1234  puts "Price = #{book.price}"    puts "Price in cents = #{book.price_in_cents}"  produces:   Price          = 33.8   Price in cents = 3380   Price          = 12.34  Price in cents = 1234####类与其他类的协同工作
-</code></pre>
-
-<p>已知BookInStock定义如上,现在不少csv文件，我们需要将csv文件的每一行转为一个BookInStock,并将每一个BookInStock保存到一个数组中，然后计算所有书的总价,所计算的几个csv文件我们通过命令行传入,现在我们将这个程序分成三个rb文件来操作(假设这三个文件在同一目录下)</p>
-
-<ol>
-<li><p>book_in_stock.rb</p>
-
-<pre><code> class BookInStock 
-     attr_reader :isbn, :price           def initialize(isbn, price)                 @isbn = isbn                @price = Float(price)           end end
-</code></pre></li>
-</ol>
-
-
-<p>2.csv_reader.rb
-此文件有两个外部信赖，它需要标准的CSV的库，也需要存储在book_in_stock.rb中的BookInStock的类,我们用require来加载Ruby的CSV库，用require_relative来加载book_in_stock文件</p>
-
-<pre><code>require 'csv'   require_relative 'book_in_stock'
-class CsvReader 
-    def initialize          @books_in_stock = []        end     def read_in_csv_data(csv_file_name)             CSV.foreach(csv_file_name, headers: true) do |row|          @books_in_stock &lt;&lt; BookInStock.new(row["ISBN"], row["Price"]) 
-        end end end
-</code></pre>
-
-<p>3.stock_stats.rb
-这是我们的主程序</p>
-
-<pre><code>require_relative 'csv_reader'   reader = CsvReader.new
-ARGV.each do |csv_file_name|        STDERR.puts "Processing #{csv_file_name}" 
-    reader.read_in_csv_data(csv_file_name)  end ￼￼￼puts "Total value = #{reader.total_value_in_stock}"
-</code></pre>
-
-<p>运行程序如下</p>
-
-<pre><code>$ ruby stock_stats.rb data.csv  Processing data.csv Total value = 122.07000000000001
-</code></pre>
-
-<h5>访问控制</h5>
-
-<p>Ruby给你三种访问控制权限</p>
-
-<ul>
-<li>Public</li>
-<li>Protected</li>
-<li>Private
-三种访问控制权限与其他语言的一样，不过有一点与其他面向对象的语言很不一样，那就是，Ruby中的访问控制是程序运行后才被确定的，是动态的，而不是静态的，只有当代码执行了访问受限的代码才能知道是否有访问不合法的错误发生
-
-<h6>如何指定访问控制</h6>
-
-<p>有以下两种方法</p>
-
-<pre><code>  class MyClass
-      def method1     # 默认是 'public'
-          #...
-      end
-  protected
-      def method2
-          #....
-      end
-  private 
-      def method3
-          #...
-      end
-  end
-</code></pre>
-
-<p>或</p>
-
-<pre><code>      class MyClass 
-          def method1 
-
-          end             def method2                 end     # ... and so on           public    :method1, :method4            protected :method2              private   :method3        end
-</code></pre>
-
-<h4>变量</h4>
-
-<pre><code>  person = "Tim"      puts "The object in 'person' is a #{person.class}" 
-  puts "The object has an id of #{person.object_id}" 
-  puts "and a value of '#{person}'"       produces:          The object in 'person' is a String          The object has an id of 70230663692980          and a value of 'Tim'
-</code></pre>
-
-<p>那么，变量是否是一个对象呢，答案是否定的，一个变量只是一个对象的引用,来看以下例子，一目了然</p>
-
-<pre><code>  person1 = "Tim"
-  person2 = person1 
-  person1[0] = 'J'        puts "person1 is #{person1}" 
-  puts "person2 is #{person2}"        produces:                      person1 is Jim              person2 is Jim
-</code></pre></li>
-</ul>
-
-
-<p>你可以用String的
-dup方法来创建一个全新的对象</p>
-
-<pre><code>    person1 = "Tim"     person2 = person1.dup person1[0] = "J"      puts "person1 is #{person1}" puts "person2 is #{person2}"       produces:       person1 is Jim      person2 is Tim我们也可以冻结一个对象来避免对它作出修改
-    person1 = "Tim"     person2 = person1       person1.freeze # prevent modifications to the object person2[0] = "J"       produces:               from prog.rb:4:in `&lt;main&gt;'      prog.rb:4:in `[]=': can't modify frozen String (RuntimeError)
-</code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-23T20:11:08+08:00" data-updated="true" itemprop="datePublished">Jul 23<span>rd</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/23/ruby-new/" itemprop="url">Ruby-new</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h4>Ruby中一切皆对象</h4>
-
-<p>创建对象，假设有一个Song的类，按如下方式创建实例</p>
-
-<pre><code>song1 = Song.new("Ruby Tuesday")
-song2 = Song.new("Enveloped in Python")
-</code></pre>
-
-<p>如何理解一切皆对象，看以下demo</p>
-
-<pre><code>puts "gin joint".length 
-puts "Rick".index("c") 
-puts 42.even?           //42是否是偶数
-puts sam.play(song)
-</code></pre>
-
-<p>在java中，如果要算一个值的绝对值，可按如下方式</p>
-
-<pre><code>num = Math.abs(num)
-</code></pre>
-
-<p>但在Ruby中，由于一切皆对象，可按如下方式</p>
-
-<pre><code>um = -1234          # =&gt; -1234 
-positive = num.abs  # =&gt; 1234
-</code></pre>
-
-<p>同样的规则适用于所有的Ruby对象，在C中，你可以写strlen(name)，但在ruby中，你可以写name.length,无比轻松</p>
-
-<h5>Ruby中的方法</h5>
-
-<p>形式如下</p>
-
-<pre><code>def say_goodnight(name)     result = "Good night, " + name      return result   end
-    # Time for bed...
-puts say_goodnight("John-Boy") 
-puts say_goodnight("Mary-Ellen")
-</code></pre>
-
-<p>无需分号表示每个语句的结尾，只要你把每一条语句都放在一单独的行上    puts say_goodnight(&ldquo;Mary-Ellen&rdquo;)
-相当于</p>
-
-<pre><code>puts(say_goodnight("Mary-Ellen"))
-</code></pre>
-
-<h5>字符串</h5>
-
-<p>创建字符串有两种方法，一种是单引号括起来的，一种是双引号括起来的,双引号括起来的字符串，ruby需要做更多的工作，首先，ruby会寻找以反斜杠开头的序列，并将它替换为一个二进制的值,如&#8221;\n&#8221;,另外，双引号形式的字符串还需要做的将#{expression}序列替换成expression的值,我们能用它来替换之前我们写的程序</p>
-
-<pre><code>def say_goodnight(name)
-    result = "Good night, #{name}" 
-    return result
-end
-puts say_goodnight('Pa') 
-produces:   Good night, Pa
-</code></pre>
-
-<p>任意的复杂的表达式都能放在#{&hellip;}里，如下</p>
-
-<pre><code>def say_goodnight(name)     result = "Good night, #{name.capitalize}"       return result   end puts say_goodnight('uncle')     produces:   Good night, Uncle
-</code></pre>
-
-<p>我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句</p>
-
-<pre><code>    def say_goodnight(name)
-    "Good night, #{name.capitalize}"
-end
-puts say_goodnight('ma') 
-produces:   Good night, Ma
-</code></pre>
-
-<h4>Ruby的名字</h4>
-
-<p>ruby的命名遵循以下惯例,第一个名字的首字符表示这个名字的使用场合</p>
-
-<ul>
-<li>局部变量，方法参数，方法名都 以一个小写字母或下划线开头</li>
-<li>全局变量以一个$符开头，对象实例变量以@开头</li>
-<li>类变量以两个@@开头</li>
-<li><p>类名，模块名，常量必须以大写字母开头
-使用的demo如下</p>
-
-<pre><code>  Local Variable:     name fish_and_chips x_axis thx1138 _x _26
-  Instance Variable:  @name @point_1 @X @_ @plan9
-  Class Variable:     @@total @@symtab @@N @@x_pos @@SINGLE
-  Global Variable:   $debug $CUSTOMER $_ $plan9 $Global
-  Class Name:         String ActiveRecord MyClass     Constant Name:      FEET_PER_MILE DEBUG
-</code></pre>
-
-<h4>数组和哈希字典</h4>
-
-<p>数组</p>
-
-<pre><code>  a = [ 1, 'cat', 3.14 ] # array with three elements 
-  puts "The first element is #{a[0]}"
-  # set the third element
-  a[2] = nil
-  puts "The array is now #{a.inspect}"
-  produces:
-  The first element is 1
-  The array is now [1, "cat", nil]
-</code></pre>
-
-<p>简便地创建数组的方法</p>
-
-<pre><code>  a = %w{ ant bee cat dog elk } 
-  a[0] # =&gt; "ant"
-  a[3] # =&gt; "dog"
-</code></pre>
-
-<p>哈希字典</p>
-
-<pre><code>  inst_section = {
-  'cello' =&gt; 'string', 
-  'clarinet' =&gt; 'woodwind', 
-  'drum' =&gt; 'percussion', 
-  'oboe' =&gt; 'woodwind', 
-  'trumpet' =&gt; 'brass', 
-  'violin' =&gt; 'string'    }
-</code></pre>
-
-<p><code>=&gt;</code>符号的左为key，右为value
-在控制台上我们用p而不是puts，因为p可以更显式地打印nil值</p>
-
-<pre><code>  p inst_section['oboe']
-  p inst_section['cello']
-  p inst_section['bassoon']
-</code></pre></li>
-</ul>
-
-
-<p>produces:</p>
-
-<pre><code>    "woodwind"
-    "string"
-    nil
-</code></pre>
-
-<p>默认情况下hash的key如果对应的value不存在，则value的值为nil，我们可以改变这个默认傎</p>
-
-<pre><code>histogram = Hash.new(0)
-histogram['ruby'] # =&gt; 0
-histogram['ruby'] = histogram['ruby'] + 1 
-histogram['ruby'] # =&gt; 1
-</code></pre>
-
-<h4>符号(Symbols)</h4>
-
-<p>通常在编程的时候，你需要为某些重要的东西指定一个名字，比如，你也许想要用名字来指示指南针的方向，所以，你可以像以下这么写</p>
-
-<pre><code>NORTH = 1 
-EAST =2 
-SOUTH = 3 
-WEST =4
-</code></pre>
-
-<p>定义好之后，你就可以用这些名字而不是数字了</p>
-
-<pre><code>walk(NORTH)
-look(EAST)
-</code></pre>
-
-<p>然而，很多时候，这些名字对应的数值是不相关的(只要它们是唯一的)你所要做的只是区分这四个方向而已
-Ruby提供了一个很简单的替代方案:符号(Symbols).Symbols只是常量名字，不过你无需定义它，并且它们也保证是唯一的，一个符号常量以:开头，紧跟着字符串
-walk(:north)
-look(:east)
-无须为一个symbol赋任何值,Ruby已经为你考虑好了.Ruby保证不管符号出现在你，一个特定和符号总量有相同的值，因此，你可以按如下方式使用symbol</p>
-
-<pre><code>def walk(direction)
-    if direction == :north
-    # ...
-    end
- end
-</code></pre>
-
-<p>symbols通常被用来当作hash的key，我们可以将我们之前写的hash写为以下形式</p>
-
-<pre><code>    inst_section = {
-    :cello =&gt; 'string', 
-    :clarinet =&gt; 'woodwind', 
-    :drum =&gt; 'percussion', 
-    :oboe =&gt; 'woodwind', 
-    :trumpet =&gt; 'brass', 
-    :violin =&gt; 'string'
-}
-</code></pre>
-
-<p>事实上，symbols是如此频繁地被当作hash的键，ruby提供了一个更简洁的语法，你可以用name:value的形式来创建hash，如果key是symbols的话</p>
-
-<pre><code>inst_section = {
-    cello: 'string', 
-    clarinet: 'woodwind', 
-    drum: 'percussion', 
-    oboe: 'woodwind', 
-    trumpet: 'brass', 
-    violin: 'string'
-}
-puts "An oboe is a #{inst_section[:oboe]} instrument"
-produces:
-An oboe is a woodwind instrument
-</code></pre>
-
-<h4>条件语句</h4>
-
-<p>if语句</p>
-
-<pre><code>today = Time.now
-if today.saturday?
-    puts "Do chores around the house"
-elsif today.sunday?
-     puts "Relax"
-else
-     puts "Go to work" 
-end
-</code></pre>
-
-<p>produces:</p>
-
-<pre><code>Go to work
-</code></pre>
-
-<p>较短的if语句也可以这么写</p>
-
-<pre><code>puts "Danger, Will Robinson" if radiation &gt; 3000
-</code></pre>
-
-<p>while语句</p>
-
-<pre><code>while weight &lt; 100 and num_pallets &lt;= 5
-         pallet  = next_pallet()
-         weight += pallet.weight
-         num_pallets += 1
-end
-</code></pre>
-
-<p>较短的while语句也可以这么写</p>
-
-<pre><code>    square = 4
-    square = square*square while square &lt; 1000
-</code></pre>
-
-<p>ruby中的许多语句返回一个值，这意味着你可以用它们作为条件判断，比如,内核方法gets从标准输入流中返回下一行或者当到达文件的末尾时会返回nil，由于Ruby有条件语句中将nil视为假的，你可以用以下代码来处理文件对应的行</p>
-
-<pre><code>while line = gets 
-    puts line.downcase
-end
-</code></pre>
-
-<h4>正则表达式</h4>
-
-<pre><code>/\d\d:\d\d:\d\d/    # a time such as 12:34:56
-/Perl.*Python/      # Perl, zero or more other chars, then Python
-/Perl Python/       # Perl, a space, and Python
-/Perl *Python/     # Perl, zero or more spaces, and Python
-/Perl +Python/     # Perl, one or more spaces, and Python
-/Perl\s+Python/   # Perl, whitespace characters, then Python
-/Ruby (Perl|Python)/ # Ruby, a space, and either Perl or Python
-</code></pre>
-
-<p>结果if语句使用</p>
-
-<pre><code>line = gets
-if line =~ /Perl|Python/
-    puts "Scripting language mentioned: #{line}" 
-end
-</code></pre>
-
-<p>正则表达式的替代方法</p>
-
-<pre><code>line = gets
-newline = line.sub(/Perl/, 'Ruby') # replace first 'Perl' with 'Ruby'   newerline =     newline.gsub(/Python/, 'Ruby') # replace every 'Python' with 'Ruby'
-</code></pre>
-
-<h4>Blocks和迭代器</h4>
-
-<p>我们首先看看代码块(code blocks),code blocks是一串代码，你能将它与方法调用结合起来,就当它们是参数一样,这是难以置信的强大特性
-你用代码块来实现回调(但比java中的匿名内部类简单),把它们像C中的函数指针那样来传递(比C函数指针更简单)，或者实现迭代器的功能
-代码块的形式如下</p>
-
-<pre><code>{ puts "Hello" }
-</code></pre>
-
-<p>或</p>
-
-<pre><code>do
-  club.enroll(person)
-  person.socialize
-end
-</code></pre>
-
-<p>&ldquo;{}&#8221;block主要用在单行中,&#8221;do&hellip;.end&#8221;主要用在多行中
-你可以将block放在一个调用方法的尾部</p>
-
-<pre><code>greet { puts "Hi" } //greet是方法
-</code></pre>
-
-<p>如果方法有参数，则将block放在这些参数的最后</p>
-
-<pre><code>verbose_greet("Dave", "loyal customer") { puts "Hi" }
-</code></pre>
-
-<p>方法可以用Ruby提供的yield来调用block多次</p>
-
-<pre><code>def call_block      puts "Start of method" yield        yield       puts "End of method"    end
-    call_block { puts "In the block" }
-</code></pre>
-
-<p>打印结果</p>
-
-<pre><code>    Start of method
-    In the block
-    In the block
-    End of method
-</code></pre>
-
-<p>调用yield的时候可以带参数,这些参数将被传到block中去，在block中，你将这些被接收的参数用|params&hellip;|的形式列出来,如下</p>
-
-<pre><code>def who_says_what yield("Dave", "hello") 
-    yield("Andy", "goodbye")    end
-who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
-</code></pre>
-
-<p>打印结果</p>
-
-<pre><code>Dave says hello Andy says goodbye
-</code></pre>
-
-<p>Code blocks广泛用在ruby的库中用来实现迭代器</p>
-
-<pre><code>    animals = %w( ant bee cat dog ) # create an array
-animals.each {|animal| puts animal }    # iterate over the contents
-</code></pre>
-
-<p>produces:</p>
-
-<pre><code>ant bee cat dog再来看几个例子
-    [ 'cat', 'dog', 'horse' ].each {|name| print name, " " } 
-5.times { print "*" }
-3.upto(6) {|i| print i }
-('a'..'e').each {|char| print char }
-puts
-</code></pre>
-
-<p>produces:</p>
-
-<pre><code>cat dog horse *****3456abcde####读写
-
-printf("Number: %5.2f,\nString: %s\n", 1.23, "hello")
-</code></pre>
-
-<p>produces:    Number:  1.23,    String: hello有很多方法可以将输入读入程序中，最常见的gets方法，它返回标准输入流的下一行</p>
-
-<pre><code>line = gets print line
-</code></pre>
-
-<h4>命令行参数</h4>
-
-<p>当你从命令行运行一个Ruby程序时，你能传送一些参数给它，你能用两种不同的参数来访问这些参数
-首先，ARGV就是这些参数组成的数组，假设有一个叫cmd_line.rb的程序如下</p>
-
-<pre><code>puts "You gave #{ARGV.size} arguments" 
-p ARGV
-</code></pre>
-
-<p>当我们向此程序传入这些参数时，我们参看到输出结果</p>
-
-<pre><code>$ ruby cmd_line.rb ant bee cat dog 
-You gave 4 arguments    ["ant", "bee", "cat", "dog"]
-</code></pre>
-
-<p>通常，传入的参数是你要处理的文件的名字，这种情况下，你应该用第二种技巧,<code>ARGF</code>,它是一种特别的I/O对象，代表了通过命令行传入的文件名的所有内容, 我们之后再学习它</p>
 
 		
 		

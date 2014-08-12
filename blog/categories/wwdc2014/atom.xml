@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Wwdc2014 | AllenToFight Blog]]></title>
+  <link href="http://xiekunRonaldo.github.io/blog/categories/wwdc2014/atom.xml" rel="self"/>
+  <link href="http://xiekunRonaldo.github.io/"/>
+  <updated>2014-08-12T17:34:50+08:00</updated>
+  <id>http://xiekunRonaldo.github.io/</id>
+  <author>
+    <name><![CDATA[AllenToFight]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Whats New in Xcode6]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/08/03/whats-new-in-xcode6/"/>
+    <updated>2014-08-03T15:35:28+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/08/03/whats-new-in-xcode6</id>
+    <content type="html"><![CDATA[<p>Storyboard中能实时看到Custom Fonts</p>
+
+<p><img src="/images/2014/8/customfont.png"></p>
+
+<p>swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import modules,
+创建.swift文件时，默认创建了.h头文件，所以如果在.m文件中引用swift文件中的类，可以用import .swift对应的头文件来引用
+在ios8中，可以@import第三方的framework了!</p>
+
+<h5>在IB中动态改变显示效果，如动态改变圆角</h5>
+
+<p>注意以下几个方法的使用
+<code>class</code>前写@IBDesignable,属性前写@IBInspectable,还有override以下方法</p>
+
+<p>@override func prepareForInterfaceBuilder(){}</p>
+
+<p><code>Size Classes</code></p>
+]]></content>
+  </entry>
+  
+</feed>
