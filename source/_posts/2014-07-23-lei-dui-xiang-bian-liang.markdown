@@ -233,11 +233,12 @@ Ruby给你三种访问控制权限
 ######如何指定访问控制
 有以下两种方法
 
+
 		class MyClass
 
 			def method1		# 默认是 'public'
 
-				#...
+			#...
 
 			end
 
@@ -245,7 +246,7 @@ Ruby给你三种访问控制权限
 
 			def method2
 
-				#....
+			#....
 
 			end
 
@@ -253,20 +254,21 @@ Ruby给你三种访问控制权限
 
 			def method3
 
-				#...
+			#...
 
 			end
 
 		end
+	
 
 或
 
-			class MyClass 
+		class MyClass 
 
-				def method1 
+			def method1 
 
-				end				def method2 				end
-		# ... and so on			  public    :method1, :method4			  protected :method2			  private   :method3		end
+			end			def method2 			end
+	# ... and so on		  public    :method1, :method4		  protected :method2		  private   :method3	end
 ####变量 
 
 		person = "Tim"
@@ -292,4 +294,10 @@ Ruby给你三种访问控制权限
 dup方法来创建一个全新的对象
 	
 		person1 = "Tim"		person2 = person1.dup person1[0] = "J"		puts "person1 is #{person1}" puts "person2 is #{person2}"		produces:		person1 is Jim		person2 is Tim我们也可以冻结一个对象来避免对它作出修改
-		person1 = "Tim"		person2 = person1		person1.freeze # prevent modifications to the object person2[0] = "J"		produces:		        from prog.rb:4:in `<main>'		prog.rb:4:in `[]=': can't modify frozen String (RuntimeError)
+		person1 = "Tim"
+		person2 = person1
+		person1.freeze # prevent modifications to the object person2[0] = "J"
+		produces:
+		        from prog.rb:4:in `<main>'
+		prog.rb:4:in `[]=': can't modify frozen String (RuntimeError)
+		

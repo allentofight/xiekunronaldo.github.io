@@ -32,7 +32,11 @@ categories: Ruby
 #####Ruby中的方法
 形式如下
 
-	def say_goodnight(name)		result = "Good night, " + name		return result	end
+	def say_goodnight(name)
+		result = "Good night, " + name
+		return result
+	end
+
 	    # Time for bed...
 	puts say_goodnight("John-Boy") 
 	puts say_goodnight("Mary-Ellen")
@@ -51,14 +55,23 @@ categories: Ruby
 	produces:	Good night, Pa
 任意的复杂的表达式都能放在#{...}里，如下
 	
-	def say_goodnight(name)		result = "Good night, #{name.capitalize}" 		return result	end	puts say_goodnight('uncle') 	produces:	Good night, Uncle
+	def say_goodnight(name)
+		result = "Good night, #{name.capitalize}" 
+		return result
+	end
+	puts say_goodnight('uncle') 
+	produces:
+	Good night, Uncle
+
 我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句
 
 		def say_goodnight(name)
 		"Good night, #{name.capitalize}"
 	end
 	puts say_goodnight('ma') 
-	produces:	Good night, Ma
+	produces:
+	Good night, Ma
+
 ####Ruby的名字
 ruby的命名遵循以下惯例,第一个名字的首字符表示这个名字的使用场合
 
