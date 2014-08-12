@@ -171,7 +171,10 @@ String有两种组成方式，单引号和双引号组成的string
 	Encoding of "δog" is UTF-8
 ######Working with Strings
 假设一个文件有以下格式
-	/jazz/j00132.mp3  | 3:45 | Fats     Waller     | Ain't Misbehavin'	/jazz/j00319.mp3  | 2:58 | Louis    Armstrong  | Wonderful World	/bgrass/bg0732.mp3| 4:09 | Strength in Numbers | Texas Red
+	/jazz/j00132.mp3  | 3:45 | Fats     Waller     | Ain't Misbehavin'
+	/jazz/j00319.mp3  | 2:58 | Louis    Armstrong  | Wonderful World
+	/bgrass/bg0732.mp3| 4:09 | Strength in Numbers | Texas Red
+
 现在我们要做以下三件事情
 
 1. 将每一行分解成fields
@@ -183,6 +186,7 @@ String有两种组成方式，单引号和双引号组成的string
 		File.open("songdata") do |song_file| songs = []
 		song_file.each do |line|
 		file, length, name, title = line.chomp.split(/\s*\|\s*/) 
+
 		name.squeeze!(" ")		songs << Song.new(title, name, length)
 		end
 		  puts songs[1]
@@ -197,7 +201,8 @@ String有两种组成方式，单引号和双引号组成的string
 		File.open("songdata") do |song_file|
 		songs = []
 		song_file.each do |line|
-		file, length, name, title = line.chomp.split(/\s*\|\s*/) 		name.squeeze!(" ")
+		file, length, name, title = line.chomp.split(/\s*\|\s*/) 
+		name.squeeze!(" ")
 		mins, secs = length.scan(/\d+/)
 		songs << Song.new(title, name, mins.to_i*60 + secs.to_i)
 		end
@@ -208,12 +213,16 @@ String有两种组成方式，单引号和双引号组成的string
 ranges主要用在以下三个方面:sequences, conditions和intervals
 
 1.Ranges as Sequences
-	1..10	'a'..'z' 0..."cat".length
+	1..10
+	'a'..'z' 0..."cat".length
 你可以用to_a将一个range转为一个数组,用to_enum将它转为一个Enumberator
 
 	(1..10).to_a # => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
 
-	('bar'..'bat').to_a # => ["bar", "bas", "bat"]	enum = ('bar'..'bat').to_enum	enum.next # => "bar"	enum.next # => "bas"
+	('bar'..'bat').to_a # => ["bar", "bas", "bat"]
+	enum = ('bar'..'bat').to_enum
+	enum.next # => "bar"
+	enum.next # => "bas"
 Ranges有很多方法能让你遍历它们并且用很多方法测试它们
 	digits = 0..9
 	digits.include?(5) # => true

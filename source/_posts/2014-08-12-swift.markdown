@@ -1,0 +1,323 @@
+---
+layout: post
+title: "Swift"
+date: 2014-08-12 21:29:29 +0800
+comments: true
+categories: iOS
+---
+####变量定义 
+常量用let,变量用var
+
+```
+var myVariable = 42
+myVariable = 50
+let myConstant = 42
+let explicitDouble: Double = 70
+
+```
+
+变量的值不会自动转化为其他类型的
+
+```
+let label = "The width is "
+let width = 94
+let widthLabel = label+String(width)
+```
+String内的值替换
+
+```
+let apples = 3
+let oranges = 5
+let appleSummary = "I have \(apples) apples.”
+```
+数组和字典
+
+```
+var shoppingList = ["catfish", "water", "tulips", "blue paint"]
+
+shoppingList[1] = "bottle of water"
+ 
+var occupations = [
+
+    "Malcolm": "Captain",
+
+    "Kaylee": "Mechanic",
+]
+occupations["Jayne"] = "Public Relations”
+
+let emptyArray = String[]()
+let emptyDictionary = Dictionary<String, Float>()
+
+```
+如果类型是能推断的，可以用[]创建一个空数组，用[:]创建一个空字典
+####条件语句
+if...else...
+
+```
+let individualScores = [75, 43, 103, 87, 12]
+var teamScore = 0
+for score in individualScores {
+    if score > 50 {
+        teamScore += 3
+    } else {
+        teamScore += 1
+    }
+}
+teamScore
+```
+注意，在if条件语句中，condition必须是bool表达式，所以类似`if score {...}`这样的代码是错误的
+if和optional value组成的条件表达式
+
+```
+var optionalString: String? = "Hello"
+optionalString == nil
+ 
+var optionalName: String? = "John Appleseed"
+var greeting = "Hello!"
+if let name = optionalName {
+    greeting = "Hello, \(name)"
+}
+```
+switch和case语句支持多种类型的比较,不限于integer
+
+```
+let vegetable = "red pepper"
+switch vegetable {
+case "celery":
+    let vegetableComment = "Add some raisins and make ants on a log."
+case "cucumber", "watercress":
+    let vegetableComment = "That would make a good tea sandwich."
+case let x where x.hasSuffix("pepper"):
+    let vegetableComment = "Is it a spicy \(x)?"
+default:
+    let vegetableComment = "Everything tastes good in soup."
+}
+```
+注意:执行完case语句，程序就从switch语句里终止了，所以无需break!
+
+遍历dictionary
+
+```
+let interestingNumbers = [
+    "Prime": [2, 3, 5, 7, 11, 13],
+    "Fibonacci": [1, 1, 2, 3, 5, 8],
+    "Square": [1, 4, 9, 16, 25],
+]
+var largest = 0
+for (kind, numbers) in interestingNumbers {
+    for number in numbers {
+        if number > largest {
+            largest = number
+        }
+    }
+}
+largest
+```
+while语句
+
+```
+var n = 2
+while n < 100 {
+    n = n * 2
+}
+n
+ 
+var m = 2
+do {
+    m = m * 2
+} while m < 100
+m
+```
+`..`的妙用,以下两个循环是等价的
+
+```
+var firstForLoop = 0
+for i in 0..3 {
+    firstForLoop += i
+}
+firstForLoop
+ 
+var secondForLoop = 0
+for var i = 0; i < 3; ++i {
+    secondForLoop += 1
+}
+secondForLoop
+```
+####函数和闭包
+函数的声明
+用->将参数与返回值区分开来
+
+```
+func greet(name: String, day: String) -> String {
+    return "Hello \(name), today is \(day)."
+}
+greet("Bob", "Tuesday")
+```
+用tuple从函数中返回多个值
+```
+func getGasPrices() -> (Double, Double, Double) {
+    return (3.59, 3.69, 3.79)
+}
+getGasPrices()
+```
+函数也能接收不定数量的参数，将它们封成到一个数组里
+
+```
+func sumOf(numbers: Int...) -> Int {
+    var sum = 0
+    for number in numbers {
+        sum += number
+    }
+    return sum
+}
+sumOf()
+sumOf(42, 597, 12)
+```
+函数也能嵌套，内嵌的函数能访问声明在外部函数的变量
+```
+func returnFifteen() -> Int {
+    var y = 10
+    func add() {
+        y += 5
+    }
+    add()
+    return y
+}
+returnFifteen()
+```
+函数是first-class类型，这意味着函数也能返回另一个函数
+
+```
+func makeIncrementer() -> (Int -> Int) {
+    func addOne(number: Int) -> Int {
+        return 1 + number
+    }
+    return addOne
+}
+var increment = makeIncrementer()
+increment(7)
+```
+函数的参数也能是函数
+
+```
+func hasAnyMatches(list: Int[], condition: Int -> Bool) -> Bool {
+    for item in list {
+        if condition(item) {
+            return true
+        }
+    }
+    return false
+}
+func lessThanTen(number: Int) -> Bool {
+    return number < 10
+}
+var numbers = [20, 19, 7, 12]
+hasAnyMatches(numbers, lessThanTen)
+```
+函数实际上是闭包的一种特殊形式，我们可以用{}来写一个匿名的闭包,用in来将参数和返回类型区分开来
+
+```
+numbers.map({
+    (number: Int) -> Int in
+    let result = 3 * number
+    return result
+    })
+```
+如果一个closure的类型是已知的，比如已知一个delegate的回调，我们可以省略参数的类型，返回类型或两者都省略,以上可以改写成以下
+
+```
+numbers.map({ number in 3 * number })
+```
+我们也可以用数字而不是名字来表示参数
+
+```
+sort([1, 5, 3, 12, 2]) { $0 > $1 }
+```
+####对象和类
+
+```
+class Shape {
+    var numberOfSides = 0
+    func simpleDescription() -> String {
+        return "A shape with \(numberOfSides) sides."
+    }
+}
+
+var shape = Shape()
+shape.numberOfSides = 7
+var shapeDescription = shape.simpleDescription()
+```
+
+`init`的使用
+
+```
+class NamedShape {
+    var numberOfSides: Int = 0
+    var name: String
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    func simpleDescription() -> String {
+        return "A shape with \(numberOfSides) sides."
+    }
+}
+```
+每一个property都需要赋值，可以在它声明的时候(如numberOfSlides)也可以在initializer里(如name)
+定义deinit来创建一个deinitializer如果你需要在对象被释放前做一些清理工作的话
+继承时，如果要重写superclass的方法，必须要在重写的方法前加override
+
+```
+class Square: NamedShape {
+    var sideLength: Double
+    
+    init(sideLength: Double, name: String) {
+        self.sideLength = sideLength
+        super.init(name: name)
+        numberOfSides = 4
+    }
+    
+    func area() ->  Double {
+        return sideLength * sideLength
+    }
+    
+    override func simpleDescription() -> String {
+        return "A square with sides of length \(sideLength)."
+    }
+}
+let test = Square(sideLength: 5.2, name: "my test square")
+test.area()
+test.simpleDescription()
+```
+为property定义getter和setter
+
+```
+class EquilateralTriangle: NamedShape {
+    var sideLength: Double = 0.0
+    
+    init(sideLength: Double, name: String) {
+        self.sideLength = sideLength
+        super.init(name: name)
+        numberOfSides = 3
+    }
+    
+    var perimeter: Double {
+    get {
+        return 3.0 * sideLength
+    }
+    set {
+        sideLength = newValue / 3.0
+    }
+ }
+ 
+ override func simpleDescription() -> String {
+    	    return "An equilateral triagle with sides of length \(sideLength)."
+	    }
+ }
+var triangle = EquilateralTriangle(sideLength: 3.1, name: "a triangle")
+triangle.perimeter
+triangle.perimeter = 9.9
+triangle.sideLength
+```
+在perimeter的setter方法中，新值有一个默认的名字newValue,我们可以在set后的括号里为这个值指定一个名字

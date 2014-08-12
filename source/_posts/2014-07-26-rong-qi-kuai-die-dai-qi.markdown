@@ -74,8 +74,7 @@ categories:
 	array = [ 1, 2, 3, 4, 5, 6, 7 ] 
 	array.first(4) # => [1, 2, 3, 4] 
 	array.last(4) # => [4, 5, 6, 7]
-####哈希(字典)
-同数组一样,哈希也是针对数组引用的以索引查询的集合,不过与数组不同的是，数组的下标只能为整形，而哈希的key则可为symbols,strings,regular expression等
+####哈希(字典)同数组一样,哈希也是针对数组引用的以索引查询的集合,不过与数组不同的是，数组的下标只能为整形，而哈希的key则可为symbols,strings,regular expression等
 	h = { 'dog' => 'canine', 'cat' => 'feline', 'donkey' => 'asinine' }
 	h.length # => 3
 	h['dog'] # => "canine"
