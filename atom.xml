@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-08-12T17:45:31+08:00</updated>
+  <updated>2014-08-12T17:53:56+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -2860,7 +2860,7 @@ puts "ISBN = #{book.isbn}"
 <p>以上我们只是设置了只读方法,现在我看看如何设置可写方法</p>
 
 <pre><code>class BookInStock
-    attr_reader :isbn, :price
+    attr_writer :isbn, :price
     def initialize(isbn, price) 
 
         @isbn = isbn
@@ -2888,9 +2888,15 @@ New price = 25.349999999999998
 
 <p>同样的,Ruby也提供了一个创建属性设置方法的捷径，如果你想有一个只写不可读的方法，可以使用attr_writer,不过这种情况极其罕见，如果你想为某个属性设置可读可写的方法，你可以用attr_accessor</p>
 
-<pre><code>    class BookInStock       attr_reader :isbn 
+<pre><code>    class BookInStock 
+    attr_reader :isbn 
     attr_accessor :price
-    def initialize(isbn, price)             @isbn = isbn            @price = Float(price)       end # ...   end book = BookInStock.new("isbn1", 33.80) 
+    def initialize(isbn, price) 
+        @isbn = isbn
+        @price = Float(price)
+    end
+# ...   end
+book = BookInStock.new("isbn1", 33.80) 
 puts "ISBN = #{book.isbn}"
 puts "Price = #{book.price}" 
 book.price = book.price * 0.75
@@ -2903,15 +2909,35 @@ New price = 25.349999999999998
 <h4>虚属性</h4>
 
 <pre><code>class BookInStock 
-    attr_reader :isbn       attr_accessor :price        def initialize(isbn, price) 
-        @isbn = isbn            @price = Float(price)       end     def price_in_cents          Integer(price*100 + 0.5)        end # ...   end我们看看以下会输出什么
-puts "Price in cents = #{book.price_in_cents}"  结果
-rice in cents = 3380
+
+    attr_reader :isbn
+    attr_accessor :price
+    def initialize(isbn, price) 
+
+        @isbn = isbn
+        @price = Float(price)
+    end
+    def price_in_cents 
+        Integer(price*100 + 0.5)
+    end
+# ...
+end
+</code></pre>
+
+<p>我们看看以下会输出什么</p>
+
+<pre><code>puts "Price in cents = #{book.price_in_cents}"
+</code></pre>
+
+<p>结果</p>
+
+<pre><code>rice in cents = 3380
 </code></pre>
 
 <p><code>book.price_in_cents</code>表示的就是虚属性，由于<code>price_in_cents</code>不对应任何对象的属性，但我们却提供了访问方法，依然可以通过.的形式访问它,同样的，我们也可以提供一个它的写方法</p>
 
 <pre><code>def price_in_cents=(cents) 
+
     @price = cents / 100.0  end
 
 book = BookInStock.new("isbn1", 33.80)
