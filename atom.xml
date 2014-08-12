@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-08-12T17:53:56+08:00</updated>
+  <updated>2014-08-12T17:55:35+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -2944,7 +2944,15 @@ book = BookInStock.new("isbn1", 33.80)
 puts "Price = #{book.price}"
 puts "Price in cents = #{book.price_in_cents}" 
 
-book.price_in_cents = 1234  puts "Price = #{book.price}"    puts "Price in cents = #{book.price_in_cents}"  produces:   Price          = 33.8   Price in cents = 3380   Price          = 12.34  Price in cents = 1234
+
+book.price_in_cents = 1234
+puts "Price = #{book.price}"
+puts "Price in cents = #{book.price_in_cents}"
+produces:
+Price          = 33.8
+Price in cents = 3380
+Price          = 12.34
+Price in cents = 1234
 </code></pre>
 
 <h4>类与其他类的协同工作</h4>
