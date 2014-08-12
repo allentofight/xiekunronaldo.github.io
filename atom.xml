@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-08-12T17:34:50+08:00</updated>
+  <updated>2014-08-12T17:45:31+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -2842,7 +2842,11 @@ Price  = 12.34
 <p>由于get方法的使用是如此频繁,Ruby提供了一个简便的方法，attr_reader能为你创建这些属性的get方法</p>
 
 <pre><code>class BookInStock   
-  attr_reader :isbn, :price     def initialize(isbn, price)             @isbn = isbn            @price = Float(price)       end     # ..    end book = BookInStock.new("isbn1", 12.34) 
+  attr_reader :isbn, :price
+    def initialize(isbn, price) 
+        @isbn = isbn
+        @price = Float(price)
+    end     # ..    end book = BookInStock.new("isbn1", 12.34) 
 
 puts "ISBN = #{book.isbn}"
     puts "Price = #{book.price}"
