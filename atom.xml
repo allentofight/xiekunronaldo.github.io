@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-08-12T19:22:31+08:00</updated>
+  <updated>2014-08-12T19:37:15+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -3418,7 +3418,11 @@ end
 
 <p>方法可以用Ruby提供的yield来调用block多次</p>
 
-<pre><code>def call_block      puts "Start of method" yield        yield       puts "End of method"    end
+<pre><code>def call_block
+    puts "Start of method" yield
+    yield
+    puts "End of method"
+end
     call_block { puts "In the block" }
 </code></pre>
 
@@ -3433,7 +3437,8 @@ end
 <p>调用yield的时候可以带参数,这些参数将被传到block中去，在block中，你将这些被接收的参数用|params&hellip;|的形式列出来,如下</p>
 
 <pre><code>def who_says_what yield("Dave", "hello") 
-    yield("Andy", "goodbye")    end
+    yield("Andy", "goodbye")
+end
 who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
 </code></pre>
 
@@ -3450,8 +3455,15 @@ animals.each {|animal| puts animal }    # iterate over the contents
 
 <p>produces:</p>
 
-<pre><code>ant bee cat dog再来看几个例子
-    [ 'cat', 'dog', 'horse' ].each {|name| print name, " " } 
+<pre><code>ant
+bee
+cat
+dog
+</code></pre>
+
+<p>再来看几个例子</p>
+
+<pre><code>    [ 'cat', 'dog', 'horse' ].each {|name| print name, " " } 
 5.times { print "*" }
 3.upto(6) {|i| print i }
 ('a'..'e').each {|char| print char }
@@ -3482,7 +3494,8 @@ p ARGV
 <p>当我们向此程序传入这些参数时，我们参看到输出结果</p>
 
 <pre><code>$ ruby cmd_line.rb ant bee cat dog 
-You gave 4 arguments    ["ant", "bee", "cat", "dog"]
+You gave 4 arguments
+["ant", "bee", "cat", "dog"]
 </code></pre>
 
 <p>通常，传入的参数是你要处理的文件的名字，这种情况下，你应该用第二种技巧,<code>ARGF</code>,它是一种特别的I/O对象，代表了通过命令行传入的文件名的所有内容, 我们之后再学习它</p>
