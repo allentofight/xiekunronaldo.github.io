@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-08-12T17:55:35+08:00</updated>
+  <updated>2014-08-12T19:22:31+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -3027,7 +3027,7 @@ Total value = 122.07000000000001
 
       def method1     # 默认是 'public'
 
-          #...
+      #...
 
       end
 
@@ -3035,7 +3035,7 @@ Total value = 122.07000000000001
 
       def method2
 
-          #....
+      #....
 
       end
 
@@ -3043,7 +3043,7 @@ Total value = 122.07000000000001
 
       def method3
 
-          #...
+      #...
 
       end
 
@@ -3054,12 +3054,12 @@ Total value = 122.07000000000001
 
 <p>或</p>
 
-<pre><code>        class MyClass 
+<pre><code>    class MyClass 
 
-            def method1 
+        def method1 
 
-            end             def method2                 end
-    # ... and so on           public    :method1, :method4            protected :method2              private   :method3        end
+        end         def method2             end
+# ... and so on       public    :method1, :method4        protected :method2          private   :method3    end
 </code></pre>
 
 <h4>变量</h4>
@@ -3089,7 +3089,12 @@ Total value = 122.07000000000001
 dup方法来创建一个全新的对象</p>
 
 <pre><code>    person1 = "Tim"     person2 = person1.dup person1[0] = "J"      puts "person1 is #{person1}" puts "person2 is #{person2}"       produces:       person1 is Jim      person2 is Tim我们也可以冻结一个对象来避免对它作出修改
-    person1 = "Tim"     person2 = person1       person1.freeze # prevent modifications to the object person2[0] = "J"       produces:               from prog.rb:4:in `&lt;main&gt;'      prog.rb:4:in `[]=': can't modify frozen String (RuntimeError)
+    person1 = "Tim"
+    person2 = person1
+    person1.freeze # prevent modifications to the object person2[0] = "J"
+    produces:
+            from prog.rb:4:in `&lt;main&gt;'
+    prog.rb:4:in `[]=': can't modify frozen String (RuntimeError)
 </code></pre>
 ]]></content>
   </entry>
@@ -3132,7 +3137,11 @@ positive = num.abs  # =&gt; 1234
 
 <p>形式如下</p>
 
-<pre><code>def say_goodnight(name)     result = "Good night, " + name      return result   end
+<pre><code>def say_goodnight(name)
+    result = "Good night, " + name
+    return result
+end
+
     # Time for bed...
 puts say_goodnight("John-Boy") 
 puts say_goodnight("Mary-Ellen")
@@ -3158,7 +3167,13 @@ produces:   Good night, Pa
 
 <p>任意的复杂的表达式都能放在#{&hellip;}里，如下</p>
 
-<pre><code>def say_goodnight(name)     result = "Good night, #{name.capitalize}"       return result   end puts say_goodnight('uncle')     produces:   Good night, Uncle
+<pre><code>def say_goodnight(name)
+    result = "Good night, #{name.capitalize}" 
+    return result
+end
+puts say_goodnight('uncle') 
+produces:
+Good night, Uncle
 </code></pre>
 
 <p>我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句</p>
@@ -3167,7 +3182,8 @@ produces:   Good night, Pa
     "Good night, #{name.capitalize}"
 end
 puts say_goodnight('ma') 
-produces:   Good night, Ma
+produces:
+Good night, Ma
 </code></pre>
 
 <h4>Ruby的名字</h4>

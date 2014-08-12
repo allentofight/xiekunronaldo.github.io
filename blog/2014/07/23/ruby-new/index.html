@@ -123,7 +123,11 @@ positive = num.abs  # =&gt; 1234
 
 <p>形式如下</p>
 
-<pre><code>def say_goodnight(name)     result = "Good night, " + name      return result   end
+<pre><code>def say_goodnight(name)
+    result = "Good night, " + name
+    return result
+end
+
     # Time for bed...
 puts say_goodnight("John-Boy") 
 puts say_goodnight("Mary-Ellen")
@@ -149,7 +153,13 @@ produces:   Good night, Pa
 
 <p>任意的复杂的表达式都能放在#{&hellip;}里，如下</p>
 
-<pre><code>def say_goodnight(name)     result = "Good night, #{name.capitalize}"       return result   end puts say_goodnight('uncle')     produces:   Good night, Uncle
+<pre><code>def say_goodnight(name)
+    result = "Good night, #{name.capitalize}" 
+    return result
+end
+puts say_goodnight('uncle') 
+produces:
+Good night, Uncle
 </code></pre>
 
 <p>我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句</p>
@@ -158,7 +168,8 @@ produces:   Good night, Pa
     "Good night, #{name.capitalize}"
 end
 puts say_goodnight('ma') 
-produces:   Good night, Ma
+produces:
+Good night, Ma
 </code></pre>
 
 <h4>Ruby的名字</h4>
