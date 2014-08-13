@@ -320,4 +320,2300 @@ triangle.perimeter
 triangle.perimeter = 9.9
 triangle.sideLength
 ```
+
 在perimeter的setter方法中，新值有一个默认的名字newValue,我们可以在set后的括号里为这个值指定一个名字
+如果你无需计算property的值，但需要在设置新值的前后做一些操作，可以用`willSet`和`didSet`,比如
+
+```
+class TriangleAndSquare {
+    var triangle: EquilateralTriangle {
+	    willSet {
+	        square.sideLength = newValue.sideLength
+	    }
+    }
+    var square: Square {
+	    willSet {
+	        triangle.sideLength = newValue.sideLength
+	    }
+    }
+    init(size: Double, name: String) {
+        square = Square(sideLength: size, name: name)
+        triangle = EquilateralTriangle(sideLength: size, name: name)
+    }
+}
+var triangleAndSquare = TriangleAndSquare(size: 10, name: "another test shape")
+triangleAndSquare.square.sideLength
+triangleAndSquare.triangle.sideLength
+triangleAndSquare.square = Square(sideLength: 50, name: "larger square")
+triangleAndSquare.triangle.sideLength
+```
+类方法与函数有一个很重要的区别，类方法里可以为参数指定一个别名,而函数不行，如下
+```
+class Counter {
+    var count: Int = 0
+    func incrementBy(amount: Int, numberOfTimes times: Int) {
+        count += amount * times
+    }
+}
+var counter = Counter()
+counter.incrementBy(2, numberOfTimes: 7)
+```
+当与optional values工作时，你可以在有关方法，属性和[]操作前写一个`?`如果在?前的值为nil,则一切在？后的操作都被忽略了，整个表达式的值也就是nil了，否则optional value unwrapped,所有?后表达式对应的值为optional value,无论如何，整个表达式的值都是optional value
+
+```
+let optionalSquare: Square? = Square(sideLength: 2.5, name: "optional square")
+let sideLength = optionalSquare?.sideLength
+```
+####Enumerations and Structures
+像类和其他类型一样,enumerations可以有方法
+
+```
+enum Rank: Int {
+    case Ace = 1  //也可以用字符串或符点型来指定枚举的类型
+    case Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
+    case Jack, Queen, King
+    func simpleDescription() -> String {
+        switch self {
+        case .Ace:
+            return "ace"
+        case .Jack:
+            return "jack"
+        case .Queen:
+            return "queen"
+        case .King:
+            return "king"
+        default:
+            return String(self.toRaw())
+        }
+    }
+}
+let ace = Rank.Ace
+let aceRawValue = ace.toRaw()	//1
+```
+用`toRaw`和`fromRaw`函数来对raw value和枚举值进行相互转换
+
+```
+if let convertedRank = Rank.fromRaw(3) {
+    let threeDescription = convertedRank.simpleDescription()
+}
+```
+The member values of an enumeration are actual values, not just another way of writing their raw values.如果没有一个有意义的raw value，你不需要再指定它
+
+```
+enum Suit {
+    case Spades, Hearts, Diamonds, Clubs
+    func simpleDescription() -> String {
+        switch self {
+        case .Spades:
+            return "spades"
+        case .Hearts:
+            return "hearts"
+        case .Diamonds:
+            return "diamonds"
+        case .Clubs:
+            return "clubs"
+        }
+    }
+}
+let hearts = Suit.Hearts
+let heartsDescription = hearts.simpleDescription()
+```
+用struct来创建一个结构,struct支持类的很多方面，如方法和初始化，和类的最大区别是structures总量以copy的形式传递，而class则以引用的形式传递
+
+```
+struct Card {
+    var rank: Rank
+    var suit: Suit
+    func simpleDescription() -> String {
+        return "The \(rank.simpleDescription()) of \(suit.simpleDescription())"
+    }
+}
+let threeOfSpades = Card(rank: .Three, suit: .Spades)
+let threeOfSpadesDescription = threeOfSpades.simpleDescription()
+```
+Instances of the same enumeration member can have different values associated with them.
+
+```
+enum ServerResponse {
+    case Result(String, String)
+    case Error(String)
+}
+ 
+let success = ServerResponse.Result("6:00 am", "8:09 pm")
+let failure = ServerResponse.Error("Out of cheese.")
+ 
+switch success {
+case let .Result(sunrise, sunset):
+    let serverResponse = "Sunrise is at \(sunrise) and sunset is at \(sunset)."
+case let .Error(error):
+    let serverResponse = "Failure...  \(error)"
+}
+```
+注意sunrise和sunset如何匹配switch中case的条件而从ServerResponse里值取出来的
+
+####协议和Extensions
+用`protocol`来声明一个协议
+
+```
+protocol ExampleProtocol {
+    var simpleDescription: String { get }
+    mutating func adjust()
+}
+
+
+class SimpleClass: ExampleProtocol {
+    var simpleDescription: String = "A very simple class."
+    var anotherProperty: Int = 69105
+    func adjust() {
+        simpleDescription += "  Now 100% adjusted."
+    }
+}
+var a = SimpleClass()
+a.adjust()
+let aDescription = a.simpleDescription
+ 
+struct SimpleStructure: ExampleProtocol {
+    var simpleDescription: String = "A simple structure"
+    mutating func adjust() {
+        simpleDescription += " (adjusted)"
+    }
+}
+var b = SimpleStructure()
+b.adjust()
+let bDescription = b.simpleDescription
+```
+注意在struct中mutating的使用,class中的方法无需标记为mutating,因为类中的方法总是可以改变类的
+用extensions来为一个已知的类型添加功能，比如新的方法和computed properties
+
+```
+extension Int: ExampleProtocol {
+    var simpleDescription: String {
+    return "The number \(self)"
+    }
+    mutating func adjust() {
+        self += 42
+    }
+}
+7.simpleDescription
+```
+You can use an extension to add protocol conformance to a type that is declared elsewhere, or even to a type that you imported from a library or framework.
+
+
+
+```
+let protocolValue: ExampleProtocol = a
+protocolValue.simpleDescription
+// protocolValue.anotherProperty  // Uncomment to see the error”
+```
+尽管protocolValue有一个运行时的类型SimpleClass,但编译器仍把它当作ExampleProtocol的一种类型，也就是说说了定义时协议对应的方法，你不能调用它实际所属类的方法，属性
+
+####Generics
+在尖括号里写一个名字来创建一个generic函数或类型
+
+```
+func repeat<ItemType>(item: ItemType, times: Int) -> ItemType[] {
+    var result = ItemType[]()
+    for i in 0..times {
+        result += item
+    }
+    return result
+}
+repeat("knock", 4)
+```
+我们既可以将这种形式用在函数和方法上，也可以用在类，枚举，结构体的定义上
+
+```
+// Reimplement the Swift standard library's optional type
+enum OptionalValue<T> {
+    case None
+    case Some(T)
+}
+var possibleInteger: OptionalValue<Int> = .None
+possibleInteger = .Some(100)
+```
+在类型名后加一个where来指定一些必须条件
+
+```
+func anyCommonElements <T, U where T: Sequence, U: Sequence, T.GeneratorType.Element: Equatable, T.GeneratorType.Element == U.GeneratorType.Element> (lhs: T, rhs: U) -> Bool {
+    for lhsItem in lhs {
+        for rhsItem in rhs {
+            if lhsItem == rhsItem {
+                return true
+            }
+        }
+    }
+    return false
+}
+anyCommonElements([1, 2, 3], [3])
+```
+练习
+Modify the anyCommonElements function to make a function that returns an array of the elements that any two sequences have in common.
+
+```
+func anyCommonElements <T, U where T: Sequence, U: Sequence, T.GeneratorType.Element:     Equatable, T.GeneratorType.Element == U.GeneratorType.Element> (lhs: T, rhs: U) -> Array<T.GeneratorType.Element> {
+    var toReturn = Array<T.GeneratorType.Element>()
+    for lhsItem in lhs {
+        for rhsItem in rhs {
+            if lhsItem == rhsItem {
+                toReturn.append(lhsItem)
+            }
+        }
+    }
+    return toReturn
+}
+anyCommonElements([1, 2, 3], [3])
+```
+在一些简单的情况下，可以省略where，只在分号后写一个protocol或是类名，<T: Equatable>和<T where T: Equatable>是一样的
+Swift是类型安全的语言,如果你的代码希望的是String类型，类型安全将阻止你赋Int值给它
+####常量和变量的命名
+
+我们几乎可以用任何字符来命名常量和变量，包括Unicode字符
+
+```
+let π = 3.14159
+let 你好 = "你好世界"
+let 🐶🐮 = "dogcow”
+```
+一旦你声明了某种类型的常量和变量，你就不能为它赋予其他类型的变量
+####打印
+打印变量 
+
+```
+println(friendlyWelcome)
+```
+打印中包含字符替换
+
+```
+println("The current value of friendlyWelcome is \(friendlyWelcome)")
+```
+####注释
+不像C语言中的多行注释，Swift的多行注释是可以嵌套的
+
+```
+/* this is the start of the first multiline comment
+/* this is the second, nested multiline comment */
+this is the end of the first multiline comment */
+```
+####分号的使用
+如果一行中包含多条语句，就得用分号
+
+```
+let cat = "🐱"; println(cat)
+// prints "🐱”
+```
+####整型
+* 整型范围
+
+```
+let minValue = UInt8.min  // minValue is equal to 0, and is of type UInt8
+let maxValue = UInt8.max  // maxValue is equal to 255, and is of type UInt8”
+```
+* Int型和UInt
+在32位OS上，(U)Int和(U)Int32的大小一样
+在64位OS上，(U)Int和(U)Int64的大小一样
+只有在你确实需要和OS本身的字大小一样的非整形类型时才用UInt，否则尽量用Int
+####浮点型 
+* Double代表了64位的浮点数，有至少15位小数的精度
+* Float代表了32位，只有6位小数的精度
+####Numeric Literals
+整型字面量可以写成以下形式
+* 10进制，无前缀
+* 二进度，0b前缀
+* 八进制，0o前缀
+* 十六进制，0x前缀
+
+```
+let decimalInteger = 17
+let binaryInteger = 0b10001       // 17 in binary notation
+let octalInteger = 0o21           // 17 in octal notation
+let hexadecimalInteger = 0x11     // 17 in hexadecimal notation”
+```
+浮点型可以是十制的(无前缀),也可以是十六进制的
+
+```
+1.25e2 means 1.25 × 102, or 125.0.
+1.25e-2 means 1.25 × 10-2, or 0.0125.
+0xFp2 means 15 × 2*2, or 60.0.
+0xFp-2 means 15 × (2的-2次方), or 3.75.
+```
+####整型转换
+溢出会报错
+
+```
+let cannotBeNegative: UInt8 = -1
+// UInt8 cannot store negative numbers, and so this will report an error
+let tooBig: Int8 = Int8.max + 1
+// Int8 cannot store a number larger than its maximum value,
+// and so this will also report an error
+```
+来看以下例子
+
+```
+let twoThousand: UInt16 = 2_000
+let one: UInt8 = 1
+let twoThousandAndOne = twoThousand + UInt16(one)
+```
+以上的UInt16是必须的,因为两个变量的类型不同
+####整形和浮点型的转换
+```
+let three = 3
+let pointOneFourOneFiveNine = 0.14159
+let pi = Double(three) + pointOneFourOneFiveNine
+```
+浮点型转为整型，只保留整数,不会出现四舍五入这种情况
+####Type Aliases
+
+```
+typealias AudioSample = UInt16
+var maxAmplitudeFound = AudioSample.min
+```
+####Bool型
+Swift的类型安全阻止了任何非bool型的值自动替换成Bool型的值
+
+```
+let i = 1
+if i {
+    // this example will not compile, and will report an error
+}
+```
+不过，以下使用方式却是对的
+
+```
+let i = 1
+if i == 1 {
+    // this example will compile successfully
+}
+```
+####Tuples
+tuple将多个值组合一个复合的值，并且这些值可以是不同类型的
+
+```
+let http404Error = (404, "Not Found")
+
+let (statusCode, statusMessage) = http404Error
+println("The status code is \(statusCode)")
+// prints "The status code is 404"
+println("The status message is \(statusMessage)")
+// prints "The status message is Not Found
+```
+如果你只需要一部分tuple的值 ，你可以用_来忽略你不需要的值 
+
+```
+let (justTheStatusCode, _) = http404Error
+println("The status code is \(justTheStatusCode)")
+// prints "The status code is 404
+```
+也可以用以下方式来获取tuple里的值
+
+```
+println("The status code is \(http404Error.0)")
+// prints "The status code is 404"
+println("The status message is \(http404Error.1)")
+// prints "The status message is Not Found
+```
+在定义tuple的时候可以为每个element赋值
+
+```
+let http200Status = (statusCode: 200, description: "OK")
+println("The status code is \(http200Status.statusCode)")
+// prints "The status code is 200"
+println("The status message is \(http200Status.description)")
+// prints "The status message is OK"
+```
+注意:Tuples仅仅适用于临时的一组相关的数据,它并不适用于复杂数据类型的创建
+
+####Optionals
+Swift’s optionals let you indicate the absence of a value for any type at all, without the need for special constants.
+
+####Forced Unwrapping
+当我们确定optional`确定`含有一个值时，我们可以在这个optional的名字后面加一个!来获取它的值
+
+```
+if convertedNumber {
+    println("\(possibleNumber) has an integer value of \(convertedNumber!)")
+} else {
+    println("\(possibleNumber) could not be converted to an integer")
+}
+```
+####Optional Binding
+
+```
+if let constantName = someOptional {
+    statements
+}
+```
+我们可以按如下方式重写之前的`possibleNumber`的例子
+
+```
+if let actualNumber = possibleNumber.toInt() {
+    println("\(possibleNumber) has an integer value of \(actualNumber)")
+} else {
+    println("\(possibleNumber) could not be converted to an integer")
+}
+```
+你可以赋予一个optional 值为nil,非optional的则不行
+
+```
+var serverResponseCode: Int? = 404
+// serverResponseCode contains an actual Int value of 404
+serverResponseCode = nil
+```
+如果在定义一个optional value时不提供一个默认值，则它为nil
+
+```
+var surveyAnswer: String?
+// surveyAnswer is automatically set to nil”
+```
+需要注意的是swift的nil与oc中的nil不同,oc中的nil是一个指定不存在的对象的指针，而swift中的nil则不是指针，它只是表示某种类型的值不存在，任何类型的optional都能设置为nil，而不仅仅是对象
+
+####Implicitly Unwrapped Optional
+也就是类型后加!,仔细看以下的区别
+
+```
+let possibleString: String? = "An optional string."
+println(possibleString!) // requires an exclamation mark to access its value
+// prints "An optional string."
+ 
+let assumedString: String! = "An implicitly unwrapped optional string."
+println(assumedString)  // no exclamation mark is needed to access its value
+// prints "An implicitly unwrapped optional string.
+
+if assumedString {
+    println(assumedString)
+}
+```
+####断言
+
+```
+let age = -3
+assert(age >= 0, "A person's age cannot be less than zero")
+// this causes the assertion to trigger, because age is not >= 0
+```
+也可以不写string
+
+```
+assert(age >= 0)
+```
+注意assert里的string不支持`\()`形式的替换
+####基本操作
+Swift允许你对浮点值进行%的运算
+赋值 
+
+```
+let b = 10
+var a = 5
+a = b
+```
+不过不像C，赋值本身不返回值，所以以下是非法的
+
+```
+if x = y {
+    // this is not valid, because x = y does not return a value
+}
+```
+不像C，Swift默认情况下不允许进行算术运算时的值溢出
+两个Character的值，或者一个Character和一个String的值，能相加组成一个新的String的值 
+
+```
+let dog: Character = "🐶"
+let cow: Character = "🐮"
+let dogCow = dog + cow
+// dogCow is equal to "🐶🐮”
+```
+####求余运算符%
+
+```
+-9 % 4   // equals -1
+```
+除数的符号是被忽略的，也就是说a % b和a % -b的值是一样的
+浮点数的求余操作
+
+```
+8 % 2.5   // equals 0.5
+```
+####比较操作符
+`===`可以用来测试两个对象的引用是否指向同一个对象
+
+```
+let name = "world"
+if name == "world" {
+    println("hello, world")
+} else {
+    println("I'm sorry \(name), but I don't recognize you")
+}
+// prints "hello, world", because name is indeed equal to "world"
+```
+####Range操作
+闭区间
+
+```
+for index in 1...5 {
+    println("\(index) times 5 is \(index * 5)")
+}
+// 1 times 5 is 5
+// 2 times 5 is 10
+// 3 times 5 is 15
+// 4 times 5 is 20
+// 5 times 5 is 25”
+```
+开区间
+
+```
+let names = ["Anna", "Alex", "Brian", "Jack"]
+let count = names.count
+for i in 0..count {
+    println("Person \(i + 1) is called \(names[i])")
+}
+// Person 1 is called Anna
+// Person 2 is called Alex
+// Person 3 is called Brian
+// Person 4 is called Jack
+```
+####字符串和字符
+Every string is composed of encoding-independent Unicode characters, and provides support for accessing those characters in various Unicode representations.
+注意OC中的string相关的API，Swift都的String都能使用 
+#####String Literals
+* 转义字符\0(空字符),\\(返斜杆),\t,\n,\r,\",\`
+* 单字节的Unicode scalars,\xnn,nn是两位十六进制的数字
+* 两个字节的Unicode scalars,\unnnn,nnnn是一个四位十六进制的数字
+* 四个字节的Unicode scalars,\Unnnnnnnn,nnnnnnnn是八位的十六进制的数字
+
+```
+let wiseWords = "\"Imagination is more important than knowledge\" - Einstein"
+// "Imagination is more important than knowledge" - Einstein
+let dollarSign = "\x24"        // $,  Unicode scalar U+0024
+let blackHeart = "\u2665"      // ♥,  Unicode scalar U+2665
+let sparklingHeart = "\U0001F496"  // 💖, Unicode scalar U+1F496”
+```
+####初始化一个空字符串
+
+```
+var emptyString = ""               // empty string literal
+var anotherEmptyString = String()  // initializer syntax
+// these two strings are both empty, and are equivalent to each other
+```
+判断一个String的值是否是空的
+
+```
+if emptyString.isEmpty {
+    println("Nothing to see here")
+}
+// prints "Nothing to see here
+```
+你可以在定义一个字符串时用var和let来表示字符串是否可变
+
+```
+var variableString = "Horse"
+variableString += " and carriage"
+// variableString is now "Horse and carriage"
+ 
+let constantString = "Highlander"
+constantString += " and another Highlander"
+// this reports a compile-time error - a constant string cannot be modified
+```
+####Strings是值类型
+也就是说如果string的值被传入函数或方法，或被赋值时，它是被copy的！幕后，Swift的编译器优化了string的使用，所以copy只有在真正需要的时候才发生,这意味着你无需担心性能总量
+#####遍历string中的字符
+
+```
+for character in "Dog!🐶" {
+    println(character)
+}
+// D
+// o
+// g
+// !
+// 🐶”
+```
+创建一个character
+
+```
+let yenSign: Character = "¥"
+```
+####计算Characters的个数
+
+```
+let unusualMenagerie = "Koala 🐨, Snail 🐌, Penguin 🐧, Dromedary 🐪"
+println("unusualMenagerie has \(countElements(unusualMenagerie)) characters")
+// prints "unusualMenagerie has 40 characters”
+```
+不同的Unicode字符或同一Unicode字符的不同表示形式在内存中占的空间不一样，基于此，swift中的字符并不占用同样的内存，所以要计算一个string的长度，我们必须逐个遍历字符
+
+`Note` also that the character count returned by countElements is not always the same as the length property of an NSString that contains the same characters. The length of an NSString is based on the number of 16-bit code units within the string’s UTF-16 representation and not the number of Unicode characters within the string. To reflect this fact, the length property from NSString is called utf16count when it is accessed on a Swift String value.
+####连接字符串和字符
+
+```
+let string1 = "hello"
+let string2 = " there"
+let character1: Character = "!"
+let character2: Character = "?"
+ 
+let stringPlusCharacter = string1 + character1        // equals "hello!"
+let stringPlusString = string1 + string2              // equals "hello there"
+let characterPlusString = character1 + string1        // equals "!hello"
+let characterPlusCharacter = character1 + character2  // equals "!?”
+```
+####比较字符串
+
+```
+let quotation = "We're a lot alike, you and I."
+let sameQuotation = "We're a lot alike, you and I."
+if quotation == sameQuotation {
+    println("These two strings are considered equal")
+}
+// prints "These two strings are considered equal
+```
+#####前缀和后缀的比较
+hasPrefix和hasSuffix
+前缀
+
+```
+let romeoAndJuliet = [
+    "Act 1 Scene 1: Verona, A public place",
+    "Act 1 Scene 2: Capulet's mansion",
+    "Act 1 Scene 3: A room in Capulet's mansion",
+    "Act 1 Scene 4: A street outside Capulet's mansion",
+    "Act 1 Scene 5: The Great Hall in Capulet's mansion",
+    "Act 2 Scene 1: Outside Capulet's mansion",
+    "Act 2 Scene 2: Capulet's orchard",
+    "Act 2 Scene 3: Outside Friar Lawrence's cell",
+    "Act 2 Scene 4: A street in Verona",
+    "Act 2 Scene 5: Capulet's mansion",
+    "Act 2 Scene 6: Friar Lawrence's cell"
+]
+
+var act1SceneCount = 0
+for scene in romeoAndJuliet {
+    if scene.hasPrefix("Act 1 ") {
+        ++act1SceneCount
+    }
+}
+println("There are \(act1SceneCount) scenes in Act 1")
+// prints "There are 5 scenes in Act 1
+```
+后缀
+
+```
+var mansionCount = 0
+var cellCount = 0
+for scene in romeoAndJuliet {
+    if scene.hasSuffix("Capulet's mansion") {
+        ++mansionCount
+    } else if scene.hasSuffix("Friar Lawrence's cell") {
+        ++cellCount
+    }
+}
+println("\(mansionCount) mansion scenes; \(cellCount) cell scenes")
+// prints "6 mansion scenes; 2 cell scenes”
+```
+#####大小写转换
+
+```
+let normal = "Could you help me, please?""
+let shouty = normal.uppercaseString
+// shouty is equal to "COULD YOU HELP ME, PLEASE?"
+let whispered = normal.lowercaseString
+// whispered is equal to "could you help me, please?”
+```
+####Unicode p118
+####Collection 类型
+#####Array
+不同于OC中的array(可存储不同类型的对象)，array存储了同类型的对象，无需一定要存储对象，也可存储Int等类型
+以下两个定义等价
+```
+var shoppingList: String[] = ["Eggs", "Milk"]
+var shoppingList = ["Eggs", "Milk"]
+```
+#####访问或修改array
+计算array的大小
+
+```
+“println("The shopping list contains \(shoppingList.count) items.")
+// prints "The shopping list contains 2 items.”
+```
+用isEmpty来判断coun得否为0
+```
+if shoppingList.isEmpty {
+    println("The shopping list is empty.")
+} else {
+    println("The shopping list is not empty.")
+}
+// prints "The shopping list is not empty."
+```
+添加元素
+
+* 用append
+
+```
+shoppingList.append("Flour")
+// shoppingList now contains 3 items, and someone is making pancakes”
+```
+
+* 用+=
+
+```
+shoppingList += "Baking Powder"
+// shoppingList now contains 4 items”
+
+shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
+// shoppingList now contains 7 items”
+```
+用Range来改变数组里一些元素的值
+
+```
+shoppingList[4...6] = ["Bananas", "Apples"]
+// shoppingList now contains 6 items”
+```
+在某位置插入元素
+
+```
+shoppingList.insert("Maple Syrup", atIndex: 0)
+// shoppingList now contains 7 items
+// "Maple Syrup" is now the first item in the list”
+```
+移除元素
+
+```
+let mapleSyrup = shoppingList.removeAtIndex(0)
+let apples = shoppingList.removeLast()
+```
+遍历
+
+```
+for item in shoppingList {
+    println(item)
+}
+// Six eggs
+// Milk
+// Flour
+// Baking Powder
+// Bananas”
+```
+如果你在遍历时需要知道对应的index，可以用以下方式 
+
+```
+for (index, value) in enumerate(shoppingList) {
+    println("Item \(index + 1): \(value)")
+}
+// Item 1: Six eggs
+// Item 2: Milk
+// Item 3: Flour
+// Item 4: Baking Powder
+// Item 5: Bananas
+```
+####创建和初始化Array
+
+```
+var someInts = Int[]()
+println("someInts is of type Int[] with \(someInts.count) items.")
+// prints "someInts is of type Int[] with 0 items.
+```
+注意以下例子，虽然someInt=[]不指定任何类型，但从前段代码可知它的元素是Int类型的
+```
+someInts.append(3)
+// someInts now contains 1 value of type Int
+someInts = []
+// someInts is now an empty array, but is still of type Int[]
+```
+指定default值和数目的初始化
+
+```
+var threeDoubles = Double[](count: 3, repeatedValue: 0.0)
+// threeDoubles is of type Double[], and equals [0.0, 0.0, 0.0]
+
+var anotherThreeDoubles = Array(count: 3, repeatedValue: 2.5)
+// anotherThreeDoubles is inferred as Double[], and equals [2.5, 2.5, 2.5]
+```
+最后我们能通过+来将两个数组连成一个
+
+```
+var sixDoubles = threeDoubles + anotherThreeDoubles
+// sixDoubles is inferred as Double[], and equals [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]”
+```
+####字典
+对key的唯一要求是hashable,Enumeration member values without associated values (as described in Enumerations) are also hashable by default.
+以下两个定义是等价的，swift能推测出它的类型
+
+```
+var airports: Dictionary<String, String> = ["TYO": "Tokyo", "DUB": "Dublin"]”
+var airports: Dictionary<String, String> = ["TYO": "Tokyo", "DUB": "Dublin"]
+
+```
+####访问和修改字典
+
+```
+println("The dictionary of airports contains \(airports.count) items.")
+// prints "The dictionary of airports contains 2 items.
+```
+方法updateValue(forKey:)的使用
+
+```
+if let oldValue = airports.updateValue("Dublin International", forKey: "DUB") {
+    println("The old value for DUB was \(oldValue).")
+}
+// prints "The old value for DUB was Dublin.
+```
+注意，此方法对应的是key对应的旧值，返回的是一个optional value
+用[]获取的值也是optional vlaue
+
+```
+if let airportName = airports["DUB"] {
+    println("The name of the airport is \(airportName).")
+} else {
+    println("That airport is not in the airports dictionary.")
+}
+// prints "The name of the airport is Dublin International.
+```
+我们可以将nil赋予key对应的值来移除此key
+
+```
+airports["APL"] = "Apple International"
+// "Apple International" is not the real airport for APL, so delete it
+airports["APL"] = nil
+// APL has now been removed from the dictionary
+```
+也可以用`removeValueForKey`方法
+此方法返回的是key对应的旧值,或者nil(如果不存在的话)
+
+```
+if let removedValue = airports.removeValueForKey("DUB") {
+    println("The removed airport's name is \(removedValue).")
+} else {
+    println("The airports dictionary does not contain a value for DUB.")
+}
+// prints "The removed airport's name is Dublin International.”
+```
+#####遍历字典
+
+```
+for (airportCode, airportName) in airports {
+    println("\(airportCode): \(airportName)")
+}
+// TYO: Tokyo
+// LHR: London Heathrow
+
+for airportCode in airports.keys {
+    println("Airport code: \(airportCode)")
+}
+// Airport code: TYO
+// Airport code: LHR
+ 
+for airportName in airports.values {
+    println("Airport name: \(airportName)")
+}
+
+//用keys或values创建一个数组
+let airportCodes = Array(airports.keys)
+// airportCodes is ["TYO", "LHR"]
+ 
+let airportNames = Array(airports.values)
+// airportNames is ["Tokyo", "London Heathrow"]
+```
+####创建一个空的字典
+
+```
+var namesOfIntegers = Dictionary<Int, String>()
+```
+注意以下,namesIntegers能被推断出是<Int,String>
+
+```
+namesOfIntegers[16] = "sixteen"
+// namesOfIntegers now contains 1 key-value pair
+namesOfIntegers = [:]
+```
+`注意`Behind the scenes, Swift’s array and dictionary types are implemented as generic collections
+####Mutability Of Collections
+对字典来说,immutability意味着你不能改变一个key对应的值，而对数组来说，你只是不能改变它的大小，但仍然能改变某个index对应的值
+####条件语句
+注意,swift的switch中的case后无需跟着break，因为执行完case里的语句就自动break了，cases也能匹配不同的类型，包括range,tuples或转换为某一具体的类型
+#####For Loops
+* For-In
+
+```
+for index in 1...5 {
+    println("\(index) times 5 is \(index * 5)")
+}
+// 1 times 5 is 5
+// 2 times 5 is 10
+// 3 times 5 is 15
+// 4 times 5 is 20
+// 5 times 5 is 25”
+```
+如果你不需要index，可以用`_`来忽略它
+
+```
+let base = 3
+let power = 10
+var answer = 1
+for _ in 1...power {
+    answer *= base
+}
+println("\(base) to the power of \(power) is \(answer)")
+// prints "3 to the power of 10 is 59049
+```
+array,dictionary,characters的for-in
+
+```
+let names = ["Anna", "Alex", "Brian", "Jack"]
+for name in names {
+    println("Hello, \(name)!")
+}
+
+let numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
+for (animalName, legCount) in numberOfLegs {
+    println("\(animalName)s have \(legCount) legs")
+}
+// spiders have 8 legs
+// ants have 6 legs
+// cats have 4 legs
+
+for character in "Hello" {
+    println(character)
+}
+// H
+// e
+// l
+// l
+// o
+```
+#####For-Condition-Increment
+
+```
+for var index = 0; index < 3; ++index {
+    println("index is \(index)")
+}
+// index is 0
+// index is 1
+// index is 2
+```
+注意for后无需括号
+#####条件语句
+
+```
+var temperatureInFahrenheit = 30
+if temperatureInFahrenheit <= 32 {
+    println("It's very cold. Consider wearing a scarf.")
+}
+```
+#####switch语句
+
+```
+let someCharacter: Character = "e"
+switch someCharacter {
+case "a", "e", "i", "o", "u":
+    println("\(someCharacter) is a vowel")
+case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+"n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+    println("\(someCharacter) is a consonant")
+default:
+    println("\(someCharacter) is not a vowel or a consonant")
+}
+// prints "e is a vowel”
+```
+注意，以下方式不行
+
+```
+let anotherCharacter: Character = "a"
+switch anotherCharacter {
+case "a":
+case "A":
+    println("The letter A")
+default:
+    println("Not the letter A")
+}
+// this will report a compile-time error
+```
+每个case里必须对应相应的语句
+#####Range Matching
+
+```
+let count = 3_000_000_000_000
+let countedThings = "stars in the Milky Way"
+var naturalCount: String
+switch count {
+case 0:
+    naturalCount = "no"
+case 1...3:
+    naturalCount = "a few"
+case 4...9:
+    naturalCount = "several"
+case 10...99:
+    naturalCount = "tens of"
+case 100...999:
+    naturalCount = "hundreds of"
+case 1000...999_999:
+    naturalCount = "thousands of"
+default:
+    naturalCount = "millions and millions of"
+}
+println("There are \(naturalCount) \(countedThings).")
+// prints "There are millions and millions of stars in the Milky Way.”
+```
+#####Tuples
+
+```
+let somePoint = (1, 1)
+switch somePoint {
+case (0, 0):
+    println("(0, 0) is at the origin")
+case (_, 0):
+    println("(\(somePoint.0), 0) is on the x-axis")
+case (0, _):
+    println("(0, \(somePoint.1)) is on the y-axis")
+case (-2...2, -2...2):
+    println("(\(somePoint.0), \(somePoint.1)) is inside the box")
+default:
+    println("(\(somePoint.0), \(somePoint.1)) is outside of the box")
+}
+// prints "(1, 1) is inside the box”
+```
+####Value Bindings
+
+```
+let anotherPoint = (2, 0)
+switch anotherPoint {
+case (let x, 0):
+    println("on the x-axis with an x value of \(x)")
+case (0, let y):
+    println("on the y-axis with a y value of \(y)")
+case let (x, y):
+    println("somewhere else at (\(x), \(y))")
+}
+// prints "on the x-axis with an x value of 2”
+```
+#####where的使用
+
+```
+let yetAnotherPoint = (1, -1)
+switch yetAnotherPoint {
+case let (x, y) where x == y:
+    println("(\(x), \(y)) is on the line x == y")
+case let (x, y) where x == -y:
+    println("(\(x), \(y)) is on the line x == -y")
+case let (x, y):
+    println("(\(x), \(y)) is just some arbitrary point")
+}
+```
+#####Control Transfer语句
+注意FallThrough的使用,来看以下例子
+
+```
+let integerToDescribe = 5
+var description = "The number \(integerToDescribe) is"
+switch integerToDescribe {
+case 2, 3, 5, 7, 11, 13, 17, 19:
+    description += " a prime number, and also"
+    fallthrough
+default:
+    description += " an integer."
+}
+println(description)
+// prints "The number 5 is a prime number, and also an integer.”
+```
+####Labeled语句
+
+```
+gameLoop: while square != finalSquare {
+    if ++diceRoll == 7 { diceRoll = 1 }
+    switch square + diceRoll {
+    case finalSquare:
+        // diceRoll will move us to the final square, so the game is over
+        break gameLoop
+    case let newSquare where newSquare > finalSquare:
+        // diceRoll will move us beyond the final square, so roll again
+        continue gameLoop
+    default:
+        // this is a valid move, so find out its effect
+        square += diceRoll
+        square += board[square]
+    }
+}
+println("Game over!")”
+```
+####函数
+
+```
+func sayHello(personName: String) -> String {
+    let greeting = "Hello, " + personName + "!"
+    return greeting
+}
+
+println(sayHello("Anna"))
+// prints "Hello, Anna!"
+println(sayHello("Brian"))
+// prints "Hello, Brian!”
+
+func sayHelloWorld() -> String {
+    return "hello, world"
+}
+println(sayHelloWorld())
+// prints "hello, world”
+```
+无返回值的函数
+
+```
+func sayGoodbye(personName: String) {
+    println("Goodbye, \(personName)!")
+}
+sayGoodbye("Dave")
+// prints "Goodbye, Dave!"
+```
+注意，实际上，虽然函数没写返回值，但它返回的是一个空的tuple`()`
+#####返回多个值
+
+```
+func count(string: String) -> (vowels: Int, consonants: Int, others: Int) {
+    var vowels = 0, consonants = 0, others = 0
+    for character in string {
+        switch String(character).lowercaseString {
+        case "a", "e", "i", "o", "u":
+            ++vowels
+        case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+        "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+            ++consonants
+        default:
+            ++others
+        }
+    }
+    return (vowels, consonants, others)
+}
+
+let total = count("some arbitrary string!")
+println("\(total.vowels) vowels and \(total.consonants) consonants")
+// prints "6 vowels and 13 consonants”
+```
+`注意`,.vowerls和.consonants依然可用!!!
+#####External Parameter Names
+
+```
+func someFunction(externalParameterName localParameterName: Int) {
+    // function body goes here, and can use localParameterName
+    // to refer to the argument value for that parameter
+}
+
+func join(string s1: String, toString s2: String, withJoiner joiner: String)
+    -> String {
+        return s1 + joiner + s2
+}
+
+join(string: "hello", toString: "world", withJoiner: ", ")
+```
+#####Shorthand External Parameter Names
+
+```
+func containsCharacter(#string: String, #characterToFind: Character) -> Bool {
+    for character in string {
+        if character == characterToFind {
+            return true
+        }
+    }
+    return false
+}
+
+let containsAVee = containsCharacter(string: "aardvark", characterToFind: "v")
+// containsAVee equals true, because "aardvark" contains a "v”
+```
+####参数的默认值
+将有默认值的参数放在最后
+
+```
+func join(string s1: String, toString s2: String,
+    withJoiner joiner: String = " ") -> String {
+        return s1 + joiner + s2
+}
+
+join(string: "hello", toString: "world", withJoiner: "-")
+// returns "hello-world"
+
+join(string: "hello", toString: "world")
+// returns "hello world"
+```
+#####External Names for Parameters with Default Values
+Swift provides an automatic external name for any defaulted parameter you define
+故可以像如下调用
+
+```
+join("hello", "world", joiner: "-")
+```
+#####Variadic Parameters
+
+```
+func arithmeticMean(numbers: Double...) -> Double {
+    var total: Double = 0
+    for number in numbers {
+        total += number
+    }
+    return total / Double(numbers.count)
+}
+arithmeticMean(1, 2, 3, 4, 5)
+// returns 3.0, which is the arithmetic mean of these five numbers
+arithmeticMean(3, 8, 19)
+// returns 10.0, which is the arithmetic mean of these three numbers
+```
+一个函数至多只能有一个variadic参数，它必须总是在所有参数的最后!
+
+#####Constant 和 Variable 参数
+函数的参数默认是constant的,如果试图修改它将导致错误,我们可以在参数前加var来让它可修改
+
+```
+func alignRight(var string: String, count: Int, pad: Character) -> String {
+    let amountToPad = count - countElements(string)
+    for _ in 1...amountToPad {
+        string = pad + string
+    }
+    return string
+}
+let originalString = "hello"
+let paddedString = alignRight(originalString, 10, "-")
+// paddedString is equal to "-----hello"
+// originalString is still equal to "hello”
+```
+#####In-Out参数 
+来看个demo就明白In-Out是如何使用的了
+
+```
+func swapTwoInts(inout a: Int, inout b: Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+
+var someInt = 3
+var anotherInt = 107
+swapTwoInts(&someInt, &anotherInt)
+println("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
+// prints "someInt is now 107, and anotherInt is now 3”
+```
+需要注意的是In-out参数不能有默认值,variadic参数不能与inout一起使用,let也不行
+#####函数类型
+可以像以下这么用
+
+```
+var mathFunction: (Int, Int) -> Int = addTwoInts
+println("Result: \(mathFunction(2, 3))")
+```
+同样的函数签名也可以赋值
+
+```
+mathFunction = multiplyTwoInts
+println("Result: \(mathFunction(2, 3))")
+// prints "Result: 6
+```
+也可以根据Swift的自动推断功能像以下方法使用
+
+```
+let anotherMathFunction = addTwoInts
+```
+#####充当参数的函数类型
+
+```
+func printMathResult(mathFunction: (Int, Int) -> Int, a: Int, b: Int) {
+    println("Result: \(mathFunction(a, b))")
+}
+printMathResult(addTwoInts, 3, 5)
+// prints "Result: 8”
+```
+#####作为返回类型的函数类型
+
+```
+func stepForward(input: Int) -> Int {
+    return input + 1
+}
+func stepBackward(input: Int) -> Int {
+    return input - 1
+}
+
+func chooseStepFunction(backwards: Bool) -> (Int) -> Int {
+    return backwards ? stepBackward : stepForward
+}
+
+var currentValue = 3
+let moveNearerToZero = chooseStepFunction(currentValue > 0)
+// moveNearerToZero now refers to the stepBackward() function
+
+println("Counting to zero:")
+// Counting to zero:
+while currentValue != 0 {
+    println("\(currentValue)... ")
+    currentValue = moveNearerToZero(currentValue)
+}
+println("zero!")
+// 3...
+// 2...
+// 1...
+// zero!
+```
+#####嵌套函数
+
+```
+func chooseStepFunction(backwards: Bool) -> (Int) -> Int {
+    func stepForward(input: Int) -> Int { return input + 1 }
+    func stepBackward(input: Int) -> Int { return input - 1 }
+    return backwards ? stepBackward : stepForward
+}
+var currentValue = -4
+let moveNearerToZero = chooseStepFunction(currentValue > 0)
+// moveNearerToZero now refers to the nested stepForward() function
+while currentValue != 0 {
+    println("\(currentValue)... ")
+    currentValue = moveNearerToZero(currentValue)
+}
+println("zero!")
+// -4...
+// -3...
+// -2...
+// -1...
+// zero!
+```
+####闭包
+类似OC中的block
+#####Sort函数
+第一种使用方式
+```
+let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+//demo 1
+func backwards(s1: String, s2: String) -> Bool {
+    return s1 > s2
+}
+var reversed = sort(names, backwards)
+```
+第二种
+
+```
+reversed = sort(names, { (s1: String, s2: String) -> Bool in
+    return s1 > s2
+    })
+```
+closure的body和声明用in关键词分隔开来
+#####Inferring Type From Context
+由于sort的closure是以参数的形式传入函数，所以swift能从推测出闭包的参数类型和返回值类型,所以我们可以按以下方式来写
+
+```
+reversed = sort(names, { s1, s2 in return s1 > s2 } )
+```
+也可以省略return,因为默认是有return这个关键字的
+
+```
+reversed = sort(names, { s1, s2 in  s1 > s2 } )
+```
+#####Shorthand Argument Names
+Swift默认为内联的参数名指定了诸如$0, $1等名字
+If you use these shorthand argument names within your closure expression, you can omit the closure’s argument list from its definition, and the number and type of the shorthand argument names will be inferred from the expected function type. The in keyword can also be omitted, because the closure expression is made up entirely of its body:
+
+```
+reversed = sort(names, { $0 > $1 } )
+```
+以上的demo中,$0和$1分别指向了闭包的第一个和第二个String参数
+
+#####Operators Function
+There’s actually an even shorter way to write the closure expression above. Swift’s String type defines its string-specific implementation of the greater-than operator (>) as a function that has two parameters of type String, and returns a value of type Bool. This exactly matches the function type needed for the sort function’s second parameter. Therefore, you can simply pass in the greater-than operator, and Swift will infer that you want to use its string-specific implementation:
+
+```
+reversed = sort(names, >)
+```
+#####Trailing Closures
+如果你将一个闭包指定为一个函数的最后一个参数，并且这个闭包表达式很长，你可以将它作为一个trailing closure,它是一个写在函数的括号之外的closure
+
+```
+func someFunctionThatTakesAClosure(closure: () -> ()) {
+    // function body goes here
+}
+ 
+// here's how you call this function without using a trailing closure:
+ 
+someFunctionThatTakesAClosure({
+    // closure's body goes here
+    })
+ 
+// here's how you call this function with a trailing closure instead:
+ 
+someFunctionThatTakesAClosure() {
+    // trailing closure's body goes here
+}
+```
+`注意`:如果一个closure expression是一个函数的惟参数,则无需要括号，故以上也可以写成
+
+```
+someFunctionThatTakesAClosure {
+    // trailing closure's body goes here
+}
+```
+来看一个Array中的map方法的例子，只有一个参数，也是一个closure
+
+```
+let digitNames = [
+    0: "Zero", 1: "One", 2: "Two",   3: "Three", 4: "Four",
+    5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine"
+]
+let numbers = [16, 58, 510]
+
+let strings = numbers.map {
+    (var number) -> String in
+    var output = ""
+    while number > 0 {
+        output = digitNames[number % 10]! + output
+        number /= 10
+    }
+    return output
+}
+// strings is inferred to be of type String[]
+// its value is ["OneSix", "FiveEight", "FiveOneZero"]
+```
+#####Capturing Values
+Swift中closure的最简单形式是一个内嵌的函数
+
+```
+func makeIncrementor(forIncrement amount: Int) -> () -> Int {
+    var runningTotal = 0
+    func incrementor() -> Int {
+        runningTotal += amount
+        return runningTotal
+    }
+    return incrementor
+}
+```
+because it modifies the runningTotal variable each time it is called, incrementor captures a reference to the current runningTotal variable, and not just a copy of its initial value. Capturing a reference ensures sure that runningTotal does not disappear when the call to makeIncrementor ends, and ensures that runningTotal will continue to be available the next time that the incrementor function is called.
+注意以下的调用
+
+```
+let incrementByTen = makeIncrementor(forIncrement: 10)
+
+incrementByTen()
+// returns a value of 10
+incrementByTen()
+// returns a value of 20
+incrementByTen()
+// returns a value of 30
+```
+If you create another incrementor, it will have its own stored reference to a new, separate runningTotal variable
+
+```
+let incrementBySeven = makeIncrementor(forIncrement: 7)
+incrementBySeven()
+// returns a value of 7
+incrementByTen()
+// returns a value of 40
+```
+incrementByTen捕获的变量与incrementBySeven捕获的无关
+#####Closure是引用类型
+也就是说如果你将closure赋给两个不同的常量或变量，这两个常量或变量将指向一样的closure
+
+```
+let alsoIncrementByTen = incrementByTen
+alsoIncrementByTen()
+// returns a value of 50
+```
+####Enumerations
+Enumerations in Swift are first-class types in their own right. They adopt many features traditionally supported only by classes, such as computed properties to provide additional information about the enumeration’s current value, and instance methods to provide functionality related to the values the enumeration represents. Enumerations can also define initializers to provide an initial member value; can be extended to expand their functionality beyond their original implementation; and can conform to protocols to provide standard functionality.
+#####Enumeration Syntax
+
+```
+enum CompassPoint {
+    case North
+    case South
+    case East
+    case West
+}
+```
+`注意`
+
+		Unlike C and Objective-C, Swift enumeration members are not assigned a default integer value when they are created. In the CompassPoints example above, North, South, East and West do not implicitly equal 0, 1, 2 and 3. Instead, the different enumeration members are fully-fledged values in their own right, with an explicitly-defined type of CompassPoint.
+
+多个成员值可以出现在同一行上，用`,`分开
+
+```
+enum Planet {
+    case Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
+}
+```
+来看以下例子
+
+```
+var directionToHead = CompassPoint.West
+directionToHead = .East
+```
+一旦知道了directionToHead的类型，它的type(CompassPoint)可以省略
+#####Switch..case
+
+```
+directionToHead = .South
+switch directionToHead {
+case .North:
+    println("Lots of planets have a north")
+case .South:
+    println("Watch out for penguins")
+case .East:
+    println("Where the sun rises")
+case .West:
+    println("Where the skies are blue")
+}
+// prints "Watch out for penguins
+```
+#####Associated Values
+
+```
+enum Barcode {
+    case UPCA(Int, Int, Int)
+    case QRCode(String)
+}
+
+var productBarcode = Barcode.UPCA(8, 85909_51226, 3)
+productBarcode = .QRCode("ABCDEFGHIJKLMNOP")
+
+switch productBarcode {
+case .UPCA(let numberSystem, let identifier, let check):
+    println("UPC-A with value of \(numberSystem), \(identifier), \(check).")
+case .QRCode(let productCode):
+    println("QR code with value of \(productCode).")
+}
+// prints "QR code with value of ABCDEFGHIJKLMNOP.”
+```
+If all of the associated values for a enumeration member are extracted as constants, or if all are extracted as variables, you can place a single var or let annotation before the member name, for brevity:
+
+```
+switch productBarcode {
+case let .UPCA(numberSystem, identifier, check):
+    println("UPC-A with value of \(numberSystem), \(identifier), \(check).")
+case let .QRCode(productCode):
+    println("QR code with value of \(productCode).")
+}
+// prints "QR code with value of ABCDEFGHIJKLMNOP.”
+```
+#####Raw Values
+
+```
+enum ASCIIControlCharacter: Character {
+    case Tab = "\t"
+    case LineFeed = "\n"
+    case CarriageReturn = "\r"
+}
+```
+The raw value for a particular enumeration member is always the same. Associated values are set when you create a new constant or variable based on one of the enumeration’s members, and can be different each time you do so.
+注意，如果整型被用来作为raw values,如果其他enumeration member无值，则其他的将会自动增长
+
+```
+enum Planet: Int {
+    case Mercury = 1, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
+}
+```
+.venus = 2,...依此类推
+用toRaw方法来获取一个enumeration member的rawValue值
+
+```
+let earthsOrder = Planet.Earth.toRaw()
+// earthsOrder is 3
+```
+用fromRaw来获取拥有一个raw value的enumberation member
+
+```
+let possiblePlanet = Planet.fromRaw(7)
+```
+注意fromRaw返回的是optional value,所以可以像如下这个写
+
+```
+let positionToFind = 9
+if let somePlanet = Planet.fromRaw(positionToFind) {
+    switch somePlanet {
+    case .Earth:
+        println("Mostly harmless")
+    default:
+        println("Not a safe place for humans")
+    }
+} else {
+    println("There isn't a planet at position \(positionToFind)")
+}
+// prints "There isn't a planet at position 9”
+```
+####Classes和Structures
+Unlike other programming languages, Swift does not require you to create separate interface and implementation files for custom classes and structures. In Swift, you define a class or a structure in a single file, and the external interface to that class or structure is automatically made available for other code to use.
+#####二者的比较
+共同之处
+
+* Define properties to store values
+* Define methods to provide functionality
+* Define subscripts to provide access to their values using subscript syntax
+* Define initializers to set up their initial state
+* Be extended to expand their functionality beyond a default implementation
+* Conform to protocols to provide standard functionality of a certain kind
+类有的，而Structure木有的
+
+* Inheritance enables one class to inherit the characteristics of another.
+* Type casting enables you to check and interpret the type of a class instance at runtime.
+* Deinitializers enable an instance of a class to free up any resources it has assigned.
+* Reference counting allows more than one reference to a class instance.
+`注意`Structures总是被copies的而不用引用计数
+#####语法定义
+
+```
+struct Resolution {
+    var width = 0
+    var height = 0
+}
+class VideoMode {
+    var resolution = Resolution()
+    var interlaced = false
+    var frameRate = 0.0
+    var name: String?
+}
+```
+#####Class and Structures Instances
+创建对象实例
+
+```
+let someResolution = Resolution()
+let someVideoMode = VideoMode()
+```
+#####访问属性
+可以层层访问，注意以下
+
+```
+println("The width of someVideoMode is \(someVideoMode.resolution.width)")
+// prints "The width of someVideoMode is 0”
+```
+`注意`
+Unlike Objective-C, Swift enables you to set sub-properties of a structure property directly. In the last example above, the width property of the resolution property of someVideoMode is set directly, without your needing to set the entire resolution property to a new value.
+#####Memberwise Initializers for Structure Types
+
+```
+let vga = Resolution(width: 640, height: 480)
+```
+不过不像structures,类的对象初始化时没有这样默认的成员初始化
+####Structus和Enumerations是值类型
+也就是说当它赋给一个变量或专给函数时，它们是copy的
+实际上,Swift中的所有基本类型，整型，浮点型，bool型，string，array和dictionary都是值类型，不过幕后都以structure的形式呈现
+demo
+
+```
+enum CompassPoint {
+    case North, South, East, West
+}
+var currentDirection = CompassPoint.West
+let rememberedDirection = currentDirection
+currentDirection = .East
+if rememberedDirection == .West {
+    println("The remembered direction is still .West")
+}
+// prints "The remembered direction is still .West”
+```
+####类是引用类型
+我们可以判断两个变量是否指向同一个类的对象
+可以用`===`
+####选择类或是Structure
+structure总是按值传递，class总是按引用传递
+####Assignment and Copy Behavior for Collection Types
+
+* Assignment and Copy Behavior for Dictionaries 
+当你将一个dictionary赋予一个常量或变量，或者将它传入函数时,dictionary就被copied了
+如果keys/values是值类型,它们也在赋值或作为参数传入函数时也被copy了，不过如果它们是引用类型的话，只是引用copy了，对象并未被copy，这种copy规则与一个structure的properties一样，如果structure被copy的话
+* Assignment and Copy Behavior for Arrays
+array的copy规则与dictionary的大大不同!array的copy只发生在你所做的修改会改变array的大小的时候
+
+```
+var a = [1, 2, 3]
+var b = a
+var c = a
+
+a[0] = 42
+println(a[0])
+// 42
+println(b[0])
+// 42
+println(c[0])
+// 42
+
+a.append(4)
+a[0] = 777
+println(a[0])
+// 777
+println(b[0])
+// 42
+println(c[0])
+// 42
+```
+####确保array是唯一的
+
+通过对一个array的变量调用unshare方法，你能确保这个这个变量对这个array的唯一性，也就是说如果有多个变量指向同一个array,如果你对其中的某一个变量调用unshare方法，这个array就被copy了,所以这个变量有此array的独立拷贝,不过如果只有一个变量指向此array,则copy不会发生
+在以上的例子中,假设我们调用了如下语句
+
+```
+b.unshare()
+```
+则结果如下
+
+```
+b[0] = -105
+println(a[0])
+// 777
+println(b[0])
+// -105
+println(c[0])
+// 42
+```
+#####Checking Whether Two Arrays Share the Same Elements
+Check whether two arrays or subarrays share the same storage and elements by comparing them with the identity operators (=== and !==).
+
+```
+if b === c {
+    println("b and c still share the same array elements.")
+} else {
+    println("b and c now refer to two independent sets of array elements.")
+}
+// prints "b and c now refer to two independent sets of array elements.
+```
+Alternatively, use the identity operators to check whether two subarrays share the same elements. The example below compares two identical subarrays from b and confirms that they refer to the same elements:
+
+```
+if b[0...1] === b[0...1] {
+    println("These two subarrays share the same elements.")
+} else {
+    println("These two subarrays do not share the same elements.")
+}
+// prints "These two subarrays share the same elements.”
+```
+#####强制array的copy
+调用array的copy方法,这个方法只是对array进行`浅复制`
+####Properties
+Properties associate values with a particular class, structure, or enumeration. Stored properties store constant and variable values as part of an instance, whereas computed properties calculate (rather than store) a value. Computed properties are provided by classes, structures, and enumerations. Stored properties are provided only by classes and structures.
+
+Stored and computed properties are usually associated with instances of a particular type. However, properties can also be associated with the type itself. Such properties are known as type properties.
+
+In addition, you can define property observers to monitor changes in a property’s value, which you can respond to with custom actions. Property observers can be added to stored properties you define yourself, and also to properties that a subclass inherits from its superclass.
+
+#####Stored Properties
+
+```
+struct FixedLengthRange {
+    var firstValue: Int
+    let length: Int
+}
+var rangeOfThreeItems = FixedLengthRange(firstValue: 0, length: 3)
+// the range represents integer values 0, 1, and 2
+rangeOfThreeItems.firstValue = 6
+// the range now represents integer values 6, 7, and 8
+```
+#####Stored Properties of Constant Structure Instances
+如果你创建了一个structure的instance，并且将这个instance赋予一个常量,你不能通过这个常量修改这个instance的properties,即使它们被声明为variable properties
+
+```
+let rangeOfFourItems = FixedLengthRange(firstValue: 0, length: 4)
+// this range represents integer values 0, 1, 2, and 3
+rangeOfFourItems.firstValue = 6
+// this will report an error, even thought firstValue is a variable property
+```
+这是因为structure是值类型的缘故,如果一个值类型的instance被标记为常量，则它的property也是
+不过class与此不同，class照样可修改instance的variable properties，既然它被赋值为一个常量
+#####Lazy Stored Properties
+A lazy stored property is a property whose initial value is not calculated until the first time it is used. You indicate a lazy stored property by writing the @lazy attribute before its declaration.
+
+`注意`
+You must always declare a lazy property as a variable (with the var keyword), because its initial value may not be retrieved until after instance initialization completes. Constant properties must always have a value before initialization completes, and therefore cannot be declared as lazy.
+
+Lazy properties are useful when the initial value for a property is dependent on outside factors whose values are not known until after an instance’s initialization is complete. Lazy properties are also useful when the initial value for a property requires complex or computationally expensive setup that should not be performed unless or until it is needed.
+
+The example below uses a lazy stored property to avoid unnecessary initialization of a complex class. This example defines two classes called DataImporter and DataManager, neither of which is shown in full:
+
+```
+class DataImporter {
+    /*
+    DataImporter is a class to import data from an external file.
+    The class is assumed to take a non-trivial amount of time to initialize.
+    */
+    var fileName = "data.txt"
+    // the DataImporter class would provide data importing functionality here
+}
+ 
+class DataManager {
+    @lazy var importer = DataImporter()
+    var data = String[]()
+    // the DataManager class would provide data management functionality here
+}
+ 
+let manager = DataManager()
+manager.data += "Some data"
+manager.data += "Some more data"
+// the DataImporter instance for the importer property has not yet been created
+```
+只有在importer的property首次被访问的时候，importer才被创建
+
+####Computed Properties
+主要用来计算，而非存储，主要提供了一个getter和一个可选的setter
+
+```
+struct Point {
+    var x = 0.0, y = 0.0
+}
+
+struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+    get {
+        let centerX = origin.x + (size.width / 2)
+        let centerY = origin.y + (size.height / 2)
+        return Point(x: centerX, y: centerY)
+    }
+    set(newCenter) {
+        origin.x = newCenter.x - (size.width / 2)
+        origin.y = newCenter.y - (size.height / 2)
+    }
+    }
+}
+var square = Rect(origin: Point(x: 0.0, y: 0.0),
+    size: Size(width: 10.0, height: 10.0))
+let initialSquareCenter = square.center
+square.center = Point(x: 15.0, y: 15.0)
+println("square.origin is now at (\(square.origin.x), \(square.origin.y))")
+// prints "square.origin is now at (10.0, 10.0)
+```
+#####Shorthand Setter Declaration
+如果一个computed property的setter并不为新值定义一个名字,则新值的默认名为newValue
+
+```
+struct AlternativeRect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+    get {
+        let centerX = origin.x + (size.width / 2)
+        let centerY = origin.y + (size.height / 2)
+        return Point(x: centerX, y: centerY)
+    }
+    set {
+        origin.x = newValue.x - (size.width / 2)
+        origin.y = newValue.y - (size.height / 2)
+    }
+    }
+}
+```只读的Computed Properties
+一个computed property如果只有一个getter，而没有setter，则它被称为read-only computed property,它只能返回一个值(通过.)而不能赋值
+
+```
+struct Cuboid {
+    var width = 0.0, height = 0.0, depth = 0.0
+    var volume: Double {
+    return width * height * depth
+    }
+}
+let fourByFiveByTwo = Cuboid(width: 4.0, height: 5.0, depth: 2.0)
+println("the volume of fourByFiveByTwo is \(fourByFiveByTwo.volume)")
+// prints "the volume of fourByFiveByTwo is 40.0”
+```
+
+ `注意`你必须用var来声明computed properties(即使是只读的也一样),let只用于constant properties
+ 
+ #####Property Observer
+Property observers observe and respond to changes in a property’s value. Property observers are called every time a property’s value is set, even if the new value is the same as the property’s current value.
+
+You can add property observers to any stored properties you define, apart from lazy stored properties. You can also add property observers to any inherited property (whether stored or computed) by overriding the property within a subclass
+
+`注意`
+You don’t need to define property observers for non-overridden computed properties, because you can observe and respond to changes to their value from directly within the computed property’s setter.
+
+you have the option to define either or both of these observers on a property:
+
+* willSet is called just before the value is stored.
+* didSet is called immediately after the new value is stored.
+
+If you implement a willSet observer, it is passed the new property value as a constant parameter. You can specify a name for this parameter as part of your willSet implementation. If you choose not to write the parameter name and parentheses within your implementation, the parameter will still be made available with a default parameter name of newValue.
+
+Similarly, if you implement a didSet observer, it will be passed a constant parameter containing the old property value. You can name the parameter if you wish, or use the default parameter name of oldValue.
+
+`注意`
+willSet and didSet observers are not called when a property is first initialized. They are only called when the property’s value is set outside of an initialization context.
+
+```
+class StepCounter {
+    var totalSteps: Int = 0 {
+    willSet(newTotalSteps) {
+        println("About to set totalSteps to \(newTotalSteps)")
+    }
+    didSet {
+        if totalSteps > oldValue  {
+            println("Added \(totalSteps - oldValue) steps")
+        }
+    }
+    }
+}
+let stepCounter = StepCounter()
+stepCounter.totalSteps = 200
+// About to set totalSteps to 200
+// Added 200 steps
+stepCounter.totalSteps = 360
+// About to set totalSteps to 360
+// Added 160 steps
+stepCounter.totalSteps = 896
+// About to set totalSteps to 896
+// Added 536 steps
+```
+`注意`
+If you assign a value to a property within its own didSet observer, the new value that you assign will replace the one that was just set
+
+####全局和局部变量 
+The capabilities described above for computing and observing properties are also available to global variables and local variables. 
+
+The global and local variables you have encountered in previous chapters have all been stored variables. Stored variables, like stored properties, provide storage for a value of a certain type and allow that value to be set and retrieved.
+
+However, you can also define computed variables and define observers for stored variables, in either a global or local scope. Computed variables calculate rather than store a value, and are written in the same way as computed properties.
+
+`注意`
+Global constants and variables are always computed lazily, in a similar manner to Lazy Stored Properties. Unlike lazy stored properties, global constants and variables do not need to be marked with the @lazy attribute.
+
+Local constants and variables are never computed lazily.
+####Type Properties
+For value types (that is, structures and enumerations), you can define stored and computed type properties. For classes, you can define computed type properties only.
+
+Stored type properties for value types can be variables or constants. Computed type properties are always declared as variable properties, in the same way as 
+computed instance properties.
+
+`注意`
+Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.
+
+#####Type property语法
+
+```
+struct SomeStructure {
+    static var storedTypeProperty = "Some value."
+    static var computedTypeProperty: Int {
+    // return an Int value here
+    }
+}
+enum SomeEnumeration {
+    static var storedTypeProperty = "Some value."
+    static var computedTypeProperty: Int {
+    // return an Int value here
+    }
+}
+class SomeClass {
+    class var computedTypeProperty: Int {
+    // return an Int value here
+    }
+}
+```
+#####Querying and Setting Type Properties
+
+```
+println(SomeClass.computedTypeProperty)
+// prints "42"
+ 
+println(SomeStructure.storedTypeProperty)
+// prints "Some value."
+SomeStructure.storedTypeProperty = "Another value."
+println(SomeStructure.storedTypeProperty)
+// prints "Another value."
+```
+再来看一个例子
+
+```
+struct AudioChannel {
+    static let thresholdLevel = 10
+    static var maxInputLevelForAllChannels = 0
+    var currentLevel: Int = 0 {
+    didSet {
+        if currentLevel > AudioChannel.thresholdLevel {
+            // cap the new audio level to the threshold level
+            currentLevel = AudioChannel.thresholdLevel
+        }
+        if currentLevel > AudioChannel.maxInputLevelForAllChannels {
+            // store this as the new overall maximum input level
+            AudioChannel.maxInputLevelForAllChannels = currentLevel
+        }
+    }
+    }
+}
+```
+`注意`
+In the first of these two checks, the didSet observer sets currentLevel to a different value. This does not, however, cause the observer to be called again.
+####方法
+与C不同,Swift中的Structure和enumerations能定义方法
+#####Instance Methods
+
+```
+class Counter {
+    var count = 0
+    func increment() {
+        count++
+    }
+    func incrementBy(amount: Int) {
+        count += amount
+    }
+    func reset() {
+        count = 0
+    }
+}
+
+let counter = Counter()
+// the initial counter value is 0
+counter.increment()
+// the counter's value is now 1
+counter.incrementBy(5)
+// the counter's value is now 6
+counter.reset()
+// the counter's value is now 0
+```
+#####Local and External Parameter Names for Methods
+Function parameters can have both a local name (for use within the function’s body) and an external name (for use when calling the function)
+
+The same is true for method parameters, because methods are just functions that are associated with a type. However, the default behavior of local names and external names is `different` for functions and methods.
+
+Specifically, Swift gives the first parameter name in a method a local parameter name by default, and gives the second and subsequent parameter names both local and external parameter names by default. 
+
+```
+class Counter {
+    var count: Int = 0
+    func incrementBy(amount: Int, numberOfTimes: Int) {
+        count += amount * numberOfTimes
+    }
+}
+
+let counter = Counter()
+counter.incrementBy(5, numberOfTimes: 3)
+// counter value is now 15
+```
+This default behavior effectively treats the method as if you had written a hash symbol (#) before the numberOfTimes parameter:
+
+```
+func incrementBy(amount: Int, #numberOfTimes: Int) {
+    count += amount * numberOfTimes
+}
+```
+#####Modifying External Parameter Name Behavior for Methods
+Sometimes it’s useful to provide an external parameter name for a method’s first parameter, even though this is not the default behavior. You can either add an explicit external name yourself, or you can prefix the first parameter’s name with a hash symbol to use the local name as an external name too.
+
+Conversely, if you do not want to provide an external name for the second or subsequent parameter of a method, override the default behavior by using an underscore character (_) as an explicit external parameter name for that parameter.
+
+#####The self Property
+以上的可以改成以下的
+
+```
+func increment() {
+    self.count++
+}
+```
+Swift assumes that you are referring to a property or method of the current instance whenever you use a known property or method name within a method.
+
+The main exception to this rule occurs when a parameter name for an instance method has the same name as a property of that instance. In this situation, the parameter name takes precedence, and it becomes necessary to refer to the property in a more qualified way. You use the implicit self property to distinguish between the parameter name and the property name.
+
+```
+struct Point {
+    var x = 0.0, y = 0.0
+    func isToTheRightOfX(x: Double) -> Bool {
+        return self.x > x
+    }
+}
+let somePoint = Point(x: 4.0, y: 5.0)
+if somePoint.isToTheRightOfX(1.0) {
+    println("This point is to the right of the line where x == 1.0")
+}
+// prints "This point is to the right of the line where x == 1.0”
+```
+####Modifying Value Types from Within Instance Methods
+Structures 和 enumerations都是值类型,值类型的属性是不能在它的instance方法里修改的,不过你可以在方法名前加mutating来对property进行修改
+
+```
+struct Point {
+    var x = 0.0, y = 0.0
+    mutating func moveByX(deltaX: Double, y deltaY: Double) {
+        x += deltaX
+        y += deltaY
+    }
+}
+var somePoint = Point(x: 1.0, y: 1.0)
+somePoint.moveByX(2.0, y: 3.0)
+println("The point is now at (\(somePoint.x), \(somePoint.y))")
+// prints "The point is now at (3.0, 4.0)”
+```
+The method can also assign a completely new instance to its implicit self property, and this new instance will replace the existing one when the method ends.
+
+```
+struct Point {
+    var x = 0.0, y = 0.0
+    mutating func moveByX(deltaX: Double, y deltaY: Double) {
+        self = Point(x: x + deltaX, y: y + deltaY)
+    }
+}
+```
+Mutating methods for enumerations can set the implicit self parameter to be a different member from the same enumeration:
+
+```
+enum TriStateSwitch {
+    case Off, Low, High
+    mutating func next() {
+        switch self {
+        case Off:
+            self = Low
+        case Low:
+            self = High
+        case High:
+            self = Off
+        }
+    }
+}
+var ovenLight = TriStateSwitch.Low
+ovenLight.next()
+// ovenLight is now equal to .High
+ovenLight.next()
+// ovenLight is now equal to .Off
+```
+####Type Methods
+ 对class,在方法的func关键字前加class,对structure和enumeration,在func前加static
+ 
+  `注意`:In Objective-C, you can define type-level methods only for Objective-C classes. In Swift, you can define type-level methods for all classes, structures, and enumerations. Each type method is explicitly scoped to the type it supports.
+
+```
+//对类而言
+class SomeClass {
+    class func someTypeMethod() {
+        // type method implementation goes here
+    }
+}
+SomeClass.someTypeMethod()
+//对structure和enumeration而言
+
+```
+在一个type方法的方法体里,self指的是type本身
+
+```
+struct LevelTracker {
+    static var highestUnlockedLevel = 1
+    static func unlockLevel(level: Int) {
+        if level > highestUnlockedLevel { highestUnlockedLevel = level }
+    }
+    static func levelIsUnlocked(level: Int) -> Bool {
+        return level <= highestUnlockedLevel
+    }
+    var currentLevel = 1
+    mutating func advanceToLevel(level: Int) -> Bool {
+        if LevelTracker.levelIsUnlocked(level) {
+            currentLevel = level
+            return true
+        } else {
+            return false
+        }
+    }
+}
+```
+与Player类的结合使用
+
+```
+class Player {
+    var tracker = LevelTracker()
+    let playerName: String
+    func completedLevel(level: Int) {
+        LevelTracker.unlockLevel(level + 1)
+        tracker.advanceToLevel(level + 1)
+    }
+    init(name: String) {
+        playerName = name
+    }
+}
+```
+####Subscripts
+You can define multiple subscripts for a single type, and the appropriate subscript overload to use is selected based on the type of index value you pass to the subscript. Subscripts are not limited to a single dimension, and you can define subscripts with multiple input parameters to suit your custom type’s needs.
+#####Subscript Syntax
+不像其他的instance方法,subscripts可以是读写的或是只读的
+
+```
+subscript(index: Int) -> Int {
+    get {
+        // return an appropriate subscript value here
+    }
+    set(newValue) {
+        // perform a suitable setting action here
+    }
+}
+```
+对于只读的computed property,对只读的subscripts,我们可以去掉get关键字
+
+```
+subscript(index: Int) -> Int {
+    // return an appropriate subscript value here
+}
+
+struct TimesTable {
+    let multiplier: Int
+    subscript(index: Int) -> Int {
+        return multiplier * index
+    }
+}
+let threeTimesTable = TimesTable(multiplier: 3)
+println("six times three is \(threeTimesTable[6])")
+// prints "six times three is 18”
+```
+#####Subscript Options
+Subscripts能接收任意数量的参数，并且这些参数可以是任意类型的
+Subscripts能接收variable 参数 和 variadic 参数,但不能使用in-out参数或是为参数提供默认值
+
+A class or structure can provide as many subscript implementations as it needs, and the appropriate subscript to be used will be inferred based on the types of the value or values that are contained within the subscript braces at the point that the subscript is used. This definition of multiple subscripts is known as subscript overloading.
+
+```
+struct Matrix {
+    let rows: Int, columns: Int
+    var grid: Double[]
+    init(rows: Int, columns: Int) {
+        self.rows = rows
+        self.columns = columns
+        grid = Array(count: rows * columns, repeatedValue: 0.0)
+    }
+    func indexIsValidForRow(row: Int, column: Int) -> Bool {
+        return row >= 0 && row < rows && column >= 0 && column < columns
+    }
+    subscript(row: Int, column: Int) -> Double {
+        get {
+            assert(indexIsValidForRow(row, column: column), "Index out of range")
+            return grid[(row * columns) + column]
+        }
+        set {
+            assert(indexIsValidForRow(row, column: column), "Index out of range")
+            grid[(row * columns) + column] = newValue
+        }
+     }
+}
+
+var matrix = Matrix(rows: 2, columns: 2)
+
+matrix[0, 1] = 1.5
+matrix[1, 0] = 3.2
+
+let someValue = matrix[2, 2]
+// this triggers an assert, because [2, 2] is outside of the matrix bounds
+
+```
+####继承
+只有类能继承
+Classes can also add property observers to inherited properties in order to be notified when the value of a property changes. Property observers can be added to any property, regardless of whether it was originally defined as a stored or computed property.
+
+```
+class Vehicle {
+    var numberOfWheels: Int
+    var maxPassengers: Int
+    func description() -> String {
+        return "\(numberOfWheels) wheels; up to \(maxPassengers) passengers"
+    }
+    init() {
+        numberOfWheels = 0
+        maxPassengers = 1
+    }
+}
+
+let someVehicle = Vehicle()
+
+```
+#####Subclassing
+
+```
+class Bicycle: Vehicle {
+    init() {
+        super.init()
+        numberOfWheels = 2
+    }
+}
+
+let bicycle = Bicycle()
+println("Bicycle: \(bicycle.description())")
+// Bicycle: 2 wheels; up to 1 passengers
+```
+The Bicycle class also defines an initializer to set up its tailored characteristics. The initializer for Bicycle calls super.init(), the initializer for the Bicycle class’s superclass, Vehicle, and ensures that all of the inherited properties are initialized by Vehicle before Bicycle tries to modify them.
+`注意`:initializers are not inherited by default in Swift. For more information
