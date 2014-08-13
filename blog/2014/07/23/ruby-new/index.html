@@ -405,10 +405,13 @@ end
 <p>方法可以用Ruby提供的yield来调用block多次</p>
 
 <pre><code>def call_block
-    puts "Start of method" yield
+
+    puts "Start of method" 
+    yield
     yield
     puts "End of method"
 end
+
     call_block { puts "In the block" }
 </code></pre>
 
@@ -424,6 +427,7 @@ end
 
 <pre><code>def who_says_what yield("Dave", "hello") 
     yield("Andy", "goodbye")
+
 end
 who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
 </code></pre>

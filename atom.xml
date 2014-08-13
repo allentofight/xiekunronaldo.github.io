@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-08-12T19:37:15+08:00</updated>
+  <updated>2014-08-13T10:39:25+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,545 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/08/12/swift/"/>
+    <updated>2014-08-12T21:29:29+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/08/12/swift</id>
+    <content type="html"><![CDATA[<h4>变量定义</h4>
+
+<p>常量用let,变量用var</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var myVariable = 42
+</span><span class='line'>myVariable = 50
+</span><span class='line'>let myConstant = 42
+</span><span class='line'>let explicitDouble: Double = 70
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>变量的值不会自动转化为其他类型的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let label = "The width is "
+</span><span class='line'>let width = 94
+</span><span class='line'>let widthLabel = label+String(width)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>String内的值替换</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let apples = 3
+</span><span class='line'>let oranges = 5
+</span><span class='line'>let appleSummary = "I have \(apples) apples.”</span></code></pre></td></tr></table></div></figure>
+
+
+<p>数组和字典</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var shoppingList = ["catfish", "water", "tulips", "blue paint"]
+</span><span class='line'>
+</span><span class='line'>shoppingList[1] = "bottle of water"
+</span><span class='line'> 
+</span><span class='line'>var occupations = [
+</span><span class='line'>
+</span><span class='line'>    "Malcolm": "Captain",
+</span><span class='line'>
+</span><span class='line'>    "Kaylee": "Mechanic",
+</span><span class='line'>]
+</span><span class='line'>occupations["Jayne"] = "Public Relations”
+</span><span class='line'>
+</span><span class='line'>let emptyArray = String[]()
+</span><span class='line'>let emptyDictionary = Dictionary&lt;String, Float&gt;()
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果类型是能推断的，可以用[]创建一个空数组，用[:]创建一个空字典</p>
+
+<h4>条件语句</h4>
+
+<p>if&hellip;else&hellip;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let individualScores = [75, 43, 103, 87, 12]
+</span><span class='line'>var teamScore = 0
+</span><span class='line'>for score in individualScores {
+</span><span class='line'>    if score &gt; 50 {
+</span><span class='line'>        teamScore += 3
+</span><span class='line'>    } else {
+</span><span class='line'>        teamScore += 1
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>teamScore</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，在if条件语句中，condition必须是bool表达式，所以类似<code>if score {...}</code>这样的代码是错误的
+if和optional value组成的条件表达式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var optionalString: String? = "Hello"
+</span><span class='line'>optionalString == nil
+</span><span class='line'> 
+</span><span class='line'>var optionalName: String? = "John Appleseed"
+</span><span class='line'>var greeting = "Hello!"
+</span><span class='line'>if let name = optionalName {
+</span><span class='line'>    greeting = "Hello, \(name)"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>switch和case语句支持多种类型的比较,不限于integer</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let vegetable = "red pepper"
+</span><span class='line'>switch vegetable {
+</span><span class='line'>case "celery":
+</span><span class='line'>    let vegetableComment = "Add some raisins and make ants on a log."
+</span><span class='line'>case "cucumber", "watercress":
+</span><span class='line'>    let vegetableComment = "That would make a good tea sandwich."
+</span><span class='line'>case let x where x.hasSuffix("pepper"):
+</span><span class='line'>    let vegetableComment = "Is it a spicy \(x)?"
+</span><span class='line'>default:
+</span><span class='line'>    let vegetableComment = "Everything tastes good in soup."
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意:执行完case语句，程序就从switch语句里终止了，所以无需break!</p>
+
+<p>遍历dictionary</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let interestingNumbers = [
+</span><span class='line'>    "Prime": [2, 3, 5, 7, 11, 13],
+</span><span class='line'>    "Fibonacci": [1, 1, 2, 3, 5, 8],
+</span><span class='line'>    "Square": [1, 4, 9, 16, 25],
+</span><span class='line'>]
+</span><span class='line'>var largest = 0
+</span><span class='line'>for (kind, numbers) in interestingNumbers {
+</span><span class='line'>    for number in numbers {
+</span><span class='line'>        if number &gt; largest {
+</span><span class='line'>            largest = number
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>largest</span></code></pre></td></tr></table></div></figure>
+
+
+<p>while语句</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var n = 2
+</span><span class='line'>while n &lt; 100 {
+</span><span class='line'>    n = n * 2
+</span><span class='line'>}
+</span><span class='line'>n
+</span><span class='line'> 
+</span><span class='line'>var m = 2
+</span><span class='line'>do {
+</span><span class='line'>    m = m * 2
+</span><span class='line'>} while m &lt; 100
+</span><span class='line'>m</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>..</code>的妙用,以下两个循环是等价的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var firstForLoop = 0
+</span><span class='line'>for i in 0..3 {
+</span><span class='line'>    firstForLoop += i
+</span><span class='line'>}
+</span><span class='line'>firstForLoop
+</span><span class='line'> 
+</span><span class='line'>var secondForLoop = 0
+</span><span class='line'>for var i = 0; i &lt; 3; ++i {
+</span><span class='line'>    secondForLoop += 1
+</span><span class='line'>}
+</span><span class='line'>secondForLoop</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>函数和闭包</h4>
+
+<p>函数的声明
+用->将参数与返回值区分开来</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func greet(name: String, day: String) -&gt; String {
+</span><span class='line'>    return "Hello \(name), today is \(day)."
+</span><span class='line'>}
+</span><span class='line'>greet("Bob", "Tuesday")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用tuple从函数中返回多个值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func getGasPrices() -&gt; (Double, Double, Double) {
+</span><span class='line'>    return (3.59, 3.69, 3.79)
+</span><span class='line'>}
+</span><span class='line'>getGasPrices()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数也能接收不定数量的参数，将它们封成到一个数组里</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func sumOf(numbers: Int...) -&gt; Int {
+</span><span class='line'>    var sum = 0
+</span><span class='line'>    for number in numbers {
+</span><span class='line'>        sum += number
+</span><span class='line'>    }
+</span><span class='line'>    return sum
+</span><span class='line'>}
+</span><span class='line'>sumOf()
+</span><span class='line'>sumOf(42, 597, 12)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数也能嵌套，内嵌的函数能访问声明在外部函数的变量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func returnFifteen() -&gt; Int {
+</span><span class='line'>    var y = 10
+</span><span class='line'>    func add() {
+</span><span class='line'>        y += 5
+</span><span class='line'>    }
+</span><span class='line'>    add()
+</span><span class='line'>    return y
+</span><span class='line'>}
+</span><span class='line'>returnFifteen()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数是first-class类型，这意味着函数也能返回另一个函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func makeIncrementer() -&gt; (Int -&gt; Int) {
+</span><span class='line'>    func addOne(number: Int) -&gt; Int {
+</span><span class='line'>        return 1 + number
+</span><span class='line'>    }
+</span><span class='line'>    return addOne
+</span><span class='line'>}
+</span><span class='line'>var increment = makeIncrementer()
+</span><span class='line'>increment(7)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数的参数也能是函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func hasAnyMatches(list: Int[], condition: Int -&gt; Bool) -&gt; Bool {
+</span><span class='line'>    for item in list {
+</span><span class='line'>        if condition(item) {
+</span><span class='line'>            return true
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    return false
+</span><span class='line'>}
+</span><span class='line'>func lessThanTen(number: Int) -&gt; Bool {
+</span><span class='line'>    return number &lt; 10
+</span><span class='line'>}
+</span><span class='line'>var numbers = [20, 19, 7, 12]
+</span><span class='line'>hasAnyMatches(numbers, lessThanTen)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数实际上是闭包的一种特殊形式，我们可以用{}来写一个匿名的闭包,用in来将参数和返回类型区分开来</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>numbers.map({
+</span><span class='line'>    (number: Int) -&gt; Int in
+</span><span class='line'>    let result = 3 * number
+</span><span class='line'>    return result
+</span><span class='line'>    })</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果一个closure的类型是已知的，比如已知一个delegate的回调，我们可以省略参数的类型，返回类型或两者都省略,以上可以改写成以下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>numbers.map({ number in 3 * number })</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们也可以用数字而不是名字来表示参数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort([1, 5, 3, 12, 2]) { $0 &gt; $1 }</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>对象和类</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Shape {
+</span><span class='line'>    var numberOfSides = 0
+</span><span class='line'>    func simpleDescription() -&gt; String {
+</span><span class='line'>        return "A shape with \(numberOfSides) sides."
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>var shape = Shape()
+</span><span class='line'>shape.numberOfSides = 7
+</span><span class='line'>var shapeDescription = shape.simpleDescription()</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>init</code>的使用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class NamedShape {
+</span><span class='line'>    var numberOfSides: Int = 0
+</span><span class='line'>    var name: String
+</span><span class='line'>    
+</span><span class='line'>    init(name: String) {
+</span><span class='line'>        self.name = name
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    func simpleDescription() -&gt; String {
+</span><span class='line'>        return "A shape with \(numberOfSides) sides."
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每一个property都需要赋值，可以在它声明的时候(如numberOfSlides)也可以在initializer里(如name)
+定义deinit来创建一个deinitializer如果你需要在对象被释放前做一些清理工作的话
+继承时，如果要重写superclass的方法，必须要在重写的方法前加override</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Square: NamedShape {
+</span><span class='line'>    var sideLength: Double
+</span><span class='line'>    
+</span><span class='line'>    init(sideLength: Double, name: String) {
+</span><span class='line'>        self.sideLength = sideLength
+</span><span class='line'>        super.init(name: name)
+</span><span class='line'>        numberOfSides = 4
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    func area() -&gt;  Double {
+</span><span class='line'>        return sideLength * sideLength
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    override func simpleDescription() -&gt; String {
+</span><span class='line'>        return "A square with sides of length \(sideLength)."
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>let test = Square(sideLength: 5.2, name: "my test square")
+</span><span class='line'>test.area()
+</span><span class='line'>test.simpleDescription()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为property定义getter和setter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class EquilateralTriangle: NamedShape {
+</span><span class='line'>    var sideLength: Double = 0.0
+</span><span class='line'>    
+</span><span class='line'>    init(sideLength: Double, name: String) {
+</span><span class='line'>        self.sideLength = sideLength
+</span><span class='line'>        super.init(name: name)
+</span><span class='line'>        numberOfSides = 3
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    var perimeter: Double {
+</span><span class='line'>    get {
+</span><span class='line'>        return 3.0 * sideLength
+</span><span class='line'>    }
+</span><span class='line'>    set {
+</span><span class='line'>        sideLength = newValue / 3.0
+</span><span class='line'>    }
+</span><span class='line'> }
+</span><span class='line'> 
+</span><span class='line'> override func simpleDescription() -&gt; String {
+</span><span class='line'>          return "An equilateral triagle with sides of length \(sideLength)."
+</span><span class='line'>      }
+</span><span class='line'> }
+</span><span class='line'>var triangle = EquilateralTriangle(sideLength: 3.1, name: "a triangle")
+</span><span class='line'>triangle.perimeter
+</span><span class='line'>triangle.perimeter = 9.9
+</span><span class='line'>triangle.sideLength</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在perimeter的setter方法中，新值有一个默认的名字newValue,我们可以在set后的括号里为这个值指定一个名字</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Whats new in xcode6]]></title>
@@ -1681,7 +2220,9 @@ Encoding of "δog" is UTF-8
 
 <p>假设一个文件有以下格式</p>
 
-<pre><code>/jazz/j00132.mp3  | 3:45 | Fats     Waller     | Ain't Misbehavin'  /jazz/j00319.mp3  | 2:58 | Louis    Armstrong  | Wonderful World    /bgrass/bg0732.mp3| 4:09 | Strength in Numbers | Texas Red
+<pre><code>/jazz/j00132.mp3  | 3:45 | Fats     Waller     | Ain't Misbehavin'
+/jazz/j00319.mp3  | 2:58 | Louis    Armstrong  | Wonderful World
+/bgrass/bg0732.mp3| 4:09 | Strength in Numbers | Texas Red
 </code></pre>
 
 <p>现在我们要做以下三件事情</p>
@@ -1696,6 +2237,7 @@ Encoding of "δog" is UTF-8
   File.open("songdata") do |song_file| songs = []
   song_file.each do |line|
   file, length, name, title = line.chomp.split(/\s*\|\s*/) 
+
   name.squeeze!(" ")      songs &lt;&lt; Song.new(title, name, length)
   end
     puts songs[1]
@@ -1712,7 +2254,8 @@ Encoding of "δog" is UTF-8
   File.open("songdata") do |song_file|
   songs = []
   song_file.each do |line|
-  file, length, name, title = line.chomp.split(/\s*\|\s*/)        name.squeeze!(" ")
+  file, length, name, title = line.chomp.split(/\s*\|\s*/) 
+  name.squeeze!(" ")
   mins, secs = length.scan(/\d+/)
   songs &lt;&lt; Song.new(title, name, mins.to_i*60 + secs.to_i)
   end
@@ -1728,14 +2271,18 @@ Encoding of "δog" is UTF-8
 
 <p>1.Ranges as Sequences</p>
 
-<pre><code>1..10   'a'..'z' 0..."cat".length
+<pre><code>1..10
+'a'..'z' 0..."cat".length
 </code></pre>
 
 <p>你可以用to_a将一个range转为一个数组,用to_enum将它转为一个Enumberator</p>
 
 <pre><code>(1..10).to_a # =&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
 
-('bar'..'bat').to_a # =&gt; ["bar", "bas", "bat"]  enum = ('bar'..'bat').to_enum   enum.next # =&gt; "bar"    enum.next # =&gt; "bas"
+('bar'..'bat').to_a # =&gt; ["bar", "bas", "bat"]
+enum = ('bar'..'bat').to_enum
+enum.next # =&gt; "bar"
+enum.next # =&gt; "bas"
 </code></pre>
 
 <p>Ranges有很多方法能让你遍历它们并且用很多方法测试它们</p>
@@ -2174,9 +2721,7 @@ array.first(4) # =&gt; [1, 2, 3, 4]
 array.last(4) # =&gt; [4, 5, 6, 7]
 </code></pre>
 
-<h4>哈希(字典)</h4>
-
-<p>同数组一样,哈希也是针对数组引用的以索引查询的集合,不过与数组不同的是，数组的下标只能为整形，而哈希的key则可为symbols,strings,regular expression等</p>
+<h4>哈希(字典)同数组一样,哈希也是针对数组引用的以索引查询的集合,不过与数组不同的是，数组的下标只能为整形，而哈希的key则可为symbols,strings,regular expression等</h4>
 
 <pre><code>h = { 'dog' =&gt; 'canine', 'cat' =&gt; 'feline', 'donkey' =&gt; 'asinine' }
 h.length # =&gt; 3
@@ -3419,10 +3964,13 @@ end
 <p>方法可以用Ruby提供的yield来调用block多次</p>
 
 <pre><code>def call_block
-    puts "Start of method" yield
+
+    puts "Start of method" 
+    yield
     yield
     puts "End of method"
 end
+
     call_block { puts "In the block" }
 </code></pre>
 
@@ -3438,6 +3986,7 @@ end
 
 <pre><code>def who_says_what yield("Dave", "hello") 
     yield("Andy", "goodbye")
+
 end
 who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
 </code></pre>
@@ -4474,165 +5023,6 @@ tail -f logfile.out
 </code></pre>
 
 <p>以上的命令行中，-4就被当作普通的参数而非命令行选项</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Head First C 第二章学习笔记-内存与指针]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji/"/>
-    <updated>2014-06-27T22:01:57+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji</id>
-    <content type="html"><![CDATA[<h5>问:运算符和函数的区别</h5>
-
-<p>答:运算符会被编译器编译成一串指令，而如果调用了函数，则会跳到一块单独的代码块中,也就是说在编译的时候sizeof就被执行了，因为编译器能在编译的时候就知道存储空间的大小了</p>
-
-<h5>问:为何在不同的机器上，指针的大小是不同的?</h5>
-
-<p>答:在32位OS上，一个内存地址以一个32比特的数字来表示，这也是它被称为32位的原因,32bit = 8bytes,则也是为何64位OS用8bytes来存储一个地址的原因</p>
-
-<h5>写一个函数，则函数只打印一个字符串的第7个字符以后的信息</h5>
-
-<pre><code>void skip(char *msg) {      puts( msg + 6 );    } 
-</code></pre>
-
-<p>以下写法是错误的</p>
-
-<pre><code>char food[5];   printf("Enter favorite food: ");    scanf("%s", food);
-</code></pre>
-
-<p>应改为</p>
-
-<pre><code>scanf("%4s", food);
-</code></pre>
-
-<p>否则将导致缓冲区溢出(buffer overflow),或者说栈错误(segmentation fault)</p>
-
-<h2>fgets()是一种替代方式</h2>
-
-<p>它接受一个char的指针，但不像scanf(),fgets()必须指定一个最大长度</p>
-
-<pre><code>char food[5];   printf("Enter favorite food: ");    fgets(food, sizeof(food), stdin);
-</code></pre>
-
-<p><code>注意点</code>:不过需要注意的是sizeof返回 的是一个变量所占据的空间,以上的例子中,food是一个数组变量 ,所以sizeof返回了数组的大小，如果food只是一个指针变量,sizeof将返回一个指针的大小如果你知道你所传的参数是一个数组变量,那用sizeof是ok的，如果你传的是一个指针变量，你需要传入确定的大小,如下</p>
-
-<pre><code>printf("Enter favorite food: "); 
-fgets(food, 5, stdin);
-</code></pre>
-
-<h2>fgets和scanf的比较</h2>
-
-<ol>
-<li><p>输入大小限制</p>
-
-<ul>
-<li>scanf()能限制输入的大小，只要你记得在输入的字符串格式上加上相应的大小即可,如&#8221;%4s&#8221;</li>
-<li>fgets()有一个强制输入大小的限制</li>
-</ul>
-</li>
-<li><p>输入类型</p>
-
-<ul>
-<li>scanf()不仅仅能让你输入多种类型，还让你指定比如在相应的输入数据之间用什么数据来分隔,如scanf(&ldquo;%d,%d&rdquo;)表示输入的两个整数之间必须用&#8221;,&ldquo;隔开</li>
-<li>fgets()只允许你输入一个字符串到缓冲区中,其他数据类型都是不允许的</li>
-</ul>
-</li>
-<li><p>字符串中的空格</p>
-
-<ul>
-<li>对scanf()来说，如果它用%s来输入一个字符串,如果碰到一个空格时，它将马上终止输入,所以如果你想输入两个单词，要么你调用两次scanf()来输入，要么你用一些古怪的正则表达式来操作</li>
-<li>fgets()无任何问题,每次fgets()都可读入整个string</li>
-</ul>
-</li>
-</ol>
-
-
-<h2>字符串常量不能被修改</h2>
-
-<pre><code>char *cards = "JQK"
-cards[0] = 'H'
-</code></pre>
-
-<p>错误！字符串常量被存储在常量存储区，这个区域是只读的,如果你想要改变一个字符串，copy它，你需要将string拷贝到一个可写的内存区域，这样你就能修改它了,如下</p>
-
-<pre><code>char cards[] = "JQK";
-</code></pre>
-
-<p>可能你不清楚发生了什么，所有的string都是数组，但在之前的错误代码中，cards仅仅是一个指针，在新代码中，如果你定义了一个叫做cards的数组，然后将一个字符串常量赋值给它，cards数组得到的是一份全新的拷贝，此时&#8221;JQK&#8221;在栈上
-为了避免当cards是指针时修改它产生错误，你应该按哪下方式进行声明</p>
-
-<pre><code>const char *s = "JQK";
-</code></pre>
-
-<p>这样，如果编译器看到试图修改此string的代码，就会报错</p>
-
-<pre><code>s[0] = 'S'      //error: assignment of read-only location
-</code></pre>
-
-<h2>cards[]还是cards*</h2>
-
-<p>如果你看到以下的声明，意味着什么</p>
-
-<pre><code>char cards[]
-</code></pre>
-
-<p>一切取决于你在哪看到它的，如果是一个正常的声明，那么意味着它是一个数组，必须给它赋值</p>
-
-<pre><code>int my_function()   {
-    //此时cards是一个数组        char cards[] = "JQK"; ...   }
-</code></pre>
-
-<p>如果cards出现在一个函数的参数中，此时cards表示一个指针</p>
-
-<pre><code>void stack_deck(char cards[])   {       }
-</code></pre>
-
-<p>等价于</p>
-
-<pre><code>void stack_deck(char *cards) {      }
-</code></pre>
-
-<h2>存储区</h2>
-
-<p>  <img class="left" src="http://xiekunRonaldo.github.io/images/2014/6/memory_memorizer.png" width="350" height="350" title="'image'" ></p>
-
-<ul>
-<li>栈
-栈用来存储局部变量,每次你调用一个函数，所有此函数的局部变量都创建在栈上，它被称称栈，是因为它像一叠盘子,将你创建一个函数的时候，变量被加到栈中，将你离开一个函数时，这些变量又会变销毁，奇怪的是栈的工作方式，总是从高地址开始，向低地址增长</li>
-<li>堆
-堆主要用在动态内存分配上,创建在堆上的数据在程序运行时即可创建，不过会保持相当长的一段时间，直到你手动释放它</li>
-<li>全局存储区
-一个全局存储区的作用域在所有函数之外，并且对所有函数可见，全局变量在程序首次运行的时候创建，你可以随意改变它们，但却不像&hellip;</li>
-<li>常量存储区
-常量也在用户首次运行的时候创建，但它们只存储在只读的存储区域中,常量就像字符串字面量一样，程序运行的时候你可能需要它们，但你却无法改变它们</li>
-<li>代码存储区
-许多操作系统将代码存储区置于最低的内存地址中,代码存储区是只读的，这里实际上是汇编代码加载的区域</li>
-</ul>
-
-
-<h2>字符串</h2>
-
-<p>使用前#include&lt;string.h>
-提供的函数如下</p>
-
-<ol>
-<li>strchr() : 寻找字符串中某个字符的位置</li>
-<li>strcmp() : 比较两个字符串</li>
-<li>strstr() : 寻找字符串中对应字符串的位置</li>
-</ol>
-
-
-<p>如果找到了，返回被寻找的字符串的位置，如果没有，返回0</p>
-
-<pre><code>char s0[] = "dysfunctional"; char s1[] = "fun"; if (strstr(s0, s1)) puts("I found the fun in dysfunctional!");
-</code></pre>
-
-<ol>
-<li>strcpy() : 拷贝字符串</li>
-<li>strlen() : 求字符串的长度</li>
-<li>strcat() : 连接两个字符串</li>
-</ol>
-
 ]]></content>
   </entry>
   

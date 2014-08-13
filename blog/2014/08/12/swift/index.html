@@ -1,0 +1,695 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Swift - AllenToFight Blog</title>
+	<meta name="author" content="AllenToFight">
+
+	
+	<meta name="description" content="Swift 变量定义 常量用let,变量用var 1
+2
+3
+4
+var myVariable = 42
+myVariable = 50
+let myConstant = 42
+let explicitDouble: Double = 70 变量的值不会自动转化为其他类型的 1
+2
+3
+let &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="AllenToFight Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/2014/08/12/swift/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
+	
+</div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Swift</h1>
+	<div class="entry-content" itemprop="articleBody"><h4>变量定义</h4>
+
+<p>常量用let,变量用var</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var myVariable = 42
+</span><span class='line'>myVariable = 50
+</span><span class='line'>let myConstant = 42
+</span><span class='line'>let explicitDouble: Double = 70
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>变量的值不会自动转化为其他类型的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let label = "The width is "
+</span><span class='line'>let width = 94
+</span><span class='line'>let widthLabel = label+String(width)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>String内的值替换</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let apples = 3
+</span><span class='line'>let oranges = 5
+</span><span class='line'>let appleSummary = "I have \(apples) apples.”</span></code></pre></td></tr></table></div></figure>
+
+
+<p>数组和字典</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var shoppingList = ["catfish", "water", "tulips", "blue paint"]
+</span><span class='line'>
+</span><span class='line'>shoppingList[1] = "bottle of water"
+</span><span class='line'> 
+</span><span class='line'>var occupations = [
+</span><span class='line'>
+</span><span class='line'>    "Malcolm": "Captain",
+</span><span class='line'>
+</span><span class='line'>    "Kaylee": "Mechanic",
+</span><span class='line'>]
+</span><span class='line'>occupations["Jayne"] = "Public Relations”
+</span><span class='line'>
+</span><span class='line'>let emptyArray = String[]()
+</span><span class='line'>let emptyDictionary = Dictionary&lt;String, Float&gt;()
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果类型是能推断的，可以用[]创建一个空数组，用[:]创建一个空字典</p>
+
+<h4>条件语句</h4>
+
+<p>if&hellip;else&hellip;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let individualScores = [75, 43, 103, 87, 12]
+</span><span class='line'>var teamScore = 0
+</span><span class='line'>for score in individualScores {
+</span><span class='line'>    if score &gt; 50 {
+</span><span class='line'>        teamScore += 3
+</span><span class='line'>    } else {
+</span><span class='line'>        teamScore += 1
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>teamScore</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，在if条件语句中，condition必须是bool表达式，所以类似<code>if score {...}</code>这样的代码是错误的
+if和optional value组成的条件表达式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var optionalString: String? = "Hello"
+</span><span class='line'>optionalString == nil
+</span><span class='line'> 
+</span><span class='line'>var optionalName: String? = "John Appleseed"
+</span><span class='line'>var greeting = "Hello!"
+</span><span class='line'>if let name = optionalName {
+</span><span class='line'>    greeting = "Hello, \(name)"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>switch和case语句支持多种类型的比较,不限于integer</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let vegetable = "red pepper"
+</span><span class='line'>switch vegetable {
+</span><span class='line'>case "celery":
+</span><span class='line'>    let vegetableComment = "Add some raisins and make ants on a log."
+</span><span class='line'>case "cucumber", "watercress":
+</span><span class='line'>    let vegetableComment = "That would make a good tea sandwich."
+</span><span class='line'>case let x where x.hasSuffix("pepper"):
+</span><span class='line'>    let vegetableComment = "Is it a spicy \(x)?"
+</span><span class='line'>default:
+</span><span class='line'>    let vegetableComment = "Everything tastes good in soup."
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意:执行完case语句，程序就从switch语句里终止了，所以无需break!</p>
+
+<p>遍历dictionary</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let interestingNumbers = [
+</span><span class='line'>    "Prime": [2, 3, 5, 7, 11, 13],
+</span><span class='line'>    "Fibonacci": [1, 1, 2, 3, 5, 8],
+</span><span class='line'>    "Square": [1, 4, 9, 16, 25],
+</span><span class='line'>]
+</span><span class='line'>var largest = 0
+</span><span class='line'>for (kind, numbers) in interestingNumbers {
+</span><span class='line'>    for number in numbers {
+</span><span class='line'>        if number &gt; largest {
+</span><span class='line'>            largest = number
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>largest</span></code></pre></td></tr></table></div></figure>
+
+
+<p>while语句</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var n = 2
+</span><span class='line'>while n &lt; 100 {
+</span><span class='line'>    n = n * 2
+</span><span class='line'>}
+</span><span class='line'>n
+</span><span class='line'> 
+</span><span class='line'>var m = 2
+</span><span class='line'>do {
+</span><span class='line'>    m = m * 2
+</span><span class='line'>} while m &lt; 100
+</span><span class='line'>m</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>..</code>的妙用,以下两个循环是等价的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var firstForLoop = 0
+</span><span class='line'>for i in 0..3 {
+</span><span class='line'>    firstForLoop += i
+</span><span class='line'>}
+</span><span class='line'>firstForLoop
+</span><span class='line'> 
+</span><span class='line'>var secondForLoop = 0
+</span><span class='line'>for var i = 0; i &lt; 3; ++i {
+</span><span class='line'>    secondForLoop += 1
+</span><span class='line'>}
+</span><span class='line'>secondForLoop</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>函数和闭包</h4>
+
+<p>函数的声明
+用->将参数与返回值区分开来</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func greet(name: String, day: String) -&gt; String {
+</span><span class='line'>    return "Hello \(name), today is \(day)."
+</span><span class='line'>}
+</span><span class='line'>greet("Bob", "Tuesday")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用tuple从函数中返回多个值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func getGasPrices() -&gt; (Double, Double, Double) {
+</span><span class='line'>    return (3.59, 3.69, 3.79)
+</span><span class='line'>}
+</span><span class='line'>getGasPrices()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数也能接收不定数量的参数，将它们封成到一个数组里</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func sumOf(numbers: Int...) -&gt; Int {
+</span><span class='line'>    var sum = 0
+</span><span class='line'>    for number in numbers {
+</span><span class='line'>        sum += number
+</span><span class='line'>    }
+</span><span class='line'>    return sum
+</span><span class='line'>}
+</span><span class='line'>sumOf()
+</span><span class='line'>sumOf(42, 597, 12)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数也能嵌套，内嵌的函数能访问声明在外部函数的变量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func returnFifteen() -&gt; Int {
+</span><span class='line'>    var y = 10
+</span><span class='line'>    func add() {
+</span><span class='line'>        y += 5
+</span><span class='line'>    }
+</span><span class='line'>    add()
+</span><span class='line'>    return y
+</span><span class='line'>}
+</span><span class='line'>returnFifteen()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数是first-class类型，这意味着函数也能返回另一个函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func makeIncrementer() -&gt; (Int -&gt; Int) {
+</span><span class='line'>    func addOne(number: Int) -&gt; Int {
+</span><span class='line'>        return 1 + number
+</span><span class='line'>    }
+</span><span class='line'>    return addOne
+</span><span class='line'>}
+</span><span class='line'>var increment = makeIncrementer()
+</span><span class='line'>increment(7)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数的参数也能是函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func hasAnyMatches(list: Int[], condition: Int -&gt; Bool) -&gt; Bool {
+</span><span class='line'>    for item in list {
+</span><span class='line'>        if condition(item) {
+</span><span class='line'>            return true
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    return false
+</span><span class='line'>}
+</span><span class='line'>func lessThanTen(number: Int) -&gt; Bool {
+</span><span class='line'>    return number &lt; 10
+</span><span class='line'>}
+</span><span class='line'>var numbers = [20, 19, 7, 12]
+</span><span class='line'>hasAnyMatches(numbers, lessThanTen)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数实际上是闭包的一种特殊形式，我们可以用{}来写一个匿名的闭包,用in来将参数和返回类型区分开来</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>numbers.map({
+</span><span class='line'>    (number: Int) -&gt; Int in
+</span><span class='line'>    let result = 3 * number
+</span><span class='line'>    return result
+</span><span class='line'>    })</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果一个closure的类型是已知的，比如已知一个delegate的回调，我们可以省略参数的类型，返回类型或两者都省略,以上可以改写成以下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>numbers.map({ number in 3 * number })</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们也可以用数字而不是名字来表示参数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sort([1, 5, 3, 12, 2]) { $0 &gt; $1 }</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>对象和类</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Shape {
+</span><span class='line'>    var numberOfSides = 0
+</span><span class='line'>    func simpleDescription() -&gt; String {
+</span><span class='line'>        return "A shape with \(numberOfSides) sides."
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>var shape = Shape()
+</span><span class='line'>shape.numberOfSides = 7
+</span><span class='line'>var shapeDescription = shape.simpleDescription()</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>init</code>的使用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class NamedShape {
+</span><span class='line'>    var numberOfSides: Int = 0
+</span><span class='line'>    var name: String
+</span><span class='line'>    
+</span><span class='line'>    init(name: String) {
+</span><span class='line'>        self.name = name
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    func simpleDescription() -&gt; String {
+</span><span class='line'>        return "A shape with \(numberOfSides) sides."
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每一个property都需要赋值，可以在它声明的时候(如numberOfSlides)也可以在initializer里(如name)
+定义deinit来创建一个deinitializer如果你需要在对象被释放前做一些清理工作的话
+继承时，如果要重写superclass的方法，必须要在重写的方法前加override</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Square: NamedShape {
+</span><span class='line'>    var sideLength: Double
+</span><span class='line'>    
+</span><span class='line'>    init(sideLength: Double, name: String) {
+</span><span class='line'>        self.sideLength = sideLength
+</span><span class='line'>        super.init(name: name)
+</span><span class='line'>        numberOfSides = 4
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    func area() -&gt;  Double {
+</span><span class='line'>        return sideLength * sideLength
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    override func simpleDescription() -&gt; String {
+</span><span class='line'>        return "A square with sides of length \(sideLength)."
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>let test = Square(sideLength: 5.2, name: "my test square")
+</span><span class='line'>test.area()
+</span><span class='line'>test.simpleDescription()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为property定义getter和setter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class EquilateralTriangle: NamedShape {
+</span><span class='line'>    var sideLength: Double = 0.0
+</span><span class='line'>    
+</span><span class='line'>    init(sideLength: Double, name: String) {
+</span><span class='line'>        self.sideLength = sideLength
+</span><span class='line'>        super.init(name: name)
+</span><span class='line'>        numberOfSides = 3
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    var perimeter: Double {
+</span><span class='line'>    get {
+</span><span class='line'>        return 3.0 * sideLength
+</span><span class='line'>    }
+</span><span class='line'>    set {
+</span><span class='line'>        sideLength = newValue / 3.0
+</span><span class='line'>    }
+</span><span class='line'> }
+</span><span class='line'> 
+</span><span class='line'> override func simpleDescription() -&gt; String {
+</span><span class='line'>          return "An equilateral triagle with sides of length \(sideLength)."
+</span><span class='line'>      }
+</span><span class='line'> }
+</span><span class='line'>var triangle = EquilateralTriangle(sideLength: 3.1, name: "a triangle")
+</span><span class='line'>triangle.perimeter
+</span><span class='line'>triangle.perimeter = 9.9
+</span><span class='line'>triangle.sideLength</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在perimeter的setter方法中，新值有一个默认的名字newValue,我们可以在set后的括号里为这个值指定一个名字</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+	
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

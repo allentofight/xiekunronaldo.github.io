@@ -301,7 +301,9 @@ Encoding of "δog" is UTF-8
 
 <p>假设一个文件有以下格式</p>
 
-<pre><code>/jazz/j00132.mp3  | 3:45 | Fats     Waller     | Ain't Misbehavin'  /jazz/j00319.mp3  | 2:58 | Louis    Armstrong  | Wonderful World    /bgrass/bg0732.mp3| 4:09 | Strength in Numbers | Texas Red
+<pre><code>/jazz/j00132.mp3  | 3:45 | Fats     Waller     | Ain't Misbehavin'
+/jazz/j00319.mp3  | 2:58 | Louis    Armstrong  | Wonderful World
+/bgrass/bg0732.mp3| 4:09 | Strength in Numbers | Texas Red
 </code></pre>
 
 <p>现在我们要做以下三件事情</p>
@@ -316,6 +318,7 @@ Encoding of "δog" is UTF-8
   File.open("songdata") do |song_file| songs = []
   song_file.each do |line|
   file, length, name, title = line.chomp.split(/\s*\|\s*/) 
+
   name.squeeze!(" ")      songs &lt;&lt; Song.new(title, name, length)
   end
     puts songs[1]
@@ -332,7 +335,8 @@ Encoding of "δog" is UTF-8
   File.open("songdata") do |song_file|
   songs = []
   song_file.each do |line|
-  file, length, name, title = line.chomp.split(/\s*\|\s*/)        name.squeeze!(" ")
+  file, length, name, title = line.chomp.split(/\s*\|\s*/) 
+  name.squeeze!(" ")
   mins, secs = length.scan(/\d+/)
   songs &lt;&lt; Song.new(title, name, mins.to_i*60 + secs.to_i)
   end
@@ -348,14 +352,18 @@ Encoding of "δog" is UTF-8
 
 <p>1.Ranges as Sequences</p>
 
-<pre><code>1..10   'a'..'z' 0..."cat".length
+<pre><code>1..10
+'a'..'z' 0..."cat".length
 </code></pre>
 
 <p>你可以用to_a将一个range转为一个数组,用to_enum将它转为一个Enumberator</p>
 
 <pre><code>(1..10).to_a # =&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
 
-('bar'..'bat').to_a # =&gt; ["bar", "bas", "bat"]  enum = ('bar'..'bat').to_enum   enum.next # =&gt; "bar"    enum.next # =&gt; "bas"
+('bar'..'bat').to_a # =&gt; ["bar", "bas", "bat"]
+enum = ('bar'..'bat').to_enum
+enum.next # =&gt; "bar"
+enum.next # =&gt; "bas"
 </code></pre>
 
 <p>Ranges有很多方法能让你遍历它们并且用很多方法测试它们</p>

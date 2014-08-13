@@ -9,8 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jun 27th, 2014 iOS开发 Runloop 参考 http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4
-http://blog.csdn.net/devday/article/details/6928432?reload &hellip;">
+	<meta name="description" content="Jun 27th, 2014 C语言 Head First C 第二章学习笔记-内存与指针 问:运算符和函数的区别 答:运算符会被编译器编译成一串指令，而如果调用了函数，则会跳到一块单独的代码块中,也就是说在编译的时候sizeof就被执行了，因为编译器能在编译的时候就知道存储空间的大小了 问: &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +89,191 @@ http://blog.csdn.net/devday/article/details/6928432?reload &hellip;">
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-27T22:01:57+08:00" data-updated="true" itemprop="datePublished">Jun 27<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji/" itemprop="url">Head First C 第二章学习笔记-内存与指针</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h5>问:运算符和函数的区别</h5>
+
+<p>答:运算符会被编译器编译成一串指令，而如果调用了函数，则会跳到一块单独的代码块中,也就是说在编译的时候sizeof就被执行了，因为编译器能在编译的时候就知道存储空间的大小了</p>
+
+<h5>问:为何在不同的机器上，指针的大小是不同的?</h5>
+
+<p>答:在32位OS上，一个内存地址以一个32比特的数字来表示，这也是它被称为32位的原因,32bit = 8bytes,则也是为何64位OS用8bytes来存储一个地址的原因</p>
+
+<h5>写一个函数，则函数只打印一个字符串的第7个字符以后的信息</h5>
+
+<pre><code>void skip(char *msg) {      puts( msg + 6 );    } 
+</code></pre>
+
+<p>以下写法是错误的</p>
+
+<pre><code>char food[5];   printf("Enter favorite food: ");    scanf("%s", food);
+</code></pre>
+
+<p>应改为</p>
+
+<pre><code>scanf("%4s", food);
+</code></pre>
+
+<p>否则将导致缓冲区溢出(buffer overflow),或者说栈错误(segmentation fault)</p>
+
+<h2>fgets()是一种替代方式</h2>
+
+<p>它接受一个char的指针，但不像scanf(),fgets()必须指定一个最大长度</p>
+
+<pre><code>char food[5];   printf("Enter favorite food: ");    fgets(food, sizeof(food), stdin);
+</code></pre>
+
+<p><code>注意点</code>:不过需要注意的是sizeof返回 的是一个变量所占据的空间,以上的例子中,food是一个数组变量 ,所以sizeof返回了数组的大小，如果food只是一个指针变量,sizeof将返回一个指针的大小如果你知道你所传的参数是一个数组变量,那用sizeof是ok的，如果你传的是一个指针变量，你需要传入确定的大小,如下</p>
+
+<pre><code>printf("Enter favorite food: "); 
+fgets(food, 5, stdin);
+</code></pre>
+
+<h2>fgets和scanf的比较</h2>
+
+<ol>
+<li><p>输入大小限制</p>
+
+<ul>
+<li>scanf()能限制输入的大小，只要你记得在输入的字符串格式上加上相应的大小即可,如&#8221;%4s&#8221;</li>
+<li>fgets()有一个强制输入大小的限制</li>
+</ul>
+</li>
+<li><p>输入类型</p>
+
+<ul>
+<li>scanf()不仅仅能让你输入多种类型，还让你指定比如在相应的输入数据之间用什么数据来分隔,如scanf(&ldquo;%d,%d&rdquo;)表示输入的两个整数之间必须用&#8221;,&ldquo;隔开</li>
+<li>fgets()只允许你输入一个字符串到缓冲区中,其他数据类型都是不允许的</li>
+</ul>
+</li>
+<li><p>字符串中的空格</p>
+
+<ul>
+<li>对scanf()来说，如果它用%s来输入一个字符串,如果碰到一个空格时，它将马上终止输入,所以如果你想输入两个单词，要么你调用两次scanf()来输入，要么你用一些古怪的正则表达式来操作</li>
+<li>fgets()无任何问题,每次fgets()都可读入整个string</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>字符串常量不能被修改</h2>
+
+<pre><code>char *cards = "JQK"
+cards[0] = 'H'
+</code></pre>
+
+<p>错误！字符串常量被存储在常量存储区，这个区域是只读的,如果你想要改变一个字符串，copy它，你需要将string拷贝到一个可写的内存区域，这样你就能修改它了,如下</p>
+
+<pre><code>char cards[] = "JQK";
+</code></pre>
+
+<p>可能你不清楚发生了什么，所有的string都是数组，但在之前的错误代码中，cards仅仅是一个指针，在新代码中，如果你定义了一个叫做cards的数组，然后将一个字符串常量赋值给它，cards数组得到的是一份全新的拷贝，此时&#8221;JQK&#8221;在栈上
+为了避免当cards是指针时修改它产生错误，你应该按哪下方式进行声明</p>
+
+<pre><code>const char *s = "JQK";
+</code></pre>
+
+<p>这样，如果编译器看到试图修改此string的代码，就会报错</p>
+
+<pre><code>s[0] = 'S'      //error: assignment of read-only location
+</code></pre>
+
+<h2>cards[]还是cards*</h2>
+
+<p>如果你看到以下的声明，意味着什么</p>
+
+<pre><code>char cards[]
+</code></pre>
+
+<p>一切取决于你在哪看到它的，如果是一个正常的声明，那么意味着它是一个数组，必须给它赋值</p>
+
+<pre><code>int my_function()   {
+    //此时cards是一个数组        char cards[] = "JQK"; ...   }
+</code></pre>
+
+<p>如果cards出现在一个函数的参数中，此时cards表示一个指针</p>
+
+<pre><code>void stack_deck(char cards[])   {       }
+</code></pre>
+
+<p>等价于</p>
+
+<pre><code>void stack_deck(char *cards) {      }
+</code></pre>
+
+<h2>存储区</h2>
+
+<p>  <img class="left" src="/images/2014/6/memory_memorizer.png" width="350" height="350" title="'image'" ></p>
+
+<ul>
+<li>栈
+栈用来存储局部变量,每次你调用一个函数，所有此函数的局部变量都创建在栈上，它被称称栈，是因为它像一叠盘子,将你创建一个函数的时候，变量被加到栈中，将你离开一个函数时，这些变量又会变销毁，奇怪的是栈的工作方式，总是从高地址开始，向低地址增长</li>
+<li>堆
+堆主要用在动态内存分配上,创建在堆上的数据在程序运行时即可创建，不过会保持相当长的一段时间，直到你手动释放它</li>
+<li>全局存储区
+一个全局存储区的作用域在所有函数之外，并且对所有函数可见，全局变量在程序首次运行的时候创建，你可以随意改变它们，但却不像&hellip;</li>
+<li>常量存储区
+常量也在用户首次运行的时候创建，但它们只存储在只读的存储区域中,常量就像字符串字面量一样，程序运行的时候你可能需要它们，但你却无法改变它们</li>
+<li>代码存储区
+许多操作系统将代码存储区置于最低的内存地址中,代码存储区是只读的，这里实际上是汇编代码加载的区域</li>
+</ul>
+
+
+<h2>字符串</h2>
+
+<p>使用前#include&lt;string.h>
+提供的函数如下</p>
+
+<ol>
+<li>strchr() : 寻找字符串中某个字符的位置</li>
+<li>strcmp() : 比较两个字符串</li>
+<li>strstr() : 寻找字符串中对应字符串的位置</li>
+</ol>
+
+
+<p>如果找到了，返回被寻找的字符串的位置，如果没有，返回0</p>
+
+<pre><code>char s0[] = "dysfunctional"; char s1[] = "fun"; if (strstr(s0, s1)) puts("I found the fun in dysfunctional!");
+</code></pre>
+
+<ol>
+<li>strcpy() : 拷贝字符串</li>
+<li>strlen() : 求字符串的长度</li>
+<li>strcat() : 连接两个字符串</li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
