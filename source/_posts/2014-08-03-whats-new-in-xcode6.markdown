@@ -18,7 +18,21 @@ swift如需使用不在某文件中定义的类，不需要import,会自动impor
 
 @override func prepareForInterfaceBuilder(){}
 
-`Size Classes`
+UIView的这个方法可以实现live-rendering,注意要与@IBDesignable配合使用，如果要使用UIImage,则需用以下方式
+
+```
+            let bundle = NSBundle(forClass: self.dynamicType)
+            self.image = UIImage(named: "sex_girl1", inBundle: bundle, 			compatibleWithTraitCollection: self.traitCollection)
+```
+UIImage(named:)无效!
+
+*Quicklook Preview
+
+Model实现debugQuickLookObject即可
+
+*Size Class
+Size classes have vertical and horizontal dimensions called "regular" and "compact". The iPad in both portrait and landscape defaults to the regular size class in both horizontal and vertical directions. The iPhone in portrait defaults to compact size class for horizontal and regular size class for vertical. The iPhone in landscape defaults to compact size class for both horizontal and vertical.
+
 
 
 

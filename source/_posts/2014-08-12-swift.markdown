@@ -2616,4 +2616,2808 @@ println("Bicycle: \(bicycle.description())")
 // Bicycle: 2 wheels; up to 1 passengers
 ```
 The Bicycle class also defines an initializer to set up its tailored characteristics. The initializer for Bicycle calls super.init(), the initializer for the Bicycle class’s superclass, Vehicle, and ensures that all of the inherited properties are initialized by Vehicle before Bicycle tries to modify them.
-`注意`:initializers are not inherited by default in Swift. For more information
+
+`注意`:initializers are not inherited by default in Swift
+
+####Overriding
+A subclass can provide its own custom implementation of an instance method, class method, instance property, or subscript that it would otherwise inherit from a superclass. This is known as overriding.
+子类重写父类的方法必须加override
+
+```
+class Car: Vehicle {
+    var speed: Double = 0.0
+    init() {
+        super.init()
+        maxPassengers = 5
+        numberOfWheels = 4
+    }
+    override func description() -> String {
+        return super.description() + "; "
+            + "traveling at \(speed) mph"
+    }
+}
+
+let car = Car()
+println("Car: \(car.description())")
+// Car: 4 wheels; up to 5 passengers; traveling at 0.0 mph
+```
+
+#####Overriding Properties
+You can override an inherited instance or class property to provide your own custom getter and setter for that property, or to add property observers to enable the overriding property to observe when the underlying property value changes
+
+You can present an inherited read-only property as a read-write property by providing both a getter and a setter in your subclass property override. You cannot, however, present an inherited read-write property as a read-only property.
+
+You can present an inherited read-only property as a read-write property by providing both a getter and a setter in your subclass property override. You cannot, however, present an inherited read-write property as a read-only property.
+
+`注意`
+If you provide a setter as part of a property override, you must also provide a getter for that override. If you don’t want to modify the inherited property’s value within the overriding getter, you can simply pass through the inherited value by returning super.someProperty from the getter, as in the SpeedLimitedCar example below.
+
+```
+class SpeedLimitedCar: Car {
+    override var speed: Double  {
+    get {
+        return super.speed
+    }
+    set {
+        super.speed = min(newValue, 40.0)
+    }
+    }
+}
+
+let limitedCar = SpeedLimitedCar()
+limitedCar.speed = 60.0
+println("SpeedLimitedCar: \(limitedCar.description())")
+// SpeedLimitedCar: 4 wheels; up to 5 passengers; traveling at 40.0 mph
+```
+#####Overriding Property Observers
+You can use property overriding to add property observers to an inherited property. This enables you to be notified when the value of the inherited property changes, regardless of how that property was originally implemented
+
+`注意`
+
+You cannot add property observers to inherited constant stored properties or inherited read-only computed properties. The value of these properties cannot be set, and so it is not appropriate to provide a willSet or didSet implementation as part of an override.
+
+Note also that you cannot provide both an overriding setter and an overriding property observer. If you want to observe changes to a property’s value, and you are already providing a custom setter for that property, you can simply observe any value changes from within the custom setter
+
+```
+class AutomaticCar: Car {
+    var gear = 1
+    override var speed: Double {
+    didSet {
+        gear = Int(speed / 10.0) + 1
+    }
+    }
+    override func description() -> String {
+        return super.description() + " in gear \(gear)"
+    }
+}
+
+let automatic = AutomaticCar()
+automatic.speed = 35.0
+println("AutomaticCar: \(automatic.description())")
+// AutomaticCar: 4 wheels; up to 5 passengers; traveling at 35.0 mph in gear 4
+```
+#####Preventing Overrides
+我们可以在方法，属性或subscript前加@final来阻止它们被继承
+
+Methods, properties or subscripts that you add to a class in an extension can also be marked as final within the extension’s definition.
+
+你也可以用@final来阻止类被继承
+####初始化
+#####Setting Initial Values for Stored Properties
+Classes and structures must set all of their stored properties to an appropriate initial value by the time an instance of that class or structure is created. Stored properties cannot be left in an indeterminate state.
+
+我们可以在initializer内为一个stored property设置一个初始值,或在它的定义中为其指定一个默认值
+Stored properties cannot be left in an indeterminate state.
+
+`注意`
+When you assign a default value to a stored property, or set its initial value within an initializer, the value of that property is set directly, without calling any property observers.
+#####Initializers
+
+```
+struct Fahrenheit {
+    var temperature: Double
+    init() {
+        temperature = 32.0
+    }
+}
+var f = Fahrenheit()
+println("The default temperature is \(f.temperature)° Fahrenheit")
+// prints "The default temperature is 32.0° Fahrenheit"
+```
+
+#####Default Property Values
+`注意`
+If a property always takes the same initial value, provide a default value rather than setting a value within an initializer. The end result is the same, but the default value ties the property’s initialization more closely to its declaration. It makes for shorter, clearer initializers and `enables you to infer the type of the property from its default value`. The default value also makes it easier for you to take advantage of default initializers and initializer inheritance, as described later in this chapter.
+
+之前的demo可以换成以下形式
+
+```
+struct Fahrenheit {
+    var temperature = 32.0
+}
+```
+#####Customizing Initialization
+You can customize the initialization process with input parameters and optional property types,or by modifying constant properties during initialization
+
+* Initialization Parameters
+You can provide initialization parameters as part of an initializer’s definition, to define the types and names of values that customize the initialization process.
+
+```
+struct Celsius {
+    var temperatureInCelsius: Double = 0.0
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+}
+let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
+// boilingPointOfWater.temperatureInCelsius is 100.0
+let freezingPointOfWater = Celsius(fromKelvin: 273.15)
+// freezingPointOfWater.temperatureInCelsius is 0.0
+```
+* Local and External Parameter Names
+As with function and method parameters, initialization parameters can have both a local name for use within the initializer’s body and an external name for use when calling the initializer.
+
+However, initializers do not have an identifying function name before their parentheses in the way that functions and methods do. Therefore, the names and types of an initializer’s parameters play a particularly important role in identifying which initializer should be called. Because of this,`Swift provides an automatic external name for every parameter in an initializer if you don’t provide an external name yourself`.
+
+`注意`
+If you do not want to provide an external name for a parameter in an initializer, provide an underscore (_) as an explicit external name for that parameter to override the default behavior described above.
+
+```
+struct Color {
+    let red = 0.0, green = 0.0, blue = 0.0
+    init(red: Double, green: Double, blue: Double) {
+        self.red   = red
+        self.green = green
+        self.blue  = blue
+    }
+}
+let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
+```
+`注意`
+It is not possible to call this initializer without using the external names. External names must always be used in an intializer if they are defined, and omitting them is a compile-time error:
+
+```
+let veryGreen = Color(0.0, 1.0, 0.0)
+// this reports a compile-time error - external names are required
+```
+#####Optional Property Types
+Properties of optional type are automatically initialized with a value of nil, indicating that the property is deliberately intended to have “no value yet” during initialization.
+
+```
+class SurveyQuestion {
+    var text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        println(text)
+    }
+}
+let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
+cheeseQuestion.ask()
+// prints "Do you like cheese?"
+cheeseQuestion.response = "Yes, I do like cheese.”
+```
+#####Modifying Constant Properties During Initialization
+You can modify the value of a constant property at any point during initialization, as long as it is set to a definite value by the time initialization finishes.
+
+`注意`
+For class instances, a constant property can only be modified during initialization by the class that introduces it. It cannot be modified by a subclass.
+
+```
+class SurveyQuestion {
+    let text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        println(text)
+    }
+}
+let beetsQuestion = SurveyQuestion(text: "How about beets?")
+beetsQuestion.ask()
+// prints "How about beets?"
+beetsQuestion.response = "I also like beets. (But not with cheese.)”
+```
+#####Default Initializers
+Swift provides a default initializer for any structure or base class that provides default values for all of its properties and does not provide at least one initializer itself. The default initializer simply creates a new instance with all of its properties set to their default values.
+
+```
+class ShoppingListItem {
+    var name: String?
+    var quantity = 1
+    var purchased = false
+}
+var item = ShoppingListItem()
+```
+#####Memberwise Initializers for Structure Types
+In addition to the default initializers mentioned above, structure types automatically receive a memberwise initializer if they provide default values for all of their stored properties and do not define any of their own custom initializers.
+
+```
+struct Size {
+    var width = 0.0, height = 0.0
+}
+let twoByTwo = Size(width: 2.0, height: 2.0)
+```
+#####Initializer Delegation for Value Types
+Initializers can call other initializers to perform part of an instance’s initialization. This process, known as initializer delegation, avoids duplicating code across multiple initializers.
+
+对于值类型而言,它们的initializer delegation相对比较简单,because they can only delegate to another initializer that they provide themselves.
+而类则可以继承,This means that classes have additional responsibilities for ensuring that all stored properties they inherit are assigned a suitable value during initialization.
+
+For value types, you use self.init to refer to other initializers from the same value type when writing your own custom initializers. You can only call self.init from within an initializer.
+
+Note that if you define a custom initializer for a value type, you will no longer have access to the default initializer (or the memberwise structure initializer, if it is a structure) for that type. 
+
+`注意`
+If you want your custom value type to be initializable with the default initializer and memberwise initializer, and also with your own custom initializers, write your custom initializers in an extension rather than as part of the value type’s original implementation.
+
+
+```
+struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    init() {}
+    init(origin: Point, size: Size) {
+        self.origin = origin
+        self.size = size
+    }
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
+
+let basicRect = Rect()
+// basicRect's origin is (0.0, 0.0) and its size is (0.0, 0.0)
+
+let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
+    size: Size(width: 5.0, height: 5.0))
+// originRect's origin is (2.0, 2.0) and its size is (5.0, 5.0)
+
+let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+    size: Size(width: 3.0, height: 3.0))
+// centerRect's origin is (2.5, 2.5) and its size is (3.0, 3.0)
+```
+The init(center:size:) initializer could have assigned the new values of origin and size to the appropriate properties itself. However, it is more convenient (and clearer in intent) for the init(center:size:) initializer to take advantage of an existing initializer that already provides exactly that functionality.
+
+####类继承和初始化
+All of a class’s stored properties—including any properties the class inherits from its superclass—must be assigned an initial value during initialization.
+
+Swift defines two kinds of initializers for class types to help ensure all stored properties receive an initial value. These are known as designated initializers and convenience initializers
+
+#####Designated Initializers and Convenience Initializers
+Designated initializers are the primary initializers for a class. A designated initializer fully initializes all properties introduced by that class and calls an appropriate superclass initializer to continue the initialization process up the superclass chain.
+
+Classes tend to have very few designated initializers, and it is quite common for a class to have only one. Designated initializers are “funnel” points through which initialization takes place, and through which the initialization process continues up the superclass chain.
+
+Every class must have at least one designated initializer. In some cases, this requirement is satisfied by inheriting one or more designated initializers from a superclass
+
+Convenience initializers are secondary, supporting initializers for a class. You can define a convenience initializer to call a designated initializer from the same class as the convenience initializer with some of the designated initializer’s parameters set to default values. You can also define a convenience initializer to create an instance of that class for a specific use case or input value type.
+
+You do not have to provide convenience initializers if your class does not require them. Create convenience initializers whenever a shortcut to a common initialization pattern will save time or make initialization of the class clearer in intent
+
+#####Initializer Chaining
+To simplify the relationships between designated and convenience initializers, Swift applies the following three rules for delegation calls between initializers:
+
+* 规则1
+Designated initializers must call a designated initializer from their immediate superclass.
+* 规则2
+Convenience initializers must call another initializer available in the same class.
+* 规则3
+Convenience initializers must ultimately end up calling a designated initializer.
+
+A simple way to remember this is:
+
+* Designated initializers must always delegate up.
+* Convenience initializers must always delegate across.
+关系可以用以下两张图表示
+{% img /images/2014/8/initialize.png%}
+{% img /images/2014/8/complex_initialize.png%}
+
+#####Two-Phase Initialization
+Class initialization in Swift is a two-phase process. In the first phase, each stored property is assigned an initial value by the class that introduced it. Once the initial state for every stored property has been determined, the second phase begins, and each class is given the opportunity to customize its stored properties further before the new instance is considered ready for use.
+	
+Two-phase initialization prevents property values from being accessed before they are initialized, and prevents property values from being set to a different value by another initializer unexpectedly.
+
+Swift’s compiler performs four helpful safety-checks to make sure that two-phase initialization is completed without error:
+
+* Safety check 1
+A designated initializer must ensure that all of the properties introduced by its class are initialized before it delegates up to a superclass initializer.
+
+* Safety check 2
+A designated initializer must delegate up to a superclass initializer before assigning a value to an inherited property. If it doesn’t, the new value the designated initializer assigns will be overwritten by the superclass as part of its own initialization.
+* Safety check 3
+A convenience initializer must delegate to another initializer before assigning a value to any property (including properties defined by the same class). If it doesn’t, the new value the convenience initializer assigns will be overwritten by its own class’s designated initializer.
+* Safety check 4
+An initializer cannot call any instance methods, read the values of any instance properties, or refer to self as a value until after the first phase of initialization is complete.
+
+The class instance is not fully valid until the first phase ends. Properties can only be accessed, and methods can only be called, once the class instance is known to be valid at the end of the first phase.
+
+Here’s how two-phase initialization plays out, based on the four safety checks above:
+
+1. Phase 1
+	* A designated or convenience initializer is called on a class.
+	* Memory for a new instance of that class is allocated. The memory is not yet initialized.
+	* A designated initializer for that class confirms that all stored properties introduced by that class have a value. The memory for these stored properties is now initialized.
+	* The designated initializer hands off to a superclass initializer to perform the same task for its own stored properties.
+	* This continues up the class inheritance chain until the top of the chain is reached.
+	* Once the top of the chain is reached, and the final class in the chain has ensured that all of its stored properties have a value, the instance’s memory is considered to be fully initialized, and phase 1 is complete.
+2. Phase 2
+	* Working back down from the top of the chain, each designated initializer in the chain has the option to customize the instance further. Initializers are now able to access self and can modify its properties, call its instance methods, and so on.
+	* Finally, any convenience initializers in the chain have the option to customize the instance and to work with self.
+####Initializer Inheritance and Overriding
+Unlike subclasses in Objective-C, Swift subclasses do not not inherit their superclass initializers by default.
+
+If you want your custom subclass to present one or more of the same initializers as its superclass—perhaps to perform some customization during initialization—you can provide an overriding implementation of the same initializer within your custom subclass.
+
+If the initializer you are overriding is a designated initializer, you can override its implementation in your subclass and call the superclass version of the initializer from within your overriding version.
+
+If the initializer you are overriding is a convenience initializer, your override must call another designated initializer from its own subclass
+
+`注意`
+
+	Unlike methods, properties, and subscripts, you do not need to write the override keyword when overriding an initializer.
+
+#####Automatic Initializer Inheritance
+Subclasses do not not inherit their superclass initializers by default. However, superclass initializers are automatically inherited if certain conditions are met. In practice, this means that you do not need to write initializer overrides in many common scenarios, and can inherit your superclass initializers with minimal effort whenever it is safe to do so.
+
+Assuming that you provide default values for `any` new properties you introduce in a subclass, the following two rules apply:
+
+* Rule 1
+
+	If your subclass doesn’t define any designated initializers, it automatically inherits all of its superclass designated initializers.
+* Rule 2
+
+	If your subclass provides an implementation of `all` of its superclass designated initializers—either by inheriting them as per rule 1, or by providing a custom implementation as part of its definition—then it automatically inherits all of the superclass convenience initializers.
+
+These rules apply even if your subclass adds further convenience initializers.
+
+`注意`
+
+	A subclass can implement a superclass designated initializer as a subclass convenience initializer as part of satisfying rule 2.
+
+#####Syntax for Designated and Convenience Initializers
+* Designated initializers 
+
+```
+	init(parameters) {
+    	statements
+	}
+```
+* Convenience initializers
+
+```
+	convenience init(parameters) {
+	    statements
+	}
+```
+#####Designated and Convenience Initializers in Action
+以下显示了designated initializers, convenience initializers, and automatic initializer inheritance in action,定义了三个类Food,RecipeIngredient,ShoppingListItem的继承关系
+
+```
+//Food
+class Food {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+    convenience init() {
+        self.init(name: "[Unnamed]")
+    }
+}
+
+//Designated initializer
+let namedMeat = Food(name: "Bacon")
+// namedMeat's name is "Bacon”
+
+let mysteryMeat = Food()
+```
+Food的initializer chain图
+
+{% img /images/2014/8/initialize.png%}
+
+```
+class RecipeIngredient: Food {
+    var quantity: Int
+    init(name: String, quantity: Int) {
+        self.quantity = quantity
+        super.init(name: name)
+    }
+    convenience init(name: String) {
+        self.init(name: name, quantity: 1)
+    }
+}
+
+let oneMysteryItem = RecipeIngredient()
+let oneBacon = RecipeIngredient(name: "Bacon")
+let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
+
+```
+图示如下
+
+{% img /images/2014/8/recipeIngredient.png%}
+
+```
+class ShoppingListItem: RecipeIngredient {
+    var purchased = false
+    var description: String {
+    var output = "\(quantity) x \(name.lowercaseString)"
+        output += purchased ? " ✔" : " ✘"
+        return output
+    }
+}
+```
+以上三个类的继承图
+
+{% img /images/2014/8/foodchaining.png%}
+You can use all three of the inherited initializers to create a new ShoppingListItem instance:
+
+```
+“var breakfastList = [
+    ShoppingListItem(),
+    ShoppingListItem(name: "Bacon"),
+    ShoppingListItem(name: "Eggs", quantity: 6),
+]
+breakfastList[0].name = "Orange juice"
+breakfastList[0].purchased = true
+for item in breakfastList {
+    println(item.description)
+}
+// 1 x orange juice ✔
+// 1 x bacon ✘
+// 6 x eggs ✘”
+```
+#####用closure或是函数来设置一个默认值
+If a stored property’s default value requires some customization or setup, you can use a closure or global function to provide a customized default value for that property，Whenever a new instance of the type that the property belongs to is initialized, the closure or function is called, and its return value is assigned as the property’s default value.
+
+```
+class SomeClass {
+    let someProperty: SomeType = {
+        // create a default value for someProperty inside this closure
+        // someValue must be of the same type as SomeType
+        return someValue
+        }()
+}
+```
+Note that the closure’s end curly brace is followed by an empty pair of parentheses. This tells Swift to execute the closure immediately
+
+`注意`
+
+	If you use a closure to initialize a property, remember that the rest of the instance has not yet been initialized at the point that the closure is executed. This means that you cannot access any other property values from within your closure, even if those properties have default values. You also cannot use the implicit self property, or call any of the instance’s methods.
+
+```
+struct Checkerboard {
+    let boardColors: Bool[] = {
+        var temporaryBoard = Bool[]()
+        var isBlack = false
+        for i in 1...10 {
+            for j in 1...10 {
+                temporaryBoard.append(isBlack)
+                isBlack = !isBlack
+            }
+            isBlack = !isBlack
+        }
+        return temporaryBoard
+        }()
+    func squareIsBlackAtRow(row: Int, column: Int) -> Bool {
+        return boardColors[(row * 10) + column]
+    }
+}
+
+let board = Checkerboard()
+println(board.squareIsBlackAtRow(0, column: 1))
+// prints "true"
+println(board.squareIsBlackAtRow(9, column: 9))
+// prints "false”
+```
+####Deinitialization
+
+A deinitializer is called immediately before a class instance is deallocated. You write deinitializers with the `deinit` keyword, similar to how intializers are written with the init keyword. `Deinitializers are only available on class types`.
+
+```
+deinit {
+    // perform the deinitialization
+}
+```
+来看一个demo
+
+```
+struct Bank {
+    static var coinsInBank = 10_000
+    static func vendCoins(var numberOfCoinsToVend: Int) -> Int {
+        numberOfCoinsToVend = min(numberOfCoinsToVend, coinsInBank)
+        coinsInBank -= numberOfCoinsToVend
+        return numberOfCoinsToVend
+    }
+    static func receiveCoins(coins: Int) {
+        coinsInBank += coins
+    }
+}
+
+class Player {
+    var coinsInPurse: Int
+    init(coins: Int) {
+        coinsInPurse = Bank.vendCoins(coins)
+    }
+    func winCoins(coins: Int) {
+        coinsInPurse += Bank.vendCoins(coins)
+    }
+    deinit {
+        Bank.receiveCoins(coinsInPurse)
+    }
+}
+
+var playerOne: Player? = Player(coins: 100)
+println("A new player has joined the game with \(playerOne!.coinsInPurse) coins")
+// prints "A new player has joined the game with 100 coins"
+println("There are now \(Bank.coinsInBank) coins left in the bank")
+// prints "There are now 9900 coins left in the bank”
+
+playerOne!.winCoins(2_000)
+println("PlayerOne won 2000 coins & now has \(playerOne!.coinsInPurse) coins")
+// prints "PlayerOne won 2000 coins & now has 2100 coins"
+println("The bank now only has \(Bank.coinsInBank) coins left")
+// prints "The bank now only has 7900 coins left”
+
+playerOne = nil
+println("PlayerOne has left the game")
+// prints "PlayerOne has left the game"
+println("The bank now has \(Bank.coinsInBank) coins")
+// prints "The bank now has 10000 coins”
+```
+####ARC
+Swift也用arc,不过，需要注意的是arc只适用于类对象,不适用于Structure和enumeration这类值类型
+
+```
+class Person {
+    let name: String
+    init(name: String) {
+        self.name = name
+        println("\(name) is being initialized")
+    }
+    deinit {
+        println("\(name) is being deinitialized")
+    }
+}
+
+reference1 = Person(name: "John Appleseed")
+// prints "John Appleseed is being initialized"
+
+reference2 = reference1
+reference3 = reference1
+reference1 = nil
+reference2 = nil
+
+reference3 = nil
+// prints "John Appleseed is being deinitialized”
+
+```
+
+类对象之间的循环引用
+You resolve strong reference cycles by defining some of the relationships between classes as weak or unowned references instead of as strong references
+我们来看看循环引用是如何造成的
+
+```
+class Person {
+    let name: String
+    init(name: String) { self.name = name }
+    var apartment: Apartment?
+    deinit { println("\(name) is being deinitialized") }
+}
+ 
+class Apartment {
+    let number: Int
+    init(number: Int) { self.number = number }
+    var tenant: Person?
+    deinit { println("Apartment #\(number) is being deinitialized") }
+}
+
+var john: Person?
+var number73: Apartment?
+
+john = Person(name: "John Appleseed")
+number73 = Apartment(number: 73)
+
+john!.apartment = number73
+number73!.tenant = john
+
+```
+现在我们来看看 cycle retain图
+
+{% img /images/2014/8/cycleretain.png%}
+
+####如何解决
+Swift provides two ways to resolve strong reference cycles when you work with properties of class type: weak references and unowned references.
+
+Use a weak reference whenever it is valid for that reference to become nil at some point during its lifetime. Conversely, use an unowned reference when you know that the reference will never be nil once it has been set during initialization.
+
+* Weak References
+
+```
+class Person {
+    let name: String
+    init(name: String) { self.name = name }
+    var apartment: Apartment?
+    deinit { println("\(name) is being deinitialized") }
+}
+ 
+class Apartment {
+    let number: Int
+    init(number: Int) { self.number = number }
+    weak var tenant: Person?
+    deinit { println("Apartment #\(number) is being deinitialized") }
+}
+
+var john: Person?
+var number73: Apartment?
+ 
+john = Person(name: "John Appleseed")
+number73 = Apartment(number: 73)
+ 
+john!.apartment = number73
+number73!.tenant = john
+
+```
+我们来看看引用图
+
+{% img /images/2014/8/weakref.png%}
+
+```
+john = nil
+// prints "John Appleseed is being deinitialized”
+number73 = nil
+// prints "Apartment #73 is being deinitialized”
+
+```
+
+* Unowned References
+Unlike a weak reference, an unowned reference is assumed to always have a value, Because of this, an unowned reference is always defined as a non-optional type.
+
+ARC cannot set the reference to nil when the instance it refers to is deallocated, `because variables of a non-optional type cannot be set to nil.`
+
+来看一个例子，这个例子中，我们定义了两个类,Customer和CreditCard,与之前不同，CreditCard肯定对应着一个Customer,故用unowned
+
+```
+class Customer {
+    let name: String
+    var card: CreditCard?
+    init(name: String) {
+        self.name = name
+    }
+    deinit { println("\(name) is being deinitialized") }
+}
+ 
+class CreditCard {
+    let number: Int
+    unowned let customer: Customer
+    init(number: Int, customer: Customer) {
+        self.number = number
+        self.customer = customer
+    }
+    deinit { println("Card #\(number) is being deinitialized") }
+}
+
+var john: Customer?
+john = Customer(name: "John Appleseed")
+john!.card = CreditCard(number: 1234_5678_9012_3456, customer: john!)
+
+```
+{% img /images/2014/8/unowned.png%}
+
+#####Unowned References and Implicitly Unwrapped Optional Properties
+in two classes ,both properties should always have a value, and neither property should ever be nil once initialization is complete. In this scenario, it is useful to combine an unowned property on one class with an implicitly unwrapped optional property on the other class.
+
+This enables both properties to be accessed directly (without optional unwrapping) once initialization is complete, while still avoiding a reference cycle. This section shows you how to set up such a relationship.
+
+```
+class Country {
+    let name: String
+    let capitalCity: City!
+    init(name: String, capitalName: String) {
+        self.name = name
+        self.capitalCity = City(name: capitalName, country: self)
+    }
+}
+ 
+class City {
+    let name: String
+    unowned let country: Country
+    init(name: String, country: Country) {
+        self.name = name
+        self.country = country
+    }
+}
+```
+The initializer for City is called from within the initializer for Country. However, the initializer for Country cannot pass self to the City initializer until a new Country instance is fully initialized, as described in Two-Phase Initialization.
+
+To cope with this requirement, you declare the capitalCity property of Country as an implicitly unwrapped optional property, indicated by the exclamation mark at the end of its type annotation (City!). This means that the capitalCity property has a default value of nil, like any other optional, but can be accessed without the need to unwrap its value as described in Implicitly Unwrapped Optionals.
+
+Because capitalCity has a default nil value, a new Country instance is considered fully initialized as soon as the Country instance sets its name property within its initializer
+
+```
+var country = Country(name: "Canada", capitalName: "Ottawa")
+println("\(country.name)'s capital city is called \(country.capitalCity.name)")
+// prints "Canada's capital city is called Ottawa”
+```
+#####Strong Reference Cycles for Closures
+closure有可能导致循环引用，因为closure也是引用类型,Swift提供了一个叫做`closure capture list`的方式来解决此类问题
+我们先看看closure引用的循环引用是如何产生的
+
+```
+class HTMLElement {
+    
+    let name: String
+    let text: String?
+    
+    @lazy var asHTML: () -> String = {
+        if let text = self.text {
+            return "<\(self.name)>\(text)</\(self.name)>"
+        } else {
+            return "<\(self.name) />"
+        }
+    }
+    
+    init(name: String, text: String? = nil) {
+        self.name = name
+        self.text = text
+    }
+    
+    deinit {
+        println("\(name) is being deinitialized")
+    }
+    
+}
+
+var paragraph: HTMLElement? = HTMLElement(name: "p", text: "hello, world")
+println(paragraph!.asHTML())
+// prints "<p>hello, world</p>"
+```
+
+The asHTML property is named and used somewhat like an instance method. However, because asHTML is a closure property rather than an instance method, you can replace the default value of the asHTML property with a custom closure, if you want to change the HTML rendering for a particular HTML element.
+
+`注意`
+
+	The asHTML property is declared as a lazy property, because it is only needed if and when the element actually needs to be rendered as a string value for some HTML output target. The fact that asHTML is a lazy property means that you can refer to self within the default closure, because the lazy property will not be accessed until after initialization has been completed and self is known to exist.
+
+	Even though the closure refers to self multiple times, it only captures one strong reference to the HTMLElement instance.
+
+#####解决closure导致的引用循环
+You resolve a strong reference cycle between a closure and a class instance by defining a capture list as part of the closure’s definition
+
+A capture list defines the rules to use when capturing one or more reference types within the closure’s body. As with strong reference cycles between two class instances, you declare each captured reference to be a weak or unowned reference rather than a strong reference
+
+`注意`
+
+	Swift requires you to write self.someProperty or self.someMethod (rather than just someProperty or someMethod) whenever you refer to a member of self within a closure. This helps you remember that it’s possible to capture self by accident.
+	
+#####定义一个Cature List
+
+```
+@lazy var someClosure: (Int, String) -> String = {
+    [unowned self] (index: Int, stringToProcess: String) -> String in
+    // closure body goes here
+}
+```
+如果closure不指定参数列表或返回型(因为它们能从上下文中推测出,则可用以下形式代替
+
+```
+@lazy var someClosure: () -> String = {
+    [unowned self] in
+    // closure body goes here
+}
+```
+#####Weak and Unowned References
+Define a capture in a closure as an unowned reference when the closure and the instance it captures will always refer to each other, and will always be deallocated at the same time.
+
+Weak references are `always` of an `optional type`
+
+```
+class HTMLElement {
+    
+    let name: String
+    let text: String?
+    
+    @lazy var asHTML: () -> String = {
+        [unowned self] in
+        if let text = self.text {
+            return "<\(self.name)>\(text)</\(self.name)>"
+        } else {
+            return "<\(self.name) />"
+        }
+    }
+    
+    init(name: String, text: String? = nil) {
+        self.name = name
+        self.text = text
+    }
+    
+    deinit {
+        println("\(name) is being deinitialized")
+    }
+    
+}
+
+var paragraph: HTMLElement? = HTMLElement(name: "p", text: "hello, world")
+println(paragraph!.asHTML())
+// prints "<p>hello, world</p>”
+```
+{% img /images/2014/8/unownedblock.png%}
+
+#####Optional Chaining
+If the optional contains a value, the property, method, or subscript call succeeds; if the optional is nil, the property, method, or subscript call returns nil. Multiple queries can be chained together, and the entire chain fails gracefully if any link in the chain is nil.
+
+`注意`
+
+	Optional chaining in Swift is similar to messaging nil in Objective-C, but in a way that works for any type, and that can be checked for success or failure.
+#####Optional Chaining as an Alternative to Forced Unwrapping
+To reflect the fact that optional chaining can be called on a nil value, the result of an optional chaining call is always an optional value,even if the property, method, or subscript you are querying returns a non-optional value
+
+Specifically, the result of an optional chaining call is of the same type as the expected return value, but wrapped in an optional,A property that normally returns an Int will return an Int? when accessed through optional chaining.
+
+```
+class Person {
+    var residence: Residence?
+}
+ 
+class Residence {
+    var numberOfRooms = 1
+}
+
+let john = Person()
+
+let roomCount = john.residence!.numberOfRooms
+// this triggers a runtime error
+
+if let roomCount = john.residence?.numberOfRooms {
+    println("John's residence has \(roomCount) room(s).")
+} else {
+    println("Unable to retrieve the number of rooms.")
+}
+// prints "Unable to retrieve the number of rooms.”
+
+john.residence = Residence()
+
+if let roomCount = john.residence?.numberOfRooms {
+    println("John's residence has \(roomCount) room(s).")
+} else {
+    println("Unable to retrieve the number of rooms.")
+}
+// prints "John's residence has 1 room(s).”
+```
+#####Defining Model Classes for Optional Chaining
+
+```
+class Person {
+    var residence: Residence?
+}
+
+class Residence {
+    var rooms = Room[]()
+    var numberOfRooms: Int {
+    return rooms.count
+    }
+    subscript(i: Int) -> Room {
+        return rooms[i]
+    }
+    func printNumberOfRooms() {
+        println("The number of rooms is \(numberOfRooms)")
+    }
+    var address: Address?
+}
+
+class Room {
+    let name: String
+    init(name: String) { self.name = name }
+}
+
+class Address {
+    var buildingName: String?
+    var buildingNumber: String?
+    var street: String?
+    func buildingIdentifier() -> String? {
+        if buildingName {
+            return buildingName
+        } else if buildingNumber {
+            return buildingNumber
+        } else {
+            return nil
+        }
+    }
+}
+
+```
+#####Calling Properties Through Optional Chaining
+you can use optional chaining to access a property on an optional value, and to check if that property access is successful. You cannot, however, set a property’s value through optional chaining.
+
+```
+let john = Person()
+if let roomCount = john.residence?.numberOfRooms {
+    println("John's residence has \(roomCount) room(s).")
+} else {
+    println("Unable to retrieve the number of rooms.")
+}
+// prints "Unable to retrieve the number of rooms.”
+```
+#####Calling Methods Through Optional Chaining
+
+```
+if john.residence?.printNumberOfRooms() {
+    println("It was possible to print the number of rooms.")
+} else {
+    println("It was not possible to print the number of rooms.")
+}
+// prints "It was not possible to print the number of rooms.”
+```
+#####Calling Subscripts Through Optional Chaining
+`注意`
+
+When you access a subscript on an optional value through optional chaining, you place the question mark before the subscript’s braces, not after. The optional chaining question mark always follows immediately after the part of the expression that is optional.
+
+```
+if let firstRoomName = john.residence?[0].name {
+    println("The first room name is \(firstRoomName).")
+} else {
+    println("Unable to retrieve the first room name.")
+}
+// prints "Unable to retrieve the first room name.”
+
+let johnsHouse = Residence()
+johnsHouse.rooms += Room(name: "Living Room")
+johnsHouse.rooms += Room(name: "Kitchen")
+john.residence = johnsHouse
+ 
+if let firstRoomName = john.residence?[0].name {
+    println("The first room name is \(firstRoomName).")
+} else {
+    println("Unable to retrieve the first room name.")
+}
+// prints "The first room name is Living Room."
+```
+#####Linking Multiple Levels of Chaining
+multiple levels of optional chaining do not add more levels of optionality to the returned value.
+
+也就是说
+
+* If the type you are trying to retrieve is not optional, it will become optional because of the optional chaining.
+* If the type you are trying to retrieve is already optional, it will not become more optional because of the chaining.
+
+```
+if let johnsStreet = john.residence?.address?.street {
+    println("John's street name is \(johnsStreet).")
+} else {
+    println("Unable to retrieve the address.")
+}
+// prints "Unable to retrieve the address."
+
+let johnsAddress = Address()
+johnsAddress.buildingName = "The Larches"
+johnsAddress.street = "Laurel Street"
+john.residence!.address = johnsAddress
+ 
+if let johnsStreet = john.residence?.address?.street {
+    println("John's street name is \(johnsStreet).")
+} else {
+    println("Unable to retrieve the address.")
+}
+// prints "John's street name is Laurel Street.”
+```
+#####Chaining on Methods With Optional Return Values
+
+```
+if let buildingIdentifier = john.residence?.address?.buildingIdentifier() {
+    println("John's building identifier is \(buildingIdentifier).")
+}
+// prints "John's building identifier is The Larches.”
+
+if let upper = john.residence?.address?.buildingIdentifier()?.uppercaseString {
+    println("John's uppercase building identifier is \(upper).")
+}
+// prints "John's uppercase building identifier is THE LARCHES."
+```
+####Type Casting
+Type casting is a way to check the type of an instance, and/or to treat that instance as if it is a different superclass or subclass from somewhere else in its own class hierarchy.
+
+Type casting in Swift is implemented with the `is` and `as` operators.
+
+You can also use type casting to check whether a type conforms to a protocol
+#####Defining a Class Hierarchy for Type Casting
+Defining a Class Hierarchy for Type Casting
+
+```
+class MediaItem {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+}
+
+class Movie: MediaItem {
+    var director: String
+    init(name: String, director: String) {
+        self.director = director
+        super.init(name: name)
+    }
+}
+ 
+class Song: MediaItem {
+    var artist: String
+    init(name: String, artist: String) {
+        self.artist = artist
+        super.init(name: name)
+    }
+}
+
+let library = [
+    Movie(name: "Casablanca", director: "Michael Curtiz"),
+    Song(name: "Blue Suede Shoes", artist: "Elvis Presley"),
+    Movie(name: "Citizen Kane", director: "Orson Welles"),
+    Song(name: "The One And Only", artist: "Chesney Hawkes"),
+    Song(name: "Never Gonna Give You Up", artist: "Rick Astley")
+]
+// the type of "library" is inferred to be MediaItem[]”
+
+```
+#####Checking Type
+
+```
+var movieCount = 0
+var songCount = 0
+ 
+for item in library {
+    if item is Movie {
+        ++movieCount
+    } else if item is Song {
+        ++songCount
+    }
+}
+
+println("Media library contains \(movieCount) movies and \(songCount) songs")
+// prints "Media library contains 2 movies and 3 songs”
+```
+#####Downcasting
+Because downcasting can fail, the type cast operator comes in two different forms. The optional form, as?, returns an optional value of the type you are trying to downcast to. The forced form, as, attempts the downcast and force-unwraps the result as a single compound action.
+
+```
+for item in library {
+    if let movie = item as? Movie {
+        println("Movie: '\(movie.name)', dir. \(movie.director)")
+    } else if let song = item as? Song {
+        println("Song: '\(song.name)', by \(song.artist)")
+    }
+}
+
+// Movie: 'Casablanca', dir. Michael Curtiz
+// Song: 'Blue Suede Shoes', by Elvis Presley
+// Movie: 'Citizen Kane', dir. Orson Welles
+// Song: 'The One And Only', by Chesney Hawkes
+// Song: 'Never Gonna Give You Up', by Rick Astley”
+```
+####Type Casting for Any and AnyObject
+Swift provides two special type aliases for working with non-specific types:
+
+* AnyObject can represent an instance of any class type.
+* Any can represent an instance of any type at all, apart from function types.
+
+`注意`
+
+Use Any and AnyObject only when you explicitly need the behavior and capabilities they provide. It is always better to be specific about the types you expect to work with in your code.
+#####AnyObject
+When working with Cocoa APIs, it is common to receive an array with a type of AnyObject[], or “an array of values of any object type”. This is because Objective-C does not have explicitly typed arrays
+
+```
+let someObjects: AnyObject[] = [
+    Movie(name: "2001: A Space Odyssey", director: "Stanley Kubrick"),
+    Movie(name: "Moon", director: "Duncan Jones"),
+    Movie(name: "Alien", director: "Ridley Scott")
+]
+
+for object in someObjects {
+    let movie = object as Movie
+    println("Movie: '\(movie.name)', dir. \(movie.director)")
+}
+// Movie: '2001: A Space Odyssey', dir. Stanley Kubrick
+// Movie: 'Moon', dir. Duncan Jones
+// Movie: 'Alien', dir. Ridley Scott”
+
+//或者 
+
+for movie in someObjects as Movie[] {
+    println("Movie: '\(movie.name)', dir. \(movie.director)")
+}
+// Movie: '2001: A Space Odyssey', dir. Stanley Kubrick
+// Movie: 'Moon', dir. Duncan Jones
+// Movie: 'Alien', dir. Ridley Scott”
+```
+#####Any
+Here’s an example of using Any to work with a mix of different types, including non-class types
+
+```
+var things = Any[]()
+ 
+things.append(0)
+things.append(0.0)
+things.append(42)
+things.append(3.14159)
+things.append("hello")
+things.append((3.0, 5.0))
+things.append(Movie(name: "Ghostbusters", director: "Ivan Reitman"))
+```
+
+You can use the is and as operators in a switch statement’s cases to discover the specific type of a constant or variable that is known `only` to be of type `Any` or `AnyObject`.
+
+```
+for thing in things {
+    switch thing {
+    case 0 as Int:
+        println("zero as an Int")
+    case 0 as Double:
+        println("zero as a Double")
+    case let someInt as Int:
+        println("an integer value of \(someInt)")
+    case let someDouble as Double where someDouble > 0:
+        println("a positive double value of \(someDouble)")
+    case is Double:
+        println("some other double value that I don't want to print")
+    case let someString as String:
+        println("a string value of \"\(someString)\"")
+    case let (x, y) as (Double, Double):
+    
+println("an (x, y) point at \(x), \(y)")
+    case let movie as Movie:
+        println("a movie called '\(movie.name)', dir. \(movie.director)")
+    default:
+        println("something else")
+    }
+}
+ 
+// zero as an Int
+// zero as a Double
+// an integer value of 42
+// a positive double value of 3.14159
+// a string value of "hello"
+// an (x, y) point at 3.0, 5.0
+// a movie called 'Ghostbusters', dir. Ivan Reitman
+```
+`注意`
+
+	The cases of a switch statement use the forced version of the type cast operator (as, not as?) to check and cast to a specific type. This check is always safe within the context of a switch case statement.
+#####Nested Types
+Nest supporting enumerations, classes, and structures within the definition of the type they support.
+
+To nest a type within another type, write its definition within the outer braces of the type it supports. Types can be nested to `as many levels as are required`.
+
+#####Nested Types in Action
+
+```
+struct BlackjackCard {
+// nested Suit enumeration
+    enum Suit: Character {
+        case Spades = "♠", Hearts = "♡", Diamonds = "♢", Clubs = "♣"
+    }
+    
+    // nested Rank enumeration
+    enum Rank: Int {
+        case Two = 2, Three, Four, Five, Six, Seven, Eight, Nine, Ten
+        case Jack, Queen, King, Ace
+        struct Values {
+            let first: Int, second: Int?
+        }
+        var values: Values {
+        switch self {
+        case .Ace:
+            return Values(first: 1, second: 11)
+        case .Jack, .Queen, .King:
+            return Values(first: 10, second: nil)
+        default:
+            return Values(first: self.toRaw(), second: nil)
+            }
+        }
+	}
+    
+    // BlackjackCard properties and methods
+    let rank: Rank, suit: Suit
+    var description: String {
+    var output = "suit is \(suit.toRaw()),"
+        output += " value is \(rank.values.first)"
+        if let second = rank.values.second {
+            output += " or \(second)"
+        }
+        return output
+    }
+}
+
+let theAceOfSpades = BlackjackCard(rank: .Ace, suit: .Spades)
+println("theAceOfSpades: \(theAceOfSpades.description)")
+// prints "theAceOfSpades: suit is ♠, value is 1 or 11”
+```
+Even though Rank and Suit are nested within BlackjackCard, their type can be inferred from context,“\and so the initialization of this instance is able to refer to the enumeration members by their member names (.Ace and .Spades) alone.
+
+#####Referring to Nested Types
+
+```
+let heartsSymbol = BlackjackCard.Suit.Hearts.toRaw()
+// heartsSymbol is "♡”
+```
+####Extensions
+Extensions add new functionality to an existing class, structure, or enumeration type,类似OC中的类别,Unlike Objective-C categories, Swift extensions do not have names
+Swift中的Extensions能做以下事情
+
+* 添加computed properties和computed static properties
+* 定义instance methods和type methods
+* 提供新的initializers
+* 定义subscripts
+* 定义并使用nested types
+* 让一个已存在的type遵循某个协议
+
+`注意`
+
+	If you define an extension to add new functionality to an existing type, the new functionality will be available on all existing instances of that type, even if they were created before the extension was defined.
+
+#####语法
+
+```
+extension SomeType {
+    // new functionality to add to SomeType goes here
+}
+```
+An extension can extend an existing type to make it adopt one or more protocols.
+
+```
+extension SomeType: SomeProtocol, AnotherProtocol {
+    // implementation of protocol requirements goes here
+}
+```
+#####Computed Properties
+Extensions can add computed instance properties and computed type properties to existing types
+
+```
+extension Double {
+    var km: Double { return self * 1_000.0 }
+    var m: Double { return self }
+    var cm: Double { return self / 100.0 }
+    var mm: Double { return self / 1_000.0 }
+    var ft: Double { return self / 3.28084 }
+}
+let oneInch = 25.4.mm
+println("One inch is \(oneInch) meters")
+// prints "One inch is 0.0254 meters"
+let threeFeet = 3.ft
+println("Three feet is \(threeFeet) meters")
+// prints "Three feet is 0.914399970739201 meters”
+
+let aMarathon = 42.km + 195.m
+println("A marathon is \(aMarathon) meters long")
+// prints "A marathon is 42195.0 meters long”
+```
+
+`注意`
+
+	Extensions can add new computed properties, but they cannot add stored properties, or add property observers to existing properties.
+
+#####Initializers
+Extensions can add new initializers to existing types. This enables you to extend other types to accept your own custom types as initializer parameters, or to provide additional initialization options that were not included as part of the type’s original implementation.
+
+`Extensions can add new convenience initializers to a class, but they cannot add new designated initializers or deinitializers to a class`. Designated initializers and deinitializers must always be provided by the original class implementation.
+
+`注意`
+
+	If you use an extension to add an initializer to a value type that provides default values for all of its stored properties and does not define any custom initializers, you can call the default initializer and memberwise initializer for that value type from within your extension’s initializer.
+
+	This would not be the case if you had written the initializer as part of the value type’s original implementation
+	
+
+```
+struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var size = Size()
+}
+
+let defaultRect = Rect()
+let memberwiseRect = Rect(origin: Point(x: 2.0, y: 2.0),
+    size: Size(width: 5.0, height: 5.0))
+    
+extension Rect {
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}    
+
+let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+    size: Size(width: 3.0, height: 3.0))
+// centerRect's origin is (2.5, 2.5) and its size is (3.0, 3.0)
+```
+`注意`
+
+	If you provide a new initializer with an extension, you are still responsible for making sure that each instance is fully initialized once the initializer completes.
+#####Methods
+Extensions can add new instance methods and type methods to existing types.
+
+```
+extension Int {
+    func repetitions(task: () -> ()) {
+        for i in 0..self {
+            task()
+        }
+    }
+}
+
+3.repetitions({
+    println("Hello!")
+    })
+// Hello!
+// Hello!
+// Hello!
+
+//或者
+3.repetitions {
+    println("Goodbye!")
+}
+// Goodbye!
+// Goodbye!
+// Goodbye!
+```
+#####Mutating Instance Methods
+
+```
+extension Int {
+    mutating func square() {
+        self = self * self
+    }
+}
+var someInt = 3
+someInt.square()
+// someInt is now 9
+```
+#####Subscripts
+Extensions can add new subscripts to an existing type.
+
+```
+“extension Int {
+    subscript(digitIndex: Int) -> Int {
+        var decimalBase = 1
+            for _ in 1...digitIndex {
+                decimalBase *= 10
+            }
+            return (self / decimalBase) % 10
+    }
+}
+746381295[0]
+// returns 5
+746381295[1]
+// returns 9
+746381295[2]
+// returns 2
+746381295[8]
+// returns 7
+```
+#####Nested Types
+Extensions can add new nested types to existing classes, structures and enumerations:
+
+```
+extension Character {
+    enum Kind {
+        case Vowel, Consonant, Other
+    }
+    var kind: Kind {
+    switch String(self).lowercaseString {
+    case "a", "e", "i", "o", "u":
+        return .Vowel
+    case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+    "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+        return .Consonant
+    default:
+        return .Other
+        }
+    }
+}
+
+func printLetterKinds(word: String) {
+    println("'\(word)' is made up of the following kinds of letters:")
+    for character in word {
+        switch character.kind {
+        case .Vowel:
+            print("vowel ")
+        case .Consonant:
+            print("consonant ")
+        case .Other:
+            print("other ")
+        }
+    }
+    print("\n")
+}
+printLetterKinds("Hello")
+// 'Hello' is made up of the following kinds of letters:
+// consonant vowel consonant consonant vowel
+```
+####Protocol
+A protocol defines a blueprint of methods, properties, and other requirements that suit a particular task or piece of functionality.
+
+Protocols can `require` that conforming types have specific instance properties, instance methods, type methods, operators, and subscripts.
+
+```
+protocol SomeProtocol {
+    // protocol definition goes here
+}
+
+struct SomeStructure: FirstProtocol, AnotherProtocol {
+    // structure definition goes here
+}
+```
+
+If a class has a `superclass`, list the superclass name before any protocols it adopts, followed by a comma:
+
+```
+class SomeClass: SomeSuperclass, FirstProtocol, AnotherProtocol {
+    // class definition goes here
+}
+```
+#####Property Requirements
+A protocol can require any conforming type to provide an instance property or type property with a particular name and type.
+
+The protocol doesn’t specify whether the property should be a stored property or a computed property—it only specifies the required property name and type. The protocol also specifies whether each property must be gettable or gettable and settable.
+
+If a protocol requires a property to be gettable and settable, that property requirement cannot be fulfilled by a constant stored property or a read-only computed property.
+
+Property requirements are always declared as variable properties, prefixed with the var keyword.
+
+Gettable and settable properties are indicated by writing { get set } after their type declaration, and gettable properties are indicated by writing { get }.
+
+```
+protocol SomeProtocol {
+    var mustBeSettable: Int { get set }
+    var doesNotNeedToBeSettable: Int { get }
+}
+```
+
+`注意`
+
+	Always prefix type property requirements with the class keyword when you define them in a protocol. This is true even though type property requirements are prefixed with the static keyword when implemented by a structure or enumeration:
+
+```
+protocol AnotherProtocol {
+    class var someTypeProperty: Int { get set }
+}
+```
+Here’s an example of a protocol with a single instance property requirement:
+
+```
+protocol FullyNamed {
+    var fullName: String { get }
+}
+
+struct Person: FullyNamed {
+    var fullName: String
+}
+let john = Person(fullName: "John Appleseed")
+// john.fullName is "John Appleseed”
+```
+Swift reports an error at compile-time if a protocol requirement is not fulfilled.
+
+Here’s a more complex class, which also adopts and conforms to the FullyNamed 
+protocol:
+
+```
+class Starship: FullyNamed {
+    var prefix: String?
+    var name: String
+    init(name: String, prefix: String? = nil) {
+        self.name = name
+        self.prefix = prefix
+    }
+    var fullName: String {
+    return (prefix ? prefix! + " " : "") + name
+    }
+}
+var ncc1701 = Starship(name: "Enterprise", prefix: "USS")
+// ncc1701.fullName is "USS Enterprise”
+```
+#####Method Requirements
+Protocols can require specific instance methods and type methods to be implemented by conforming types. These methods are written as part of the protocol’s definition in exactly the same way as for normal instance and type methods, but without curly braces or a method body. Variadic parameters are allowed, subject to the same rules as for normal methods.
+
+`注意`
+
+Protocols use the same syntax as normal methods, but are not allowed to specify default values for method parameters.
+
+As with type property requirements, you always prefix type method requirements with the class keyword when they are defined in a protocol. This is true even though type method requirements are prefixed with the static keyword when implemented by a structure or enumeration:
+
+```
+protocol SomeProtocol {
+    class func someTypeMethod()
+}
+```
+来看一个demo
+
+```
+protocol RandomNumberGenerator {
+    func random() -> Double
+}
+
+class LinearCongruentialGenerator: RandomNumberGenerator {
+    var lastRandom = 42.0
+    let m = 139968.0
+    let a = 3877.0
+    let c = 29573.0
+    func random() -> Double {
+        lastRandom = ((lastRandom * a + c) % m)
+        return lastRandom / m
+    }
+}
+let generator = LinearCongruentialGenerator()
+println("Here's a random number: \(generator.random())")
+// prints "Here's a random number: 0.37464991998171"
+println("And another one: \(generator.random())")
+// prints "And another one: 0.729023776863283”
+```
+#####Mutating Method Requirements
+
+It is sometimes necessary for a method to modify (or mutate) the instance it belongs to
+
+`注意`
+
+If you mark a protocol instance method requirement as mutating, you do not need to write the mutating keyword when writing an implementation of that method for a class. The mutating keyword is only used by structures and enumerations.
+
+```
+protocol Togglable {
+    mutating func toggle()
+}
+
+enum OnOffSwitch: Togglable {
+    case Off, On
+    mutating func toggle() {
+        switch self {
+        case Off:
+            self = On
+        case On:
+            self = Off
+        }
+    }
+}
+var lightSwitch = OnOffSwitch.Off
+lightSwitch.toggle()
+// lightSwitch is now equal to .On”
+```
+#####Protocols as Types
+Protocols do not actually implement any functionality themselves. Nonetheless, any protocol you create will become a fully-fledged type for use in your code.
+Because it is a type, you can use a protocol in many places where other types are allowed, including:
+
+* As a parameter type or return type in a function, method, or initializer
+* As the type of a constant, variable, or property
+* As the type of items in an array, dictionary, or other container
+
+Here’s an example of a protocol used as a type:
+
+```
+class Dice {
+    let sides: Int
+    let generator: RandomNumberGenerator
+    init(sides: Int, generator: RandomNumberGenerator) {
+        self.sides = sides
+        self.generator = generator
+    }
+    func roll() -> Int {
+        return Int(generator.random() * Double(sides)) + 1
+    }
+}
+
+var d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
+for _ in 1...5 {
+    println("Random dice roll is \(d6.roll())")
+}
+// Random dice roll is 3
+// Random dice roll is 5
+// Random dice roll is 4
+// Random dice roll is 5
+// Random dice roll is 4
+```
+####Delegation
+
+```
+protocol DiceGame {
+    var dice: Dice { get }
+    func play()
+}
+
+protocol DiceGameDelegate {
+    func gameDidStart(game: DiceGame)
+    func game(game: DiceGame, didStartNewTurnWithDiceRoll diceRoll: Int)
+    func gameDidEnd(game: DiceGame)
+}
+
+class SnakesAndLadders: DiceGame {
+    let finalSquare = 25
+    let dice = Dice(sides: 6, generator: LinearCongruentialGenerator())
+    var square = 0
+    var board: Int[]
+    init() {
+        board = Int[](count: finalSquare + 1, repeatedValue: 0)
+        board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
+        board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
+    }
+    var delegate: DiceGameDelegate?
+    func play() {
+        square = 0
+        delegate?.gameDidStart(self)
+        gameLoop: while square != finalSquare {
+            let diceRoll = dice.roll()
+            delegate?.game(self, didStartNewTurnWithDiceRoll: diceRoll)
+            switch square + diceRoll {
+            case finalSquare:
+                break gameLoop
+            case let newSquare where newSquare > finalSquare:
+                continue gameLoop
+            default:
+                square += diceRoll
+                square += board[square]
+            }
+        }
+        delegate?.gameDidEnd(self)
+    }
+}
+
+class DiceGameTracker: DiceGameDelegate {
+    var numberOfTurns = 0
+    func gameDidStart(game: DiceGame) {
+        numberOfTurns = 0
+        if game is SnakesAndLadders {
+            println("Started a new game of Snakes and Ladders")
+        }
+        println("The game is using a \(game.dice.sides)-sided dice")
+    }
+    func game(game: DiceGame, didStartNewTurnWithDiceRoll diceRoll: Int) {
+        ++numberOfTurns
+        println("Rolled a \(diceRoll)")
+    }
+    func gameDidEnd(game: DiceGame) {
+        println("The game lasted for \(numberOfTurns) turns")
+    }
+}
+
+let tracker = DiceGameTracker()
+let game = SnakesAndLadders()
+game.delegate = tracker
+game.play()
+// Started a new game of Snakes and Ladders
+// The game is using a 6-sided dice
+// Rolled a 3
+// Rolled a 5
+// Rolled a 4
+// Rolled a 5
+// The game lasted for 4 turns
+```
+#####Adding Protocol Conformance with an Extension
+`注意`
+
+Existing instances of a type automatically adopt and conform to a protocol when that conformance is added to the instance’s type in an extension.
+
+```
+protocol TextRepresentable {
+    func asText() -> String
+}
+
+extension Dice: TextRepresentable {
+    func asText() -> String {
+        return "A \(sides)-sided dice"
+    }
+}
+
+let d12 = Dice(sides: 12, generator: LinearCongruentialGenerator())
+println(d12.asText())
+// prints "A 12-sided dice”
+
+extension SnakesAndLadders: TextRepresentable {
+    func asText() -> String {
+        return "A game of Snakes and Ladders with \(finalSquare) squares"
+    }
+}
+println(game.asText())
+// prints "A game of Snakes and Ladders with 25 squares”
+```
+#####Declaring Protocol Adoption with an Extension
+
+If a type already conforms to all of the requirements of a protocol, but has not yet stated that it adopts that protocol, you can make it adopt the protocol with an empty extension:
+
+```
+struct Hamster {
+    var name: String
+    func asText() -> String {
+        return "A hamster named \(name)"
+    }
+}
+extension Hamster: TextRepresentable {}
+```
+`注意`
+
+Instances of Hamster can now be used wherever TextRepresentable is the required type:
+
+```
+let simonTheHamster = Hamster(name: "Simon")
+let somethingTextRepresentable: TextRepresentable = simonTheHamster
+println(somethingTextRepresentable.asText())
+// prints "A hamster named Simon”
+```
+`注意`
+
+	Types do not automatically adopt a protocol just by satisfying its requirements. They must always explicitly declare their adoption of the protocol.
+	
+#####Collections of Protocol Types
+A protocol can be used as the type to be stored in a collection such as an array or a dictionary
+
+```
+let things: TextRepresentable[] = [game, d12, simonTheHamster]
+
+for thing in things {
+    println(thing.asText())
+}
+// A game of Snakes and Ladders with 25 squares
+// A 12-sided dice
+// A hamster named Simon
+
+```
+#####Protocol Inheritance
+A protocol can inherit one or more other protocols and can add further requirements on top of the requirements it inherits
+
+```
+protocol InheritingProtocol: SomeProtocol, AnotherProtocol {
+    // protocol definition goes here
+}
+
+protocol PrettyTextRepresentable: TextRepresentable {
+    func asPrettyText() -> String
+}
+
+extension SnakesAndLadders: PrettyTextRepresentable {
+    func asPrettyText() -> String {
+        var output = asText() + ":\n"
+        for index in 1...finalSquare {
+            switch board[index] {
+            case let ladder where ladder > 0:
+                output += "▲ "
+            case let snake where snake < 0:
+                output += "▼ "
+            default:
+                output += "○ "
+            }
+        }
+        return output
+    }
+}
+
+println(game.asPrettyText())
+// A game of Snakes and Ladders with 25 squares:
+// ○ ○ ▲ ○ ○ ▲ ○ ○ ▲ ▲ ○ ○ ○ ▼ ○ ○ ○ ○ ▼ ○ ○ ▼ ○ ▼ ○
+```
+
+#####Protocol Composition
+
+```
+protocol Named {
+    var name: String { get }
+}
+protocol Aged {
+    var age: Int { get }
+}
+struct Person: Named, Aged {
+    var name: String
+    var age: Int
+}
+func wishHappyBirthday(celebrator: protocol<Named, Aged>) {
+    println("Happy birthday \(celebrator.name) - you're \(celebrator.age)!")
+}
+let birthdayPerson = Person(name: "Malcolm", age: 21)
+wishHappyBirthday(birthdayPerson)
+// prints "Happy birthday Malcolm - you're 21!"
+```
+#####Checking for Protocol Conformance
+
+You can use the is and as operators described in Type Casting to check for protocol conformance, and to cast to a specific protocol.
+
+* The is operator returns true if an instance conforms to a protocol and returns false if it does not.
+* The as? version of the downcast operator returns an optional value of the protocol’s type, and this value is nil if the instance does not conform to that protocol.
+* The as version of the downcast operator forces the downcast to the protocol type and triggers a runtime error if the downcast does not succeed.
+
+```
+@objc protocol HasArea {
+    var area: Double { get }
+}
+```
+`注意`
+
+You can check for protocol conformance `only if your protocol is marked with the @objc attribute`, as seen for the HasArea protocol above. This attribute indicates that the protocol should be exposed to Objective-C code and is described in Using Swift with Cocoa and Objective-C. Even if you are not interoperating with Objective-C, you need to mark your protocols with the @objc attribute if you want to be able to check for protocol conformance.
+
+Note also that @objc protocols can be adopted `only by classes`, and not by structures or enumerations. If you mark your protocol as @objc in order to check for conformance, you will be able to apply that protocol only to class types.
+
+Here are two classes, Circle and Country, both of which conform to the HasArea protocol:
+
+```
+class Circle: HasArea {
+    let pi = 3.1415927
+    var radius: Double
+    var area: Double { return pi * radius * radius }
+    init(radius: Double) { self.radius = radius }
+}
+class Country: HasArea {
+    var area: Double
+    init(area: Double) { self.area = area }
+}
+```
+Animal Class
+
+```
+class Animal {
+    var legs: Int
+    init(legs: Int) { self.legs = legs }
+}
+
+let objects: AnyObject[] = [
+    Circle(radius: 2.0),
+    Country(area: 243_610),
+    Animal(legs: 4)
+]
+
+for object in objects {
+    if let objectWithArea = object as? HasArea {
+        println("Area is \(objectWithArea.area)")
+    } else {
+        println("Something that doesn't have an area")
+    }
+}
+// Area is 12.5663708
+// Area is 243610.0
+// Something that doesn't have an area
+```
+#####Optional Protocol Requirements
+You can define optional requirements for protocols
+Optional property requirements, and optional method requirements that return a value, will always return an optional value of the appropriate type when they are accessed or called
+
+You check for an implementation of an optional requirement by writing a question mark after the name of the requirement when it is called, such as someOptionalMethod?(someArgument). 
+
+`注意`
+
+	Optional protocol requirements can only be specified if your protocol is marked with the @objc attribute. Even if you are not interoperating with Objective-C, you need to mark your protocols with the @objc attribute if you want to specify optional requirements.
+	
+	
+```
+@objc protocol CounterDataSource {
+    @optional func incrementForCount(count: Int) -> Int
+    @optional var fixedIncrement: Int { get }
+}
+
+@objc class Counter {
+    var count = 0
+    var dataSource: CounterDataSource?
+    func increment() {
+        if let amount = dataSource?.incrementForCount?(count) {
+            count += amount
+        } else if let amount = dataSource?.fixedIncrement? {
+            count += amount
+        }
+    }
+}
+
+class ThreeSource: CounterDataSource {
+    let fixedIncrement = 3
+}
+
+var counter = Counter()
+counter.dataSource = ThreeSource()
+for _ in 1...4 {
+    counter.increment()
+    println(counter.count)
+}
+// 3
+// 6
+// 9
+// 12
+
+```
+另一个例子
+
+```
+class TowardsZeroSource: CounterDataSource {
+    func incrementForCount(count: Int) -> Int {
+        if count == 0 {
+            return 0
+        } else if count < 0 {
+            return 1
+        } else {
+            return -1
+        }
+    }
+}
+
+counter.count = -4
+counter.dataSource = TowardsZeroSource()
+for _ in 1...5 {
+    counter.increment()
+    println(counter.count)
+}
+// -3
+// -2
+// -1
+// 0
+// 0
+```
+####Generics
+交换两个值
+
+```
+func swapTwoValues<T>(inout a: T, inout b: T) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+
+var someInt = 3
+var anotherInt = 107
+swapTwoValues(&someInt, &anotherInt)
+// someInt is now 107, and anotherInt is now 3
+ 
+var someString = "hello"
+var anotherString = "world"
+swapTwoValues(&someString, &anotherString)
+// someString is now "world", and anotherString is now "hello”
+
+```
+`注意`
+
+	You can use Swift’s existing swap function rather than providing your own implementation.
+
+#####Type Parameters
+Type parameters specify and name a placeholder type, and are written immediately after the function’s name, between a pair of matching angle brackets (such as <T>).
+
+You can provide more than one type parameter by writing multiple type parameter names within the angle brackets, separated by commas.
+
+#####Naming Type Parameters
+It is traditional to use the single-character name T for the type parameter. However, you are can use any valid identifier as the type parameter name.
+
+`注意`
+
+	Always give type parameters UpperCamelCase names (such as T and KeyType) to indicate that they are a placeholder for a type, not a value.
+#####Generic Types
+
+In addition to generic functions, Swift enables you to define your own generic types. These are custom classes, structures, and enumerations that can work with any type, in a similar way to Array and Dictionary.
+
+```
+struct Stack<T> {
+    var items = T[]()
+    mutating func push(item: T) {
+        items.append(item)
+    }
+    mutating func pop() -> T {
+        return items.removeLast()
+    }
+}
+
+var stackOfStrings = Stack<String>()
+stackOfStrings.push("uno")
+stackOfStrings.push("dos")
+stackOfStrings.push("tres")
+stackOfStrings.push("cuatro")
+// the stack now contains 4 strings”
+
+let fromTheTop = stackOfStrings.pop()
+// fromTheTop is equal to "cuatro", and the stack now contains 3 strings
+```
+#####Type Constraints
+
+It is sometimes useful to enforce certain type constraints on the types that can be used with generic functions and generic types. `Type constraints specify that a type parameter must inherit from a specific class, or conform to a particular protocol or protocol composition.`
+
+```
+func someFunction<T: SomeClass, U: SomeProtocol>(someT: T, someU: U) {
+    // function body goes here
+}
+```
+#####Type Constraints in Action
+
+```
+func findIndex<T>(array: T[], valueToFind: T) -> Int? {
+    for (index, value) in enumerate(array) {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+```
+需要注意的是这个函数编译失败!问题出在以下
+
+	if value == valueToFind
+Not every type in Swift can be compared with the equal to operator (==).
+我们可以写成如下方式
+
+```
+func findIndex<T: Equatable>(array: T[], valueToFind: T) -> Int? {
+    for (index, value) in enumerate(array) {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+```
+Equatable表示类型必须遵循Equatable协议,这样编译就能顺利通过了
+
+```
+let doubleIndex = findIndex([3.14159, 0.1, 0.25], 9.3)
+// doubleIndex is an optional Int with no value, because 9.3 is not in the array
+let stringIndex = findIndex(["Mike", "Malcolm", "Andrea"], "Andrea")
+// stringIndex is an optional Int containing a value of 2
+```
+#####Associated Types
+When defining a protocol, it is sometimes useful to declare one or more associated types as part of the protocol’s definition. An associated type gives a placeholder name (or alias) to a type that is used as part of the protocol. The actual type to use for that associated type is not specified until the protocol is adopted. Associated types are specified with the typealias keyword.
+
+```
+protocol Container {
+    typealias ItemType
+    mutating func append(item: ItemType)
+    var count: Int { get }
+    subscript(i: Int) -> ItemType { get }
+}
+
+struct IntStack: Container {
+    // original IntStack implementation
+    var items = Int[]()
+    mutating func push(item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -> Int {
+        return items.removeLast()
+    }
+    // conformance to the Container protocol
+    typealias ItemType = Int
+    mutating func append(item: Int) {
+        self.push(item)
+    }
+    var count: Int {
+    return items.count
+    }
+    subscript(i: Int) -> Int {
+        return items[i]
+    }
+}
+```
+If you delete the typealias ItemType = Int line from the code above, everything still works, because it is clear what type should be used for ItemType.
+
+You can also make the generic Stack type conform to the Container protocol:
+
+```
+struct Stack<T>: Container {
+    // original Stack<T> implementation
+    var items = T[]()
+    mutating func push(item: T) {
+        items.append(item)
+    }
+    mutating func pop() -> T {
+        return items.removeLast()
+    }
+    // conformance to the Container protocol
+    mutating func append(item: T) {
+        self.push(item)
+    }
+    var count: Int {
+    return items.count
+    }
+    subscript(i: Int) -> T {
+        return items[i]
+    }
+}
+```
+
+#####Extending an Existing Type to Specify an Associated Type
+Extending an Existing Type to Specify an Associated Type
+
+Swift’s Array type already provides an append method, a count property, and a subscript with an Int index to retrieve its elements. These three capabilities match the requirements of the Container protocol. This means that you can extend Array to conform to the Container protocol simply by declaring that Array adopts the protocol. You do this with an empty extension
+
+```
+extension Array: Container {}
+```
+Array’s existing append method and subscript enable Swift to infer the appropriate type to use for ItemType, just as for the generic Stack type above. After defining this extension, you can use any Array as a Container.
+
+#####Where Clauses
+
+The example below defines a generic function called allItemsMatch
+
+The two containers to be checked `do not have to be the same type of container`
+
+```
+func allItemsMatch<
+    C1: Container, C2: Container
+    where C1.ItemType == C2.ItemType, C1.ItemType: Equatable>
+    (someContainer: C1, anotherContainer: C2) -> Bool {
+        
+        // check that both containers contain the same number of items
+        if someContainer.count != anotherContainer.count {
+            return false
+        }
+        
+        // check each pair of items to see if they are equivalent
+        for i in 0..someContainer.count {
+            if someContainer[i] != anotherContainer[i] {
+                return false
+            }
+        }
+        
+        // all items match, so return true
+        return true
+        
+}
+
+var stackOfStrings = Stack<String>()
+stackOfStrings.push("uno")
+stackOfStrings.push("dos")
+stackOfStrings.push("tres")
+ 
+var arrayOfStrings = ["uno", "dos", "tres"]
+ 
+if allItemsMatch(stackOfStrings, arrayOfStrings) {
+    println("All items match.")
+} else {
+    println("Not all items match.")
+}
+```
+####Advanced Operators
+These include all of the bitwise and bit shifting operators you will be familiar with from C and Objective-C.
+
+Unlike arithmetic operators in C, arithmetic operators in Swift do not overflow by default. Overflow behavior is trapped and reported as an error
+
+To opt in to overflow behavior, use Swift’s second set of arithmetic operators that overflow by default, such as the overflow addition operator (&+). All of these overflow operators begin with an ampersand (&).
+
+When you define your own structures, classes, and enumerations, it can be useful to provide your own implementations of the standard Swift operators for these custom types. Swift makes it easy to provide tailored implementations of these operators and to determine exactly what their behavior should be for each type you create
+
+You’re not just limited to the predefined operators. Swift gives you the freedom to define your own custom infix, prefix, postfix, and assignment operators, with custom precedence and associativity values. These operators can be used and adopted in your code just like any of the predefined operators, and you can even extend existing types to support the custom operators you define.
+
+#####Bitwise Operators
+
+* Bitwise NOT Operator
+
+```
+let initialBits: UInt8 = 0b00001111
+let invertedBits = ~initialBits  // equals 11110000
+```
+* Bitwise AND Operator
+
+```
+let firstSixBits: UInt8 = 0b11111100
+let lastSixBits: UInt8  = 0b00111111
+let middleFourBits = firstSixBits & lastSixBits  // equals 00111100
+```
+* Bitwise OR Operator
+
+```
+let someBits: UInt8 = 0b10110010
+let moreBits: UInt8 = 0b01011110
+let combinedbits = someBits | moreBits  // equals 11111110
+```
+* Bitwise XOR Operator
+
+```
+“let firstBits: UInt8 = 0b00010100
+let otherBits: UInt8 = 0b00000101
+let outputBits = firstBits ^ otherBits  // equals 00010001
+```
+* Bitwise Left and Right Shift Operators
+	* Shifting Behavior for Unsigned Integers
+	* Any bits that are moved beyond the bounds of the integer’s storage are discarded.
+	* Zeroes are inserted in the spaces left behind after the original bits are moved to the left or right.
+	
+```
+let shiftBits: UInt8 = 4   // 00000100 in binary
+shiftBits << 1             // 00001000
+shiftBits << 2             // 00010000
+shiftBits << 5             // 10000000
+shiftBits << 6             // 00000000
+shiftBits >> 2             // 00000001
+```
+You can use bit shifting to encode and decode values within other data types:
+
+```
+let pink: UInt32 = 0xCC6699
+let redComponent = (pink & 0xFF0000) >> 16    // redComponent is 0xCC, or 204
+let greenComponent = (pink & 0x00FF00) >> 8   // greenComponent is 0x66, or 102
+let blueComponent = pink & 0x0000FF           // blueComponent is 0x99, or 153
+```
+#####Shifting Behavior for Signed Integers
+
+* When you shift signed integers to the right, apply the same rules as for unsigned integers, but fill any empty bits on the left with the sign bit, rather than with a zero.
+##### Overflow Operators
+
+```
+var willOverflow = UInt8.max
+// willOverflow equals 255, which is the largest value a UInt8 can hold
+willOverflow = willOverflow &+ 1
+// willOverflow is now equal to 0
+```
+Value Underflow
+
+```
+var willUnderflow = UInt8.min
+// willUnderflow equals 0, which is the smallest value a UInt8 can hold
+willUnderflow = willUnderflow &- 1
+// willUnderflow is now equal to 255
+```
+
+#####Division by Zero
+
+```
+let x = 1
+let y = x &/ 0
+// y is equal to 0
+```
+
+#####Operator Functions
+
+Classes and structures can provide their own implementations of existing operators. This is known as `overloading` the existing operators.
+
+
+```
+struct Vector2D {
+    var x = 0.0, y = 0.0
+}
+@infix func + (left: Vector2D, right: Vector2D) -> Vector2D {
+    return Vector2D(x: left.x + right.x, y: left.y + right.y)
+}
+```
+The example above shows how to implement the arithmetic addition operator (+) for a custom structure. The arithmetic addition operator is a binary operator because it operates on two targets and is said to be `infix` because it appears in between those two targets.
+
+```
+let vector = Vector2D(x: 3.0, y: 1.0)
+let anotherVector = Vector2D(x: 2.0, y: 4.0)
+let combinedVector = vector + anotherVector
+// combinedVector is a Vector2D instance with values of (5.0, 5.0)
+```
+#####Prefix and Postfix Operators
+
+Classes and structures can also provide implementations of the standard unary operators.You implement a prefix or postfix unary operator by writing the @prefix or @postfix attribute before the func keyword when declaring the operator function:
+
+```
+@prefix func - (vector: Vector2D) -> Vector2D {
+    return Vector2D(x: -vector.x, y: -vector.y)
+}
+
+let positive = Vector2D(x: 3.0, y: 4.0)
+let negative = -positive
+// negative is a Vector2D instance with values of (-3.0, -4.0)
+let alsoPositive = -negative
+// alsoPositive is a Vector2D instance with values of (3.0, 4.0)
+```
+#####Compound Assignment Operators
+
+You must  mark a compound assignment operator’s left input parameter as `inout`, because the parameter’s value will be modified directly from within the operator function.
+
+```
+@assignment func += (inout left: Vector2D, right: Vector2D) {
+    left = left + right
+}
+
+var original = Vector2D(x: 1.0, y: 2.0)
+let vectorToAdd = Vector2D(x: 3.0, y: 4.0)
+original += vectorToAdd
+// original now has values of (4.0, 6.0)
+```
+You can combine the @assignment attribute with either the @prefix or @postfix attribute, as in this implementation of the prefix increment operator (++a) for Vector2D instances:
+
+```
+@prefix @assignment func ++ (inout vector: Vector2D) -> Vector2D {
+    vector += Vector2D(x: 1.0, y: 1.0)
+    return vector
+}
+
+var toIncrement = Vector2D(x: 3.0, y: 4.0)
+let afterIncrement = ++toIncrement
+// toIncrement now has values of (4.0, 5.0)
+// afterIncrement also has values of (4.0, 5.0)
+```
+`注意`
+
+	It is not possible to overload the default assignment operator (=). Only the compound assignment operators can be overloaded. Similarly, the ternary conditional operator (a ? b : c) cannot be overloaded.
+#####Equivalence Operators
+
+```
+@infix func == (left: Vector2D, right: Vector2D) -> Bool {
+    return (left.x == right.x) && (left.y == right.y)
+}
+@infix func != (left: Vector2D, right: Vector2D) -> Bool {
+    return !(left == right)
+}
+
+let twoThree = Vector2D(x: 2.0, y: 3.0)
+let anotherTwoThree = Vector2D(x: 2.0, y: 3.0)
+if twoThree == anotherTwoThree {
+    println("These two vectors are equivalent.")
+}
+// prints "These two vectors are equivalent.
+```
+#####Custom Operators
+New operators are declared at a global level using the operator keyword, and can 
+be declared as prefix, infix or postfix:
+
+```
+operator prefix +++ {}
+
+@prefix @assignment func +++ (inout vector: Vector2D) -> Vector2D {
+    vector += vector
+    return vector
+}
+
+var toBeDoubled = Vector2D(x: 1.0, y: 4.0)
+let afterDoubling = +++toBeDoubled
+// toBeDoubled now has values of (2.0, 8.0)
+// afterDoubling also has values of (2.0, 8.0)
+```
+#####Precedence and Associativity for Custom Infix Operators
+Custom infix operators can also specify a precedence and an associativity. 
+The possible values for associativity are left, right, and none.
+
+The possible values for associativity are left, right, and none. Left-associative operators associate to the left if written next to other left-associative operators of the same precedence. Similarly, right-associative operators associate to the right if written next to other right-associative operators of the same precedence. Non-associative operators cannot be written next to other operators with the same precedence.
+
+The associativity value defaults to none if it is not specified. The precedence value defaults to 100 if it is not specified.
+
+```
+operator infix +- { associativity left precedence 140 }
+func +- (left: Vector2D, right: Vector2D) -> Vector2D {
+    return Vector2D(x: left.x + right.x, y: left.y - right.y)
+}
+let firstVector = Vector2D(x: 1.0, y: 2.0)
+let secondVector = Vector2D(x: 3.0, y: 4.0)
+let plusMinusVector = firstVector +- secondVector
+// plusMinusVector is a Vector2D instance with values of (4.0, -2.0)
+```
+####总结
+#####Type Identifier
+
+```
+var someValue: ExampleModule.MyType
+```
+#####Tuple Type
+
+Void is a typealias for the the empty tuple type, ()
+
+#####Function Type
+
+You can apply the auto_closure attribute to a function type that has a parameter type of () and that returns the type of an expression (see Type Attributes). An autoclosure function captures an `implicit closure over the specified expression`, instead of the expression itself. 
+
+```
+func simpleAssert(condition: @auto_closure () -> Bool, message: String) {
+    if !condition() {
+        println(message)
+    }
+}
+let testNumber = 5
+simpleAssert(testNumber % 2 == 0, "testNumber isn't an even number.")
+// prints "testNumber isn't an even number.
+```
+You can’t mark a variadic parameter or a return type with the inout keyword.
+
+The type of a curried function is equivalent to a nested function type. For example, the type of the curried function addTwoNumbers()() below is Int -> Int -> Int:
+
+```
+func addTwoNumbers(a: Int)(b: Int) -> Int {
+    return a + b
+}
+addTwoNumbers(4)(5) // Returns 9
+```
+The function types of a curried function are grouped from right to left. For instance, the function type Int -> Int -> Int is understood as Int -> (Int -> Int)—that is, a function that takes an Int and returns another function that takes and return an Int
+
+```
+func addTwoNumbers(a: Int) -> (Int -> Int) {
+    func addTheSecondNumber(b: Int) -> Int {
+        return a + b
+    }
+    return addTheSecondNumber
+}
+addTwoNumbers(4)(5) // Returns 9
+```
+
+#####Array
+
+```
+let someArray: String[] = ["Alex", "Brian", "Dave"]
+let someArray: Array<String> = ["Alex", "Brian", "Dave"]
+
+var array3D: Int[][][] = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+```
+#####Optional Type
+
+```
+var optionalInteger: Int?
+var optionalInteger: Optional<Int>
+```
+When declaring an optional type, be sure to use parentheses to properly scope the ? operator. As an example, to declare an optional array of integers, write the type annotation as (Int[])?; writing Int[]? produces an error.
+
+#####Implicitly Unwrapped Optional Type
+
+if you try to use an implicitly unwrapped optional that has a value of nil, you’ll get a runtime error.
+
+#####Metatype Type
+
+A metatype type refers to the type of any type, including class types, structure types, enumeration types, and protocol types.
+
+The metatype of a class, structure, or enumeration type is the name of that type followed by .Type. The metatype of a protocol type—not the concrete type that conforms to the protocol at runtime—is the name of that protocol followed by .Protocol. For example, the metatype of the class type SomeClass is SomeClass.Type and the metatype of the protocol SomeProtocol is SomeProtocol.Protocol.
+
+You can use the postfix self expression to access a type as a value. For example, SomeClass.self returns SomeClass itself, not an instance of SomeClass. And SomeProtocol.self returns SomeProtocol itself, not an instance of a type that conforms to SomeProtocol at runtime. You can use a dynamicType expression with an instance of a type to access that instance’s runtime type as a value
+
+```
+class SomeBaseClass {
+    class func printClassName() {
+        println("SomeBaseClass")
+    }
+}
+class SomeSubClass: SomeBaseClass {
+    override class func printClassName() {
+        println("SomeSubClass")
+    }
+}
+let someInstance: SomeBaseClass = SomeSubClass()
+// someInstance is of type SomeBaseClass at compile time, but
+// someInstance is of type SomeSubClass at runtime
+someInstance.dynamicType.printClassName()
+// prints "SomeSubClass"
+```
+#####Type Inheritance Clause
+When defining a class, the name of the superclass must appear first in the list of type identifiers, followed by any number of protocols the class must conform to.
+
+#####Assignment Operator
+
+```
+(a, _, (b, c)) = ("test", 9.45, (12, 3))
+```
+#####Self Expression
+
+In a mutating method of value type, you can assign a new instance of that value type to self.
+
+```
+struct Point {
+    var x = 0.0, y = 0.0
+    mutating func moveByX(deltaX: Double, y deltaY: Double) {
+        self = Point(x: x + deltaX, y: y + deltaY)
+    }
+}
+```
+#####Closure Expression
+
+A closure expression can explicitly specify the values that it captures from the surrounding scope using a capture list. A capture list is written as a comma separated list surrounded by square brackets, before the list of parameters
+
+Each entry in the capture list can be marked as weak or unowned to capture a weak or unowned reference to the value.
+
+```
+myFunction { print(self.title) }                    // strong capture
+myFunction { [weak self] in print(self!.title) }    // weak capture
+myFunction { [unowned self] in print(self.title) }  // unowned capture
+```
+
+You can also bind arbitrary expression to named values in the capture list. The expression is evaluated when the closure is formed, and captured with the specified strength
+
+```
+// Weak capture of "self.parent" as "parent"
+myFunction { [weak parent = self.parent] in print(parent!.title) }
+```
+
+#####Initializer Expression
+
+Unlike functions, an initializer can’t be used as a value. For example:
+
+```
+var x = SomeClass.someClassFunction // ok
+var y = SomeClass.init              // error
+```
+You also use an initializer expression to delegate to the initializer of a superclass.
+
+```
+class SomeSubClass: SomeSuperClass {
+    init() {
+        // subclass initialization goes here
+        super.init()
+    }
+}
+```
+
+#####Explicit Member Expression
+
+```
+var t = (10, 20, 30)
+t.0 = t.1
+// Now t is (20, 20, 30)
+```
+A `fallthrough` statement can appear anywhere inside a switch statement, not just as the last statement of a case block, but it can’t be used in the final case block.
+
+#####Parameter Names
+
+以下三种方式等价
+
+* external parameter name local parameter name: parameter type
+*  `#parameter name: parameter type`
+* _ local parameter name: parameter type
+
+An underscore (_) before a local parameter name gives that parameter no name to be used in function calls. The corresponding argument must have no name in function or method calls.
+
+#####Enumerations with Raw Cases Values
+
+Each case must have a unique name and be assigned a unique raw value. If the raw value type is specified as Int and you don’t assign a value to the cases explicitly, they are implicitly assigned the values 0, 1, 2, and so on. Each unassigned case of type Int is implicitly assigned a raw value that is automatically incremented from the raw value of the previous case.
+
+```
+enum ExampleEnum: Int {
+    case A, B, C = 5, D
+}
+```
+#####Class Declaration
+
+When you declare either kind of initializer, you can require any subclass to override it by marking the initializer with the `required` attribute. 
+
+If the current class overrides all of the superclass’s designated initializers, it inherits the superclass’s convenience initializers.
+
+#####Protocol Declaration
+
+To restrict the adoption of a protocol to class types only, mark the entire protocol declaration with the `class_protocol` attribute
+
+`注意`
+
+If a protocol is already marked with the objc attribute, the class_protocol attribute is implicitly applied to that protocol; there’s no need to mark the protocol with the class_protocol attribute explicitly
+
+#####Protocol Property Declaration
+
+```
+var property name: type { get set }
+```
+That property declaration can’t be implemented as a constant property or a read-only computed property
+
+Protocol method declarations have the same form as function declarations, with two exceptions: They don’t include a function body, and you can’t provide any default parameter values as part of the function declaration
+
+If you’re implementing the method in an extension, use the class keyword if you’re extending a class and the static keyword if you’re extending a structure.
+
+#####Initializer Declaration
+
+Designated initializers can be declared in the context of a class declaration only and therefore can’t be added to a class using an extension declaration.
+
+#####Extension Declaration
+
+```
+extension type: adopted protocols {
+    declarations
+}
+```
+
+Extension declarations can’t contain destructor or protocol declarations, store properties, property observers, or other extension declarations. 
+
+Properties, methods, and initializers of an existing type can’t be overridden in an extension of that type.
+
+#####Subscript Declaration
+
+```
+subscript (parameters) -> return type {
+    get {
+        statements
+    }
+    set(setter name) {
+        statements
+    }
+}
+```
+
+#####Operator Declaration
+
+You can declare operators of three different fixities: infix, prefix, and postfix. 
+The fixity of an operator specifies the relative position of an operator to its operands.
+
+```
+operator infix operatorName {
+    precedence precedence level
+    associativity associativity
+}
+```
+
+The precedence level can be any whole number (decimal integer) from 0 to 255; unlike decimal integer literals, it `can’t contain any underscore characters`.
+
+Infix operators that are declared without specifying a precedence or associativity are initialized with a precedence level of 100 and an associativity of none.
+
+```
+operator prefix operatorName {}
+```
+####Attributes
+
+Attributes provide more information about a declaration or type. There are two kinds of attributes in Swift, those that apply to `declarations` and those that apply to `types`,For instance, the `required` attribute—when applied to a designated or convenience initializer declaration of a class—indicates that every subclass `must` implement that initializer.
+
+```
+@attributeName
+@attributeName(attribute arguments)
+```
+#####Declaration Attributes
+
+You can apply a declaration attribute to declarations only. However, you can also apply the `noreturn` attribute to a function or method type.
+
+* class_protocol
+
+		Apply this attribute to a protocol to indicate that the protocol can be adopted by class types only.If you apply the objc attribute to a protocol, the class_protocol attribute is implicitly applied to that protocol; there’s no need to mark the protocol with the class_protocol attribute explicitly.
+		
+* exported
+
+		Apply this attribute to an import declaration to export the imported module, submodule, or declaration from the current module. If another module imports the current module, that other module can access the items exported by the current module.
+
+* noreturn
+
+	Apply this attribute to a function or method declaration to indicate that the corresponding type of that function or method, T, is @noreturn T. You can mark a function or method type with this attribute to indicate that the function or method `doesn’t return to its caller`.
+
+	You can override a function or method that is not marked with the noreturn attribute with a function or method that is. That said, you can’t override a function or method that is marked with the noreturn attribute with a function or method that is not. Similar rules apply when you implement a protocol method in a conforming type.
+* NSManaged
+
+	Apply this attribute to a stored variable property of a class that inherits from NSManagedObject to indicate that the storage and implementation of the property are provided dynamically by Core Data at runtime based on the associated entity description.
+* objc
+
+Apply this attribute to any declaration that can be represented in Objective-C—for example, non-nested classes, protocols, properties and methods (including getters and setters) of classes and protocols, initializers, deinitializers, and subscripts. `The objc attribute tells the compiler that a declaration is available to use in Objective-C code.`
+
+If you apply the objc attribute to a class or protocol, it’s implicitly applied to the members of that class or protocol. The compiler also implicitly adds the objc attribute to a class that inherits from another class marked with the objc attribute. `Protocols marked with the objc attribute can’t inherit from protocols that aren’t.`
+
+The objc attribute optionally accepts a single attribute argument, which consists of an identifier. Use this attribute when you want to expose a different name to Objective-C for the entity the objc attribute applies to.You can use this argument to name classes, protocols, methods, getters, setters, and initializers. The example below exposes the getter for the enabled property of the ExampleClass to Objective-C code as isEnabled rather than just as the name of the property itself.
+
+```
+@objc
+class ExampleClass {
+    var enabled: Bool {
+    @objc(isEnabled) get {
+        // Return the appropriate value
+    }
+    }
+}
+```
+* optional
+
+	You can apply the `optional` attribute only to protocols that are marked with the objc attribute. As a result, only class types can adopt and conform to a protocol that contains optional member requirements. 
+* required
+
+Apply this attribute to a designated or convenience initializer of a class to indicate that every subclass must implement that initializer.
+
+`Required designated initializers must be implemented explicitly`
+`Required convenience initializers` can be either implemented explicitly or inherited when the subclass directly implements all of the superclass’s designated initializers (or when the subclass overrides the designated initializers with convenience initializers).
+#####Declaration Attributes Used by Interface Builder
+
+Interface Builder attributes are declaration attributes used by Interface Builder to synchronize with Xcode. Swift provides the following Interface Builder attributes: `IBAction, IBDesignable, IBInspectable, and IBOutlet`. These attributes are conceptually the same as their Objective-C counterparts.
+
+You apply the `IBOutlet` and `IBInspectable` attributes to property declarations of a class,You apply the IBAction attribute to method declarations of a class and the IBDesignable attribute to class
+
+#####Type Attributes
+You can apply type attributes to types only.However, you can also apply the `noreturn` attribute to a function or method declaration.
+
+* auto_closure
+
+	This attribute is used to delay the evaluation of an expression by automatically wrapping that expression in a closure with no arguments. Apply this attribute to a function or method type that takes no arguments and that returns the type of the expression.
+* noreturn
+####Patterns
+* Wildcard Pattern
+
+	A wildcard pattern matches and ignores any value and consists of an underscore (_).
+
+```
+	for _ in 1...3 {
+	    // Do something three times.
+	}
+```
+* Identifier Pattern
+An identifier pattern matches any value and binds the matched value to a variable or constant name.
+
+* Value-Binding Pattern
+
+	A value-binding pattern binds matched values to variable or constant names. Value-binding patterns that bind a matched value to the name of a constant begin with the keyword let; those that bind to the name of variable begin with the keyword var.
+	Identifiers patterns within a value-binding pattern bind new named variables or constants to their matching values
+	
+```
+let point = (3, 2)
+switch point {
+    // Bind x and y to the elements of point.
+case let (x, y):
+    println("The point is at (\(x), \(y)).")
+}
+// prints "The point is at (3, 2).
+```
+You can constrain a tuple pattern to match certain kinds of tuple types by using type annotations
+
+* Tuple Pattern
+
+	When a tuple pattern is used as the pattern in a for-in statement or in a variable or constant declaration, it can contain only wildcard patterns, identifier patterns, or other tuple patterns that contain those. For example, the following code `isn’t valid` because the element 0 in the tuple pattern (x, 0) is an `expression pattern`:
+	
+```
+let points = [(0, 0), (1, 0), (1, 1), (2, 0), (2, 1)]
+// This code isn't valid.
+for (x, 0) in points {
+    /* ... */
+}
+```
+* Type-Casting Patterns
+There are two `type-casting` patterns, the is pattern and the as pattern. Both type-casting patterns appear only in switch statement case labels. The is and as patterns have the following form:
+
+```
+is type
+pattern as type
+```
+The is pattern matches a value if the type of that value at runtime is the same as the type specified in the right-hand side of the is pattern—or a subclass of that type. `The is pattern behaves like the is operator` in that they both perform a type cast but discard the returned type.
+
+* Expression Pattern
+
+	An expression pattern represents the value of an expression. Expression patterns appear `only in switch` statement case labels.
+
+	The expression represented by the expression pattern is compared with the value of an input expression using the Swift standard library ~= operator,By default, the ~= operator compares two values of the same type using the == operator. It can also match an integer value with a range of integers in an Range object, as the following example shows:
+	
+```
+let point = (1, 2)
+switch point {
+case (0, 0):
+    println("(0, 0) is at the origin.")
+case (-2...2, -2...2):
+    println("(\(point.0), \(point.1)) is near the origin.")
+default:
+    println("The point is at (\(point.0), \(point.1)).")
+}
+// prints "(1, 2) is near the origin.
+```
+You can overload the ~= operator to provide custom expression matching behavior. For example, you can rewrite the above example to compare the point expression with a string representations of points.
+
+```
+// Overload the ~= operator to match a string with an integer
+func ~=(pattern: String, value: Int) -> Bool {
+    return pattern == "\(value)"
+}
+switch point {
+case ("0", "0"):
+    println("(0, 0) is at the origin.")
+case ("-2...2", "-2...2"):
+    println("(\(point.0), \(point.1)) is near the origin.")
+default:
+    println("The point is at (\(point.0), \(point.1)).")
+}
+// prints "(1, 2) is near the origin.
+```
+####Generic Parameters and Arguments
+#####Generic Parameter Clause
+
+* `<generic parameter list>`
+* `<generic parameter list where requirements>`
+
+The `generic parameter list` is a comma-separated list of generic parameters, each of which has the following form:
+
+`type parameter: constraint`
+
+```
+func simpleMin<T: Comparable>(x: T, y: T) -> T {
+    if x < y {
+        return y
+    }
+    return x
+}
+
+simpleMin(17, 42) // T is inferred to be Int
+simpleMin(3.14159, 2.71828) // T is inferred to be Double
+```
+* Where Clauses
+
+	You can specify additional requirements on type parameters and their associated types by including a where clause after the generic parameter list. A where clause consists of the keyword where, followed by a comma-separated list of one or more requirements.
+
+	The requirements in a where clause specify that a type parameter inherits from a class or conforms to a protocol or protocol composition.
+	
+ 	you can express the constraints that a generic type T inherits from a class C and conforms to a protocol P as <T where T: C, T: P>.
+
+	As mentioned above, you can constrain the associated types of type parameters to conform to protocols. For example, the generic parameter clause <T: Generator where T.Element: Equatable> specifies that T conforms to the Generator protocol and the associated type of T, T.Element, conforms to the Equatable protocol (T has the associated type Element because Generator declares Element and T conforms to Generator).
+
+	You can also specify the requirement that two types be identical, using the == operator. For example, the generic parameter clause <T: Generator, U: Generator where T.Element == U.Element> expresses the constraints that T and U conform to the Generator protocol and that their associated types must be identical.
+	
+	You can subclass a generic class, but the subclass must also be a generic class.
+
