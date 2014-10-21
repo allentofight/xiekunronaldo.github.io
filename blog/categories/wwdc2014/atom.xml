@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Wwdc2014 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/wwdc2014/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-08-31T14:23:18+08:00</updated>
+  <updated>2014-10-21T17:21:35+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -20,7 +20,7 @@
     <id>http://xiekunRonaldo.github.io/blog/2014/08/03/whats-new-in-xcode6</id>
     <content type="html"><![CDATA[<p>Storyboard中能实时看到Custom Fonts</p>
 
-<p><img src="/images/2014/8/customfont.png"></p>
+<p>{% img /images/2014/8/customfont.png%}</p>
 
 <p>swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import modules,
 创建.swift文件时，默认创建了.h头文件，所以如果在.m文件中引用swift文件中的类，可以用import .swift对应的头文件来引用
@@ -33,7 +33,23 @@
 
 <p>@override func prepareForInterfaceBuilder(){}</p>
 
-<p><code>Size Classes</code></p>
+<p>UIView的这个方法可以实现live-rendering,注意要与@IBDesignable配合使用，如果要使用UIImage,则需用以下方式</p>
+
+<p>```</p>
+
+<pre><code>        let bundle = NSBundle(forClass: self.dynamicType)
+        self.image = UIImage(named: "sex_girl1", inBundle: bundle,          compatibleWithTraitCollection: self.traitCollection)
+</code></pre>
+
+<p>```
+UIImage(named:)无效!</p>
+
+<p>*Quicklook Preview</p>
+
+<p>Model实现debugQuickLookObject即可</p>
+
+<p>*Size Class
+Size classes have vertical and horizontal dimensions called &ldquo;regular&rdquo; and &ldquo;compact&rdquo;. The iPad in both portrait and landscape defaults to the regular size class in both horizontal and vertical directions. The iPhone in portrait defaults to compact size class for horizontal and regular size class for vertical. The iPhone in landscape defaults to compact size class for both horizontal and vertical.</p>
 ]]></content>
   </entry>
   

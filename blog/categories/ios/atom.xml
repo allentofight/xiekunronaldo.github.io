@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-08-31T14:23:18+08:00</updated>
+  <updated>2014-10-21T17:21:35+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Objc]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/09/15/objc/"/>
+    <updated>2014-09-15T14:14:30+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/09/15/objc</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift]]></title>
@@ -3787,8 +3796,8 @@ Convenience initializers must ultimately end up calling a designated initializer
 <li>Designated initializers must always delegate up.</li>
 <li>Convenience initializers must always delegate across.
 关系可以用以下两张图表示
-<img src="/images/2014/8/initialize.png">
-<img src="/images/2014/8/complex_initialize.png"></li>
+{% img /images/2014/8/initialize.png%}
+{% img /images/2014/8/complex_initialize.png%}</li>
 </ul>
 
 
@@ -3929,7 +3938,7 @@ let namedMeat = Food(name: &ldquo;Bacon&rdquo;)
 ```
 Food的initializer chain图</p>
 
-<p><img src="/images/2014/8/initialize.png"></p>
+<p>{% img /images/2014/8/initialize.png%}</p>
 
 <p>```
 class RecipeIngredient: Food {</p>
@@ -3953,7 +3962,7 @@ let sixEggs = RecipeIngredient(name: &ldquo;Eggs&rdquo;, quantity: 6)</p>
 <p>```
 图示如下</p>
 
-<p><img src="/images/2014/8/recipeIngredient.png"></p>
+<p>{% img /images/2014/8/recipeIngredient.png%}</p>
 
 <p>```
 class ShoppingListItem: RecipeIngredient {</p>
@@ -3970,7 +3979,7 @@ var output = "\(quantity) x \(name.lowercaseString)"
 ```
 以上三个类的继承图</p>
 
-<p><img src="/images/2014/8/foodchaining.png">
+<p>{% img /images/2014/8/foodchaining.png%}
 You can use all three of the inherited initializers to create a new ShoppingListItem instance:</p>
 
 <p>```
@@ -4181,7 +4190,7 @@ number73!.tenant = john</p>
 <p>```
 现在我们来看看 cycle retain图</p>
 
-<p><img src="/images/2014/8/cycleretain.png"></p>
+<p>{% img /images/2014/8/cycleretain.png%}</p>
 
 <h4>如何解决</h4>
 
@@ -4227,7 +4236,7 @@ number73!.tenant = john</p>
 <p>```
 我们来看看引用图</p>
 
-<p><img src="/images/2014/8/weakref.png"></p>
+<p>{% img /images/2014/8/weakref.png%}</p>
 
 <p>```
 john = nil
@@ -4278,7 +4287,7 @@ john = Customer(name: &ldquo;John Appleseed&rdquo;)
 john!.card = CreditCard(number: 1234_5678_9012_3456, customer: john!)</p>
 
 <p>```
-<img src="/images/2014/8/unowned.png"></p>
+{% img /images/2014/8/unowned.png%}</p>
 
 <h5>Unowned References and Implicitly Unwrapped Optional Properties</h5>
 
@@ -4439,7 +4448,7 @@ deinit {
 println(paragraph!.asHTML())
 // prints &ldquo;<p>hello, world</p>”
 ```
-<img src="/images/2014/8/unownedblock.png"></p>
+{% img /images/2014/8/unownedblock.png%}</p>
 
 <h5>Optional Chaining</h5>
 
