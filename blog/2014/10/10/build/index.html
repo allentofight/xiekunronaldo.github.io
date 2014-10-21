@@ -9,8 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Build Adding Non-MVC Folders to Your Build Package
-For the FindACab app, I have added the utils folder to the app classpath in ./sencha/sencha.cfg: &hellip;">
+	<meta name="description" content="Build Adding Non-MVC Folders to Your Build Package For the FindACab app, I have added the utils folder to the app classpath in ./sencha/sencha.cfg: &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,9 +24,12 @@ For the FindACab app, I have added the utils folder to the app classpath in ./se
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -42,16 +44,23 @@ For the FindACab app, I have added the utils folder to the app classpath in ./se
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -65,8 +74,7 @@ For the FindACab app, I have added the utils folder to the app classpath in ./se
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -81,115 +89,82 @@ For the FindACab app, I have added the utils folder to the app classpath in ./se
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Build</h1>
-	<div class="entry-content" itemprop="articleBody"><h4 id="adding-non-mvc-folders-to-your-build-package">Adding Non-MVC Folders to Your Build Package</h4>
+	<div class="entry-content" itemprop="articleBody"><h4>Adding Non-MVC Folders to Your Build Package</h4>
+
 <p>For the FindACab app, I have added the utils folder to the app classpath in ./sencha/sencha.cfg:</p>
 
-<pre><code>app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils
+<figure class='code'><figcaption><span>app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="err">####</span> <span class="nx">Adding</span> <span class="nx">Extra</span> <span class="nx">Resources</span> <span class="nx">to</span> <span class="nx">Your</span> <span class="nx">Build</span> <span class="nx">Package</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">In</span> <span class="nx">other</span> <span class="nx">situations</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">might</span> <span class="nx">want</span> <span class="nx">to</span> <span class="nx">include</span> <span class="nx">extra</span> <span class="nx">resources</span> <span class="nx">to</span> <span class="nx">your</span> <span class="nx">build</span> <span class="kr">package</span> <span class="err">—</span> <span class="k">for</span> <span class="nx">example</span><span class="p">,</span> <span class="nx">a</span> <span class="nx">folder</span> <span class="kd">with</span> <span class="nx">images</span> <span class="nx">or</span> <span class="nx">a</span> <span class="nx">folder</span> <span class="kd">with</span> <span class="nx">JSON</span> <span class="nx">data</span><span class="p">.</span> <span class="nx">There</span> <span class="nx">are</span> <span class="nx">two</span> <span class="nx">ways</span> <span class="nx">to</span> <span class="nx">include</span> <span class="nx">these</span> <span class="k">in</span> <span class="nx">your</span> <span class="nx">build</span><span class="p">.</span> <span class="nx">I</span> <span class="nx">will</span> <span class="nx">explain</span> <span class="nx">both</span><span class="p">.</span> <span class="nx">First</span> <span class="p">(</span><span class="nx">the</span> <span class="nx">easy</span> <span class="nx">way</span><span class="p">,</span> <span class="nx">shown</span> <span class="k">in</span> <span class="nx">Example</span> <span class="mi">14</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nx">you</span> <span class="nx">can</span> <span class="nx">add</span> <span class="nx">the</span> <span class="nx">folder</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">resources</span> <span class="nx">array</span> <span class="k">in</span> <span class="nx">the</span> <span class="err">`</span><span class="nx">app</span><span class="p">.</span><span class="nx">json</span><span class="err">`</span> <span class="nx">file</span><span class="p">.</span> <span class="nx">By</span> <span class="k">default</span><span class="p">,</span> <span class="nx">Sencha</span> <span class="nx">Cmd</span> <span class="nx">already</span> <span class="nx">created</span> <span class="nx">a</span> <span class="nx">selection</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>//Example 14-1. Additional resources that need to be copied during the build process</p>
+
+<p>&ldquo;resources&rdquo;: [</p>
+
+<pre><code>"resources/images", 
+"resources/css", 
+"resources/icons", 
+"resources/startup"],```
 </code></pre>
 
-<h4 id="adding-extra-resources-to-your-build-package">Adding Extra Resources to Your Build Package</h4>
-
-<p>In other situations, you might want to include extra resources to your build package — for example, a folder with images or a folder with JSON data. There are two ways to include these in your build. I will explain both. First (the easy way, shown in Example 14-1), you can add the folder to the resources array in the <code>app.json</code> file. By default, Sencha Cmd already created a selection.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">
-	#Example 14-1. Additional resources that need to be copied during the build process
-</span><span class="line">
-</span><span class="line">"resources": [ 
-</span><span class="line">	"resources/images", 
-</span><span class="line">	"resources/css", 
-</span><span class="line">	"resources/icons", 
-</span><span class="line">	"resources/startup"
-],
-
-```
-</span><span class="line">
-`TIP`
-</span><span class="line">
-Additional JavaScripts or stylesheets can be entered into the `js` or `css` arrays.
-</span><span class="line">
+<p><code>TIP</code>
+Additional JavaScripts or stylesheets can be entered into the <code>js</code> or <code>css</code> arrays.
 The other way of adding resources to your build is what I call the hardcore way, but it’s kinda cool so I want to mention it.
-</span><span class="line">
 Sencha Cmd has Apache Ant integration. You can modify the Ant build script build.xml totally to your own needs.
-</span><span class="line">
 See Example 14-2; this little Ant script copies a data folder from the application root to the production build folder. Isn’t it awesome?
-</span><span class="line">
-```
-</span><span class="line">// Example 14-2. Copying a folder to a different location
-</span><span class="line">&lt;target name="-after-build"/&gt; 
-</span><span class="line">&lt;target name="build"
-		depends="init,-before-build,-build,-after-build" 
-		description="Builds the application"/&gt;
-</span><span class="line">
-		
-&lt;copy todir="${build.dir}/data" overwrite="true"&gt; 
-	&lt;fileset dir="${basedir}/data"&gt;
-		&lt;include name="**/*" /&gt; 
-	&lt;/fileset&gt;
-&lt;/copy&gt;
+&#8220;`
+// Example 14-2. Copying a folder to a different location
+<target name="-after-build"/>
+<target name="build"        depends="init,-before-build,-build,-after-build"        description="Builds the application"/></p>
 
-```
-</span><span class="line">In the next sections, you’ll learn how to:
-</span><span class="line">
-</span><span class="line">* Create a test build with Sencha Cmd
-* Create a production build with Sencha Cmd
-* Create a native build with Sencha Cmd and Adobe PhoneGap
-</span><span class="line">
-#### Creating a Test Build with Sencha Cmd
-</span><span class="line">
-With Sencha Cmd on the command line, you can generate a build package optimized for test environments. On the command line, navigate to the app folder and run the following:
-</span><span class="line">
-```
-</span><span class="line">	sencha app build testing
-```
-</span><span class="line">
-`NOTE`
-</span><span class="line">
-I’m often asked which tools are good for testing a Sencha Touch application. For UI testing, Siesta is a good tool; for syntax testing, you could use JS Lint; and for unit testing, Jasmine is a popular testing tool. For more information, check out this [great blog post](http://www.sencha.com/blog/automating-unit-tests), which contains all the links to the tools
-</span><span class="line">
-</span><span class="line">#### Creating a Production Build with Sencha Cmd
-</span><span class="line">With Sencha Cmd on the command line, you can generate a build package optimized for production. On the command line, navigate to the app folder and run the following:
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<pre><code>sencha app build ```
+<pre><code>    &lt;copy todir="${build.dir}/data" overwrite="true"&gt;   &lt;fileset dir="${basedir}/data"&gt;     &lt;include name="**/*" /&gt;     &lt;/fileset&gt;&lt;/copy&gt;```
 </code></pre>
 
-<h4 id="creating-a-native-build-with-sencha-cmd-and-adobe-phonegap">Creating a Native Build with Sencha Cmd and Adobe PhoneGap</h4>
+<p>In the next sections, you’ll learn how to:</p>
+
+<ul>
+<li>Create a test build with Sencha Cmd<em> Create a production build with Sencha Cmd</em> Create a native build with Sencha Cmd and Adobe PhoneGap
+
+<h4>Creating a Test Build with Sencha Cmd</h4>
+
+<p>With Sencha Cmd on the command line, you can generate a build package optimized for test environments. On the command line, navigate to the app folder and run the following:
+<code>
+  sencha app build testing</code>
+<code>NOTE</code>
+I’m often asked which tools are good for testing a Sencha Touch application. For UI testing, Siesta is a good tool; for syntax testing, you could use JS Lint; and for unit testing, Jasmine is a popular testing tool. For more information, check out this <a href="http://www.sencha.com/blog/automating-unit-tests">great blog post</a>, which contains all the links to the tools</p></li>
+</ul>
+
+
+<h4>Creating a Production Build with Sencha Cmd</h4>
+
+<p>With Sencha Cmd on the command line, you can generate a build package optimized for production. On the command line, navigate to the app folder and run the following:</p>
+
+<figure class='code'><figcaption><span>app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">sencha</span> <span class="nx">app</span> <span class="nx">build</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Creating a Native Build with Sencha Cmd and Adobe PhoneGap</h4>
 
 <p>There are three products you can use to create a native app from a Sencha Touch code base:</p>
 
 <ul>
-  <li>Sencha Mobile Packager </li>
-  <li>Adobe PhoneGap </li>
-  <li>Apache Cordova</li>
+<li>Sencha Mobile Packager</li>
+<li>Adobe PhoneGap</li>
+<li>Apache Cordova</li>
 </ul>
+
 </div>
 
 </article>
@@ -205,17 +180,35 @@ I’m often asked which tools are good for testing a Sencha Touch application. F
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -230,5 +223,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

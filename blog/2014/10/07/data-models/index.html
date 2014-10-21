@@ -24,9 +24,12 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -41,16 +44,23 @@
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -64,8 +74,7 @@
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -80,381 +89,344 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Data Models</h1>
-	<div class="entry-content" itemprop="articleBody"><p>Every field can be given a data type,When no datatype is specified, the datatype will be set to auto, which means there is no datatype conversion at all. This might be a solution for complex datatypes such as objects.</p>
+	<div class="entry-content" itemprop="articleBody"><p>Every field can be given a data type,When no datatype is specified, the datatype will be set to auto, which means there is no datatype conversion at all. This might be a solution for complex datatypes such as objects.
+Models may contain (optional) validations and associations (relations to other models). Both models and stores can have a proxy to send and retrieve data in JSON, XML, or JavaScript array notation.
+本章，我们将学习以下知识点
+* How to validate a model* How to save a model to the server
+* How to implement a model association</p>
 
-<p>Models may contain (optional) validations and associations (relations to other models). Both models and stores can have a proxy to send and retrieve data in JSON, XML, or JavaScript array notation.</p>
+<h4>Validating a Model</h4>
 
-<p>本章，我们将学习以下知识点</p>
-
-<ul>
-  <li>How to validate a model</li>
-  <li>How to save a model to the server </li>
-  <li>How to implement a model association</li>
-</ul>
-
-<h4 id="validating-a-model">Validating a Model</h4>
 <p>In the model config object, you can set a validations array. This array contains validation objects:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">validations: [
-</span><span class="line">	{type:'presence', field: 'age'},
-</span><span class="line">	{type:'length', field:'name', min: 2},
-</span><span class="line">	{type:'inclusion', field:'gender', list:['Male', 'Female']},
-</span><span class="line">	{type:'exclusion, field:'username', list:['Admin', 'Operator']},
-</span><span class="line">	{'format', field:'username', matcher: /([a-z]+)[0-9]{2,3}/}
-</span><span class="line">]</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validations: [
+</span><span class='line'>  {type:'presence', field: 'age'},
+</span><span class='line'>  {type:'length', field:'name', min: 2},
+</span><span class='line'>  {type:'inclusion', field:'gender', list:['Male', 'Female']},
+</span><span class='line'>  {type:'exclusion, field:'username', list:['Admin', 'Operator']},
+</span><span class='line'>  {'format', field:'username', matcher: /([a-z]+)[0-9]{2,3}/}
+</span><span class='line'>]</span></code></pre></td></tr></table></div></figure>
+
+
 <p>As you can see, there are different validation types. For example, you can validate fields on presence (if the data exists), on length (if a string has a min or max length of characters), inclusion (if the data string exists in a given list array), exclusion (if the data string does not exist in a given list array), and on format (if the data matches a regular expression, matcher).</p>
 
 <p>Let’s test this. Open the FindACab app in your modern browser. In your debug console, you can enter the code for creating a new model instance:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">var setting = Ext.create('FindACab.model.Setting', { city: "Amsterdam"});</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var setting = Ext.create('FindACab.model.Setting', { city: "Amsterdam"});</span></code></pre></td></tr></table></div></figure>
+
+
 <p>Now you can validate your record with the following command in your console:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">setting.validate();</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>#### Saving a Model to the Server
-We will use a simple Car model that looks like this:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>setting.validate();</span></code></pre></td></tr></table></div></figure>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Ext.define('SaveTest.model.Car', {
-</span><span class="line">	extend: 'Ext.data.Model',
-</span><span class="line">
-</span><span class="line">	config: {
-</span><span class="line">		fields: [
-</span><span class="line">			{ name: 'id', type: 'int'},
-</span><span class="line">			{ name: 'brand'},
-</span><span class="line">		],
-</span><span class="line">		proxy: {
-</span><span class="line">            type: 'rest',
-</span><span class="line">            //url : '/cars',
-</span><span class="line">		    format: 'php', 
-</span><span class="line">		    api: {
-</span><span class="line">		        create: 'cars/addcar',
-</span><span class="line">		        update: 'cars/editcar',
-</span><span class="line">		        read: 'cars/loadcar',
-</span><span class="line">		        destroy: 'cars/deletecar'
-</span><span class="line">		    }	
-</span><span class="line">        }
-</span><span class="line">	}
-</span><span class="line">});</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4>Saving a Model to the Server</h4>
+
+<p>We will use a simple Car model that looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('SaveTest.model.Car', {
+</span><span class='line'>  extend: 'Ext.data.Model',
+</span><span class='line'>
+</span><span class='line'>  config: {
+</span><span class='line'>      fields: [
+</span><span class='line'>          { name: 'id', type: 'int'},
+</span><span class='line'>          { name: 'brand'},
+</span><span class='line'>      ],
+</span><span class='line'>      proxy: {
+</span><span class='line'>            type: 'rest',
+</span><span class='line'>            //url : '/cars',
+</span><span class='line'>          format: 'php', 
+</span><span class='line'>          api: {
+</span><span class='line'>              create: 'cars/addcar',
+</span><span class='line'>              update: 'cars/editcar',
+</span><span class='line'>              read: 'cars/loadcar',
+</span><span class='line'>              destroy: 'cars/deletecar'
+</span><span class='line'>          }   
+</span><span class='line'>        }
+</span><span class='line'>  }
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
 <p>接下来做一些测试</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">var car = Ext.create('SaveTest.model.Car', {
-</span><span class="line">    brand: 'Mercedes'
-</span><span class="line">});
-</span><span class="line">
-</span><span class="line">//save = POST method
-</span><span class="line">car.save({
-</span><span class="line">    success: function() {
-</span><span class="line">        console.log('The car record is saved');
-</span><span class="line">    },
-</span><span class="line">    failure: function(){
-</span><span class="line">        console.log('The car record could not be saved.');
-</span><span class="line">    }
-</span><span class="line">});</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var car = Ext.create('SaveTest.model.Car', {
+</span><span class='line'>    brand: 'Mercedes'
+</span><span class='line'>});
+</span><span class='line'>
+</span><span class='line'>//save = POST method
+</span><span class='line'>car.save({
+</span><span class='line'>    success: function() {
+</span><span class='line'>        console.log('The car record is saved');
+</span><span class='line'>    },
+</span><span class='line'>    failure: function(){
+</span><span class='line'>        console.log('The car record could not be saved.');
+</span><span class='line'>    }
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
 <p>Once you’ve created a record, you can save it to the server side with record.save():</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">car.save({</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>car.save({</span></code></pre></td></tr></table></div></figure>
+
 
 <p>In order to load data from the server side via the model, you can use record.load(id, callback). When there is no store available, the trick is to first request the model via the ModelManager:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Ext.ModelManager.getModel('SaveTest.model.Car').load(1, { 
-</span><span class="line">	success: function(car) {
-		console.log("Load Car: " + car.getId()); },
-	failure: function(){
-		console.log("The car could not be loaded");
-	} 
-});</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.ModelManager.getModel('SaveTest.model.Car').load(1, { 
+</span><span class='line'>  success: function(car) {        console.log("Load Car: " + car.getId()); }, failure: function(){        console.log("The car could not be loaded"); } });</span></code></pre></td></tr></table></div></figure>
+
+
 <p><code>Note</code></p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">When you set the proxy type to ajax instead of rest, you can still use readable URLs. The only
-</span><span class="line">difference is the HTTP method. Adding, editing, and removing records will be an HTTP POST call.Loading records will be an HTTP GET call.</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>#### Cross-Domain Restrictions
-The record.save() method (as well as the Ext.Ajax and form.submit() methods) transmit through the <code>XMLHttpRequest()</code> object, and therefore you might face security restrictions when posting to a different domain. These are known as <code>cross-domain restrictions</code>.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>When you set the proxy type to ajax instead of rest, you can still use readable URLs. The only
+</span><span class='line'>difference is the HTTP method. Adding, editing, and removing records will be an HTTP POST call.Loading records will be an HTTP GET call.</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Cross-Domain Restrictions</h4>
+
+<p>The record.save() method (as well as the Ext.Ajax and form.submit() methods) transmit through the <code>XMLHttpRequest()</code> object, and therefore you might face security restrictions when posting to a different domain. These are known as <code>cross-domain restrictions</code>.</p>
 
 <p>However, there is a way to save and post data to another server. It requires setting up special HTTP headers (<code>Access-Control-Allow headers</code>) on the web server. This technique is called <code>CORS</code> (cross-origin resource sharing), and it enables you to override the default restrictions that prevent a web server from making AJAX request to other domains. For more information, see Chapter 8 and the AJAX sections of this book, or check out the HTML5 Rocks website.</p>
 
 <p>Models can also have relationships with other models. For example, a User model can have a relationship with multiple Order models, and one Order model can have just one relationship with one payment method.</p>
 
-<h4 id="implementing-a-model-association">Implementing a Model Association</h4>
+<h4>Implementing a Model Association</h4>
+
 <p>Models can have relationships with one or more other models. The following model associations can request data through each other:</p>
 
 <ul>
-  <li>Ext.data.association.HasOne </li>
-  <li>Ext.data.association.HasMany </li>
-  <li>Ext.data.association.BelongsTo
-You can create two or more models and connect these to each other with the hasMany, hasOne, and belongsTo configs:</li>
+<li>Ext.data.association.HasOne</li>
+<li>Ext.data.association.HasMany</li>
+<li><p>Ext.data.association.BelongsTo
+You can create two or more models and connect these to each other with the hasMany, hasOne, and belongsTo configs:<code>
+Ext.define('TaxiService', {
+  extend: 'Ext.data.Model',   config: {       fields: ['id', 'name'],         hasMany : {         model: 'Car', name: 'cars' }    }
+});
+Ext.define('Car', { extend: 'Ext.data.Model',   config: {       fields: ['id', 'brand'] } });</code>
+When you want to use associations, you have to add these to the requires array at the top of your model class:<code>
+requires: [
+  'Ext.data.association.HasOne',
+  'Ext.data.association.BelongsTo',
+  'Ext.data.association.HasMany']</code><img src="/images/2014/10/figure7-3.png">
+When you want to display the different brands of Cars per TaxiService, you could express the relationships between both models. One TaxiService may contain many different types of Car records. You can define this relationship by specifying the hasMany property into the TaxiService model, so later you can request Car information via the TaxiService model.
+You will need a foreignKey on the owner model that links to the associated model. By default, it takes the lowercase name of the owner model plus _id. For example, the TaxiService model would create taxiservice_id as the foreign key.
+<img src="/images/2014/10/figure7-4.png">
+&#8220;`
+//Example 7-2
+Ext.define(&lsquo;AssociationsTest.model.TaxiService&rsquo;, {
+  extend: &lsquo;Ext.data.Model&rsquo;,</p>
+
+<p>  requires: [&lsquo;Ext.data.association.HasMany&rsquo;],</p>
+
+<p>  config: {
+      fields: [&lsquo;id&rsquo;, &lsquo;name&rsquo;],
+      hasMany  : { //<1>
+          model: &lsquo;AssociationsTest.model.Car&rsquo;, //<2>
+          name: &lsquo;cars&rsquo;, //<3>
+          foreignKey: &lsquo;taxiservice_id&rsquo; //<4>
+      }
+  }
+});<code>
+As with every relationship, their connection can be confirmed; the Car model answers its relationship by confirming it belongsTo the TaxiService model. This belongsTo association allows me to request the TaxiService information via the Car model.
+</code>//Example 7-3. model/Car.js
+Ext.define(&lsquo;AssociationsTest.model.Car&rsquo;, {
+  extend: &lsquo;Ext.data.Model&rsquo;,
+  requires: [&lsquo;Ext.data.association.BelongsTo&rsquo;],
+  config: {
+      fields: [{
+          name: &lsquo;id&rsquo;, //<1>
+          type: &lsquo;int&rsquo;
+      }, {
+          name: &lsquo;brand&rsquo;
+      }, {
+          name: &lsquo;taxiservice_id&rsquo;,
+          type: &lsquo;int&rsquo; //<2>
+      }],
+      belongsTo: {
+          model: &lsquo;AssociationsTest.model.TaxiService&rsquo;
+      }
+  }
+});
+<code>``
+And now comes the fancy stuff: requesting all the records that have a relationship through the parent model. As covered in Chapter 6, many records are saved in a store — the set of all records together. When specifying the hasMany association, you will point to the relating hasMany model and set a name (cars). The association will dynamically create a</code>virtual store<code>and the name that is set in the association will become the store name. You can call this store by running the</code>cars()<code>method on the TaxiService model. Remember, creating a store will not autoload the data, so you will need to</code>load()` the virtual store manually.
+Let’s take a look at the next code snippets. First, create two TaxiService records, each of which will contain Car records. A TaxiService model has a hasMany relationship with the Car model:</p></li>
 </ul>
 
-<p>&#8220;`
-Ext.define(‘TaxiService’, { 
-	extend: ‘Ext.data.Model’,
-	config: {
-		fields: [‘id’, ‘name’], 
-		hasMany : {
-			model: ‘Car’, name: ‘cars’ }
-	} </p>
 
-<p>});</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var taxiAmsterdam = Ext.create('AssociationsTest.model.TaxiService', { 
+</span><span class='line'>  id: 1,  name: 'Taxi Amsterdam' 
+</span><span class='line'>});var yellowCab = Ext.create('AssociationsTest.model.TaxiService', {     id: 2,  name: 'Yellow Cab' 
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
 
-<p>Ext.define(‘Car’, {
-	extend: ‘Ext.data.Model’,
-	config: {
-		fields: [‘id’, ‘brand’]
-	} 
-});
-&#8220;`
-When you want to use associations, you have to add these to the requires array at the top of your model class:</p>
 
-<p><code>
-requires: [ 
-	'Ext.data.association.HasOne', 
-	'Ext.data.association.BelongsTo', 
-	'Ext.data.association.HasMany'
-]
-</code>
-<img src="/images/2014/10/figure7-3.png" /></p>
-
-<p>When you want to display the different brands of Cars per TaxiService, you could express the relationships between both models. One TaxiService may contain many different types of Car records. You can define this relationship by specifying the hasMany property into the TaxiService model, so later you can request Car information via the TaxiService model.</p>
-
-<p>You will need a foreignKey on the owner model that links to the associated model. By default, it takes the lowercase name of the owner model plus _id. For example, the TaxiService model would create taxiservice_id as the foreign key.</p>
-
-<p><img src="/images/2014/10/figure7-4.png" /></p>
-
-<p>&#8220;`</p>
-
-<p>//Example 7-2
-Ext.define(‘AssociationsTest.model.TaxiService’, {
-    extend: ‘Ext.data.Model’,</p>
-
-<pre><code>requires: ['Ext.data.association.HasMany'],
-
-config: {
-    fields: ['id', 'name'],
-    hasMany  : { //&lt;1&gt;
-    	model: 'AssociationsTest.model.Car', //&lt;2&gt;
-    	name: 'cars', //&lt;3&gt;
-    	foreignKey: 'taxiservice_id' //&lt;4&gt;
-    }
-} }); ```
-</code></pre>
-
-<p>As with every relationship, their connection can be confirmed; the Car model answers its relationship by confirming it belongsTo the TaxiService model. This belongsTo association allows me to request the TaxiService information via the Car model.</p>
-
-<p>&#8220;`
-//Example 7-3. model/Car.js
-Ext.define(‘AssociationsTest.model.Car’, {
-    extend: ‘Ext.data.Model’,
-    requires: [‘Ext.data.association.BelongsTo’],
-    config: {
-        fields: [{
-            name: ‘id’, //&lt;1&gt;
-            type: ‘int’
-        }, {
-            name: ‘brand’
-        }, {
-            name: ‘taxiservice_id’,
-            type: ‘int’ //&lt;2&gt;
-        }],
-        belongsTo: {
-            model: ‘AssociationsTest.model.TaxiService’
-        }
-    }
-});</p>
-
-<p>&#8220;`</p>
-
-<p>And now comes the fancy stuff: requesting all the records that have a relationship through the parent model. As covered in Chapter 6, many records are saved in a store — the set of all records together. When specifying the hasMany association, you will point to the relating hasMany model and set a name (cars). The association will dynamically create a <code>virtual store</code> and the name that is set in the association will become the store name. You can call this store by running the <code>cars()</code> method on the TaxiService model. Remember, creating a store will not autoload the data, so you will need to <code>load()</code> the virtual store manually.</p>
-
-<p>Let’s take a look at the next code snippets. First, create two TaxiService records, each of which will contain Car records. A TaxiService model has a hasMany relationship with the Car model:</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">var taxiAmsterdam = Ext.create('AssociationsTest.model.TaxiService', { 
-</span><span class="line">	id: 1,
-	name: 'Taxi Amsterdam' 
-</span><span class="line">});
-var yellowCab = Ext.create('AssociationsTest.model.TaxiService', { 
-	id: 2,
-	name: 'Yellow Cab' 
-</span><span class="line">});
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>The Car records know that they belong to the TaxiService parent model (see previous code) because of the <code>belongsTo</code> relation (in Example 7-3). It has a property, <code>model</code>, that points (belongs) to the <code>TaxiService</code> model. The TaxiService model has a hasMany relationship to the Car model and it has a property: foreignKey (again, see Example 7- 2).</p>
 
 <p>Now let’s create some Car records:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">var bmw = Ext.create('AssociationsTest.model.Car', { 
-</span><span class="line">	id: 1,
-	brand: 'BMW' 
-</span><span class="line">});
-</span><span class="line">
-var mercedes = Ext.create('AssociationsTest.model.Car', { 
-	id: 2,
-	brand: 'Mercedes' 
-</span><span class="line">});
-</span><span class="line">
-var vw = Ext.create('AssociationsTest.model.Car', { 
-	id: 3,
-	brand: 'Volkswagen' 
-</span><span class="line">});</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var bmw = Ext.create('AssociationsTest.model.Car', { 
+</span><span class='line'>  id: 1,  brand: 'BMW' 
+</span><span class='line'>});
+</span><span class='line'>var mercedes = Ext.create('AssociationsTest.model.Car', {     id: 2,  brand: 'Mercedes' 
+</span><span class='line'>});
+</span><span class='line'>var vw = Ext.create('AssociationsTest.model.Car', {   id: 3,  brand: 'Volkswagen' 
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
 <p>To get access to all the Car records from the TaxiService record, you can call the cars() method to create a virtual store:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">var taxiAmsterdamStore = taxiAmsterdam.cars(); 
-</span><span class="line">var yellowCabStore = yellowCab.cars();</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var taxiAmsterdamStore = taxiAmsterdam.cars(); 
+</span><span class='line'>var yellowCabStore = yellowCab.cars();</span></code></pre></td></tr></table></div></figure>
+
+
 <p>The add() and sync() lines in the next piece of code just add the particular Car records to each TaxiService store. You will read more about stores in the next two chapters:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">//add new cars to the Store
-taxiAmsterdamStore.add(mercedes); 
-taxiAmsterdamStore.add(vw);
-</span><span class="line">taxiAmsterdamStore.sync(); 
-</span><span class="line">
-</span><span class="line">yellowCabStore.add(bmw); 
-</span><span class="line">yellowCabStore.sync();
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//add new cars to the StoretaxiAmsterdamStore.add(mercedes); taxiAmsterdamStore.add(vw);
+</span><span class='line'>taxiAmsterdamStore.sync(); 
+</span><span class='line'>
+</span><span class='line'>yellowCabStore.add(bmw); 
+</span><span class='line'>yellowCabStore.sync();</span></code></pre></td></tr></table></div></figure>
+
+
 <p>To request the TaxiService data from a Car record (and to test the belongsTo relation), you can use the autogenerated getter getTaxiService(). Now, let’s request the TaxiService data for the first record in the taxiAmsterdamStore:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">console.log(taxiAmsterdam.cars().first().getTaxiService());</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>#### Remote Associations
-You can also request Car records from the server side. To do so, you would need to add a remote proxy to the Car model:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>console.log(taxiAmsterdam.cars().first().getTaxiService());</span></code></pre></td></tr></table></div></figure>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">proxy: {
-	type: 'ajax',
-	reader: {
-	rootProperty: 'cars'
-	},
-	url: 'app/data.php' 
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4>Remote Associations</h4>
+
+<p>You can also request Car records from the server side. To do so, you would need to add a remote proxy to the Car model:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>proxy: { type: 'ajax',   reader: {   rootProperty: 'cars'    },  url: 'app/data.php' 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <p>After you add the records and sync the taxiAmsterdamStore and yellowCabStore, this proxy will <code>POST</code> the messages shown in Examples 7-4 and 7-5 to <code>app/data.json</code>.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Example 7-4. taxiAmsterdam
-{cars: [{id:1, brand:BMW, taxiservice_id:1}, {id:2, brand:BMW, taxiservice_id:1}]} 
-</span><span class="line">
-Example 7-5. yellowCab
-{cars: [{id:1, brand:BMW, taxiservice_id:2}]}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>On your server side, you could code a script that takes these objects and adds them to a
-database.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example 7-4. taxiAmsterdam{cars: [{id:1, brand:BMW, taxiservice_id:1}, {id:2, brand:BMW, taxiservice_id:1}]} 
+</span><span class='line'>Example 7-5. yellowCab{cars: [{id:1, brand:BMW, taxiservice_id:2}]}</span></code></pre></td></tr></table></div></figure>
 
-<p>When you want to load data from the remote, you can run the following command:</p>
 
-<p><code>
-taxiAmsterdamStore.load(function(records){ 
-	console.log(records);
-});
+<p>On your server side, you could code a script that takes these objects and adds them to adatabase.
+When you want to load data from the remote, you can run the following command:
+&#8220;`
+taxiAmsterdamStore.load(function(records){</p>
+
+<pre><code>console.log(records);});```
+</code></pre>
+
+<p>Here, you are loading data into the taxiAmsterdamStore, which has a model with associations hooked up. Therefore, it will fire a GET request, with the following parameters:<code>
+filter:[{"property":"taxiservice_id", "value": 1}]````TIP`
 </code>
-Here, you are loading data into the taxiAmsterdamStore, which has a model with associations hooked up. Therefore, it will fire a GET request, with the following parameters:</p>
-
-<p><code>
-filter:[{"property":"taxiservice_id", "value": 1}]
-</code>
-<code>TIP</code></p>
-
-<p><code>
-When the remote store is loaded, the store is automatically filtered so that only records with a matching foreign key are included in the resulting child store. You can override this by specifying the filterProperty.
-</code>
+When the remote store is loaded, the store is automatically filtered so that only records with a matching foreign key are included in the resulting child store. You can override this by specifying the filterProperty.&#8220;`
 On your server side, you could code a script that filters for the taxiservice_id with the value set to 1. The data returned for this request from the server might look like the following example, which is written in PHP:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">&lt;? php
-</span><span class="line">//Return response as JavaScript header('Content-Type: application/javascript'); echo '{
-</span><span class="line">"cars": [{
-</span><span class="line">    "id": 1,
-</span><span class="line">    "brand": "BMW",
-</span><span class="line">    "taxiservice_id": 1
-</span><span class="line">}, {
-</span><span class="line">    "id": 2,
-</span><span class="line">    "brand": "Mercedes",
-</span><span class="line">    "taxiservice_id": 1
-</span><span class="line">}]
-</span><span class="line">}'; 
-</span><span class="line">?&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;? php
+</span><span class='line'>//Return response as JavaScript header('Content-Type: application/javascript'); echo '{
+</span><span class='line'>"cars": [{
+</span><span class='line'>    "id": 1,
+</span><span class='line'>    "brand": "BMW",
+</span><span class='line'>    "taxiservice_id": 1
+</span><span class='line'>}, {
+</span><span class='line'>    "id": 2,
+</span><span class='line'>    "brand": "Mercedes",
+</span><span class='line'>    "taxiservice_id": 1
+</span><span class='line'>}]
+</span><span class='line'>}'; 
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
 <p>The FindACab app will not display the different brands of cars, which is why you won’t implement any model associations. That is because you will use the Yelp API to provide data about taxi businesses. It will not supply information about car brands like the previous examples did.</p>
 
 <p><code>TIP</code></p>
 
 <p>If you want to read more about associations, check out <a href="http://appointsolutions.com/2012/07/using-model-associations-in-sencha-touch-2-and-ext-js-4/">Rob Boerman’s great tutorial</a> and<a href="http://miamicoder.com/2012/sencha-touch-2-models-hasmany-associations-php-example/">MiamiCoder’s tutorial</a>with PHP server-side code</p>
 
-<h4 id="summary">Summary</h4>
+<h4>Summary</h4>
 
 <p>The Sencha data package contains the three key classes <code>Ext.data.Model</code>, <code>Ext.data.Record</code>, and <code>Ext.data.Store</code>.</p>
-
 </div>
 
 </article>
@@ -470,17 +442,35 @@ On your server side, you could code a script that filters for the taxiservice_id
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -495,5 +485,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

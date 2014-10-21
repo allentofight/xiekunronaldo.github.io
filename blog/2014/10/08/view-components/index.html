@@ -24,9 +24,12 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -41,16 +44,23 @@
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -64,8 +74,7 @@
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -82,152 +91,130 @@
 	<h1 class="title" itemprop="name">View Components</h1>
 	<div class="entry-content" itemprop="articleBody"><p>This chapter is all about view components. I will discuss how to implement messageboxes, lists, panels, toolbars, charts, and maps</p>
 
-<p>In this chapter, you’ll learn how to implement:</p>
+<p>In this chapter, you’ll learn how to implement:
+* A messagebox Toolbars and title bars Buttons<em> Lists</em> A Google Map* Overlays Charts</p>
 
-<ul>
-  <li>A messagebox Toolbars and title bars Buttons</li>
-  <li>Lists</li>
-  <li>A Google Map</li>
-  <li>Overlays Charts</li>
-</ul>
+<h4>Implementing a Messagebox</h4>
 
-<h4 id="implementing-a-messagebox">Implementing a Messagebox</h4>
+<p>Unlike the standard JavaScript <code>alert</code> method, a messagebox in Sencha Touch is <code>asynchronous</code>. In standard JavaScript, the browser pauses execution until you press OK. In Sencha Touch, showing a messagebox will not cause the code to stop. For this reason, if you have code that should run only after some user feedback from the messagebox, you should use a callback function.
+When you want to implement a messagebox, you will have to require Ext.MessageBox at the top of your view class. You don’t need to instantiate a messagebox (although you could); Ext.Msg is a global shared singleton instance of the Ext.MessageBox class that you can use in most cases:
+The previous code describes the alert() method, which you can visually compare with the standard alert messagebox in JavaScript. See Figure 11-1.</p>
 
-<p>Unlike the standard JavaScript <code>alert</code> method, a messagebox in Sencha Touch is <code>asynchronous</code>. In standard JavaScript, the browser pauses execution until you press OK. In Sencha Touch, showing a messagebox will not cause the code to stop. For this reason, if you have code that should run only after some user feedback from the messagebox, you should use a callback function.</p>
+<p><img src="/images/2014/10/figure11-1.png"></p>
 
-<p>When you want to implement a messagebox, you will have to require Ext.MessageBox at the top of your view class. You don’t need to instantiate a messagebox (although you could); Ext.Msg is a global shared singleton instance of the Ext.MessageBox class that you can use in most cases:</p>
+<p>It displays a small window, with a title, a message, and an OK button. In addition to thealert, there are these types of messageboxes:
+* prompt(), shown in Figure 11-2, which is a messagebox with a title, message, a textfield, and Cancel and OK buttons<em> confirm(), shown in Figure 11-3, which is a messagebox with a title, a message, and No and Yes buttons</em> show(), which provides even more options.
+Here’s an example of the prompt() messagebox; the callback contains the button id and the entered value. The button id can be Yes, No, or Cancel (Cancel means close the messagebox without pressing the Yes and No buttons):
+&#8220;`
+Ext.Msg.prompt(&lsquo;Welcome&rsquo;, &lsquo;Please enter your name&rsquo;, function(btn, val) { //callback</p>
 
-<p>The previous code describes the alert() method, which you can visually compare with the standard alert messagebox in JavaScript. See Figure 11-1.</p>
+<pre><code>console.log(btn, val);
+</code></pre>
 
-<p><img src="/images/2014/10/figure11-1.png" /></p>
+<p>});<code>
+There is one more messagebox method that is worth mentioning: show().The show() method will give you many more options; you can pass in a config object. Here I set up
+a customized prompt() messagebox. It has a width of 500 pixels, it accepts multiline input, it has an info icon, and I want to specify my own set of buttons. Also, I will define a callback function:</code>
+var myPromptBox = Ext.Msg.show({</p>
 
-<p>It displays a small window, with a title, a message, and an OK button. In addition to the
-alert, there are these types of messageboxes:</p>
+<pre><code>title: 'Address',
+message: 'Please enter your address:',
+width: 500,
+buttons: Ext.MessageBox.YESNOCANCEL,
+iconCls: Ext.MessageBox.QUESTION,
+multiLine: true,
+prompt: {
+    maxlength: 180,
+    autocapitalize: true
+},
+fn: function(buttonId) {
+    alert('You pressed the "' + buttonId + '" button.');
+}
+</code></pre>
 
-<ul>
-  <li>prompt(), shown in Figure 11-2, which is a messagebox with a title, message, a textfield, and Cancel and OK buttons</li>
-  <li>confirm(), shown in Figure 11-3, which is a messagebox with a title, a message, and No and Yes buttons</li>
-  <li>show(), which provides even more options.</li>
-</ul>
-
-<p>Here’s an example of the prompt() messagebox; the callback contains the button id and the entered value. The button id can be Yes, No, or Cancel (Cancel means close the messagebox without pressing the Yes and No buttons):</p>
-
-<p><code>
-Ext.Msg.prompt('Welcome', 'Please enter your name', function(btn, val) { //callback
-    console.log(btn, val);
-});
-</code></p>
-
-<p>There is one more messagebox method that is worth mentioning: show().The show() method will give you many more options; you can pass in a config object. Here I set up
-a customized prompt() messagebox. It has a width of 500 pixels, it accepts multiline input, it has an info icon, and I want to specify my own set of buttons. Also, I will define a callback function:</p>
-
-<p><code>
-var myPromptBox = Ext.Msg.show({
-    title: 'Address',
-    message: 'Please enter your address:',
-    width: 500,
-    buttons: Ext.MessageBox.YESNOCANCEL,
-    iconCls: Ext.MessageBox.QUESTION,
-    multiLine: true,
-    prompt: {
-        maxlength: 180,
-        autocapitalize: true
-    },
-    fn: function(buttonId) {
-        alert('You pressed the "' + buttonId + '" button.');
-    }
-});
-</code>
-The iconCls can set an icon CSS class on the messagebox to showcase an icon. You can maintain this in your theme, but out of the box Sencha Touch ships with the following messagebox icons:</p>
-
-<ul>
-  <li>Ext.MessageBox.ERROR (a round error sign) </li>
-  <li>Ext.MessageBox.INFO (a round info sign) </li>
-  <li>Ext.MessageBox.QUESTION (a question mark) </li>
-  <li>Ext.MessageBox.WARNING (a warning sign)</li>
-</ul>
+<p>});&#8220;`
+The iconCls can set an icon CSS class on the messagebox to showcase an icon. You can maintain this in your theme, but out of the box Sencha Touch ships with the following messagebox icons:
+* Ext.MessageBox.ERROR (a round error sign)
+* Ext.MessageBox.INFO (a round info sign)
+* Ext.MessageBox.QUESTION (a question mark)
+* Ext.MessageBox.WARNING (a warning sign)</p>
 
 <p>The following sets of buttons are available in Sencha Touch:</p>
 
 <ul>
-  <li>Ext.MessageBox.OK (OK button with action UI skin)</li>
-  <li>Ext.MessageBox.YES (Yes button with action UI skin)</li>
-  <li>Ext.MessageBox.NO (No button)</li>
-  <li>Ext.MessageBox.CANCEL (Cancel button)</li>
-  <li>Ext.MessageBox.YESNOCANCEL (Cancel button, No button, and Yes button with action UI skin)</li>
-  <li>Ext.MessageBox.OKCANCEL (Cancel button, and OK button with action UI skin) * Ext.MessageBox.YESNO (No button, and Yes button with action UI skin)</li>
+<li>Ext.MessageBox.OK (OK button with action UI skin)<em> Ext.MessageBox.YES (Yes button with action UI skin)</em> Ext.MessageBox.NO (No button)<em> Ext.MessageBox.CANCEL (Cancel button)</em> Ext.MessageBox.YESNOCANCEL (Cancel button, No button, and Yes button with action UI skin)* Ext.MessageBox.OKCANCEL (Cancel button, and OK button with action UI skin) * Ext.MessageBox.YESNO (No button, and Yes button with action UI skin)
+If these button sets are in the wrong order, or you would like to specify your own button text and UI skins, you can pass in an array with Ext.Buttons into the buttons config, as you can see in Figure 11-4:
+<code>
+var pirateBox = Ext.Msg.show({
+  title: 'Ahoy!',
+  message: 'Stop pirate, would ye like t\' proceed?',
+  iconCls: Ext.MessageBox.ERROR,
+  width: 200,
+  buttons: [{
+      text: 'Aye',
+      itemId: 'yes',
+      ui: 'action'
+  }, {
+      text: 'Avast',
+      itemId: 'no',
+      ui: 'decline'
+  }],
+  fn: function(buttonId) {
+      alert('You pressed the "' + buttonId + '" button.');
+  }
+});</code>
+<img src="/images/2014/10/figure11-4.png"></li>
 </ul>
 
-<p>If these button sets are in the wrong order, or you would like to specify your own button text and UI skins, you can pass in an array with Ext.Buttons into the buttons config, as you can see in Figure 11-4:</p>
-
-<p><code>
-var pirateBox = Ext.Msg.show({
-    title: 'Ahoy!',
-    message: 'Stop pirate, would ye like t\' proceed?',
-    iconCls: Ext.MessageBox.ERROR,
-    width: 200,
-    buttons: [{
-        text: 'Aye',
-        itemId: 'yes',
-        ui: 'action'
-    }, {
-        text: 'Avast',
-        itemId: 'no',
-        ui: 'decline'
-    }],
-    fn: function(buttonId) {
-        alert('You pressed the "' + buttonId + '" button.');
-    }
-});
-</code>
-<img src="/images/2014/10/figure11-4.png" /></p>
 
 <p>To hide the previous messagebox, just run the hide() method on the pirateBox.</p>
 
-<h4 id="implementing-toolbars-and-title-bars">Implementing Toolbars and Title Bars</h4>
-<p>When you want to implement a toolbar (or title bar) view component (Figure 11-5), you will have to add the Ext.Toolbar (or Ext.TitleBar) to the requires at the top of your view class. After that, you can instantiate the component by using the Ext.create(“Ext.Toolbar”, {}) syntax, or by lazy instantiating (nesting the xtype called toolbar). Using the xtype is the best practice for coding real-world MVC applications.</p>
+<h4>Implementing Toolbars and Title Bars</h4>
 
-<p><img src="/images/2014/10/figure11-5.png" /></p>
+<p>When you want to implement a toolbar (or title bar) view component (Figure 11-5), you will have to add the Ext.Toolbar (or Ext.TitleBar) to the requires at the top of your view class. After that, you can instantiate the component by using the Ext.create(&ldquo;Ext.Toolbar&rdquo;, {}) syntax, or by lazy instantiating (nesting the xtype called toolbar). Using the xtype is the best practice for coding real-world MVC applications.</p>
+
+<p><img src="/images/2014/10/figure11-5.png"></p>
 
 <p>Implementing a title bar works exactly the same. The only difference is that the class from which you implement the instance is called Ext.TitleBar and the xtype is called titlebar. Although the title bar does not extend from Ext.Toolbar, they have a very similar appearance and setup.</p>
 
 <p>The main difference between a Ext.TitleBar and a Ext.Toolbar is that the title config is always centered horizontally in a title bar, between any items aligned left or right. By default, any item in a title bar or toolbar is a button, so you do not need to explicitly set it. Items in a title bar, such as buttons, can be docked to the left or right side of the bar, via the align config.</p>
 
-<h4 id="implementing-lists">Implementing Lists</h4>
+<h4>Implementing Lists</h4>
+
 <p>A list is a data-aware component. You will need to hook up a data store to the list (with a fields model) to display any items. Following is an example of an Ext.List. First you must make sure you add the Ext.List to the requires array at the top of your view class so the Ext.Loader can load the framework class. Afterward you will use the object literal notation to create a Sencha Touch list:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">{
-</span><span class="line">    xtype: 'list',
-</span><span class="line">    store: {
-</span><span class="line">        fields: ['name'],
-</span><span class="line">        data: [{
-</span><span class="line">            name: 'Leonardo'
-</span><span class="line">        }, {
-</span><span class="line">            name: 'Donatello'
-</span><span class="line">        }, {
-</span><span class="line">            name: 'Michelangelo'
-</span><span class="line">        }, {
-</span><span class="line">            name: 'Raphael'
-</span><span class="line">        }]
-</span><span class="line">    },
-</span><span class="line">    itemTpl: '{name}'
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    xtype: 'list',
+</span><span class='line'>    store: {
+</span><span class='line'>        fields: ['name'],
+</span><span class='line'>        data: [{
+</span><span class='line'>            name: 'Leonardo'
+</span><span class='line'>        }, {
+</span><span class='line'>            name: 'Donatello'
+</span><span class='line'>        }, {
+</span><span class='line'>            name: 'Michelangelo'
+</span><span class='line'>        }, {
+</span><span class='line'>            name: 'Raphael'
+</span><span class='line'>        }]
+</span><span class='line'>    },
+</span><span class='line'>    itemTpl: '{name}'
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 </article>
@@ -243,17 +230,35 @@ var pirateBox = Ext.Msg.show({
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -268,5 +273,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

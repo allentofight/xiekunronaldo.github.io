@@ -25,9 +25,12 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -42,16 +45,23 @@
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -65,8 +75,7 @@
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -83,23 +92,27 @@
 	<h1 class="title" itemprop="name">Whats New in Xcode6</h1>
 	<div class="entry-content" itemprop="articleBody"><p>Storyboard中能实时看到Custom Fonts</p>
 
-<p><img src="/images/2014/8/customfont.png" /></p>
+<p><img src="/images/2014/8/customfont.png"></p>
 
 <p>swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import modules,
 创建.swift文件时，默认创建了.h头文件，所以如果在.m文件中引用swift文件中的类，可以用import .swift对应的头文件来引用
-在ios8中，可以@import第三方的framework了!
-#####在IB中动态改变显示效果，如动态改变圆角
-注意以下几个方法的使用
+在ios8中，可以@import第三方的framework了!</p>
+
+<h5>在IB中动态改变显示效果，如动态改变圆角</h5>
+
+<p>注意以下几个方法的使用
 <code>class</code>前写@IBDesignable,属性前写@IBInspectable,还有override以下方法</p>
 
 <p>@override func prepareForInterfaceBuilder(){}</p>
 
 <p>UIView的这个方法可以实现live-rendering,注意要与@IBDesignable配合使用，如果要使用UIImage,则需用以下方式</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">        let bundle = NSBundle(forClass: self.dynamicType)
-</span><span class="line">        self.image = UIImage(named: "sex_girl1", inBundle: bundle, 			compatibleWithTraitCollection: self.traitCollection)</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>        let bundle = NSBundle(forClass: self.dynamicType)
+</span><span class='line'>        self.image = UIImage(named: "sex_girl1", inBundle: bundle,            compatibleWithTraitCollection: self.traitCollection)</span></code></pre></td></tr></table></div></figure>
+
+
 <p>UIImage(named:)无效!</p>
 
 <p>*Quicklook Preview</p>
@@ -107,8 +120,7 @@
 <p>Model实现debugQuickLookObject即可</p>
 
 <p>*Size Class
-Size classes have vertical and horizontal dimensions called “regular” and “compact”. The iPad in both portrait and landscape defaults to the regular size class in both horizontal and vertical directions. The iPhone in portrait defaults to compact size class for horizontal and regular size class for vertical. The iPhone in landscape defaults to compact size class for both horizontal and vertical.</p>
-
+Size classes have vertical and horizontal dimensions called &ldquo;regular&rdquo; and &ldquo;compact&rdquo;. The iPad in both portrait and landscape defaults to the regular size class in both horizontal and vertical directions. The iPhone in portrait defaults to compact size class for horizontal and regular size class for vertical. The iPhone in landscape defaults to compact size class for both horizontal and vertical.</p>
 </div>
 
 </article>
@@ -124,17 +136,35 @@ Size classes have vertical and horizontal dimensions called “regular” and �
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -149,5 +179,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

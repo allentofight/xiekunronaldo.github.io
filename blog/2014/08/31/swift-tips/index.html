@@ -30,9 +30,12 @@ for i in 0..&lt;possibleTipsInferred.count { let possibleTip = &hellip;">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -47,16 +50,23 @@ for i in 0..&lt;possibleTipsInferred.count { let possibleTip = &hellip;">
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -70,8 +80,7 @@ for i in 0..&lt;possibleTipsInferred.count { let possibleTip = &hellip;">
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -87,802 +96,887 @@ for i in 0..&lt;possibleTipsInferred.count { let possibleTip = &hellip;">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Swift Tips</h1>
 	<div class="entry-content" itemprop="articleBody"><ul>
-  <li><code>..&lt;</code>等价于<code>..</code></li>
+<li><code>..&lt;</code>等价于<code>..</code></li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let possibleTipsInferred = [0.15, 0.18, 0.20]
-</span><span class="line">for i in 0..&lt;possibleTipsInferred.count {
-</span><span class="line">  let possibleTip = possibleTipsInferred[i]
-</span><span class="line">  println("\(possibleTip*100)%: \(calcTipWithTipPct(possibleTip))")
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let possibleTipsInferred = [0.15, 0.18, 0.20]
+</span><span class='line'>for i in 0..&lt;possibleTipsInferred.count {
+</span><span class='line'>  let possibleTip = possibleTipsInferred[i]
+</span><span class='line'>  println("\(possibleTip*100)%: \(calcTipWithTipPct(possibleTip))")
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Dictionary返回类型</li>
+<li>Dictionary返回类型</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func returnPossibleTips() -&gt; [Int: Double] { 
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func returnPossibleTips() -&gt; [Int: Double] { 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>命名空间
+<li>命名空间
 <a href="http://www.raywenderlich.com/74904/swift-tutorial-part-2-simple-ios-app">参考</a></li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">import UIKit
-</span><span class="line"> 
-</span><span class="line">class ViewController: UIViewController {
-</span><span class="line"> 
-</span><span class="line">  override func viewDidLoad() {
-</span><span class="line">    super.viewDidLoad()
-</span><span class="line">    // Do any additional setup after loading the view, typically from a nib.
-</span><span class="line">  }
-</span><span class="line"> 
-</span><span class="line">  override func didReceiveMemoryWarning() {
-</span><span class="line">    super.didReceiveMemoryWarning()
-</span><span class="line">    // Dispose of any resources that can be recreated.
-</span><span class="line">  }</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import UIKit
+</span><span class='line'> 
+</span><span class='line'>class ViewController: UIViewController {
+</span><span class='line'> 
+</span><span class='line'>  override func viewDidLoad() {
+</span><span class='line'>    super.viewDidLoad()
+</span><span class='line'>    // Do any additional setup after loading the view, typically from a nib.
+</span><span class='line'>  }
+</span><span class='line'> 
+</span><span class='line'>  override func didReceiveMemoryWarning() {
+</span><span class='line'>    super.didReceiveMemoryWarning()
+</span><span class='line'>    // Dispose of any resources that can be recreated.
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
 <p>This is the first example you’ve seen of a class that subclasses another class. Here, you are declaring a new class ViewController that subclasses Apple’s UIViewController.</p>
 
 <p>Experienced iOS developers – note that you do not have to put a class prefix on your class names like you did in Objective-C to avoid namespace collisions (i.e. you don’t have to name this RWTViewController). This is because Swift has namespace support, and the classes you create in your project are in their own namespace.
 To see what I mean, replace the class declaration with the following:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">class UIViewController {
-</span><span class="line">}
-</span><span class="line"> 
-</span><span class="line">class ViewController: UIKit.UIViewController {
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class UIViewController {
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>class ViewController: UIKit.UIViewController {
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Here UIKit.UIViewController refers to the UIViewController class in the UIKit namespace. Likewise, TipCalculator.UIViewController would refer to the the UIViewController class in your project.
 * String to Double</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line"> Double((totalTextField.text as NSString).doubleValue)</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> Double((totalTextField.text as NSString).doubleValue)</span></code></pre></td></tr></table></div></figure>
+
+
 <p><code>注意</code>:At the time of writing this tutorial, Swift’s String class does not have access to every method that NSString has (NSString is the string class in the Foundation framework). In particular, Swift’s String class does not have a method to convert to the string to a double; however NSString does.
 You can call (xxx as NSString)() on a Swift String to convert it to an NSString. Then, you can call any method that is available on NSString, such as a method to convert to a double.
 * sort dict keys</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">var keys = Array(possibleTips.keys)
-</span><span class="line">sort(&amp;keys)
-</span><span class="line">for tipPct in keys {
-</span><span class="line">  let tipValue = possibleTips[tipPct]!
-</span><span class="line">  let prettyTipValue = String(format:"%.2f", tipValue)
-</span><span class="line">  results += "\(tipPct)%: \(prettyTipValue)\n"
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<ul>
-  <li>
-    <p>Class Prefixes</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var keys = Array(possibleTips.keys)
+</span><span class='line'>sort(&keys)
+</span><span class='line'>for tipPct in keys {
+</span><span class='line'>  let tipValue = possibleTips[tipPct]!
+</span><span class='line'>  let prettyTipValue = String(format:"%.2f", tipValue)
+</span><span class='line'>  results += "\(tipPct)%: \(prettyTipValue)\n"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-    <p>Swift types are all automatically namespaced by the module that contains them. As a result, prefixes are not required in order to minimize naming collisions. If two names from different modules collide you can disambiguate by prefixing the type name with the module name:</p>
-
-    <p>You should not add prefixes to your Swift types.</p>
-
-    <p>If you need to expose a Swift type for use within Objective-C you can provide a suitable prefix (following our Objective-C style guide) as follows:</p>
-  </li>
-</ul>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">@objc (RWTChicken) class Chicken {
-</span><span class="line">   ...
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <ul>
-  <li>
-    <p>Value Types and Reference Types</p>
+<li><p>Class Prefixes</p>
 
-    <p>Instances of value types are copied whenever they’re assigned or used as a function argument. Numbers, strings, arrays, dictionaries, enums, tuples, and structs are value types. For example:</p>
-  </li>
+<p>  Swift types are all automatically namespaced by the module that contains them. As a result, prefixes are not required in order to minimize naming collisions. If two names from different modules collide you can disambiguate by prefixing the type name with the module name:</p>
+
+<p>  You should not add prefixes to your Swift types.</p>
+
+<p>  If you need to expose a Swift type for use within Objective-C you can provide a suitable prefix (following our Objective-C style guide) as follows:</p></li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">var a = "Hello"
-</span><span class="line">var b = a
-</span><span class="line">b.extend(", world")
-</span><span class="line">println("a: \(a); b: \(b)") // a: Hello; b: Hello, world</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@objc (RWTChicken) class Chicken {
+</span><span class='line'>   ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>xcode 6.1 beta版</li>
+<li><p>Value Types and Reference Types</p>
+
+<p>  Instances of value types are copied whenever they’re assigned or used as a function argument. Numbers, strings, arrays, dictionaries, enums, tuples, and structs are value types. For example:</p></li>
 </ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var a = "Hello"
+</span><span class='line'>var b = a
+</span><span class='line'>b.extend(", world")
+</span><span class='line'>println("a: \(a); b: \(b)") // a: Hello; b: Hello, world</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>xcode 6.1 beta版</li>
+</ul>
+
 
 <p>现在，可以直接在构造器中返回nil表示构造失败。一个表示失败的构造器可以通过init?来声明，它可以返回一个显式的可选类型或隐式解封的可选类型。但要注意对于枚举和结构体来说随时都可以返回nil，而对类则不一样，只有当所有的存储属性被初始化后或者其self.init和super.init被调用后才可以返回nil，当前调用代码就可以收到nil，来判断构造是否成功：</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">extension Int {
-</span><span class="line">init?(fromString: String) {
-</span><span class="line">if let i = fromString.toInt() {
-</span><span class="line">// Initialize
-</span><span class="line">self = i
-</span><span class="line">} else {
-</span><span class="line">// Discard self and return 'nil'.
-</span><span class="line">return nil
-</span><span class="line">    }
-</span><span class="line">  }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>extension Int {
+</span><span class='line'>init?(fromString: String) {
+</span><span class='line'>if let i = fromString.toInt() {
+</span><span class='line'>// Initialize
+</span><span class='line'>self = i
+</span><span class='line'>} else {
+</span><span class='line'>// Discard self and return 'nil'.
+</span><span class='line'>return nil
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <p>可以这么使用：</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">if let twentytwo = Int(fromString: "22") {
-</span><span class="line">println("the number is \(twentytwo)”)
-</span><span class="line">} else {
-</span><span class="line">println("not a number”)
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if let twentytwo = Int(fromString: "22") {
+</span><span class='line'>println("the number is \(twentytwo)”)
+</span><span class='line'>} else {
+</span><span class='line'>println("not a number”)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Calling on Methods
+<li>Calling on Methods
 When encapsulated in a class (or struct or enum), the first parameter name of a method is not included externally, while all following parameter names are included externally when the method is called:</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">class MyFunClass {
-</span><span class="line">    
-</span><span class="line">    func hello(name: String, age: Int, location: String) {
-</span><span class="line">        println("Hello \(name). I live in \(location) too. When is your \(age + 1)th birthday?")
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">}
-</span><span class="line">let myFunClass = MyFunClass()
-</span><span class="line">myFunClass.hello("Mr. Roboto", age: 5, location: "San Francisco")</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyFunClass {
+</span><span class='line'>    
+</span><span class='line'>    func hello(name: String, age: Int, location: String) {
+</span><span class='line'>        println("Hello \(name). I live in \(location) too. When is your \(age + 1)th birthday?")
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>}
+</span><span class='line'>let myFunClass = MyFunClass()
+</span><span class='line'>myFunClass.hello("Mr. Roboto", age: 5, location: "San Francisco")</span></code></pre></td></tr></table></div></figure>
+
+
 <p>It is therefore best practice to include your first parameter name in your method name, just like in Objective-C:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">class MyFunClass {
-</span><span class="line">    
-</span><span class="line">    func helloWithName(name: String, age: Int, location: String) {
-</span><span class="line">        println("Hello \(name). I live in \(location) too. When is your \(age + 1)th birthday?")
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">}
-</span><span class="line">let myFunClass = MyFunClass()
-</span><span class="line">myFunClass.helloWithName("Mr. Roboto", age: 5, location: "San Francisco")</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyFunClass {
+</span><span class='line'>    
+</span><span class='line'>    func helloWithName(name: String, age: Int, location: String) {
+</span><span class='line'>        println("Hello \(name). I live in \(location) too. When is your \(age + 1)th birthday?")
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>}
+</span><span class='line'>let myFunClass = MyFunClass()
+</span><span class='line'>myFunClass.helloWithName("Mr. Roboto", age: 5, location: "San Francisco")</span></code></pre></td></tr></table></div></figure>
+
+
 <p>If for some special reason you want to skip the external parameter names in your function (I’d recommend having a very good reason for doing so), use an _ for the external parameter name:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">class MyFunClass {
-</span><span class="line">    
-</span><span class="line">    func helloWithName(name: String, _ age: Int, _ location: String) {
-</span><span class="line">        println("Hello \(name). I live in \(location) too. When is your \(age + 1)th birthday?")
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">let myFunClass = MyFunClass()
-</span><span class="line">myFunClass.helloWithName("Mr. Roboto", 5, "San Francisco")</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyFunClass {
+</span><span class='line'>    
+</span><span class='line'>    func helloWithName(name: String, _ age: Int, _ location: String) {
+</span><span class='line'>        println("Hello \(name). I live in \(location) too. When is your \(age + 1)th birthday?")
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>let myFunClass = MyFunClass()
+</span><span class='line'>myFunClass.helloWithName("Mr. Roboto", 5, "San Francisco")</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>
-    <p>Instance Methods Are Curried Functions
+<li><p>Instance Methods Are Curried Functions
 One cool thing to note is that instance methods are actually curried functions in Swift:</p>
 
-    <pre><code>  The basic idea behind currying is that a function can be partially applied, meaning that some of its parameter values can be specified (bound) before the function is called. Partial function application yields a new function.
-</code></pre>
-  </li>
+<pre><code>  The basic idea behind currying is that a function can be partially applied, meaning that some of its parameter values can be specified (bound) before the function is called. Partial function application yields a new function.
+</code></pre></li>
 </ul>
+
 
 <p>So given that I have a class:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">class MyHelloWorldClass {
-</span><span class="line">    
-</span><span class="line">    func helloWithName(name: String) -&gt; String {
-</span><span class="line">        return "hello, \(name)"
-</span><span class="line">    }
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyHelloWorldClass {
+</span><span class='line'>    
+</span><span class='line'>    func helloWithName(name: String) -&gt; String {
+</span><span class='line'>        return "hello, \(name)"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
 
 <p>I can create a variable that points to the class’s helloWithName function:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let helloWithNameFunc = MyHelloWorldClass.helloWithName</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>My new helloWithNameFunc is of type MyHelloWorldClass -&gt; (String) -&gt; String, a function that takes in an instance of my class and returns another function that takes in a string value and returns a string value.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let helloWithNameFunc = MyHelloWorldClass.helloWithName</span></code></pre></td></tr></table></div></figure>
+
+
+<p>My new helloWithNameFunc is of type MyHelloWorldClass &ndash;> (String) &ndash;> String, a function that takes in an instance of my class and returns another function that takes in a string value and returns a string value.
 So I can actually call my function like this:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let myHelloWorldClassInstance = MyHelloWorldClass()
-</span><span class="line">
-</span><span class="line">helloWithNameFunc(myHelloWorldClassInstance)("Mr. Roboto") 
-</span><span class="line">// hello, Mr. Roboto</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let myHelloWorldClassInstance = MyHelloWorldClass()
+</span><span class='line'>
+</span><span class='line'>helloWithNameFunc(myHelloWorldClassInstance)("Mr. Roboto") 
+</span><span class='line'>// hello, Mr. Roboto</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Init: A Special Note
+<li>Init: A Special Note
 A special init method is called when a class, struct, or enum is initialized. In Swift, you can define initialization parameters, just like with any other method:</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">class Person {
-</span><span class="line">    
-</span><span class="line">    init(name: String) {
-</span><span class="line">        // your init implementation
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">Person(name: "Mr. Roboto")</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Person {
+</span><span class='line'>    
+</span><span class='line'>    init(name: String) {
+</span><span class='line'>        // your init implementation
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>Person(name: "Mr. Roboto")</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Notice that, unlike other methods, the <code>first parameter</code> name of an init method is required externally when the class is instantiated.</p>
 
 <p>It is best practice in most cases to add a different external parameter name—fromName in this case—to make the initialization more readable:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">class Person {
-</span><span class="line">    
-</span><span class="line">    init(fromName name: String) {
-</span><span class="line">        // your init implementation
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">Person(fromName: "Mr. Roboto")</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Person {
+</span><span class='line'>    
+</span><span class='line'>    init(fromName name: String) {
+</span><span class='line'>        // your init implementation
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>Person(fromName: "Mr. Roboto")</span></code></pre></td></tr></table></div></figure>
+
+
 <p>And of course, just like with other methods, you can add an _ if you want your init method to skip the external parameter name.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">struct Celsius {
-</span><span class="line">    var temperatureInCelsius: Double
-</span><span class="line">    init(fromFahrenheit fahrenheit: Double) {
-</span><span class="line">        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
-</span><span class="line">    }
-</span><span class="line">    init(fromKelvin kelvin: Double) {
-</span><span class="line">        temperatureInCelsius = kelvin - 273.15
-</span><span class="line">    }
-</span><span class="line">    init(_ celsius: Double) {
-</span><span class="line">        temperatureInCelsius = celsius
-</span><span class="line">    }
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
-</span><span class="line">// boilingPointOfWater.temperatureInCelsius is 100.0
-</span><span class="line">
-</span><span class="line">let freezingPointOfWater = Celsius(fromKelvin: 273.15)
-</span><span class="line">// freezingPointOfWater.temperatureInCelsius is 0.0
-</span><span class="line">
-</span><span class="line">let bodyTemperature = Celsius(37.0)
-</span><span class="line">// bodyTemperature.temperatureInCelsius is 37.0</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct Celsius {
+</span><span class='line'>    var temperatureInCelsius: Double
+</span><span class='line'>    init(fromFahrenheit fahrenheit: Double) {
+</span><span class='line'>        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+</span><span class='line'>    }
+</span><span class='line'>    init(fromKelvin kelvin: Double) {
+</span><span class='line'>        temperatureInCelsius = kelvin - 273.15
+</span><span class='line'>    }
+</span><span class='line'>    init(_ celsius: Double) {
+</span><span class='line'>        temperatureInCelsius = celsius
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
+</span><span class='line'>// boilingPointOfWater.temperatureInCelsius is 100.0
+</span><span class='line'>
+</span><span class='line'>let freezingPointOfWater = Celsius(fromKelvin: 273.15)
+</span><span class='line'>// freezingPointOfWater.temperatureInCelsius is 0.0
+</span><span class='line'>
+</span><span class='line'>let bodyTemperature = Celsius(37.0)
+</span><span class='line'>// bodyTemperature.temperatureInCelsius is 37.0</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>
-    <p>Optional Parameter Types
-Optionals are similar to using nil with pointers in Objective-C, but they work for any type, not just classes. Optionals are safer and more expressive than nil pointers in Objective-C and are at the heart of many of Swift’s most powerful features.</p>
-  </li>
-  <li>
-    <p>Parameters with Default Values</p>
-  </li>
+<li><p>Optional Parameter Types
+Optionals are similar to using nil with pointers in Objective-C, but they work for any type, not just classes. Optionals are safer and more expressive than nil pointers in Objective-C and are at the heart of many of Swift’s most powerful features.</p></li>
+<li><p>Parameters with Default Values</p></li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func hello(name: String = "you") {
-</span><span class="line">    println("hello, \(name)")
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">hello(name: "Mr. Roboto")
-</span><span class="line">// hello, Mr. Roboto
-</span><span class="line">
-</span><span class="line">hello()
-</span><span class="line">// hello, you</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func hello(name: String = "you") {
+</span><span class='line'>    println("hello, \(name)")
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>hello(name: "Mr. Roboto")
+</span><span class='line'>// hello, Mr. Roboto
+</span><span class='line'>
+</span><span class='line'>hello()
+</span><span class='line'>// hello, you</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Note that a parameter <code>with a default value</code> automatically has an external parameter name.</p>
 
 <ul>
-  <li>Variadic Parameters</li>
+<li>Variadic Parameters</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func helloWithNames(names: String...) {
-</span><span class="line">    for name in names {
-</span><span class="line">        println("Hello, \(name)")
-</span><span class="line">    }
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">// 2 names
-</span><span class="line">helloWithNames("Mr. Robot", "Mr. Potato")
-</span><span class="line">// Hello, Mr. Robot
-</span><span class="line">// Hello, Mr. Potato
-</span><span class="line">
-</span><span class="line">// 4 names
-</span><span class="line">helloWithNames("Batman", "Superman", "Wonder Woman", "Catwoman")
-</span><span class="line">// Hello, Batman
-</span><span class="line">// Hello, Superman
-</span><span class="line">// Hello, Wonder Woman
-</span><span class="line">// Hello, Catwoman</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func helloWithNames(names: String...) {
+</span><span class='line'>    for name in names {
+</span><span class='line'>        println("Hello, \(name)")
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// 2 names
+</span><span class='line'>helloWithNames("Mr. Robot", "Mr. Potato")
+</span><span class='line'>// Hello, Mr. Robot
+</span><span class='line'>// Hello, Mr. Potato
+</span><span class='line'>
+</span><span class='line'>// 4 names
+</span><span class='line'>helloWithNames("Batman", "Superman", "Wonder Woman", "Catwoman")
+</span><span class='line'>// Hello, Batman
+</span><span class='line'>// Hello, Superman
+</span><span class='line'>// Hello, Wonder Woman
+</span><span class='line'>// Hello, Catwoman</span></code></pre></td></tr></table></div></figure>
+
+
 <p>The catch here is to remember that it is possible to pass in 0 values, just like it is possible to pass in an empty array, so don’t forget to check for the empty array if needed:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func helloWithNames(names: String...) {
-</span><span class="line">    if names.count &gt; 0 {
-</span><span class="line">        for name in names {
-</span><span class="line">            println("Hello, \(name)")
-</span><span class="line">        }
-</span><span class="line">    } else {
-</span><span class="line">        println("Nobody here!")
-</span><span class="line">    }
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">helloWithNames()
-</span><span class="line">// Nobody here!</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func helloWithNames(names: String...) {
+</span><span class='line'>    if names.count &gt; 0 {
+</span><span class='line'>        for name in names {
+</span><span class='line'>            println("Hello, \(name)")
+</span><span class='line'>        }
+</span><span class='line'>    } else {
+</span><span class='line'>        println("Nobody here!")
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>helloWithNames()
+</span><span class='line'>// Nobody here!</span></code></pre></td></tr></table></div></figure>
+
+
 <p>Another note about variadic parameters: the variadic parameter must be the last parameter in your function’s parameter list!</p>
 
 <ul>
-  <li>Functions as Parameters
+<li>Functions as Parameters
 In Swift, functions can be passed around just like variables. For example, a function can have another function passed in as a parameter:</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func luckyNumberForName(name: String, #lotteryHandler: (String, Int) -&gt; String) -&gt; String {
-</span><span class="line">    let luckyNumber = Int(arc4random() % 100)
-</span><span class="line">    return lotteryHandler(name, luckyNumber)
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">func defaultLotteryHandler(name: String, luckyNumber: Int) -&gt; String {
-</span><span class="line">    return "\(name), your lucky number is \(luckyNumber)"
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">luckyNumberForName("Mr. Roboto", lotteryHandler: defaultLotteryHandler)
-</span><span class="line">// Mr. Roboto, your lucky number is 38</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func luckyNumberForName(name: String, #lotteryHandler: (String, Int) -&gt; String) -&gt; String {
+</span><span class='line'>    let luckyNumber = Int(arc4random() % 100)
+</span><span class='line'>    return lotteryHandler(name, luckyNumber)
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>func defaultLotteryHandler(name: String, luckyNumber: Int) -&gt; String {
+</span><span class='line'>    return "\(name), your lucky number is \(luckyNumber)"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>luckyNumberForName("Mr. Roboto", lotteryHandler: defaultLotteryHandler)
+</span><span class='line'>// Mr. Roboto, your lucky number is 38</span></code></pre></td></tr></table></div></figure>
+
+
 <p>Instance methods can also be passed in a similar way:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func luckyNumberForName(name: String, #lotteryHandler: (String, Int) -&gt; String) -&gt; String {
-</span><span class="line">    let luckyNumber = Int(arc4random() % 100)
-</span><span class="line">    return lotteryHandler(name, luckyNumber)
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">class FunLottery {
-</span><span class="line">    
-</span><span class="line">    func defaultLotteryHandler(name: String, luckyNumber: Int) -&gt; String {
-</span><span class="line">        return "\(name), your lucky number is \(luckyNumber)"
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">let funLottery = FunLottery()
-</span><span class="line">luckyNumberForName("Mr. Roboto", lotteryHandler: funLottery.defaultLotteryHandler)
-</span><span class="line">// Mr. Roboto, your lucky number is 38</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func luckyNumberForName(name: String, #lotteryHandler: (String, Int) -&gt; String) -&gt; String {
+</span><span class='line'>    let luckyNumber = Int(arc4random() % 100)
+</span><span class='line'>    return lotteryHandler(name, luckyNumber)
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>class FunLottery {
+</span><span class='line'>    
+</span><span class='line'>    func defaultLotteryHandler(name: String, luckyNumber: Int) -&gt; String {
+</span><span class='line'>        return "\(name), your lucky number is \(luckyNumber)"
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>let funLottery = FunLottery()
+</span><span class='line'>luckyNumberForName("Mr. Roboto", lotteryHandler: funLottery.defaultLotteryHandler)
+</span><span class='line'>// Mr. Roboto, your lucky number is 38</span></code></pre></td></tr></table></div></figure>
+
+
 <p>To make your function definition a bit more readable, consider type-aliasing your function (similar to typedef in Objective-C):</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">typealias lotteryOutputHandler = (String, Int) -&gt; String
-</span><span class="line">
-</span><span class="line">func luckyNumberForName(name: String, #lotteryHandler: lotteryOutputHandler) -&gt; String {
-</span><span class="line">    let luckyNumber = Int(arc4random() % 100)
-</span><span class="line">    return lotteryHandler(name, luckyNumber)
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typealias lotteryOutputHandler = (String, Int) -&gt; String
+</span><span class='line'>
+</span><span class='line'>func luckyNumberForName(name: String, #lotteryHandler: lotteryOutputHandler) -&gt; String {
+</span><span class='line'>    let luckyNumber = Int(arc4random() % 100)
+</span><span class='line'>    return lotteryHandler(name, luckyNumber)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <p>You can also have a function without a name as a parameter type (similar to blocks in Objective-C):</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func luckyNumberForName(name: String, #lotteryHandler: (String, Int) -&gt; String) -&gt; String {
-</span><span class="line">    let luckyNumber = Int(arc4random() % 100)
-</span><span class="line">    return lotteryHandler(name, luckyNumber)
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">luckyNumberForName("Mr. Roboto", lotteryHandler: {name, number in
-</span><span class="line">    return "\(name)'s' lucky number is \(number)"
-</span><span class="line">})
-</span><span class="line">// Mr. Roboto's lucky number is 74</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func luckyNumberForName(name: String, #lotteryHandler: (String, Int) -&gt; String) -&gt; String {
+</span><span class='line'>    let luckyNumber = Int(arc4random() % 100)
+</span><span class='line'>    return lotteryHandler(name, luckyNumber)
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>luckyNumberForName("Mr. Roboto", lotteryHandler: {name, number in
+</span><span class='line'>    return "\(name)'s' lucky number is \(number)"
+</span><span class='line'>})
+</span><span class='line'>// Mr. Roboto's lucky number is 74</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Return a Function
+<li>Return a Function
 Any function can also return a function in Swift:</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func myFuncThatReturnsAFunc() -&gt; (Int) -&gt; String {
-</span><span class="line">    return { number in
-</span><span class="line">        return "The lucky number is \(number)"
-</span><span class="line">    }
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">let returnedFunction = myFuncThatReturnsAFunc()
-</span><span class="line">
-</span><span class="line">returnedFunction(5) // The lucky number is 5</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func myFuncThatReturnsAFunc() -&gt; (Int) -&gt; String {
+</span><span class='line'>    return { number in
+</span><span class='line'>        return "The lucky number is \(number)"
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>let returnedFunction = myFuncThatReturnsAFunc()
+</span><span class='line'>
+</span><span class='line'>returnedFunction(5) // The lucky number is 5</span></code></pre></td></tr></table></div></figure>
+
 
 <p>To make this more readable, you can of course use type-aliasing for your return function:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">typealias returnedFunctionType = (Int) -&gt; String
-</span><span class="line">
-</span><span class="line">func myFuncThatReturnsAFunc() -&gt; returnedFunctionType {
-</span><span class="line">    return { number in
-</span><span class="line">        return "The lucky number is \(number)"
-</span><span class="line">    }
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">let returnedFunction = myFuncThatReturnsAFunc()
-</span><span class="line">
-</span><span class="line">returnedFunction(5) // The lucky number is 5</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typealias returnedFunctionType = (Int) -&gt; String
+</span><span class='line'>
+</span><span class='line'>func myFuncThatReturnsAFunc() -&gt; returnedFunctionType {
+</span><span class='line'>    return { number in
+</span><span class='line'>        return "The lucky number is \(number)"
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>let returnedFunction = myFuncThatReturnsAFunc()
+</span><span class='line'>
+</span><span class='line'>returnedFunction(5) // The lucky number is 5</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Nested Functions</li>
+<li>Nested Functions</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func myFunctionWithNumber(someNumber: Int) {
-</span><span class="line">
-</span><span class="line">    func increment(var someNumber: Int) -&gt; Int {
-</span><span class="line">        return someNumber + 10
-</span><span class="line">    }
-</span><span class="line">    
-</span><span class="line">    let incrementedNumber = increment(someNumber)
-</span><span class="line">    println("The incremented number is \(incrementedNumber)")
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">myFunctionWithNumber(5)
-</span><span class="line">// The incremented number is 15</span></code></pre></td></tr></table></div></figure></notextile></div>
-<ul>
-  <li><a href="http://www.objc.io/issue-16/functional-swift-apis.html">Functional APIs with Swift</a>
-    <ul>
-      <li>The Filter Type</li>
-    </ul>
 
-    <p><code>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func myFunctionWithNumber(someNumber: Int) {
+</span><span class='line'>
+</span><span class='line'>    func increment(var someNumber: Int) -&gt; Int {
+</span><span class='line'>        return someNumber + 10
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    let incrementedNumber = increment(someNumber)
+</span><span class='line'>    println("The incremented number is \(incrementedNumber)")
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>myFunctionWithNumber(5)
+</span><span class='line'>// The incremented number is 15</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><a href="http://www.objc.io/issue-16/functional-swift-apis.html">Functional APIs with Swift</a>
+
+<ul>
+<li>The Filter Type</li>
+</ul>
+
+
+<p>  <code>
   typealias Filter = CIImage -&gt; CIImage
  </code>
-it may seem strange to use the name Filter for a function type. Usually, we’d use such a name for a class, and the temptation to somehow denote the function nature of this type is high. We could name it FilterFunction or something similar. However, we consciously chose the name Filter, since the key philosophy underlying functional programming is that functions are just values. They’re no different from structs, integers, tuples, or classes. It took me some getting used to as well, but after a while, it started to make a lot of sense.
-  * Building Filters</p>
-  </li>
-  <li>Class 和 Struct的区别
+it may seem strange to use the name Filter for a function type. Usually, we’d use such a name for a class, and the temptation to somehow denote the function nature of this type is high. We could name it FilterFunction or something similar. However, we consciously chose the name Filter, since the key philosophy underlying functional programming is that functions are just values. They’re no different from structs, integers, tuples, or classes. It took me some getting used to as well, but after a while, it started to make a lot of sense.</p>
+
+<ul>
+<li>Building Filters</li>
+</ul>
+</li>
+<li>Class 和 Struct的区别
 来看以下demo</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">struct MyStruct {
-</span><span class="line">  let t = 12
-</span><span class="line">  var u: String
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">let struct2 = MyStruct(t: 12, u: "World")
-</span><span class="line">struct2.u = "Planet" // Error: struct2 is immutable
-</span><span class="line">struct2 = MyStruct(t: 10, u: "Defeat") // Error: struct2 is an immutable ref
-</span><span class="line">
-</span><span class="line">class MyClass {
-</span><span class="line">  let t = 12
-</span><span class="line">  var u: String
-</span><span class="line">
-</span><span class="line">  init(t: Int, u: String) {
-</span><span class="line">    self.t = t
-</span><span class="line">    self.u = u
-</span><span class="line">  }
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">let class2 = MyClass(t: 12, u: "World")
-</span><span class="line">class2.u = "Planet" // No error
-</span><span class="line">class2 = MyClass(t: 11, u: "Geoid") Error: class2 is an immutable reference
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct MyStruct {
+</span><span class='line'>  let t = 12
+</span><span class='line'>  var u: String
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>let struct2 = MyStruct(t: 12, u: "World")
+</span><span class='line'>struct2.u = "Planet" // Error: struct2 is immutable
+</span><span class='line'>struct2 = MyStruct(t: 10, u: "Defeat") // Error: struct2 is an immutable ref
+</span><span class='line'>
+</span><span class='line'>class MyClass {
+</span><span class='line'>  let t = 12
+</span><span class='line'>  var u: String
+</span><span class='line'>
+</span><span class='line'>  init(t: Int, u: String) {
+</span><span class='line'>    self.t = t
+</span><span class='line'>    self.u = u
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>let class2 = MyClass(t: 12, u: "World")
+</span><span class='line'>class2.u = "Planet" // No error
+</span><span class='line'>class2 = MyClass(t: 11, u: "Geoid") Error: class2 is an immutable reference
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>注意以上<code>struct2.u = "Planet"</code>和<code>class2.u = "Planet"</code>的区别
 因为struct是<code>值类型</code>,class是<code>引用类型</code></p>
 
 <ul>
-  <li>Array</li>
+<li>Array</li>
 </ul>
 
-<p>Swift arrays aren’t like this - they are value types instead of reference types. This means that they behave like a struct, not a class. Therefore, the let or var keyword not only specifies whether or not the variable can be redefined, but also whether or not the created array is mutable.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">var array1 = [1,2,3,4]
-</span><span class="line">array1.append(5)  // [1,2,3,4,5]array1[0] = 27    // [27,2,3,4,5]
-</span><span class="line">array1 = [3,2]    // [3,2]
-</span><span class="line">
-</span><span class="line">let array2 = [4,3,2,1]
-</span><span class="line">array2.append(0) // Error: array2 is immutablearray2[2] = 36   // Error: array2 is immutable
-</span><span class="line">array2 = [5,6]   // Error: cannot reassign an immutable reference</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>Swift arrays aren&rsquo;t like this &ndash; they are value types instead of reference types. This means that they behave like a struct, not a class. Therefore, the let or var keyword not only specifies whether or not the variable can be redefined, but also whether or not the created array is mutable.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var array1 = [1,2,3,4]
+</span><span class='line'>array1.append(5)  // [1,2,3,4,5]array1[0] = 27    // [27,2,3,4,5]
+</span><span class='line'>array1 = [3,2]    // [3,2]
+</span><span class='line'>
+</span><span class='line'>let array2 = [4,3,2,1]
+</span><span class='line'>array2.append(0) // Error: array2 is immutablearray2[2] = 36   // Error: array2 is immutable
+</span><span class='line'>array2 = [5,6]   // Error: cannot reassign an immutable reference</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>AnyObject
-AnyObject behaves almost exactly the same as id in objective-C. The difference is that properties and methods which take no arguments will return nil if that method/property doesn’t exist on the AnyObject:</li>
+<li>AnyObject
+AnyObject behaves almost exactly the same as id in objective-C. The difference is that properties and methods which take no arguments will return nil if that method/property doesn&rsquo;t exist on the AnyObject:</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">let myString: AnyObject = "hello"
-</span><span class="line">myString.cornerRadius // Returns nil</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let myString: AnyObject = "hello"
+</span><span class='line'>myString.cornerRadius // Returns nil</span></code></pre></td></tr></table></div></figure>
+
+
 <p>还可以有以下用法</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">func someFunc(parameter: AnyObject!) -&gt; AnyObject! {
-</span><span class="line">  if let castedParameter = parameter as? NSString {
-</span><span class="line">    // Now I know I have a string :)
-</span><span class="line">    ...
-</span><span class="line">  }
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">func someArrayFunc(parameter: [AnyObject]!) {
-</span><span class="line">  let newArray = parameter as [String]
-</span><span class="line">  // Do something with your strings :)
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func someFunc(parameter: AnyObject!) -&gt; AnyObject! {
+</span><span class='line'>  if let castedParameter = parameter as? NSString {
+</span><span class='line'>    // Now I know I have a string :)
+</span><span class='line'>    ...
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>func someArrayFunc(parameter: [AnyObject]!) {
+</span><span class='line'>  let newArray = parameter as [String]
+</span><span class='line'>  // Do something with your strings :)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Protocol Conformance</li>
+<li>Protocol Conformance</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">protocol MyProtocol {
-</span><span class="line">  func myProtocolMethod() -&gt; Bool
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>In order to check conformance of a protocol that protocol must be an objective-C protocol - and annotated with @objc:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">@objc protocol MyNewProtocol {
-</span><span class="line">  func myProtocolMethod() -&gt; Bool
-</span><span class="line">}
-</span><span class="line">
-</span><span class="line">if let class1AsMyNewProtocol = class1 as? MyNewProtocol {
-</span><span class="line">  // We're in
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>protocol MyProtocol {
+</span><span class='line'>  func myProtocolMethod() -&gt; Bool
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to check conformance of a protocol that protocol must be an objective-C protocol &ndash; and annotated with @objc:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@objc protocol MyNewProtocol {
+</span><span class='line'>  func myProtocolMethod() -&gt; Bool
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if let class1AsMyNewProtocol = class1 as? MyNewProtocol {
+</span><span class='line'>  // We're in
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Double Optional</li>
+<li>Double Optional</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">var twice_optional: String?? = Optional.Some(nil)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var twice_optional: String?? = Optional.Some(nil)</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Debugger</li>
+<li>Debugger</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">(lldb) fr v -R twice_optional
-</span><span class="line">(lldb) fr v -d r creature
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) fr v -R twice_optional
+</span><span class='line'>(lldb) fr v -d r creature
+</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Language can be changed
-在lldb中,对oc来说,$0,$1….保存了之前的表达式,而在swift文件中则是$R0, $R1….
+<li>Language can be changed
+在lldb中,对oc来说,$0,$1&hellip;.保存了之前的表达式,而在swift文件中则是$R0, $R1&hellip;.
 ,可能断点在swift文件中停住了,此时调用[$0 class]可能会报错，可以用以下表达式</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">expr -l objc++ -- (Class)[$0 class]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>expr -l objc++ -- (Class)[$0 class]</span></code></pre></td></tr></table></div></figure>
+
+
 <p>表指示lldb来按oc的方式调试,但这么做的话导致的一个后果是<code>locals will not be available</code></p>
 
 <p>当我们用po来打印对象时
@@ -891,101 +985,123 @@ AnyObject behaves almost exactly the same as id in objective-C. The difference i
 
 <p>假设有以下一个对象</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">class MyObject: NSObject {
-</span><span class="line">	var myInt = 1
-</span><span class="line">	override var description: String! {
-</span><span class="line">		return "Hello Swift subclass. myInt = \(myInt)"
-</span><span class="line">	}
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyObject: NSObject {
+</span><span class='line'>  var myInt = 1
+</span><span class='line'>  override var description: String! {
+</span><span class='line'>      return "Hello Swift subclass. myInt = \(myInt)"
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <p>如果有一个MyObject的对象objc,在lldb中调用<code>po object</code>命令，会出现以下结果</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">(lldb) po object
-</span><span class="line">0x0000000100700ea0
-</span><span class="line">	(ObjectiveC.NSObject) = {}, myInt = 1)</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) po object
+</span><span class='line'>0x0000000100700ea0
+</span><span class='line'>  (ObjectiveC.NSObject) = {}, myInt = 1)</span></code></pre></td></tr></table></div></figure>
+
+
 <p>如何让<code>po object</code>调用object的description方式</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">expr -l objc++ -o -- 0x0000000100700ea0</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>expr -l objc++ -o -- 0x0000000100700ea0</span></code></pre></td></tr></table></div></figure>
+
+
 <p>出现了</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Hello Swift subclass. myInt = 1</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Hello Swift subclass. myInt = 1</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>Data Formatters for Swift Objects</li>
+<li>Data Formatters for Swift Objects</li>
 </ul>
+
 
 <p>假设有以下struct</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">struct Address {
-</span><span class="line">	var name: String
-</span><span class="line">	var city: String
-</span><span class="line">	var zip: Int
-</span><span class="line">	var state: State
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>假设有一个Address的对象enrico,如果 <code>po enrico</code>则显示 </p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct Address {
+</span><span class='line'>  var name: String
+</span><span class='line'>  var city: String
+</span><span class='line'>  var zip: Int
+</span><span class='line'>  var state: State
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">{
-</span><span class="line">	Name = "Enrico Granata"
-</span><span class="line">	City = "Mountain View"
-</span><span class="line">	Zip = 94043
-</span><span class="line">	State = California
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>假设有一个Address的对象enrico,如果 <code>po enrico</code>则显示</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  Name = "Enrico Granata"
+</span><span class='line'>  City = "Mountain View"
+</span><span class='line'>  Zip = 94043
+</span><span class='line'>  State = California
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
 <p>可以按固定的格式显示，如下</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">(lldb) type summary add -s "${var.name} \n ${var.city} \n ${var.zip}, ${var.state}"  projectname.Address</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(lldb) type summary add -s "${var.name} \n ${var.city} \n ${var.zip}, ${var.state}"  projectname.Address</span></code></pre></td></tr></table></div></figure>
+
+
 <p><code>注意必须在类前加上module</code>
 此时如果再<code>po enrico</code></p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">"Enrico Granata"
-</span><span class="line">"Mountain View"
-</span><span class="line">94043, California</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"Enrico Granata"
+</span><span class='line'>"Mountain View"
+</span><span class='line'>94043, California</span></code></pre></td></tr></table></div></figure>
+
+
 <ul>
-  <li>name uniqueness
+<li>name uniqueness
 假设有一个Module1.swift的文件,里面有一个<code>class MyClass {...}</code>,编译后命名为<code>_TtC7Module17MyClass</code>
 如果你碰到了一个以上的mangled name(比如在碰到crash的时候控制台可能会出现此mangle name)该怎么办,可以用以下命令</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">xcrun swift-demangle _TF5MyApp6myFuncFTSiSi_TSS_</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>xcrun swift-demangle _TF5MyApp6myFuncFTSiSi_TSS_</span></code></pre></td></tr></table></div></figure>
+
+
 <p>出现以下结果</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">_TF5MyApp6myFuncFTSiSi_TSS_ ---&gt; MyApp.myFunc (Swift.Int, Swift.Int) -&gt; (Swift.String)</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_TF5MyApp6myFuncFTSiSi_TSS_ ---&gt; MyApp.myFunc (Swift.Int, Swift.Int) -&gt; (Swift.String)</span></code></pre></td></tr></table></div></figure>
+
 
 <ul>
-  <li>@objc的妙用</li>
+<li>@objc的妙用</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">@objc protocol WeeklyWeatherContainer {
-	var dailyWeather: [DailyWeather] { get set }
-}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>This protocol includes the @objc attribute as required for runtime conformance checking – i.e. checking that a particular object adopts a protocol at runtime, as opposed to compile time.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@objc protocol WeeklyWeatherContainer {  var dailyWeather: [DailyWeather] { get set }}</span></code></pre></td></tr></table></div></figure>
+
+
+<p> This protocol includes the @objc attribute as required for runtime conformance checking – i.e. checking that a particular object adopts a protocol at runtime, as opposed to compile time.</p>
 </div>
 
 </article>
@@ -1001,17 +1117,35 @@ AnyObject behaves almost exactly the same as id in objective-C. The difference i
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -1026,5 +1160,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

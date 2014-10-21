@@ -25,9 +25,12 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -42,16 +45,23 @@
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -65,8 +75,7 @@
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -89,66 +98,44 @@
 name = gets
 </code></pre>
 
-<p>一系列I/O相关的方法在Kernel module里实现gets, open, print, printf, putc, puts, readline, readlines, 和 test,这些方法通常都与标准输入，标准输出有关</p>
+<p>一系列I/O相关的方法在Kernel module里实现gets, open, print, printf, putc, puts, readline, readlines, 和 test,这些方法通常都与标准输入，标准输出有关
+第二个则是与IO对象交互
+IO类，有两个子类File和BasicSocket</p>
 
-<p>第二个则是与IO对象交互</p>
-
-<p>IO类，有两个子类File和BasicSocket</p>
-
-<h5 id="section">开头文件</h5>
+<h5>开头文件</h5>
 
 <pre><code>file = File.new("testfile", "r") 
-
 # ... process the file 
-
 file.close
 </code></pre>
 
 <p>File与Block</p>
 
 <pre><code>File.open("testfile", "r") do |file| 
-
-	# ... process the file
-
-end # &lt;- file automatically closed here
-</code></pre>
-
-<p>与exception结合</p>
-
-<pre><code>class File
-
-	def File.open(*args)
-
-		result = f = File.new(*args) 
-
-		if block_given?
-
-			begin
-
-				result = yield f
-
-			ensure
-
-				f.close
-
-			end 
-
-		end
-
-		result
-
-		end 
-
+    # ... process the file
+end # &lt;- file automatically closed here与exception结合
+class File
+    def File.open(*args)
+        result = f = File.new(*args) 
+            if block_given?
+                begin
+                    result = yield f
+                ensure
+                    f.close
+                end 
+            end
+            result
+            end 
 end
 </code></pre>
 
-<h5 id="section-1">读写文件</h5>
+<h5>读写文件</h5>
+
 <p>来看一段copy.rb代码</p>
 
 <pre><code>while line = gets 
 
-	puts line
-
+    puts line
 end
 </code></pre>
 
@@ -164,154 +151,99 @@ that I am typing
 
 that I am typing 
 
-^D 如果带文件名，则与文件交互
+^D
+</code></pre>
 
-$ ruby copy.rb testfile 
+<p>如果带文件名，则与文件交互</p>
+
+<pre><code>$ ruby copy.rb testfile 
 
 This is line one
-
 This is line two
-
 This is line three
-
 And so on...
 </code></pre>
 
 <p>我们可以用File类来读写文件</p>
 
 <pre><code>File.open("testfile") do |file| 
-
-	while line = file.gets
-		puts line
-	end 
-
+    while line = file.gets          puts line       end 
 end
-
-
-produces:
-
+    produces:
 This is line one
-
 This is line two
-
 This is line three
-
 And so on...
 </code></pre>
 
-<h5 id="iterators-for-reading">Iterators for Reading</h5>
+<h5>Iterators for Reading</h5>
 
-<p>你可以用各种iterators与IO流交互</p>
-
-<p>O#each_byte invokes a block with the next 8-bit byte from the IO object,chr则将integer转化为ASCII字符</p>
+<p>你可以用各种iterators与IO流交互
+O#each_byte invokes a block with the next 8-bit byte from the IO object,chr则将integer转化为ASCII字符</p>
 
 <pre><code>File.open("testfile") do |file| 
-
-	file.each_byte.with_index do |ch, index|
-
-		print "#{ch.chr}:#{ch} "
-
-		break if index &gt; 10 
-
-	end
-
+    file.each_byte.with_index do |ch, index|
+        print "#{ch.chr}:#{ch} "
+        break if index &gt; 10 
+    end
 end
-
 produces:
-
 T:84 h:104 i:105 s:115  :32 i:105 s:115  :32 l:108 i:105 n:110 e:101
 </code></pre>
 
 <p>IO#each_line</p>
 
 <pre><code>File.open("testfile") do |file|
-
-	file.each_line {|line| puts "Got #{line.dump}" }
-
+    file.each_line {|line| puts "Got #{line.dump}" }
 end
-
 produces:
-
 Got "This is line one\n"
-
 Got "This is line two\n"
-
 Got "This is line three\n"
-
 Got "And so on...\n"
 </code></pre>
 
 <p>你也可以将一串字符传给each_line来作为一个line separator,默认是\n</p>
 
 <pre><code>File.open("testfile") do |file|
-
-	file.each_line("e") {|line| puts "Got #{ line.dump }" }
-
+    file.each_line("e") {|line| puts "Got #{ line.dump }" }
 end
-
 produces:
-
 Got "This is line"
-
 Got " one"
-
 Got "\nThis is line"
-
 Got " two\nThis is line"
-
 Got " thre"
-
 Got "e"
-
 Got "\nAnd so on...\n"
 </code></pre>
 
 <p>combine iterator和autoclosing block,我们得到了IO.foreach,这个方法打开文件，调用iterator一次一行，然后自动关闭文件</p>
 
-<pre><code>IO.foreach("testfile") {|line| puts line }
-</code></pre>
-
-<p>将整个文件文件的内容保存在一个string或每行保存在一个数组里</p>
-
-<pre><code>//保存在string中
-
+<pre><code>IO.foreach("testfile") {|line| puts line }将整个文件文件的内容保存在一个string或每行保存在一个数组里
+//保存在string中
 # read into string
-
 str = IO.read("testfile")
-
 str.length # =&gt; 66
-
 str[0, 30] # =&gt; "This is line one\nThis is line "
-
 
 //保存在array中
 
-# read into an array
-arr = IO.readlines("testfile") 
-
+# read into an array    arr = IO.readlines("testfile") 
 arr.length # =&gt; 4
-
 arr[0] # =&gt; "This is line one\n"
 </code></pre>
 
-<h4 id="section-2">写入文件</h4>
+<h4>写入文件</h4>
 
 <pre><code># Note the "w", which opens the file for writing
-
 File.open("output.txt", "w") do |file| 
-
 file.puts "Hello"
-
 file.puts "1 + 2 = #{1+2}"
-
 end
-
 # Now read the file in and print its contents to STDOUT
-
 puts File.read("output.txt")
-
 produces:
-
 Hello 1+2=3
 </code></pre>
 
@@ -320,180 +252,113 @@ Hello 1+2=3
 <pre><code>str1 = "\001\002\003" # =&gt; "\u0001\u0002\u0003" 
 
 str2 = ""
-
 str2 &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3 # =&gt; "\u0001\u0002\u0003" 
-
 [ 1, 2, 3 ].pack("c*") # =&gt; "\x01\x02\x03"
 </code></pre>
 
-<p>你也可以用«将对象添加到输出流中</p>
+<p>你也可以用&lt;&lt;将对象添加到输出流中</p>
 
 <pre><code>endl = "\n"
-
 STDOUT &lt;&lt; 99 &lt;&lt; " red balloons" &lt;&lt; endl
-
 produces:
-
-99 red balloons	
+99 red balloons 
 </code></pre>
 
-<p>«方法在打印前将用to_s将它的参数转为string
-#####Doing I/O with Strings
-StringIO对象，它们操作起来就像I/O对象，但它们只是读写strings，而不是files</p>
+<p>&lt;&lt;方法在打印前将用to_s将它的参数转为string</p>
+
+<h5>Doing I/O with StringsStringIO对象，它们操作起来就像I/O对象，但它们只是读写strings，而不是files</h5>
 
 <pre><code>require 'stringio'
-
 ip = StringIO.new("now is\nthe time\nto learn\nRuby!")
-
 op = StringIO.new("", "w")
-
 ip.each_line do |line| 
-
-	op.puts line.reverse
-
+    op.puts line.reverse
 end
-
 op.string # =&gt; "\nsi won\n\nemit eht\n\nnrael ot\n!ybuR\n"
 </code></pre>
 
-<h4 id="talking-to-networkds">Talking to Networkds</h4>
-<p>socekt库封装了TCP,UDP,SOCKS和Unix domainsockes
-	require ‘socket’
-	client = TCPSocket.open(‘127.0.0.1’, ‘www’) </p>
+<h4>Talking to Networkds</h4>
+
+<p>socekt库封装了TCP,UDP,SOCKS和Unix domainsockes require &lsquo;socket&rsquo;    client = TCPSocket.open(&lsquo;127.0.0.1&rsquo;, &lsquo;www&rsquo;)</p>
 
 <pre><code>client.send("OPTIONS /~dave/ HTTP/1.0\n\n", 0) 
-
 puts client.readlines
-
 client.close
-
 produces:
-
 # 0 means standard packet
-
 HTTP/1.1 200 OK
-
 Date: Mon, 27 May 2013 17:31:00 GMT
-
 Server: Apache/2.2.22 (Unix) DAV/2 PHP/5.3.15 with Suhosin-Patch mod_ssl/2.2.22
-
 OpenSSL/0.9.8r
-
 Allow: GET,HEAD,POST,OPTIONS
-
 Content-Length: 0
-
 Connection: close
+Content-Type: text/html
+</code></pre>
 
-Content-Type: text/html 在高层,lib/net library modules提供了对通信协议的许多支持(FTP, HTTP, POP, SMTP, and telnet)
+<p>在高层,lib/net library modules提供了对通信协议的许多支持(FTP, HTTP, POP, SMTP, and telnet)</p>
 
-//以下只是一部分代码
+<pre><code>//以下只是一部分代码
 require 'net/http'
-
 http = Net::HTTP.new('pragprog.com', 80)
-
 response = http.get('/book/ruby3/programming-ruby-1-9')
-
 if response.message == "OK"
-
 puts response.body.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
-
 end
-
 produces:
-
        http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
-
        http://pragprog.com/assets/drm-
-
        free80-9120ffac998173dc0ba7e5875d082f18.png
-
        http://imagery.pragprog.com/products/99/ruby3_xlargecover.jpg?
-
-       1349967653 open-url库中的Object#open方法能识别文件中的http://和ftp://URLs,也能自动处理重定向 
-
+       1349967653open-url库中的Object#open方法能识别文件中的http://和ftp://URLs,也能自动处理重定向 
 require 'open-uri'
-
 open('http://pragprog.com') do |f|
-
 puts f.read.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
-
 end
-
 produces:
-
        http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
-
        http://pragprog.com/assets/drm-free80-9120ffac998173dc0ba7e5875d082f18.png
-
        http://imagery.pragprog.com/products/353/jvrails2_xlargebeta.jpg?1368826914
 </code></pre>
 
-<h4 id="parsing-html">Parsing HTML</h4>
+<h4>Parsing HTML</h4>
 
 <pre><code>require 'open-uri'
-
 page = open('http://pragprog.com/titles/ruby3/programming-ruby-1-9').read 
-
 if page =~ %r{&lt;title&gt;(.*?)&lt;/title&gt;}m
-
-	puts "Title is #{$1.inspect}" 
-
+    puts "Title is #{$1.inspect}" 
 end
-
 produces:
-
        Title is "The Pragmatic Bookshelf | Programming Ruby 1.9"
 </code></pre>
 
 <p>但用此法不太妥当，可能title和尖括号间多个个空格如何是好，可以用第三方库Nokogiri</p>
 
 <pre><code>require 'open-uri' 
-
 require 'nokogiri'
-
 doc = Nokogiri::HTML(open("http://pragprog.com/"))
-
 puts "Page title is " + doc.xpath("//title").inner_html
-
 # Output the first paragraph in the div with an id="copyright" 
-
 # (nokogiri supports both xpath and css-like selectors)
-
 puts doc.css('div#copyright p')
-
 # Output the second hyperlink in the site-links div using xpath and css
-
 puts "\nSecond hyperlink is"
-
 puts doc.xpath('id("site-links")//a[2]') puts doc.css('#site-links a:nth-of-type(2)')
-
 produces:
-
 Page title is The Pragmatic Bookshelf
 &lt;p&gt;
-
     The &lt;em&gt;Pragmatic BookshelfTM&lt;/em&gt; is an imprint of
-
         &lt;a href="http://pragprog.com/"&gt;The Pragmatic Programmers, LLC&lt;/a&gt;.
-
     &lt;br&gt;
-
     Copyright © 1999–2013 The Pragmatic Programmers, LLC.
-
     All Rights Reserved.
-
 &lt;/p&gt;
-
 Second hyperlink is
-
 &lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
-
 &lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
 </code></pre>
 
 <p>Nokogiri can also update and create HTML and XML.</p>
-
 </div>
 
 </article>
@@ -509,17 +374,35 @@ Second hyperlink is
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -534,5 +417,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

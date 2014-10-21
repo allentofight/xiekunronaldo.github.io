@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Touch | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/touch/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T20:22:11+08:00</updated>
+  <updated>2014-10-21T21:22:26+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -14,92 +14,114 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Sencha Touch问题汇总]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/10/12/sencha-touchwen-ti-hui-zong/"/>
+    <updated>2014-10-12T09:42:19+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/10/12/sencha-touchwen-ti-hui-zong</id>
+    <content type="html"><![CDATA[<ol>
+<li><p><a href="http://abitofcoding.blogspot.ch/2014/01/ios7-phonegap-layout-fix.html">iOS7 Phonegap / Cordova statusbar fix</a></p></li>
+<li><p>适配retina屏</p></li>
+</ol>
+
+
+<p>```</p>
+
+<pre><code>#yourimage {
+    height: 100px;
+    width: 320px;
+    -webkit-background-size: 320px 100px; // Critical line! 
+    background: url("images/yourimage.png") no-repeat;
+}
+</code></pre>
+
+<p>// This detects the iPhone 4 Retina display</p>
+
+<pre><code>@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    #yourimage {
+        background: url("images/yourimage@2x.png") no-repeat;
+    }
+}
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Build]]></title>
     <link href="http://xiekunRonaldo.github.io/blog/2014/10/10/build/"/>
     <updated>2014-10-10T09:20:02+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/10/10/build</id>
-    <content type="html"><![CDATA[<h4 id="adding-non-mvc-folders-to-your-build-package">Adding Non-MVC Folders to Your Build Package</h4>
+    <content type="html"><![CDATA[<h4>Adding Non-MVC Folders to Your Build Package</h4>
+
 <p>For the FindACab app, I have added the utils folder to the app classpath in ./sencha/sencha.cfg:</p>
 
-<pre><code>app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils
-</code></pre>
+<p><code>javascriptapp.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils
+</code></p>
 
-<h4 id="adding-extra-resources-to-your-build-package">Adding Extra Resources to Your Build Package</h4>
+<h4>Adding Extra Resources to Your Build Package</h4>
 
 <p>In other situations, you might want to include extra resources to your build package — for example, a folder with images or a folder with JSON data. There are two ways to include these in your build. I will explain both. First (the easy way, shown in Example 14-1), you can add the folder to the resources array in the <code>app.json</code> file. By default, Sencha Cmd already created a selection.</p>
 
-<p>```</p>
+<p>```//Example 14-1. Additional resources that need to be copied during the build process</p>
 
-<pre><code>#Example 14-1. Additional resources that need to be copied during the build process
+<p>&ldquo;resources&rdquo;: [</p>
+
+<pre><code>"resources/images", 
+"resources/css", 
+"resources/icons", 
+"resources/startup"],```
 </code></pre>
 
-<p>“resources”: [ 
-	“resources/images”, 
-	“resources/css”, 
-	“resources/icons”, 
-	“resources/startup”
-],</p>
+<p><code>TIP</code>
+Additional JavaScripts or stylesheets can be entered into the <code>js</code> or <code>css</code> arrays.
+The other way of adding resources to your build is what I call the hardcore way, but it’s kinda cool so I want to mention it.
+Sencha Cmd has Apache Ant integration. You can modify the Ant build script build.xml totally to your own needs.
+See Example 14-2; this little Ant script copies a data folder from the application root to the production build folder. Isn’t it awesome?
+```
+// Example 14-2. Copying a folder to a different location
+<target name="-after-build"/>
+<target name="build"        depends="init,-before-build,-build,-after-build"        description="Builds the application"/></p>
+
+<pre><code>    &lt;copy todir="${build.dir}/data" overwrite="true"&gt;   &lt;fileset dir="${basedir}/data"&gt;     &lt;include name="**/*" /&gt;     &lt;/fileset&gt;&lt;/copy&gt;```
+</code></pre>
+
+<p>In the next sections, you’ll learn how to:</p>
+
+<ul>
+<li>Create a test build with Sencha Cmd<em> Create a production build with Sencha Cmd</em> Create a native build with Sencha Cmd and Adobe PhoneGap
+
+<h4>Creating a Test Build with Sencha Cmd</h4>
+
+<p>With Sencha Cmd on the command line, you can generate a build package optimized for test environments. On the command line, navigate to the app folder and run the following:
+<code>
+  sencha app build testing</code>
+<code>NOTE</code>
+I’m often asked which tools are good for testing a Sencha Touch application. For UI testing, Siesta is a good tool; for syntax testing, you could use JS Lint; and for unit testing, Jasmine is a popular testing tool. For more information, check out this <a href="http://www.sencha.com/blog/automating-unit-tests">great blog post</a>, which contains all the links to the tools</p></li>
+</ul>
+
+
+<h4>Creating a Production Build with Sencha Cmd</h4>
+
+<p>With Sencha Cmd on the command line, you can generate a build package optimized for production. On the command line, navigate to the app folder and run the following:</p>
 
 <p>```</p>
 
-<p><code>TIP</code></p>
+<pre><code>sencha app build
+</code></pre>
 
-<p>Additional JavaScripts or stylesheets can be entered into the <code>js</code> or <code>css</code> arrays.</p>
+<p>```</p>
 
-<p>The other way of adding resources to your build is what I call the hardcore way, but it’s kinda cool so I want to mention it.</p>
-
-<p>Sencha Cmd has Apache Ant integration. You can modify the Ant build script build.xml totally to your own needs.</p>
-
-<p>See Example 14-2; this little Ant script copies a data folder from the application root to the production build folder. Isn’t it awesome?</p>
-
-<p>```
-// Example 14-2. Copying a folder to a different location
-<target name="-after-build"></target> 
-<target name="build" depends="init,-before-build,-build,-after-build" description="Builds the application"></target></p>
-
-<copy todir="${build.dir}/data" overwrite="true"> 
-	<fileset dir="${basedir}/data">
-		<include name="**/*" /> 
-	</fileset>
-</copy>
-
-<p>```
-In the next sections, you’ll learn how to:</p>
-
-<ul>
-  <li>Create a test build with Sencha Cmd</li>
-  <li>Create a production build with Sencha Cmd</li>
-  <li>Create a native build with Sencha Cmd and Adobe PhoneGap</li>
-</ul>
-
-<h4 id="creating-a-test-build-with-sencha-cmd">Creating a Test Build with Sencha Cmd</h4>
-
-<p>With Sencha Cmd on the command line, you can generate a build package optimized for test environments. On the command line, navigate to the app folder and run the following:</p>
-
-<p><code>
-	sencha app build testing
-</code></p>
-
-<p><code>NOTE</code></p>
-
-<p>I’m often asked which tools are good for testing a Sencha Touch application. For UI testing, Siesta is a good tool; for syntax testing, you could use JS Lint; and for unit testing, Jasmine is a popular testing tool. For more information, check out this <a href="http://www.sencha.com/blog/automating-unit-tests">great blog post</a>, which contains all the links to the tools</p>
-
-<h4 id="creating-a-production-build-with-sencha-cmd">Creating a Production Build with Sencha Cmd</h4>
-<p>With Sencha Cmd on the command line, you can generate a build package optimized for production. On the command line, navigate to the app folder and run the following:</p>
-
-<p><code>
-	sencha app build
-</code></p>
-
-<h4 id="creating-a-native-build-with-sencha-cmd-and-adobe-phonegap">Creating a Native Build with Sencha Cmd and Adobe PhoneGap</h4>
+<h4>Creating a Native Build with Sencha Cmd and Adobe PhoneGap</h4>
 
 <p>There are three products you can use to create a native app from a Sencha Touch code base:</p>
 
 <ul>
-  <li>Sencha Mobile Packager </li>
-  <li>Adobe PhoneGap </li>
-  <li>Apache Cordova</li>
+<li>Sencha Mobile Packager</li>
+<li>Adobe PhoneGap</li>
+<li>Apache Cordova</li>
 </ul>
+
 ]]></content>
   </entry>
   
@@ -110,65 +132,53 @@ In the next sections, you’ll learn how to:</p>
     <id>http://xiekunRonaldo.github.io/blog/2014/10/09/themes-and-styles</id>
     <content type="html"><![CDATA[<p>Mobile web applications should either look and behave <code>exactly</code> the same as native apps, or they shouldn’t look like native at all</p>
 
-<h4 id="sencha-touch-stylesheets">Sencha Touch Stylesheets</h4>
-<p>In Sencha Touch version 2.3, the framework ships with stylesheets that mimic native designs and experiences of all modern major devices </p>
+<h4>Sencha Touch Stylesheets</h4>
+
+<p>In Sencha Touch version 2.3, the framework ships with stylesheets that mimic native designs and experiences of all modern major devices</p>
 
 <p>When you create a production build of your app and you want to host it on the Web, it’s even possible to make use of the Sencha platform switcher. This switcher can make sure that the correct stylesheet will be shown for each platform. For example, the BB10 theme will be used when the platform is BlackBerry and show the Windows theme when the app is being viewed on Internet Explorer 10.</p>
 
-<h4 id="using-sass">Using Sass</h4>
+<h4>Using Sass</h4>
 
-<p>Sass stands for “syntactically awesome style sheets,” a powerful CSS extension. And yes, it is awesome! I describe it as CSS infused with a lot of coffee and Red Bull, because it overcomes many of the shortcomings of CSS.</p>
+<p>Sass stands for “syntactically awesome style sheets,” a powerful CSS extension. And yes, it is awesome! I describe it as CSS infused with a lot of coffee and Red Bull, because it overcomes many of the shortcomings of CSS.
+Sass is a preprocessor, which means that Sass files should be compiled to (minified) CSS files. A CSS file is the stylesheet your browser uses to display Sencha Touch components. (And that’s also the file that goes into your production build or server.) Therefore, Sass needs a compiler. You can compile Sencha Sass themes with Sass and Compass installed on top of Ruby (see Appendix A), but if you are not really into design, you can also use just the <code>Sencha Cmd build</code> process. A Sencha app build can compile Sass files too, but it just takes a little bit longer.</p>
 
-<p>Sass is a preprocessor, which means that Sass files should be compiled to (minified) CSS files. A CSS file is the stylesheet your browser uses to display Sencha Touch components. (And that’s also the file that goes into your production build or server.) Therefore, Sass needs a compiler. You can compile Sencha Sass themes with Sass and Compass installed on top of Ruby (see Appendix A), but if you are not really into design, you can also use just the <code>Sencha Cmd build</code> process. A Sencha app build can compile Sass files too, but it just takes a little bit longer.</p>
-
-<p>Sass has two syntaxes. </p>
+<p>Sass has two syntaxes.</p>
 
 <ul>
-  <li>
-    <p>The most commonly used syntax is known as <code>SCSS</code> (which stands for Sassy CSS), and is a superset of CSS3’s syntax. This means that every valid CSS3 stylesheet is valid SCSS as well. SCSS files use the extension <code>.scss</code>.</p>
-  </li>
-  <li>
-    <p>The second, older syntax is known as the indented syntax (or just .sass). Instead of brackets and semicolons, it uses line indentation to specify blocks. Files in the indented syntax use the extension <code>.sass</code>.</p>
-  </li>
+<li><p>The most commonly used syntax is known as <code>SCSS</code> (which stands for Sassy CSS), and is a superset of CSS3’s syntax. This means that every valid CSS3 stylesheet is valid SCSS as well. SCSS files use the extension <code>.scss</code>.</p></li>
+<li><p>The second, older syntax is known as the indented syntax (or just .sass). Instead of brackets and semicolons, it uses line indentation to specify blocks. Files in the indented syntax use the extension <code>.sass</code>.</p></li>
 </ul>
+
 
 <p>The Sencha themes are <code>Sassy CSS files</code>. You can combine CSS3 syntax with the amazing features of Sass.</p>
 
 <p>In this chapter, you’ll learn how to:</p>
 
 <ul>
-  <li>Use platform-specific out-of-the-box themes </li>
-  <li>Create your own custom theme</li>
-  <li>Incorporate custom fonts</li>
-  <li>Incorporate custom icons</li>
-  <li>Optimize your stylesheet for best performance</li>
+<li>Use platform-specific out-of-the-box themes</li>
+<li>Create your own custom theme<em> Incorporate custom fonts</em> Incorporate custom icons* Optimize your stylesheet for best performance</li>
 </ul>
 
-<p>Sencha Cmd 4 and higher have the command <code>sencha app watch</code>, You can compare this with the Compass command <code>compass watch</code>,. Sencha Cmd watches the app and every time you hit Save, Sencha Cmd builds your app and compiles your Sass stylesheets. When changes are detected, only the minimum amount of work necessary is performed to bring your app and its CSS up to date, saving you from rebuilding your Sass. It is so quick that when you navigate to your browser, the latest version is present
-After writing your Sass theme, use the following command from the resources/sass folder to compile to app.css:</p>
 
-<p><code>
-sencha ant sass
-</code>
+<p>Sencha Cmd 4 and higher have the command <code>sencha app watch</code>, You can compare this with the Compass command <code>compass watch</code>,. Sencha Cmd watches the app and every time you hit Save, Sencha Cmd builds your app and compiles your Sass stylesheets. When changes are detected, only the minimum amount of work necessary is performed to bring your app and its CSS up to date, saving you from rebuilding your Sass. It is so quick that when you navigate to your browser, the latest version is present
+After writing your Sass theme, use the following command from the resources/sass folder to compile to app.css:<code>
+sencha ant sass</code>
 <code>TIP</code>
-There are some great resources on Sass and CSS at <a href="http://sass-lang.com/">the Sass website</a>. To learn more about Sass, see <a href="http://vimeo.com/75258560">The Sass Way. Learn Sass at Code School</a>, and check out “Unleash Your Inner Picasso: Advanced Theming by Platform,” an online video tutorial by Robert Dogan
-#### Incorporating Custom Fonts
-When you want to incorporate fonts in your theme, you can use <code>@font-face</code>. @font- face is a CSS technique that is often used to incorporate custom web fonts. Where system fonts will be visible only if they’re available on your OS, @font-face directly <code>downloads</code> the font from the Internet to display it</p>
+There are some great resources on Sass and CSS at <a href="http://sass-lang.com/">the Sass website</a>. To learn more about Sass, see <a href="http://vimeo.com/75258560">The Sass Way. Learn Sass at Code School</a>, and check out “Unleash Your Inner Picasso: Advanced Theming by Platform,” an online video tutorial by Robert Dogan</p>
+
+<h4>Incorporating Custom Fonts</h4>
+
+<p>When you want to incorporate fonts in your theme, you can use <code>@font-face</code>. @font- face is a CSS technique that is often used to incorporate custom web fonts. Where system fonts will be visible only if they’re available on your OS, @font-face directly <code>downloads</code> the font from the Internet to display it</p>
 
 <p><code>TIP</code></p>
 
-<p>Read more about @font-face on <a href="http://www.paulirish.com/2010/font-face-gotchas/">Paul Irish’s blog</a> and download HTML5 @font-face kits from <a href="http://www.fontsquirrel.com/">Font
-Squirrel</a> or at font ex. You can also use a font service like Adobe <a href="https://typekit.com/">Typekit</a> or <a href="http://www.google.com/fonts">Google Fonts</a>.</p>
+<p>Read more about @font-face on <a href="http://www.paulirish.com/2010/font-face-gotchas/">Paul Irish’s blog</a> and download HTML5 @font-face kits from <a href="http://www.fontsquirrel.com/">FontSquirrel</a> or at font ex. You can also use a font service like Adobe <a href="https://typekit.com/">Typekit</a> or <a href="http://www.google.com/fonts">Google Fonts</a>.Check out the <a href="http://pictos.cc/font/">Pictos icon font</a>, the <a href="https://icomoon.io/">Ico Moon icon font</a>, and the Fontello icon font. There’s more information about icon fonts at <a href="http://css-tricks.com/html-for-icon-font-usage/">CSS-Tricks</a>, and you can use <a href="https://www.branah.com/unicode-converter">Branah’s tool</a> to convert text to unicodes and back.</p>
 
-<p>Check out the <a href="http://pictos.cc/font/">Pictos icon font</a>, the <a href="https://icomoon.io/">Ico Moon icon font</a>, and the Fontello icon font. There’s more information about icon fonts at <a href="http://css-tricks.com/html-for-icon-font-usage/">CSS-Tricks</a>, and you can use <a href="https://www.branah.com/unicode-converter">Branah’s tool</a> to convert text to unicodes and back.</p>
-
-<h4 id="optimizing-your-stylesheet-for-best-performance">Optimizing Your Stylesheet for Best Performance</h4>
+<h4>Optimizing Your Stylesheet for Best Performance</h4>
 
 <ul>
-  <li>Minify your stylesheet</li>
-  <li>Import only the required mixins in your stylesheet </li>
-  <li>Exclude experimental support for uncommon browsers </li>
-  <li>Exclude unusable default fonts and icons</li>
+<li>Minify your stylesheet* Import only the required mixins in your stylesheet * Exclude experimental support for uncommon browsers * Exclude unusable default fonts and icons</li>
 </ul>
 
 ]]></content>
@@ -181,110 +191,86 @@ Squirrel</a> or at font ex. You can also use a font service like Adobe <a href="
     <id>http://xiekunRonaldo.github.io/blog/2014/10/08/view-components</id>
     <content type="html"><![CDATA[<p>This chapter is all about view components. I will discuss how to implement messageboxes, lists, panels, toolbars, charts, and maps</p>
 
-<p>In this chapter, you’ll learn how to implement:</p>
+<p>In this chapter, you’ll learn how to implement:
+* A messagebox Toolbars and title bars Buttons<em> Lists</em> A Google Map* Overlays Charts</p>
 
-<ul>
-  <li>A messagebox Toolbars and title bars Buttons</li>
-  <li>Lists</li>
-  <li>A Google Map</li>
-  <li>Overlays Charts</li>
-</ul>
+<h4>Implementing a Messagebox</h4>
 
-<h4 id="implementing-a-messagebox">Implementing a Messagebox</h4>
-
-<p>Unlike the standard JavaScript <code>alert</code> method, a messagebox in Sencha Touch is <code>asynchronous</code>. In standard JavaScript, the browser pauses execution until you press OK. In Sencha Touch, showing a messagebox will not cause the code to stop. For this reason, if you have code that should run only after some user feedback from the messagebox, you should use a callback function.</p>
-
-<p>When you want to implement a messagebox, you will have to require Ext.MessageBox at the top of your view class. You don’t need to instantiate a messagebox (although you could); Ext.Msg is a global shared singleton instance of the Ext.MessageBox class that you can use in most cases:</p>
-
-<p>The previous code describes the alert() method, which you can visually compare with the standard alert messagebox in JavaScript. See Figure 11-1.</p>
+<p>Unlike the standard JavaScript <code>alert</code> method, a messagebox in Sencha Touch is <code>asynchronous</code>. In standard JavaScript, the browser pauses execution until you press OK. In Sencha Touch, showing a messagebox will not cause the code to stop. For this reason, if you have code that should run only after some user feedback from the messagebox, you should use a callback function.
+When you want to implement a messagebox, you will have to require Ext.MessageBox at the top of your view class. You don’t need to instantiate a messagebox (although you could); Ext.Msg is a global shared singleton instance of the Ext.MessageBox class that you can use in most cases:
+The previous code describes the alert() method, which you can visually compare with the standard alert messagebox in JavaScript. See Figure 11-1.</p>
 
 <p><img src="/images/2014/10/figure11-1.png"></p>
 
-<p>It displays a small window, with a title, a message, and an OK button. In addition to the
-alert, there are these types of messageboxes:</p>
+<p>It displays a small window, with a title, a message, and an OK button. In addition to thealert, there are these types of messageboxes:
+* prompt(), shown in Figure 11-2, which is a messagebox with a title, message, a textfield, and Cancel and OK buttons<em> confirm(), shown in Figure 11-3, which is a messagebox with a title, a message, and No and Yes buttons</em> show(), which provides even more options.
+Here’s an example of the prompt() messagebox; the callback contains the button id and the entered value. The button id can be Yes, No, or Cancel (Cancel means close the messagebox without pressing the Yes and No buttons):
+```
+Ext.Msg.prompt(&lsquo;Welcome&rsquo;, &lsquo;Please enter your name&rsquo;, function(btn, val) { //callback</p>
 
-<ul>
-  <li>prompt(), shown in Figure 11-2, which is a messagebox with a title, message, a textfield, and Cancel and OK buttons</li>
-  <li>confirm(), shown in Figure 11-3, which is a messagebox with a title, a message, and No and Yes buttons</li>
-  <li>show(), which provides even more options.</li>
-</ul>
+<pre><code>console.log(btn, val);
+</code></pre>
 
-<p>Here’s an example of the prompt() messagebox; the callback contains the button id and the entered value. The button id can be Yes, No, or Cancel (Cancel means close the messagebox without pressing the Yes and No buttons):</p>
+<p>});<code>
+There is one more messagebox method that is worth mentioning: show().The show() method will give you many more options; you can pass in a config object. Here I set up
+a customized prompt() messagebox. It has a width of 500 pixels, it accepts multiline input, it has an info icon, and I want to specify my own set of buttons. Also, I will define a callback function:</code>
+var myPromptBox = Ext.Msg.show({</p>
 
-<p><code>
-Ext.Msg.prompt('Welcome', 'Please enter your name', function(btn, val) { //callback
-    console.log(btn, val);
-});
-</code></p>
+<pre><code>title: 'Address',
+message: 'Please enter your address:',
+width: 500,
+buttons: Ext.MessageBox.YESNOCANCEL,
+iconCls: Ext.MessageBox.QUESTION,
+multiLine: true,
+prompt: {
+    maxlength: 180,
+    autocapitalize: true
+},
+fn: function(buttonId) {
+    alert('You pressed the "' + buttonId + '" button.');
+}
+</code></pre>
 
-<p>There is one more messagebox method that is worth mentioning: show().The show() method will give you many more options; you can pass in a config object. Here I set up
-a customized prompt() messagebox. It has a width of 500 pixels, it accepts multiline input, it has an info icon, and I want to specify my own set of buttons. Also, I will define a callback function:</p>
-
-<p><code>
-var myPromptBox = Ext.Msg.show({
-    title: 'Address',
-    message: 'Please enter your address:',
-    width: 500,
-    buttons: Ext.MessageBox.YESNOCANCEL,
-    iconCls: Ext.MessageBox.QUESTION,
-    multiLine: true,
-    prompt: {
-        maxlength: 180,
-        autocapitalize: true
-    },
-    fn: function(buttonId) {
-        alert('You pressed the "' + buttonId + '" button.');
-    }
-});
-</code>
-The iconCls can set an icon CSS class on the messagebox to showcase an icon. You can maintain this in your theme, but out of the box Sencha Touch ships with the following messagebox icons:</p>
-
-<ul>
-  <li>Ext.MessageBox.ERROR (a round error sign) </li>
-  <li>Ext.MessageBox.INFO (a round info sign) </li>
-  <li>Ext.MessageBox.QUESTION (a question mark) </li>
-  <li>Ext.MessageBox.WARNING (a warning sign)</li>
-</ul>
+<p>});```
+The iconCls can set an icon CSS class on the messagebox to showcase an icon. You can maintain this in your theme, but out of the box Sencha Touch ships with the following messagebox icons:
+* Ext.MessageBox.ERROR (a round error sign)
+* Ext.MessageBox.INFO (a round info sign)
+* Ext.MessageBox.QUESTION (a question mark)
+* Ext.MessageBox.WARNING (a warning sign)</p>
 
 <p>The following sets of buttons are available in Sencha Touch:</p>
 
 <ul>
-  <li>Ext.MessageBox.OK (OK button with action UI skin)</li>
-  <li>Ext.MessageBox.YES (Yes button with action UI skin)</li>
-  <li>Ext.MessageBox.NO (No button)</li>
-  <li>Ext.MessageBox.CANCEL (Cancel button)</li>
-  <li>Ext.MessageBox.YESNOCANCEL (Cancel button, No button, and Yes button with action UI skin)</li>
-  <li>Ext.MessageBox.OKCANCEL (Cancel button, and OK button with action UI skin) * Ext.MessageBox.YESNO (No button, and Yes button with action UI skin)</li>
+<li>Ext.MessageBox.OK (OK button with action UI skin)<em> Ext.MessageBox.YES (Yes button with action UI skin)</em> Ext.MessageBox.NO (No button)<em> Ext.MessageBox.CANCEL (Cancel button)</em> Ext.MessageBox.YESNOCANCEL (Cancel button, No button, and Yes button with action UI skin)* Ext.MessageBox.OKCANCEL (Cancel button, and OK button with action UI skin) * Ext.MessageBox.YESNO (No button, and Yes button with action UI skin)
+If these button sets are in the wrong order, or you would like to specify your own button text and UI skins, you can pass in an array with Ext.Buttons into the buttons config, as you can see in Figure 11-4:
+<code>
+var pirateBox = Ext.Msg.show({
+  title: 'Ahoy!',
+  message: 'Stop pirate, would ye like t\' proceed?',
+  iconCls: Ext.MessageBox.ERROR,
+  width: 200,
+  buttons: [{
+      text: 'Aye',
+      itemId: 'yes',
+      ui: 'action'
+  }, {
+      text: 'Avast',
+      itemId: 'no',
+      ui: 'decline'
+  }],
+  fn: function(buttonId) {
+      alert('You pressed the "' + buttonId + '" button.');
+  }
+});</code>
+<img src="/images/2014/10/figure11-4.png"></li>
 </ul>
 
-<p>If these button sets are in the wrong order, or you would like to specify your own button text and UI skins, you can pass in an array with Ext.Buttons into the buttons config, as you can see in Figure 11-4:</p>
-
-<p><code>
-var pirateBox = Ext.Msg.show({
-    title: 'Ahoy!',
-    message: 'Stop pirate, would ye like t\' proceed?',
-    iconCls: Ext.MessageBox.ERROR,
-    width: 200,
-    buttons: [{
-        text: 'Aye',
-        itemId: 'yes',
-        ui: 'action'
-    }, {
-        text: 'Avast',
-        itemId: 'no',
-        ui: 'decline'
-    }],
-    fn: function(buttonId) {
-        alert('You pressed the "' + buttonId + '" button.');
-    }
-});
-</code>
-<img src="/images/2014/10/figure11-4.png"></p>
 
 <p>To hide the previous messagebox, just run the hide() method on the pirateBox.</p>
 
-<h4 id="implementing-toolbars-and-title-bars">Implementing Toolbars and Title Bars</h4>
-<p>When you want to implement a toolbar (or title bar) view component (Figure 11-5), you will have to add the Ext.Toolbar (or Ext.TitleBar) to the requires at the top of your view class. After that, you can instantiate the component by using the Ext.create(“Ext.Toolbar”, {}) syntax, or by lazy instantiating (nesting the xtype called toolbar). Using the xtype is the best practice for coding real-world MVC applications.</p>
+<h4>Implementing Toolbars and Title Bars</h4>
+
+<p>When you want to implement a toolbar (or title bar) view component (Figure 11-5), you will have to add the Ext.Toolbar (or Ext.TitleBar) to the requires at the top of your view class. After that, you can instantiate the component by using the Ext.create(&ldquo;Ext.Toolbar&rdquo;, {}) syntax, or by lazy instantiating (nesting the xtype called toolbar). Using the xtype is the best practice for coding real-world MVC applications.</p>
 
 <p><img src="/images/2014/10/figure11-5.png"></p>
 
@@ -292,27 +278,31 @@ var pirateBox = Ext.Msg.show({
 
 <p>The main difference between a Ext.TitleBar and a Ext.Toolbar is that the title config is always centered horizontally in a title bar, between any items aligned left or right. By default, any item in a title bar or toolbar is a button, so you do not need to explicitly set it. Items in a title bar, such as buttons, can be docked to the left or right side of the bar, via the align config.</p>
 
-<h4 id="implementing-lists">Implementing Lists</h4>
+<h4>Implementing Lists</h4>
+
 <p>A list is a data-aware component. You will need to hook up a data store to the list (with a fields model) to display any items. Following is an example of an Ext.List. First you must make sure you add the Ext.List to the requires array at the top of your view class so the Ext.Loader can load the framework class. Afterward you will use the object literal notation to create a Sencha Touch list:</p>
 
-<p><code>
-{
-    xtype: 'list',
-    store: {
-        fields: ['name'],
-        data: [{
-            name: 'Leonardo'
-        }, {
-            name: 'Donatello'
-        }, {
-            name: 'Michelangelo'
-        }, {
-            name: 'Raphael'
-        }]
-    },
-    itemTpl: '{name}'
-}
-</code></p>
+<p>```
+{</p>
+
+<pre><code>xtype: 'list',
+store: {
+    fields: ['name'],
+    data: [{
+        name: 'Leonardo'
+    }, {
+        name: 'Donatello'
+    }, {
+        name: 'Michelangelo'
+    }, {
+        name: 'Raphael'
+    }]
+},
+itemTpl: '{name}'
+</code></pre>
+
+<p>}
+```</p>
 ]]></content>
   </entry>
   
@@ -324,677 +314,165 @@ var pirateBox = Ext.Msg.show({
     <content type="html"><![CDATA[<p>HTML5 offers a powerful way to achieve this with Local Storage, Session Storage, Web SQL, and Application Cache.</p>
 
 <ul>
-  <li>
-    <p>HTML5 Local Storage</p>
+<li><p>HTML5 Local Storage</p>
 
-    <p>HTML5 Local Storage saves its data with no expiration date. You use it to save key/value pairs. The Sencha framework uses it internally to save persisted JavaScript (Sencha) classes. When you open a Sencha Touch app while you are offline, the Sencha Touch app itself can run because all the assets are stored offline in the Local Storage. The FindACab app makes use of Local Storage by saving the user settings offline.</p>
-  </li>
-  <li>
-    <p>HTML5 Session Storage</p>
+<p>  HTML5 Local Storage saves its data with no expiration date. You use it to save key/value pairs. The Sencha framework uses it internally to save persisted JavaScript (Sencha) classes. When you open a Sencha Touch app while you are offline, the Sencha Touch app itself can run because all the assets are stored offline in the Local Storage. The FindACab app makes use of Local Storage by saving the user settings offline.</p></li>
+<li><p>HTML5 Session Storage</p>
 
-    <p>This method saves its data in a session. The session will be over after the browser is closed. This is the main difference from Local Storage, which won’t lose its data at all. Usually, the HTML5 Session Storage is used for online shopping baskets. It stores all the products in the session. After the products are purchased, the session can be cleared.</p>
-  </li>
-  <li>
-    <p>Web SQL Databases</p>
+<p>  This method saves its data in a session. The session will be over after the browser is closed. This is the main difference from Local Storage, which won’t lose its data at all. Usually, the HTML5 Session Storage is used for online shopping baskets. It stores all the products in the session. After the products are purchased, the session can be cleared.</p></li>
+<li><p>Web SQL Databases</p>
 
-    <p>This method, formerly known as “WebDB,” provides a thin wrapper around a SQL database. In 2007, Google launched Google Gears, an open source cross-browser plug-in that included an embedded database based on SQLite. This early prototype later influenced the creation of the HTML5 Web SQL Database specification.</p>
-  </li>
-  <li>
-    <p>Application Cache</p>
+<p>  This method, formerly known as “WebDB,” provides a thin wrapper around a SQL database. In 2007, Google launched Google Gears, an open source cross-browser plug-in that included an embedded database based on SQLite. This early prototype later influenced the creation of the HTML5 Web SQL Database specification.</p></li>
+<li><p>Application Cache</p>
 
-    <p>This can make your application available offline, and can cache files and assets into the browser. You will need to <code>set up an AppCache manifest file</code>.</p>
-  </li>
+<p>  This can make your application available offline, and can cache files and assets into the browser. You will need to <code>set up an AppCache manifest file</code>.</p></li>
 </ul>
+
 
 <p><code>CAUTION</code></p>
 
-<p>There is a SQL client proxy available in Sencha Touch 2.3. However, unfortunately, on November 18, 2010, the W3C announced that Web SQL database is a deprecated specification. This means that web developers should no longer use the technology, as the spec will receive no further updates, and browser vendors aren’t encouraged to support this technology. You can still use Web SQL databases in Google Chrome and in Safari browsers, but at your own risk. That said, it works very well with Sencha Touch, and there is no officially supported alternative.
-You might want to check out IndexDB instead. See Grgur Grisogono’s <a href="https://github.com/grgur/Ext.data.proxy.IndexedDB">Sencha IndexDB Proxy</a>.</p>
+<p>There is a SQL client proxy available in Sencha Touch 2.3. However, unfortunately, on November 18, 2010, the W3C announced that Web SQL database is a deprecated specification. This means that web developers should no longer use the technology, as the spec will receive no further updates, and browser vendors aren’t encouraged to support this technology. You can still use Web SQL databases in Google Chrome and in Safari browsers, but at your own risk. That said, it works very well with Sencha Touch, and there is no officially supported alternative.You might want to check out IndexDB instead. See Grgur Grisogono’s <a href="https://github.com/grgur/Ext.data.proxy.IndexedDB">Sencha IndexDB Proxy</a>.
+The Sencha Touch client proxy saves and loads the data locally on its device or in itsmemory. Sencha Touch’s client proxy has four important subclasses:
+* Ext.data.proxy.Memory
+* Ext.data.proxy.LocalStorage
+* Ext.data.proxy.SessionStorage
+* Ext.data.proxy.Sql
+The <code>MemoryProxy</code> uses a local variable for data storage and retrieval, but the contents are lost on every page refresh. For that reason, I will not discuss it in this chapter.
+This is not the case with the <code>LocalStorage</code> proxy, the <code>SessionStorage</code> proxy, and the <code>SQL</code> proxy. When the browser provides support for these, it will save the model data as a key/value data store into the browser, so it will remain after the browser is closed and reopened. If the HTML5 Storage API is not supported by the browser, the constructor will throw an error.</p>
 
-<p>The Sencha Touch client proxy saves and loads the data locally on its device or in its
-memory. Sencha Touch’s client proxy has four important subclasses:</p>
+<p>This is not the case with the LocalStorage proxy, the SessionStorage proxy, and the SQL proxy. When the browser provides support for these, it will save the model data as a key/value data store into the browser, so it will remain after the browser is closed and reopened. If the HTML5 Storage API is not supported by the browser, the constructor will throw an error.
+Because the data is saved as key/value pairs, where the key needs to be unique, you cannot save complex objects like JSON — unless you convert these JSON objects to strings with Ext.JSON.encode(). LocalStorageProxy automatically serializes and deserializes data when saving and retrieving it.
+Here is an example showing how to implement a client proxy to your model or store class:
+<code>
+proxy: {    type: "&lt;client-proxy&gt;"}</code>
+The type can be set to <code>memory</code> (the default), <code>localstorage</code>, <code>sessionstorage</code>, or <code>sql</code>.
+In this chapter, you’ll learn:
+* How to save data into Local Storage<em> How to save data into Session Storage</em> How to save data into a Web SQL database* How to save assets locally by using the Application Cache</p>
 
-<ul>
-  <li>Ext.data.proxy.Memory </li>
-  <li>Ext.data.proxy.LocalStorage </li>
-  <li>Ext.data.proxy.SessionStorage </li>
-  <li>Ext.data.proxy.Sql
-The <code>MemoryProxy</code> uses a local variable for data storage and retrieval, but the contents are lost on every page refresh. For that reason, I will not discuss it in this chapter.</li>
-</ul>
-
-<p>This is not the case with the <code>LocalStorage</code> proxy, the <code>SessionStorage</code> proxy, and the <code>SQL</code> proxy. When the browser provides support for these, it will save the model data as a key/value data store into the browser, so it will remain after the browser is closed and reopened. If the HTML5 Storage API is not supported by the browser, the constructor will throw an error.</p>
-
-<p>This is not the case with the LocalStorage proxy, the SessionStorage proxy, and the SQL proxy. When the browser provides support for these, it will save the model data as a key/value data store into the browser, so it will remain after the browser is closed and reopened. If the HTML5 Storage API is not supported by the browser, the constructor will throw an error.</p>
-
-<p>Because the data is saved as key/value pairs, where the key needs to be unique, you cannot save complex objects like JSON — unless you convert these JSON objects to strings with Ext.JSON.encode(). LocalStorageProxy automatically serializes and deserializes data when saving and retrieving it.</p>
-
-<p>Here is an example showing how to implement a client proxy to your model or store class:</p>
-
-<p><code>
-proxy: {
-	type: "&lt;client-proxy&gt;"
-}
-</code></p>
-
-<p>The type can be set to <code>memory</code> (the default), <code>localstorage</code>, <code>sessionstorage</code>, or <code>sql</code>.
-In this chapter, you’ll learn:</p>
-
-<ul>
-  <li>How to save data into Local Storage</li>
-  <li>How to save data into Session Storage</li>
-  <li>How to save data into a Web SQL database</li>
-  <li>How to save assets locally by using the Application Cache</li>
-</ul>
-
-<h4 id="saving-data-into-local-storage">Saving Data into Local Storage</h4>
+<h4>Saving Data into Local Storage</h4>
 
 <p><code>CAUTION</code></p>
 
 <p>When this proxy is used in a browser where Local Storage is not supported, the constructor will throw an error.</p>
 
-<p>Every key/value pair in the Local Storage should have a unique key, to refer to its model data. Sencha Touch can generate a unique record id for you; you will only need to set an id on the proxy, which will be <code>prefixed</code> to the unique record id to make the Local Storage key.</p>
-
-<p>In the FindACab app, you will use the LocalStorage proxy for saving user settings locally on the device. The Settings model in the FindACab app will contain a proxy like this:</p>
-
-<p><code>
-proxy: {
-	type: 'localstorage', 
-	id: "Setting"
-}
-</code></p>
-
-<p>Note that the key/value pairs in the client proxies are strings! When you retrieve this data later from a store — by using, for example, the command Ext.getStore(“MyStore”).getAt(0) — it will decode this string to a JavaScript object for you. In other words, it serializes and deserializes data <code>automatically</code> when saving or retrieving it. Awesome!</p>
-
-<p>An example Local Storage key/value pair for the FindACab app could look like this:</p>
+<p>Every key/value pair in the Local Storage should have a unique key, to refer to its model data. Sencha Touch can generate a unique record id for you; you will only need to set an id on the proxy, which will be <code>prefixed</code> to the unique record id to make the Local Storage key.
+In the FindACab app, you will use the LocalStorage proxy for saving user settings locally on the device. The Settings model in the FindACab app will contain a proxy like this:</p>
 
 <p><code>
-"Setting-51726e64-ae85-4fe8-9bea-aa085f499da6" : "{ 
-	"id":"51726e64-ae85-4fe8-9bea-aa085f499da6", 
-	"gps":null,
-	"city":"Amsterdam",
-	"country":"NL" 
-}"
-</code></p>
+proxy: {    type: 'localstorage',   id: "Setting"}</code>
+Note that the key/value pairs in the client proxies are strings! When you retrieve this data later from a store — by using, for example, the command Ext.getStore(&ldquo;MyStore&rdquo;).getAt(0) — it will decode this string to a JavaScript object for you. In other words, it serializes and deserializes data <code>automatically</code> when saving or retrieving it. Awesome!
+An example Local Storage key/value pair for the FindACab app could look like this:
+```
+&ldquo;Setting-51726e64-ae85-4fe8-9bea-aa085f499da6&rdquo; : &ldquo;{</p>
 
-<p>To generate an id with Sencha Touch, you need to implement an id strategy. There are three strategies you can use:</p>
+<pre><code>"id":"51726e64-ae85-4fe8-9bea-aa085f499da6", 
+"gps":null,
+"city":"Amsterdam", "country":"NL" 
+</code></pre>
+
+<p>}&ldquo;```
+To generate an id with Sencha Touch, you need to implement an id strategy. There are three strategies you can use:</p>
 
 <ul>
-  <li><code>Ext.data.identifier.Sequential</code> is a sequential id generator. It generates ids in sequential order (1, 2, 3, etc.).</li>
-  <li><code>Ext.data.identifier.Simple</code> is the default id generator in Sencha Touch. It generates ids in sequential order, prefixed with a prefix parameter. When no prefix parameter is set, it prefixes ids by default with ext-record- (e.g., ext- record-1, ext-record-2, ext-record-3, etc.).</li>
-  <li><code>Ext.data.identifier.Uuid</code> is a UUID (Universally Unique IDentifier, also known as GUIDs (Globally Unique IDentifier generator). A UUID is a 128-bits id that can guarantee uniqueness across space and time. UUIDs were originally used in the Apollo Network Computing System and later in the Open Software Foundation’s (OSF) Distributed Computing Environment (DCE), and then in Microsoft Windows platforms.</li>
+<li><code>Ext.data.identifier.Sequential</code> is a sequential id generator. It generates ids in sequential order (1, 2, 3, etc.).<em> <code>Ext.data.identifier.Simple</code> is the default id generator in Sencha Touch. It generates ids in sequential order, prefixed with a prefix parameter. When no prefix parameter is set, it prefixes ids by default with ext-record- (e.g., ext- record-1, ext-record-2, ext-record-3, etc.).</em> <code>Ext.data.identifier.Uuid</code> is a UUID (Universally Unique IDentifier, also known as GUIDs (Globally Unique IDentifier generator). A UUID is a 128-bits id that can guarantee uniqueness across space and time. UUIDs were originally used in the Apollo Network Computing System and later in the Open Software Foundation’s (OSF) Distributed Computing Environment (DCE), and then in Microsoft Windows platforms.
+To set an id strategy, you have to require one of the identifiers at the top of your model; for example: <code>requires: ["Ext.data.identifier.Uuid]</code>. The model should also have the idProperty set to the model field that can be used as an id, which defaults to the fieldname: id. (Make sure the field type matches!) In addition, the model should contain the identifier property. In this case, it can be set to uuid, which is why you are requiring this class at the top of the file.
+Let’s take a look at the full code for the Settings model of the FindACab app, FindACab.model.Setting:
+<code>
+Ext.define('FindACab.model.Setting', {
+      extend: 'Ext.data.Model',
+      requires: ['Ext.data.identifier.Uuid'],
+      config: {
+          idProperty: 'id',
+          identifier: 'uuid',
+          fields: [{
+              name: 'id',
+              type: 'auto'
+          }, {
+              name: 'gps',
+              type: 'boolean'
+          }, {
+              name: 'city',
+              type: 'string'
+          }, {
+              name: 'country',
+              type: 'string'
+          }],
+          validations: [{
+              type: 'presence',
+              field: 'city',
+              message: "Please provide a city."
+          }, {
+              type: 'presence',               field: 'country',               message: "Please provide a country."
+          }],
+          proxy: {
+              type: 'localstorage',
+              id: "Setting"
+          }￼￼￼
+      }</code>
+
+<h4>Saving Data into Session Storage</h4>
+
+<p><code>
+proxy: {    type: "sessionstorage",     id: "session-id-prefix"}</code></p></li>
 </ul>
 
-<p>To set an id strategy, you have to require one of the identifiers at the top of your model; for example: <code>requires: ["Ext.data.identifier.Uuid]</code>. The model should also have the idProperty set to the model field that can be used as an id, which defaults to the fieldname: id. (Make sure the field type matches!) In addition, the model should contain the identifier property. In this case, it can be set to uuid, which is why you are requiring this class at the top of the file.</p>
 
-<p>Let’s take a look at the full code for the Settings model of the FindACab app, FindACab.model.Setting:</p>
+<h4>Saving Data into a Web SQL Database for the FindACab App</h4>
 
-<p><code>
-Ext.define('FindACab.model.Setting', {
-        extend: 'Ext.data.Model',
-        requires: ['Ext.data.identifier.Uuid'],
-        config: {
-            idProperty: 'id',
-            identifier: 'uuid',
-            fields: [{
-                name: 'id',
-                type: 'auto'
-            }, {
-                name: 'gps',
-                type: 'boolean'
-            }, {
-                name: 'city',
-                type: 'string'
-            }, {
-                name: 'country',
-                type: 'string'
-            }],
-            validations: [{
-                type: 'presence',
-                field: 'city',
-                message: "Please provide a city."
-            }, {
-	            type: 'presence',
-				field: 'country',
-				message: "Please provide a country."
-            }],
-            proxy: {
-                type: 'localstorage',
-                id: "Setting"
-            }￼￼￼
-        }
-</code></p>
+<p><code>TIP</code>
+Isn’t it annoying that you cannot delete a Web SQL database directly with the Google Chrome Dev Tools? Well, there is a solution to remove a database (and its tables). Just open the following URL in your Google Chrome browser: chrome://settings/cookies. Here you can search for any particular site or remove all locally stored data. In my case, I just search for localhost, and I get an exact overview of all my cookies, Local Storage, and Web SQL databases. I can double-click a database, and I’ll be prompted to remove the database. I click the Remove button, and it is gone!</p>
 
-<h4 id="saving-data-into-session-storage">Saving Data into Session Storage</h4>
+<h4>Saving Assets Locally by Using the Application Cache</h4>
 
-<p><code>
-proxy: {
-	type: "sessionstorage", 
-	id: "session-id-prefix"
-}
-</code></p>
+<p>it is a technique for making your application available offline, without downloading the stylesheets, images, Sencha Touch framework, and custom classes. It will create a cached version of your mobile app by setting up a HTML5 cache manifest file, better known as the HTML5 AppCache.
+AppCache is extremly handy for users who want to bookmark their mobile apps to their phone home screen. This is nice because the browser address bar will be gone, so it will give you a more native experience.
+Whereas Web Storage saves key/value pairs in the browser’s Local or Session Storage, AppCache has the HTML5 ability to save (cache) a whole web app (the index.html file and all its assets, such as stylesheets, JavaScript, images, icons, fonts, etc.) in the browser’s cache to make it available, even if the client has no Internet connection at all.
+The Application Cache manifest file is a simple text file that lists the resources that the browser should cache for offline access. Another reason for using AppCache is speed (because it caches and therefore loads faster) and performance (it reduces server load).
+<code>TIP</code>
+<a href="http://www.w3.org/TR/offline-webapps/#offline">Read the W3C spec about AppCache</a>. Also, take a look at <a href="http://alistapart.com/article/application-cache-is-a-douchebag">Jake Archibald’s blog post</a> at A List Apart about troubleshooting AppCache.
+Now how can you implement this? You don’t have to do much to make Application Cache work. First, you will have to edit the app.json file; it should define the appCache object. Let’s take a look:
+```
+&ldquo;appCache&rdquo;: {</p>
 
-<h4 id="saving-data-into-a-web-sql-database-for-the-findacab-app">Saving Data into a Web SQL Database for the FindACab App</h4>
+<pre><code>"cache": [      "index.html",       "resources/css/app.css" ],```The cache section lists all the items that need to be cached. Make sure that these filesexist, or else the caching will fail (and if it fails, you will not be happy):
+</code></pre>
 
-<p><code>TIP</code></p>
+<p>```
+&ldquo;network&rdquo;: [</p>
 
-<p>Isn’t it annoying that you cannot delete a Web SQL database directly with the Google Chrome Dev Tools? Well, there is a solution to remove a database (and its tables). Just open the following URL in your Google Chrome browser: chrome://settings/cookies. Here you can search for any particular site or remove all locally stored data. In my case, I just search for localhost, and I get an exact overview of all my cookies, Local Storage, and Web SQL databases. I can double-click a database, and I’ll be prompted to remove the database. I click the Remove button, and it is gone!</p>
+<pre><code>"*"],```
+</code></pre>
 
-<h4 id="saving-assets-locally-by-using-the-application-cache">Saving Assets Locally by Using the Application Cache</h4>
+<p>The <code>network</code> section is basically used for (white) listing files that require an online connection. All requests to these resources <code>bypass the cache</code>, even if the browser is offline. Note you can also set this to a wildcard, *. This might be handy when the files from the cache section are cached but some assets are not listed and therefore missing. It will make sure that those unlisted assets will still be downloaded, no matter what. If I didn’t create a network section that points to the wildcard, then the application would miss these files:
+```</p>
 
-<p>it is a technique for making your application available offline, without downloading the stylesheets, images, Sencha Touch framework, and custom classes. It will create a cached version of your mobile app by setting up a HTML5 cache manifest file, better known as the HTML5 AppCache.</p>
+<pre><code>"fallback": [       //fall back items   ￼
+]}//end appCache```
+</code></pre>
 
-<p>AppCache is extremly handy for users who want to bookmark their mobile apps to their phone home screen. This is nice because the browser address bar will be gone, so it will give you a more native experience.</p>
-
-<p>Whereas Web Storage saves key/value pairs in the browser’s Local or Session Storage, AppCache has the HTML5 ability to save (cache) a whole web app (the index.html file and all its assets, such as stylesheets, JavaScript, images, icons, fonts, etc.) in the browser’s cache to make it available, even if the client has no Internet connection at all.</p>
-
-<p>The Application Cache manifest file is a simple text file that lists the resources that the browser should cache for offline access. Another reason for using AppCache is speed (because it caches and therefore loads faster) and performance (it reduces server load).</p>
-
-<p><code>TIP</code></p>
-
-<p><a href="http://www.w3.org/TR/offline-webapps/#offline">Read the W3C spec about AppCache</a>. Also, take a look at <a href="http://alistapart.com/article/application-cache-is-a-douchebag">Jake Archibald’s blog post</a> at A List Apart about troubleshooting AppCache.</p>
-
-<p>Now how can you implement this? You don’t have to do much to make Application Cache work. First, you will have to edit the app.json file; it should define the appCache object. Let’s take a look:</p>
-
-<p><code>
-"appCache": { 
-	"cache": [
-		"index.html",
-		"resources/css/app.css"
-	],
-</code>
-The cache section lists all the items that need to be cached. Make sure that these files
-exist, or else the caching will fail (and if it fails, you will not be happy):</p>
-
-<p><code>
-"network": [ 
-	"*"
-],
-</code></p>
-
-<p>The <code>network</code> section is basically used for (white) listing files that require an online connection. All requests to these resources <code>bypass the cache</code>, even if the browser is offline. Note you can also set this to a wildcard, *. This might be handy when the files from the cache section are cached but some assets are not listed and therefore missing. It will make sure that those unlisted assets will still be downloaded, no matter what. If I didn’t create a network section that points to the wildcard, then the application would miss these files:</p>
-
-<p><code>
-	"fallback": [
-		//fall back items
-	￼
-	]
-}//end appCache
-</code>
-The fallback section in the app cache file will let us list fallback solutions for when a request fails. See, for example, the line <code>resources/images/resources/images/placeholder.gif</code>. If any image in the resources/images folder fails, it will display the placeholder.png file.</p>
+<p>The fallback section in the app cache file will let us list fallback solutions for when a request fails. See, for example, the line <code>resources/images/resources/images/placeholder.gif</code>. If any image in the resources/images folder fails, it will display the placeholder.png file.</p>
 
 <p>Then build the application with Sencha Cmd:</p>
 
-<p><code>
-	sencha app build
-</code>
+<p>```</p>
+
+<pre><code>sencha app build
+</code></pre>
+
+<p>```
 Be aware that the Application Cache can be a pain sometimes for the following reasons:</p>
 
 <ul>
-  <li>You cannot specify an expiration date/time for files in the cache. But you can expire the cache by making a change to the manifest file — for example, by adding a comment. Any change to the file causes all files to be recached. This is what Sencha does: it changes the Application Cache manifest by adding comments that represent generated unique keys.</li>
-  <li>If any of the files listed on the manifest are not found, no caching will occur.</li>
-  <li>While waiting for the manifest file, the browser will load the site <code>from the cache</code>. Therefore, changes to your cache manifest are acted upon only after a <code>second</code> refresh from when the file was modified.</li>
-  <li>Manually clearing the browser cache from the Google Chrome Dev Tools does not force all files to be recached.</li>
+<li>You cannot specify an expiration date/time for files in the cache. But you can expire the cache by making a change to the manifest file — for example, by adding a comment. Any change to the file causes all files to be recached. This is what Sencha does: it changes the Application Cache manifest by adding comments that represent generated unique keys.</li>
+<li>If any of the files listed on the manifest are not found, no caching will occur.</li>
+<li>While waiting for the manifest file, the browser will load the site <code>from the cache</code>. Therefore, changes to your cache manifest are acted upon only after a <code>second</code> refresh from when the file was modified.</li>
+<li>Manually clearing the browser cache from the Google Chrome Dev Tools does not force all files to be recached.</li>
 </ul>
+
 
 <p><code>TIP</code></p>
 
 <p>A manifest file must be served with the <code>MIME-typ</code>e text/cache-manifest. You may need to add this custom file type to your web server or to a .htaccess file: AddType text/cache-manifest .appcache.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Data Stores]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/10/07/data-stores/"/>
-    <updated>2014-10-07T16:16:36+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/10/07/data-stores</id>
-    <content type="html"><![CDATA[<p>A data store is a mechanism to cache your data and is part of the Ext.data package. It is like a bucket full of data records. You can pick (select) a record out of this bucket (the data store) and add or remove records. Stores also provide functions for sorting, filtering, and grouping the model instances. You’ll need to give a model structure to the store with data. You can do this inline by setting the fields and data arrays (hardcoded), but a better MVC approach is to bind a model to the data store.</p>
-
-<p>Sencha Touch has data-aware components — such as <code>lists, dataviews, and charts</code> — that need to be hooked up to a store in order to display data. I will discuss those in
-<code>Chapter 11.</code></p>
-
-<p>In this chapter, you’ll learn:</p>
-
-<ul>
-  <li>How to load data in a store</li>
-  <li>How to sort a data store locally How to sort data on a server</li>
-  <li>How to group a data store</li>
-  <li>How to filter a data store locally </li>
-  <li>How to filter a data store on a server </li>
-  <li>How to save/sync data in a store</li>
-</ul>
-
-<h4 id="loading-data-in-a-store">Loading Data in a Store</h4>
-<p>For the FindACab app to be able to display the data, the data needs to be contained in the store. By default, when you create a store (and the data is not hardcoded), you will have to load the model data into your store.
-When autoLoad is not enabled, you have to manually load the store from your code, or from your developer’s console:</p>
-
-<p><code>
-Ext.getStore('MyStore').load(this, records, successful, operation, eOpts);
-</code>
-<code>NOTE</code></p>
-
-<p><code>Ext.getStore("MyStore")</code> is a lookup method; it finds a store (if the store is registered in the Ext.application() or controller) based on the store instance name or storeId through the StoreManager. Really, it’s a short alias for <code>Ext.data.StoreManager.lookup("myStore")</code>;.</p>
-
-<p>We want the FindACab app to retrieve a list of cabs in the area. We already hooked up a proxy to the store, so we can load the data. When you run the Ext.getStore(“Cabs”).load() event in the console, it will look up the Cabs store through the StoreManager and return a store object with a data array that contains 20 items.</p>
-
-<p>Instead of just loading the store, you can also handle a callback:</p>
-
-<p><code>
-Ext.getStore('Cabs').load({
-    callback: function(records, success, operation) {
-        //callback function here
-        console.log(records);
-    },
-    scope: this
-});
-</code>
-The store has a callback function, which in this case logs all records after the store is loaded. You can also set a scope. In this case, when you log console.log(this) in your callback, it won’t log the scope within the callback, but rather the scope of the class where the store load() event is called.</p>
-
-<p><code>TIP</code></p>
-
-<p><code>
-There are more events you can listen for in the store; for example, addrecords, beforeload, beforesync, refresh, removerecords, updaterecords, and write. Check the API docs for more details about the different store events.
-</code></p>
-
-<p>Now you will modify the store proxy config. Instead of entering a full proxy URL, you will retrieve the URL, the YELP_API key, and the YELP_TERM from the Utils.Commons static file, so it’s better organized. You can send parameters with the request by using the extraParams object, and you can modify these parameters from elsewhere in your code, as shown in Example 9-1.</p>
-
-<p><code>
-Example 9 - 1.store / Cabs.js
-Ext.define('FindACab.store.Cabs', {
-    extend: 'Ext.data.Store',
-    requires: ['Ext.data.proxy.JsonP'],
-    config: {
-        model: 'FindACab.model.Cab',
-        autoLoad: false,
-        proxy: {
-            type: 'jsonp',
-            url: Utils.Commons.YELP_API,
-            noCache: false,
-            extraParams: {
-                term: Utils.Commons.YELP_TERM,
-                ywsid: Utils.Commons.YELP_KEY,
-                location: Utils.Commons.LOCATION
-            },
-            reader: {
-                type: 'json',
-                rootProperty: 'businesses',
-            }
-        },
-    }
-});
-</code></p>
-
-<p>In order to maintain the store callback in the controller, you will create a system event listener to listen to the store load event. For now, this code will only log the results, and show and hide a loading indicator. Example 9-2 shows the new FindACab.controller.CabController.</p>
-
-<p>```
-Example 9-2. controller/CabController.js</p>
-
-<p><code>
-Ext.define('FindACab.controller.CabController', {
-    extend: 'Ext.app.Controller',
-    config: {
-        models: ['Cab'],
-        stores: ['Cabs']
-    },
-    init: function() {
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            message: 'loading...'
-        });
-        Ext.getStore('Cabs').load();
-        Ext.getStore('Cabs').addListener('load',
-            this.onCabsStoreLoad,
-            this);
-    },
-    onCabsStoreLoad: function(records, success, operation) {
-        console.log(records.getData());
-        Ext.Viewport.unmask();
-    }
-});
-</code></p>
-
-<h4 id="sorting-a-data-store-locally">Sorting a Data Store Locally</h4>
-
-<p>After you retrieve data in your store, you might notice that the store is not sorted. It is possible to sort the records in a data store on the client side. You will use the <code>Ext.data.Store.sort(sorters, [defaultDirection], [where])</code> method, and you can pass in sorters_ object, which specifies the fieldname to sort and the direction, either ASC (ascending, A–Z) and DESC (descending, Z-A).</p>
-
-<p>Here I construct a sorters array to sort the fieldname property by ASC:</p>
-
-<p><code>
-sorters: [{
-	property: "fieldname", direction: "ASC"
-}]
-</code></p>
-
-<p>The sorters array or the sort() method on the store sorts the data collection inside the
-store by one or more of its properties.</p>
-
-<p>To programmatically sort a store from elsewhere in your code, you can pass in a single
-argument, the fieldname to sort. This will toggle between ascending and descending:</p>
-
-<p><code>
-Ext.getStore("Cabs").sort("name");
-</code></p>
-
-<p>Or you can pass in the full sorters configuration:</p>
-
-<p><code>
-Ext.getStore("Cabs").sort({
-    property: "fieldname",
-    direction: "ASC"
-});
-</code>
-Or just the string fieldname and strings “ASC” or “DESC”:</p>
-
-<p><code>
-Ext.getStore("Cabs").sort("name", "DESC");
-</code>
-In the FindACab app, you will sort the Cabs list on the cab service name in alphabetical
-order. Therefore, the default sorter will be set to name:
-<code>
-sorters: [{
-    property: "name",
-    direction: "ASC"
-}],
-</code>
-It is possible to add sorters on top of each other. For example, first sort on the field name and afterward filter on the field distance. You do so by passing an array:</p>
-
-<p><code>
-store.sort([{
-    property: 'name',
-    direction: 'ASC'
-}, {
-    property: 'distance',
-    direction: 'DESC'
-}]);
-</code>
-When the sort() method is called again with a new sorter object, any existing sorters will be removed. When the sort() method is called without any arguments, the existing sorters will be reapplied. To keep existing sorters and add new ones, you will need to run the add() method on the sorters object. Here is how you can add sorters to a store:</p>
-
-<p><code>
-store.sorters.add(new Ext.util.Sorter({
-    property: 'phone',
-    direction: 'ASC'
-}));
-store.sort();
-</code>
-The previous examples make sense when you want to sort on local stores. However, it’s also possible to sort remotely on the server side.</p>
-
-<h4 id="sorting-data-on-a-server">Sorting Data on a Server</h4>
-<p>The data that you retrieve from the server side might be very large. It could be faster to sort it on the server side instead of locally. Luckily, Sencha Touch provides a way to implement server-side paging, called <code>remote sorting</code>. You will use the Ext.data.Store.remoteSort boolean, and you will use the sorters object directly in the store or run the Ext.data.Store.sort(sorters, [defaultDirection], [where]) method where you can pass in a sorters object. (See the previous section on how to sort a store.)</p>
-
-<p>If you want to enable remote sorting, set the following settings in the store class definition:</p>
-
-<ul>
-  <li>A pageSize to define the number of records that constitutes a “page.” (Note that the default page size is set to 25.)</li>
-  <li>The boolean remoteSort config in the store class definition to true. (Note that remote sorting is false by default.)</li>
-  <li>The sorters object, as described in the previous section:</li>
-</ul>
-
-<p><code>
-pageSize: 30, 
-remoteSort: true, 
-sorters: [{
-	property: "fieldname",
-	direction: "ASC" 
-}]
-</code></p>
-
-<p>Unfortunately, because we do not have control over the Yelp server side, we won’t implement a remote sorter for the FindACab app. However, I do want to share a running example of a remote sorter. In this demo, there is another data store with Car objects that sorts cars by brand in ascending order:</p>
-
-<p><code>
-Ext.define('RemoteTest.store.Cars', {
-        extend: 'Ext.data.Store',
-        requires: ['Ext.data.proxy.JsonP'],
-        config: {
-            model: 'RemoteTest.model.Car',
-            autoLoad: true,
-            remoteSort: true, // 
-            sorters: [{ //
-	            property: "brand",
-	            direction: "ASC"
-	        }],
-	    pageSize: 20, //
-	    proxy: { //
-	        type: 'jsonp',
-	        url: 'http://someurl.com/test.php',
-	        reader: { //
-	            rootProperty: 'results',
-	            totalProperty: 'total',
-	            successProperty: 'success'
-	        }
-	    },
-	}
-});
-</code>
-<code>WARNING</code></p>
-
-<p>The previous store has an autoLoad property. This makes sense for demo purposes, but in a real application, you would probably want to programmatically sort and load the store.</p>
-
-<p>Currently, this Car store doesn’t do much. That’s because there is no server side implemented. This is OK, because the server-side code can be a black box for us. However, let’s assume that http://<someurl>.com/test.php is a working web service that sends Car objects back.</someurl></p>
-
-<p>In the Google Developer network tab, you can see a request is made, which sends the following GET request to your server:</p>
-
-<p><code>
-http://someurl.com/test.php?_dc=1386924081041&amp;page=1&amp;start=0&amp;limit=20 &amp;sort=%5B%7B%22property%22%3A%22brand%22%2C%22direction%22%3A%22ASC%22%7D%5D &amp;callback=Ext.data.JsonP.callback1
-</code>
-Let’s format the query string parameters:</p>
-
-<p><code>
-page:1
-start:0
-limit:20 
-sort:[{"property":"name","direction":"ASC"}]
-</code>
-The limit parameter comes from the store pageSize. The page and start parameters are used for paging. On the server side, you can calculate which set of items you have to send back to the client-side code.</p>
-
-<p>The http://<someurl>.com/test.php web service requires some logic to sort the data (e.g., in a database) and send the correct set of data back.</someurl></p>
-
-<p>The server response for sending back Car objects (in PHP) could look like Example 9- 3. The names of the success, total, and results properties should be set in the store’s reader.</p>
-
-<p><code>
-{
-    "success": true,
-    "total": 500,
-    ￼￼￼￼￼
-        "results": [{
-                "id": 1,
-                "brand": "BMW",
-                "type": 7
-            }, {
-                "id": 2,
-                "brand": "Mercedes",
-                "type": 5
-            }
-            ... //20 results in total
-    ]
-}
-</code></p>
-
-<h4 id="grouping-a-data-store">Grouping a Data Store</h4>
-
-<p>Grouping a data store makes sense when you want to display data into an Ext.List component in Sencha Touch and you want to visually group data. For example, when you have a store with companies, you could, for example, group by “city.” This will list every company per city.</p>
-
-<p>To enable grouping in a store, implement the groupField and groupDir configurations directly in the store class definition. The groupFields sets the field to group and the groupDir sets the direction (ASC or DESC):</p>
-
-<p>```
-groupField: ‘<model-field-name>', 
-groupDir: 'ASC' //or DESC</model-field-name></p>
-
-<p>```</p>
-
-<p>To dynamically group a store, you can run the setGrouper() method on a store object:</p>
-
-<p><code>
-Ext.getStore('Cabs').setGrouper({
-    direction: 'ASC', //or DESC 
-    property: '&lt;model-field-name&gt;'
-});
-</code></p>
-
-<p>You will implement grouping on the Cabs store for the FindACab app list. This time, you will not group on city, because all the data that is in the Cabs store already shares the same city — for example, Amsterdam. Therefore, let’s group on the first alphabetical character of a cab service name. (See Figure 9-1.) You would see a group “A” that lists all names that start with an A, a group “B” that lists all names that start with a B, and so on. It’s the same behavior as when you open the contacts list on an iPhone. Names are grouped, and if you want, you can even display an index bar on the side to quickly browse to the corresponding character.</p>
-
-<p><img src="/images/2014/10/figure7-3.png"></p>
-
-<p>To achieve this, you will need the Ext.data.Store.grouper object, with a custom group function: groupFn(). You can set the grouper object directly in the store class definition, as shown in Example 9-4.</p>
-
-<p><code>
-grouper: {
-    groupFn: function(record) {
-        return record.get('name')[0].toUpperCase();
-    }
-}
-</code></p>
-
-<p>The groupFn function with the code return record.get(“name”) [0].toUpperCase(); will group the data in the store on the first (uppercase) character of the name field.</p>
-
-<h4 id="filtering-a-data-store-locally">Filtering a Data Store Locally</h4>
-
-<p>A data store can also filter records. When a filter is applied, the data store will not remove records. The same records are still available in the store, but only the records that match the filter criteria are displayed.</p>
-
-<p>Filters are added as arrays. Here’s how to implement a filter array directly in the store class definition:</p>
-
-<p><code>
-filters: [{
-    property: "fieldname",
-    value: "match"
-}],
-</code>
-You can also filter programmatically. Just run the following method from a store instance:</p>
-
-<p><code>
-Ext.data.Store.filter(filters, [value], [anyMatch], [caseSensitive]);
-</code>
-It’s possible to filter on the first characters of a field or from anywhere (argument: anyMatch), and it’s also possible to filter for case sensitivity (argument: <code>caseSensitive</code>).</p>
-
-<h4 id="custom-filter-functions">Custom Filter Functions</h4>
-
-<p>You can also create custom filter functions. To do so, you can set a filterFn in the
-array or use the filterBy(fn) method on the store.</p>
-
-<p><code>
-filters: [{
-    filterFn: function(item) {
-        return item.get("phone").length &gt; 0;
-    }
-}],
-</code>
-#### Stacking Filters
-o add filters on top of each other — for example, to filter on a name with a value of Taxi and filter on a distance of 20 miles — you pass in an array. Here, I stack a couple of filters on top of each other:</p>
-
-<p><code>
-store.filter([{
-    property: "name",
-    value: "Taxi"
-}, {
-    property: "distance",
-    value: "20"
-}]);
-</code></p>
-
-<p><code>Note</code></p>
-
-<p>Instead of passing an array with filter objects into the filter() method, I could call the filter() method again without the filter objects as arguments. Unlike sorters, filters won’t reset if you call them again. When you want to renew the filter, you have to clear it first:</p>
-
-<p><code>
-store.clearFilter();
-</code></p>
-
-<h4 id="filtering-data-on-a-server">Filtering Data on a Server</h4>
-
-<p>The data that you retrieve from the server side might be very large. It could be faster to filter it on the server side instead of locally. Luckily, Sencha Touch provides a way to implement server-side filtering.</p>
-
-<p>You will use the remoteFilter boolean and the array with filters. Here’s an example of the store class definition:</p>
-
-<p><code>
-remoteFilter: true,
-filters: [{
-    property: "fieldname",
-    value: "match"
-}],
-</code>
-because we do not have server-side control over Yelp.com, we won’t implement a remote filter for the FindACab app. I do want to share an example of a remote filter, however. In this demo, there is another data store with Car objects and with remote filtering enabled. It has a filter set that filters on car brand:</p>
-
-<p><code>
-Ext.define('RemoteTest.store.Cars', {
-    extend: 'Ext.data.Store',
-    requires: ['Ext.data.proxy.JsonP'],
-    config: {
-        model: 'RemoteTest.model.Car',
-        autoLoad: true,
-        pageSize: 20,
-        remoteFilter: true,
-        filters: [{
-            property: "brand",
-            value: "BMW"
-        }],
-        proxy: {
-            type: 'jsonp',
-            url: 'http://someurl.com/test.php',
-            reader: {
-                rootProperty: 'results',
-                totalProperty: 'total',
-                successProperty: 'success'
-            }
-        },
-    }
-});
-</code>
-<code>WARNING</code></p>
-
-<p>When the remoteFilter configuration has been set to true, you will have to manually call the load method after every filter you set to retrieve the filtered data from the server.</p>
-
-<p>Let’s assume that http://<someurl>.com/test.php is a working web service that sends
-Car objects back. We’ll filter on a car brand of BMW, 20 per time (page).
-In the Google Developer Network tab, you can see a request is made that sends the
-following GET request to your server:</someurl></p>
-
-<p><code>
-http://someurl.com/test.php?_dc=1387182737587&amp;page=1&amp;start=0&amp;limit=20 &amp;filter=%5B%7B%22property%22%3A%22brand%22%2C%22value%22%3A%22BMW%22%7D%5D &amp;callback=Ext.data.JsonP.callback1
-</code></p>
-
-<p>Let’s format the query string parameters:</p>
-
-<p><code>
-page: 1
-start: 0
-limit: 20
-filter: [{
-    "property": "brand",
-    "value": "BMW"
-}]
-</code>
-As you might have noticed, the implementation and server requests of a remote filter are similar to the implementation and server requests of a remote sorter. The limit parameter comes from the store pageSize. The page and start parameters are used for paging. On the server side, you can calculate which set of items you have to send back to the client-side code.</p>
-
-<p>The http://<someurl>.com/test.php requires some logic to filter their data (e.g., in a database), and send the correct set of data back.</someurl></p>
-
-<p>The server response for sending back Car objects (in PHP) could look like Example 9- 6. The names of the success, total, and results properties should be set in the store’s reader.</p>
-
-<p><code>
-// Example 9-6. A server response in PHP
-{
-    "success": true,
-    "total": 500,
-    "results": [{
-            "id": 1,
-            "brand": "BMW",
-            "type": 7
-        }, {
-            "id": 2,
-            "brand": "BMW",
-            "type": 5
-        }
-        ...
-    ]
-}
-</code>
-#### Syncing Data in a Store</p>
-
-<p>To save/synchronize records in a data store with the server, you will have to run the <code>sync()</code> method on the store. It’s also possible to automatically sync the store with the server side. That way, the remote server keeps in close sync with your Sencha Touch app. You can enable this by setting the <code>autoSync</code> property to <code>true</code>.</p>
-
-<p>More likely, you will use the Ext.data.Store.sync() method to synchronize the store with its proxy programmatically:</p>
-
-<p><code>
-store.sync(options);
-</code>
-Before the sync process, Sencha Touch will fire a <code>beforesync</code> system event. When you run the sync() method, all inserts, updates, and deletes are sent as three separate requests, and if you want, you can declare the order in which the three operations should occur. After the sync process, an object is returned with the child objects <code>added, updated, and removed</code>.</p>
 ]]></content>
   </entry>
   

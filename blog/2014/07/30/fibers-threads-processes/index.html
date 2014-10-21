@@ -24,9 +24,12 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -41,16 +44,23 @@
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -64,8 +74,7 @@
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -80,91 +89,49 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Fibers Threads Processes</h1>
-	<div class="entry-content" itemprop="articleBody"><p>Ruby gives you two basic ways to organize your program so that you can run different parts of it apparently “at the same time.” Fibers let you suspend execution of one part of your program and run some other part. For more decoupled execution, you can split up cooper- ating tasks within the program, using multiple threads, or you can split up tasks between different programs, using multiple processes. Let’s look at each in turn.</p>
-
-<h4 id="fibers">Fibers</h4>
-
-<p>Ruby 1.9引入了fibers的概念,尽管名字意味着某种轻量级的线程，实际上，fibers仅仅是一种非常简单的coroutine机制，它能让你写一些看起来用了线程的程序，实际上没有引发任何线程中内在的复杂机制</p>
-
-<p>计算一个文件中单词的出现次数，不用fibers版本</p>
+	<div class="entry-content" itemprop="articleBody"><p>Ruby gives you two basic ways to organize your program so that you can run different parts of it apparently “at the same time.” Fibers let you suspend execution of one part of your program and run some other part. For more decoupled execution, you can split up cooper- ating tasks within the program, using multiple threads, or you can split up tasks between different programs, using multiple processes. Let’s look at each in turn.####Fibers
+Ruby 1.9引入了fibers的概念,尽管名字意味着某种轻量级的线程，实际上，fibers仅仅是一种非常简单的coroutine机制，它能让你写一些看起来用了线程的程序，实际上没有引发任何线程中内在的复杂机制
+计算一个文件中单词的出现次数，不用fibers版本</p>
 
 <pre><code>counts = Hash.new(0) 
-
 File.foreach("testfile") do |line|
-
-	line.scan(/\w+/) do |word| 
-
-	word = word.downcase 
-
-	counts[word] += 1
-
-	end 
-
+    line.scan(/\w+/) do |word| 
+    word = word.downcase 
+    counts[word] += 1
+    end 
 end
-
 counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
-
 produces:
-
-and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
-</code></pre>
-
-<p>这段代码非常的ugly,它混合了查找word和计算word两种逻辑,来看看用Fiber的方法</p>
-
-<pre><code>words = Fiber.new do 
-
-	File.foreach("testfile") do |line|
-		line.scan(/\w+/) do |word| 
-
-		Fiber.yield word.downcase
-
-		end 
-
-	end
-	nil
-￼end
-
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1这段代码非常的ugly,它混合了查找word和计算word两种逻辑,来看看用Fiber的方法
+words = Fiber.new do 
+    File.foreach("testfile") do |line|          line.scan(/\w+/) do |word| 
+        Fiber.yield word.downcase
+        end 
+    end     nil ￼end
 counts = Hash.new(0)
-
 while word = words.resume 
-
-	counts[word] += 1
-
+    counts[word] += 1
 end
-
 counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
-
 produces:
-
 and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
 </code></pre>
 
 <p>再来看一个demo</p>
 
 <pre><code>twos = Fiber.new do 
-
-	num = 2
-	loop do
-		Fiber.yield(num) unless num % 3 == 0 
-
-		num += 2
-
-		end 
-
-	end
-10.times { print twos.resume, " " } 
-
+    num = 2     loop do         Fiber.yield(num) unless num % 3 == 0 
+        num += 2
+        end 
+    end 10.times { print twos.resume, " " } 
 produces:
-
 2 4 8 10 14 16 20 22 26 28
 </code></pre>
 
-<p>以上也可以用之前提到的lazy Enumberators中实现
-由于fibers也是对象，你可以将它们存储在变量中，并且fibers只能在创建它们的线程中resume
+<p>以上也可以用之前提到的lazy Enumberators中实现由于fibers也是对象，你可以将它们存储在变量中，并且fibers只能在创建它们的线程中resume
 fibers can yield control only back to the code that resumed them,不过Ruby提供了两种标准库来拓展这种行为fiber库和continuation库</p>
 
-<h4 id="section">多线程</h4>
-
+<h4>多线程</h4>
 </div>
 
 </article>
@@ -180,17 +147,35 @@ fibers can yield control only back to the code that resumed them,不过Ruby提�
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -205,5 +190,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

@@ -9,8 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Exceptions-catch-throw The Exception Class
-异常的信息被封装进了Exception类的对象或者Exception类的子类对象里,Ruby预定义了exceptions的hierarchy,如下 如果你需要抛出异常,你可以用内置的Exception的类, &hellip;">
+	<meta name="description" content="Exceptions-catch-throw The Exception Class 异常的信息被封装进了Exception类的对象或者Exception类的子类对象里,Ruby预定义了exceptions的hierarchy,如下 如果你需要抛出异常,你可以用内置的Exception的类, &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,9 +24,12 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -42,16 +44,23 @@
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -65,8 +74,7 @@
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -81,10 +89,11 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Exceptions-catch-throw</h1>
-	<div class="entry-content" itemprop="articleBody"><h4 id="the-exception-class">The Exception Class</h4>
+	<div class="entry-content" itemprop="articleBody"><h4>The Exception Class</h4>
+
 <p>异常的信息被封装进了Exception类的对象或者Exception类的子类对象里,Ruby预定义了exceptions的hierarchy,如下</p>
 
-<p><img src="/images/2014/7/exception_hierarchy.png" /></p>
+<p><img src="/images/2014/7/exception_hierarchy.png"></p>
 
 <p>如果你需要抛出异常,你可以用内置的Exception的类,或者可以自己创建一个，不过请确保你创建的Exception
 子类继承自StandardError或者它的子类,否则默认情况下异常是不会被捕捉的
@@ -92,17 +101,12 @@
 这是有一个用open-url的库来下载一个网页的内容并将它写入一个文件中的demo</p>
 
 <pre><code>require 'open-uri'
-
 web_page = open("http://pragprog.com/podcasts") 
-
 output = File.open("podcasts.html", "w")
-
 while line = web_page.gets
 
 output.puts line
-
 end
-
 output.close
 </code></pre>
 
@@ -110,45 +114,34 @@ output.close
 我们看看如何处理异常的代码，我们将可能发生异常的代码放在begin/end的block中，然后用rescue语句来告诉Ruby我们想要捕获的异常类型</p>
 
 <pre><code>require 'open-uri'
-
 page = "podcasts"
-
 file_name = "#{page}.html"
-
 web_page = open("http://pragprog.com/#{page}") output = File.open(file_name, "w")
-
 begin
-
-	while line = web_page.gets output.puts line
-
+    while line = web_page.gets output.puts line
 end
-
 output.close 
-
 rescue Exception
-
-	STDERR.puts "Failed to download #{page}: #{$!}" output.close
-
-	File.delete(file_name)
-
-	raise
-
-end	 When an exception is raised and independent of any subsequent exception handling, Ruby places a reference to the associated exception object into the global variable $! (the exclamation point presumably mirroring our surprise that any of our code could cause errors). In the previous example, we used the $! variable to format our error message. 关掉并删除文件后，我们可以调用无参的raise，这样又在$!里重新抛出了异常，抛到更高层去了 还可以为捕获取的异常指定别名
-
-begin
-
-	eval string
-
-rescue SyntaxError, NameError =&gt; boom
-
-	print "String doesn't compile: " + boom 
-
-rescue StandardError =&gt; bang
-
-	print "Error running script: " + bang 
-
-end #####System Errors System errors are raised when a call to the operating system returns an error code,On POSIX systems, these errors have names such as EAGAIN and EPERM. (If you’re on a Unix box, you could type man errno to get a list of these errors.)
+    STDERR.puts "Failed to download #{page}: #{$!}" output.close
+        File.delete(file_name)
+        raise
+end 
 </code></pre>
+
+<p>When an exception is raised and independent of any subsequent exception handling, Ruby places a reference to the associated exception object into the global variable $! (the exclamation point presumably mirroring our surprise that any of our code could cause errors). In the previous example, we used the $! variable to format our error message.
+关掉并删除文件后，我们可以调用无参的raise，这样又在$!里重新抛出了异常，抛到更高层去了
+还可以为捕获取的异常指定别名</p>
+
+<pre><code>begin
+    eval string
+rescue SyntaxError, NameError =&gt; boom
+    print "String doesn't compile: " + boom 
+rescue StandardError =&gt; bang
+    print "Error running script: " + bang 
+end
+</code></pre>
+
+<h5>System ErrorsSystem errors are raised when a call to the operating system returns an error code,On POSIX systems, these errors have names such as EAGAIN and EPERM. (If you’re on a Unix box, you could type man errno to get a list of these errors.)</h5>
 
 <p>Ruby将这些错误打包成一个具体的exception的对象,每一个是SymstemCallError的子类，并且都定义在Errno module中,这意味着你将看到Excetion的类另如Errno::EAGAIN, Errno::EIO, 和Errno::EPERM,如果你想要获取system error code,每个Error exception类都有一个叫做Errno类常量</p>
 
@@ -166,17 +159,11 @@ Errno::EWOULDBLOCK::Errno # =&gt; 35
 <pre><code>f = File.open("testfile") 
 
 begin
-
 # .. process
-
 rescue
-
   # .. handle error
-
 ensure
-
 f.close
-
 end
 </code></pre>
 
@@ -187,80 +174,54 @@ end
 <pre><code>f = File.open("testfile") 
 
 begin
-
 # .. process
-
 rescue
-
   # .. handle error
-
 else
-
 puts "Congratulations-- no errors!" 
-
 ensure
-
 f.close
-
-end 注意else里的语句只有在无异发生时才会调用 有时你能改正抛出异常的cause,此时可以用retry语句来重新执行begin/end的block
-
-@esmtp = true
-
-begin
-
-	# First try an extended login. If it fails, fall back to a normal login
-
-	if @esmtp then @command.ehlo(helodom) 
-
-				else @command.helo(helodom)
-
-	end
-
-rescue ProtocolError
-
-	if @esmtp then
-
-	    @esmtp = false
-
-		retry 
-
-	else
-
-		raise
-
-	end 
-
 end
 </code></pre>
 
-<h5 id="raising-exceptions">Raising Exceptions</h5>
+<p>注意else里的语句只有在无异发生时才会调用
+有时你能改正抛出异常的cause,此时可以用retry语句来重新执行begin/end的block</p>
+
+<pre><code>@esmtp = true
+begin
+    # First try an extended login. If it fails, fall back to a normal login
+    if @esmtp then @command.ehlo(helodom) 
+                    else @command.helo(helodom)
+        end
+rescue ProtocolError
+    if @esmtp then
+            @esmtp = false
+            retry 
+        else
+            raise
+        end 
+end
+</code></pre>
+
+<h5>Raising Exceptions</h5>
 
 <p>你可以用Object#raise方法来抛出异常</p>
 
-<pre><code>raise	//抛出当前的exception,如果没有，则抛出RuntimeError
+<pre><code>raise   //抛出当前的exception,如果没有，则抛出RuntimeError
+raise "bad mp3 encoding"    //创建一个新的RuntimeError,然后抛到调用栈上
 
-raise "bad mp3 encoding"	//创建一个新的RuntimeError,然后抛到调用栈上
-
-//创建InterfaceException，与之相关的信息，然后抛到stack trace上
-raise InterfaceException, "Keyboard failure", caller
+//创建InterfaceException，与之相关的信息，然后抛到stack trace上 raise InterfaceException, "Keyboard failure", caller
 </code></pre>
 
-<p>stack trace通常用Object#caller</p>
-
-<p>也可以将Exception抛给call stack一部分的子集</p>
-
-<p>假设我们定义了一个RetryException类</p>
+<p>stack trace通常用Object#caller
+也可以将Exception抛给call stack一部分的子集
+假设我们定义了一个RetryException类</p>
 
 <pre><code>class RetryException &lt; RuntimeError
-
-	attr :ok_to_retry
-
-	def initialize(ok_to_retry)
-
-	           @ok_to_retry = ok_to_retry
-
-	end 
-
+    attr :ok_to_retry
+        def initialize(ok_to_retry)
+                   @ok_to_retry = ok_to_retry
+        end 
 end
 </code></pre>
 
@@ -268,88 +229,49 @@ end
 
 <pre><code>def read_data(socket) 
 
-	data = socket.read(512) 
+    data = socket.read(512) 
 
-	if data.nil?
-
-	raise RetryException.new(true), "transient read error" 
-
-	end
-    # .. normal processing
-end
+    if data.nil?
+    raise RetryException.new(true), "transient read error" 
+    end        # .. normal processing   endhigher up te call stack,我们处理异常
+begin        stuff = read_data(socket)        # .. process stuff    rescue RetryException =&gt; detail 
+    retry if detail.ok_to_retry 
+    raise   end
 </code></pre>
 
-<p>higher up te call stack,我们处理异常</p>
-
-<pre><code>begin
-    stuff = read_data(socket)
-    # .. process stuff
-rescue RetryException =&gt; detail 
-
-	retry if detail.ok_to_retry 
-
-	raise
-end
-</code></pre>
-
-<h5 id="catch-and-throw">catch and throw</h5>
+<h5>catch and throw</h5>
 
 <pre><code>word_list = File.open("wordlist") 
-
 word_in_error = catch(:done) do
-
-	result = []
-
-	while line = word_list.gets
-
-	word = line.chomp
-
-	throw(:done, word) unless word =~ /^\w+$/ 
-
-	result &lt;&lt; word
-
-	end
-
-	  puts result.reverse
-
+        result = []
+        while line = word_list.gets
+    word = line.chomp
+    throw(:done, word) unless word =~ /^\w+$/ 
+        result &lt;&lt; word
+    end
+      puts result.reverse
 end
-
 if word_in_error
-
-	puts "Failed: '#{word_in_error}' found, but a word was expected" 
-
+    puts "Failed: '#{word_in_error}' found, but a word was expected" 
 end
 </code></pre>
 
 <p>throw不一定非要出现在catch语句里</p>
 
 <pre><code>def prompt_and_get(prompt)
-
-	print prompt
-
-	res = readline.chomp
-
-	throw :quit_requested if res == "!" 
-
-	res
-
+    print prompt
+    res = readline.chomp
+    throw :quit_requested if res == "!" 
+    res
 end
-
 catch :quit_requested do
-
-	name = prompt_and_get("Name: ") 
-
-	age = prompt_and_get("Age: ") 
-
-	sex = prompt_and_get("Sex: ") 
-
-	# ..
-
-	# process information
-
-end
+    name = prompt_and_get("Name: ") 
+    age = prompt_and_get("Age: ") 
+    sex = prompt_and_get("Sex: ") 
+    # ..
+    # process information
+end 
 </code></pre>
-
 </div>
 
 </article>
@@ -365,17 +287,35 @@ end
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -390,5 +330,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

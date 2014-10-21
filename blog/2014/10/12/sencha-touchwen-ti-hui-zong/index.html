@@ -5,11 +5,25 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Regular Expression - AllenToFight Blog</title>
+	<title>Sencha Touch问题汇总 - AllenToFight Blog</title>
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Regular Expression 正则表达式如下 /cat/ /123/ 正则表达式/.../里的常量和双引号的字符串类似,实际上，你可以在正则里，你也可以用#{...}表达式的替换形式 Matching Strings with Patterns /cat/ =~ "dog and cat &hellip;">
+	<meta name="description" content="Sencha Touch问题汇总 iOS7 Phonegap / Cordova statusbar fix
+适配retina屏 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+#yourimage { height: 100px; width: 320px; -webkit- &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +33,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="AllenToFight Blog" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/2014/07/29/regular-expression/">
+	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/2014/10/12/sencha-touchwen-ti-hui-zong/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -88,105 +102,40 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Regular Expression</h1>
-	<div class="entry-content" itemprop="articleBody"><p>正则表达式如下</p>
+	<h1 class="title" itemprop="name">Sencha Touch问题汇总</h1>
+	<div class="entry-content" itemprop="articleBody"><ol>
+<li><p><a href="http://abitofcoding.blogspot.ch/2014/01/ios7-phonegap-layout-fix.html">iOS7 Phonegap / Cordova statusbar fix</a></p></li>
+<li><p>适配retina屏</p></li>
+</ol>
 
-<pre><code>/cat/
 
-/123/
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#yourimage {
+</span><span class='line'>  height: 100px;
+</span><span class='line'>  width: 320px;
+</span><span class='line'>  -webkit-background-size: 320px 100px; // Critical line! 
+</span><span class='line'>  background: url("images/yourimage.png") no-repeat;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// This detects the iPhone 4 Retina display
+</span><span class='line'>@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+</span><span class='line'>  #yourimage {
+</span><span class='line'>      background: url("images/yourimage@2x.png") no-repeat;
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-<p>正则表达式<code>/.../</code>里的常量和双引号的字符串类似,实际上，你可以在正则里，你也可以用<code>#{...}</code>表达式的替换形式</p>
-
-<h5>Matching Strings with Patterns</h5>
-
-<pre><code>/cat/ =~ "dog and cat" # =&gt; 8 
-
-/cat/ =~ "catch" # =&gt; 0 
-
-/cat/ =~ "Cat" # =&gt; nil
-</code></pre>
-
-<p>如果你喜欢也可以把字符串放在前面</p>
-
-<pre><code>"dog and cat" =~ /cat/ # =&gt; 8 
-
-"catch" =~ /cat/ # =&gt; 0 
-
-"Cat" =~ /cat/ # =&gt; nil
-</code></pre>
-
-<p>模式匹配如果失败，会返回nil、，而nil在条件表达式中相当于false，所以可以把正则表达式的匹配结果作为if和while的条件语句</p>
-
-<pre><code>str = "cat and dog"
-    if str =~ /cat/
-puts "There's a cat here somewhere"
-end
-produces:
-There's a cat here somewhere
-</code></pre>
-
-<p>以下的代码打印&#8221;testfile&#8221;文件中有&#8221;on&#8221;字符串的行</p>
-
-<pre><code>File.foreach("testfile").with_index do |line, index| 
-
-puts "#{index}: #{line}" if line =~ /on/
-    end
-produces:
-0: This is line one
-3: And so on...你可以用!~来查找`不匹配`的字符串
-
-File.foreach("testfile").with_index do |line, index| 
-
-    puts "#{index}: #{line}" if line !~ /on/
-        end
-produces:
-1: This is line two
-2: This is line three
-</code></pre>
-
-<h5>Changing Strings with Patterns</h5>
-
-<p>sub方法用来查找并替换匹配的字符串</p>
-
-<pre><code>str = "Dog and Cat"
-    new_str = str.sub(/Cat/, "Gerbil")
-puts "Let's go to the #{new_str} for a pint."
-produces:
-Let's go to the Dog and Gerbil for a pint.
-</code></pre>
-
-<p>sub只是替换第一个匹配的，要替换全局匹配的，就用gsub</p>
-
-<pre><code>str = "Dog and Cat"
-    new_str1 = str.sub(/a/, "*") 
-new_str2 = str.gsub(/a/, "*") 
-puts "Using sub: #{new_str1}" 
-puts "Using gsub: #{new_str2}"
-produces:
-Using sub: Dog *nd Cat
-Using gsub: Dog *nd C*t 
-</code></pre>
-
-<p>需要注意的是，sub和gsub都返回一个全新的string,不论是否替换！如果替换，也返回原string的一个copy
-如果你想要修改原始的string，你可以用sub!和gsub!的形式</p>
-
-<pre><code>str = "now is the time" 
-
-str.sub!(/i/, "*") 
-
-str.gsub!(/t/, "T") 
-
-puts str
-    produces:
-now *s The Time
-</code></pre>
-
-<p>不过不像sub和gsub，sub!和gsub!只有在匹配正则表达式时才返回string，如果不匹配，则返回nil，这意味着你可以将它放在条件语句中</p>
-
-<h5>Digging Deeper</h5>
-
-<p>未完待续&hellip;.</p>
 </div>
 
 </article>

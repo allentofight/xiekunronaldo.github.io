@@ -9,8 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Head First C第六章-数据结构和动态内存 这一章中我们将学习到如何用结构体指针来将自定义的数据类型连接成一个更大更复杂的数据结构，我们通过创建链表来了解结构体指针的用处，也将学习到如何在堆上分配内存，并在你用完之后释放它，我们也将学习到valgrind的使用
-#### &hellip;">
+	<meta name="description" content="Head First C第六章-数据结构和动态内存 这一章中我们将学习到如何用结构体指针来将自定义的数据类型连接成一个更大更复杂的数据结构，我们通过创建链表来了解结构体指针的用处，也将学习到如何在堆上分配内存，并在你用完之后释放它，我们也将学习到valgrind的使用 在堆上分配内存以及释放内存 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,9 +24,12 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -42,16 +44,23 @@
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -65,8 +74,7 @@
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -81,62 +89,57 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Head First C第六章-数据结构和动态内存</h1>
-	<div class="entry-content" itemprop="articleBody"><p>这一章中我们将学习到如何用结构体指针来将自定义的数据类型连接成一个更大更复杂的数据结构，我们通过创建链表来了解结构体指针的用处，也将学习到如何在堆上分配内存，并在你用完之后释放它，我们也将学习到valgrind的使用
-####在堆上分配内存以及释放内存
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">typedef struct island{ 
-</span><span class="line">	char *name;
-</span><span class="line">	char *opens;
-</span><span class="line">	char *closes;
-</span><span class="line">	island *next;
-	} island;
-</span><span class="line">
-</span><span class="line">#include&lt;stdlib.h&gt;
-</span><span class="line">island *p = malloc(sizeof(island))
-</span><span class="line">free(p);</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-以下函数有何问题</p>
+	<div class="entry-content" itemprop="articleBody"><p>这一章中我们将学习到如何用结构体指针来将自定义的数据类型连接成一个更大更复杂的数据结构，我们通过创建链表来了解结构体指针的用处，也将学习到如何在堆上分配内存，并在你用完之后释放它，我们也将学习到valgrind的使用</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">island* create(char *name) {
-</span><span class="line">
-		island *i = malloc(sizeof(island)); 
-</span><span class="line">
-		i-&gt;name = name;
-</span><span class="line">
-		i-&gt;opens = "09:00";
-</span><span class="line">
-		i-&gt;closes = "17:00";
-</span><span class="line">
-		i-&gt;next = NULL;
-</span><span class="line">
-		return i; 
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<h4>在堆上分配内存以及释放内存</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef struct island{ 
+</span><span class='line'>  char *name;
+</span><span class='line'>  char *opens;
+</span><span class='line'>  char *closes;
+</span><span class='line'>  island *next;   } island;
+</span><span class='line'>
+</span><span class='line'>#include&lt;stdlib.h&gt;
+</span><span class='line'>island *p = malloc(sizeof(island))
+</span><span class='line'>free(p);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以下函数有何问题</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>island* create(char *name) {
+</span><span class='line'>      island *i = malloc(sizeof(island)); 
+</span><span class='line'>      i-&gt;name = name;
+</span><span class='line'>      i-&gt;opens = "09:00";
+</span><span class='line'>      i-&gt;closes = "17:00";
+</span><span class='line'>      i-&gt;next = NULL;
+</span><span class='line'>      return i; 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
 
 <p>当在程序里调用如下代码时</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">char name[80];
-fgets(name, 80, stdin);
-island *p_island0 = create(name); 
-</span><span class="line">fgets(name, 80, stdin);
-island *p_island1 = create(name);
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>char name[80];fgets(name, 80, stdin);island *p_island0 = create(name); 
+</span><span class='line'>fgets(name, 80, stdin);island *p_island1 = create(name);</span></code></pre></td></tr></table></div></figure>
+
 
 <p>p_island0和p_island1的name是一样的！！！原来是create函数传入的只是name的地址，两者的地址是一样的，你必须用strdup函数copy字符串,故以上create函数的代码中的</p>
 
@@ -145,28 +148,37 @@ island *p_island1 = create(name);
 
 <p>可改为</p>
 
-<pre><code>i-&gt;name = strdup(name); 不过要记得用strdup()拷贝字符串，最后需要用free()将此拷贝字符串release掉 ###valgrind可用来检测内存泄漏 valgrind能模拟在堆上分配的数据，它通过创建模拟的malloc()版本来工作，当你的程序想要分配一些堆上的内存时，valgrind将截获你对malloc()和free()的调用并运行它自己的模拟版本的malloc()和free(),valgrind版本的malloc()将记录调用它的那些代码以及它所分配的那部分内存,当你的程序终止时,valgrind将会报告任何堆上还存在的数据并且告诉你这些数据由哪些代码调用产生的 ####准备:添加debug信息 用valgrind运行之前你不需要对你的代码作任何操作，你甚至不需要重新编译代码，但是为了更好地利用valgrind，代需要确保你的可执行代码包含debug信息，debug信息是在编译代码后嵌入到可执行文件里的额外数据，比如代码对应的行数，如果debug信息存在了，valgrind将能给你许多内存泄漏的具体信息 测试所用程序[spies](https://gist.github.com/xiekunRonaldo/cdde073cac5636270322) 用valgrind结合--leak-check=full选项进行以下测试
+<pre><code>i-&gt;name = strdup(name);
 </code></pre>
 
-<p><img src="/images/2014/7/valgrind1.png" /></p>
+<p>不过要记得用strdup()拷贝字符串，最后需要用free()将此拷贝字符串release掉</p>
+
+<h3>valgrind可用来检测内存泄漏</h3>
+
+<p>valgrind能模拟在堆上分配的数据，它通过创建模拟的malloc()版本来工作，当你的程序想要分配一些堆上的内存时，valgrind将截获你对malloc()和free()的调用并运行它自己的模拟版本的malloc()和free(),valgrind版本的malloc()将记录调用它的那些代码以及它所分配的那部分内存,当你的程序终止时,valgrind将会报告任何堆上还存在的数据并且告诉你这些数据由哪些代码调用产生的</p>
+
+<h4>准备:添加debug信息</h4>
+
+<p>用valgrind运行之前你不需要对你的代码作任何操作，你甚至不需要重新编译代码，但是为了更好地利用valgrind，代需要确保你的可执行代码包含debug信息，debug信息是在编译代码后嵌入到可执行文件里的额外数据，比如代码对应的行数，如果debug信息存在了，valgrind将能给你许多内存泄漏的具体信息
+测试所用程序<a href="https://gist.github.com/xiekunRonaldo/cdde073cac5636270322">spies</a>
+用valgrind结合&mdash;leak-check=full选项进行以下测试</p>
+
+<p><img src="/images/2014/7/valgrind1.png"></p>
 
 <p>从上图可以看出，当SPIES退出后，堆上已无对象，再运行一遍试试看，然后告诉程序有一个Hayden Fantucci的嫌疑人会怎样</p>
 
-<p><img src="/images/2014/7/valgrind2.png" /></p>
+<p><img src="/images/2014/7/valgrind2.png"></p>
 
 <p>这次,valgrind发现了内存泄漏,从上图可看出，在程序结束时，堆上有19个字节的空间未释放,valgrind告诉你以下信息</p>
 
 <ol>
-  <li>19个字节的内存分配了但未释放</li>
-  <li>分配了11次的内存空间，但只释放了10次</li>
-  <li>这几行给了我们什么线索</li>
-  <li>为什么是19个字节？说明了什么?
-从以个信息可得,”Loretta Barnsworth”占了19个字节,strdup导致了内存泄漏！
-    <ul>
-      <li>valgrind是如何截获对malloc()和free()的调用的
+<li>19个字节的内存分配了但未释放</li>
+<li>分配了11次的内存空间，但只释放了10次</li>
+<li>这几行给了我们什么线索</li>
+<li>为什么是19个字节？说明了什么?
+从以个信息可得,&ldquo;Loretta Barnsworth&#8221;占了19个字节,strdup导致了内存泄漏！</li>
+<li>valgrind是如何截获对malloc()和free()的调用的
 答:malloc()和free() 实际上是标准库函数，不过valgrind包含一个它自己的malloc()和free()版本的标准库函数，当你用valgrind来运行程序时，你的程序将用valgrind的malloc()和free()函数，而非C的标准库函数</li>
-    </ul>
-  </li>
 </ol>
 
 </div>
@@ -184,17 +196,35 @@ island *p_island1 = create(name);
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -209,5 +239,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

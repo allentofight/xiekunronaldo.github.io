@@ -9,7 +9,9 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Head First C第七章笔记-高级函数 导读:这一章我们将学习函数的一些高级特性,如 将函数作为一个参数进行传递 用比较函数进行排序 用可变参数的函数让你的代码变得更加灵活 函数指针 int (*warp_fn)(int); 将函数指针当作参数传递给函数 1
+	<meta name="description" content="Head First C第七章笔记-高级函数 导读:这一章我们将学习函数的一些高级特性,如 将函数作为一个参数进行传递
+用比较函数进行排序
+用可变参数的函数让你的代码变得更加灵活 函数指针 int (*warp_fn)(int); 将函数指针当作参数传递给函数 1
 2
 3
 4
@@ -29,9 +31,12 @@ void &hellip;">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -46,16 +51,23 @@ void &hellip;">
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -69,8 +81,7 @@ void &hellip;">
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -88,130 +99,121 @@ void &hellip;">
 	<div class="entry-content" itemprop="articleBody"><p>导读:这一章我们将学习函数的一些高级特性,如</p>
 
 <ol>
-  <li>将函数作为一个参数进行传递</li>
-  <li>用比较函数进行排序</li>
-  <li>用可变参数的函数让你的代码变得更加灵活</li>
+<li>将函数作为一个参数进行传递</li>
+<li>用比较函数进行排序</li>
+<li>用可变参数的函数让你的代码变得更加灵活</li>
 </ol>
 
-<h5 id="section">函数指针</h5>
+
+<h5>函数指针</h5>
 
 <pre><code>int (*warp_fn)(int);
 </code></pre>
 
 <p>将函数指针当作参数传递给函数</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">void find(int (*mactch)(char *)){
-</span><span class="line">	if (match(ADS[i])){
-</span><span class="line">		//char *ADS[] = {"one", "two"};
-</span><span class="line">	}
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void find(int (*mactch)(char *)){
+</span><span class='line'>  if (match(ADS[i])){
+</span><span class='line'>      //char *ADS[] = {"one", "two"};
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-<h5 id="section-1">用函数指针来排序</h5>
+
+<h5>用函数指针来排序</h5>
+
 <p>C标准库里有一个排序指针如下</p>
 
-<p><img src="/images/2014/7/qsort.png" /></p>
+<p><img src="/images/2014/7/qsort.png"></p>
 
-<p>假设你有以下整形数组，你想按升序排序，该如何写排序函数 </p>
+<p>假设你有以下整形数组，你想按升序排序，该如何写排序函数</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">int scores[] = {543,323,32,554,11,3,112};
-</span><span class="line">int compare_scores(const void* score_a, const void* score_b)
-</span><span class="line">{
-</span><span class="line">	int a = *(int*)score_a; 
-</span><span class="line">	int b = *(int*)score_b;
-</span><span class="line">	return a-b;
-</span><span class="line">}
-</span><span class="line">qsort(scores, 7, sizeof(int), compare_scores);</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int scores[] = {543,323,32,554,11,3,112};
+</span><span class='line'>int compare_scores(const void* score_a, const void* score_b)
+</span><span class='line'>{
+</span><span class='line'>  int a = *(int*)score_a; 
+</span><span class='line'>  int b = *(int*)score_b;
+</span><span class='line'>  return a-b;
+</span><span class='line'>}
+</span><span class='line'>qsort(scores, 7, sizeof(int), compare_scores);</span></code></pre></td></tr></table></div></figure>
+
+
 <p>如果是一个char *p[]数组呢，该如何写compare函数</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">int compare_names(const void* a, const void* b){
-</span><span class="line">	char** sa = (char**)a;
-</span><span class="line">	char** sb = (char**)b; 
-</span><span class="line">	return strcmp(*sa, *sb);
-￼￼￼￼￼￼￼￼
-</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>#####函数指针数组</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int compare_names(const void* a, const void* b){
+</span><span class='line'>  char** sa = (char**)a;
+</span><span class='line'>  char** sb = (char**)b; 
+</span><span class='line'>  return strcmp(*sa, *sb);￼￼￼￼￼￼￼￼
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>函数指针数组</h5>
 
 <pre><code>//dump,second_change, marriage都是函数
-void (*replies[])(response) = {dump, second_chance, marriage}; 判断调用的是否是某个函数
-
-enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
-replies[SECOND_CHANCE] == second_chance
+void (*replies[])(response) = {dump, second_chance, marriage};
 </code></pre>
 
-<p>完整的demo</p>
+<p>判断调用的是否是某个函数</p>
 
-<pre><code>typedef struct {
-char *name;
-enum response_type type; } response;
-enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+<pre><code>enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+replies[SECOND_CHANCE] == second_chance完整的demo
+typedef struct {    char *name; enum response_type type; } response;    enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
 void (*replies[])(response) = {dump, second_chance, marriage};
 
 int main()
 {
-	response r[] = {
-		{"Mike", DUMP}, {"Luis", SECOND_CHANCE}, 
-		{"Matt", SECOND_CHANCE}, {"William", MARRIAGE}
-	};
-	int i;
-	for (i = 0; i &lt; 4; i++){
-		(replies[r[i].type])(r[i]);
-	}
-} #####可变参函数 demo1
-
-#include &lt;stdarg.h&gt;
-void print_ints(int args, ....){
-	va_list ap; 
-	va_start(ap, args);
-	int i;
-	for (i = 0; i &lt; args; i++) {
-		printf("argument: %i\n", va_arg(ap, int)); 
-	}
-	va_end(ap);
-} 注:va_end,va_start是宏
-</code></pre>
-
-<p>demo2</p>
-
-<pre><code>enum drink {
-MUDSLIDE, FUZZY_NAVEL, MONKEY_GLAND, ZOMBIE
-};
-printf("Price is %.2f\n", total(3, MONKEY_GLAND, MUDSLIDE, FUZZY_NAVEL));
-double total(int args, ...)
-{
-	double total = 0;
-	va_list ap;
-
-	va_start(ap, args);
-	
-	int i;
-
-	for(i = 0; i &lt; args; i++) {
-		enum drink d = va_arg(ap, enum drink);
-		total = total + price(d); 
-	}
-	va_end(ap);
-	return total;
+    response r[] = {            {"Mike", DUMP}, {"Luis", SECOND_CHANCE},            {"Matt", SECOND_CHANCE}, {"William", MARRIAGE}      };
+    int i;
+    for (i = 0; i &lt; 4; i++){
+        (replies[r[i].type])(r[i]);
+    }
 }
 </code></pre>
 
+<h5>可变参函数</h5>
+
+<p>demo1</p>
+
+<pre><code>#include &lt;stdarg.h&gt;
+void print_ints(int args, ....){
+    va_list ap; 
+    va_start(ap, args);
+    int i;
+    for (i = 0; i &lt; args; i++) {            printf("argument: %i\n", va_arg(ap, int));      }
+    va_end(ap);
+}
+</code></pre>
+
+<p>注:va_end,va_start是宏</p>
+
+<p>demo2</p>
+
+<pre><code>enum drink {    MUDSLIDE, FUZZY_NAVEL, MONKEY_GLAND, ZOMBIE };
+printf("Price is %.2f\n", total(3, MONKEY_GLAND, MUDSLIDE, FUZZY_NAVEL));
+double total(int args, ...)
+{
+    double total = 0;       va_list ap;
+    va_start(ap, args);             int i;
+    for(i = 0; i &lt; args; i++) {         enum drink d = va_arg(ap, enum drink);          total = total + price(d);       }       va_end(ap);     return total;
+}
+</code></pre>
 </div>
 
 </article>
@@ -227,17 +229,35 @@ double total(int args, ...)
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -252,5 +272,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

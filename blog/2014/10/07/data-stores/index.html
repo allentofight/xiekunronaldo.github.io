@@ -24,9 +24,12 @@
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
   
 
 </head>
@@ -41,16 +44,23 @@
 	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
 	
 </div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
 
-<nav id="main-nav"><ul class="main">
-    <li><a href="/">Blog</a></li>
-    <li><a href="http://about.me/shashankmehta">About</a></li>
-    <li><a href="/blog/archives">Archives</a></li>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
+
 </nav>
 <nav id="sub-nav">
 	<div class="social">
 		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
 		
 		
 		
@@ -64,8 +74,7 @@
 		
 		
 		
-    	
-    	
+		
 			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
 	</div>
@@ -82,606 +91,588 @@
 	<h1 class="title" itemprop="name">Data Stores</h1>
 	<div class="entry-content" itemprop="articleBody"><p>A data store is a mechanism to cache your data and is part of the Ext.data package. It is like a bucket full of data records. You can pick (select) a record out of this bucket (the data store) and add or remove records. Stores also provide functions for sorting, filtering, and grouping the model instances. You’ll need to give a model structure to the store with data. You can do this inline by setting the fields and data arrays (hardcoded), but a better MVC approach is to bind a model to the data store.</p>
 
-<p>Sencha Touch has data-aware components — such as <code>lists, dataviews, and charts</code> — that need to be hooked up to a store in order to display data. I will discuss those in
-<code>Chapter 11.</code></p>
+<p>Sencha Touch has data-aware components — such as <code>lists, dataviews, and charts</code> — that need to be hooked up to a store in order to display data. I will discuss those in<code>Chapter 11.</code>In this chapter, you’ll learn:
+* How to load data in a store<em> How to sort a data store locally How to sort data on a server</em> How to group a data store* How to filter a data store locally
+* How to filter a data store on a server
+* How to save/sync data in a store</p>
 
-<p>In this chapter, you’ll learn:</p>
+<h4>Loading Data in a Store</h4>
 
-<ul>
-  <li>How to load data in a store</li>
-  <li>How to sort a data store locally How to sort data on a server</li>
-  <li>How to group a data store</li>
-  <li>How to filter a data store locally </li>
-  <li>How to filter a data store on a server </li>
-  <li>How to save/sync data in a store</li>
-</ul>
+<p>For the FindACab app to be able to display the data, the data needs to be contained in the store. By default, when you create a store (and the data is not hardcoded), you will have to load the model data into your store.When autoLoad is not enabled, you have to manually load the store from your code, or from your developer’s console:</p>
 
-<h4 id="loading-data-in-a-store">Loading Data in a Store</h4>
-<p>For the FindACab app to be able to display the data, the data needs to be contained in the store. By default, when you create a store (and the data is not hardcoded), you will have to load the model data into your store.
-When autoLoad is not enabled, you have to manually load the store from your code, or from your developer’s console:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.getStore('MyStore').load(this, records, successful, operation, eOpts);</span></code></pre></td></tr></table></div></figure>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Ext.getStore('MyStore').load(this, records, successful, operation, eOpts);</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 <p><code>NOTE</code></p>
 
 <p><code>Ext.getStore("MyStore")</code> is a lookup method; it finds a store (if the store is registered in the Ext.application() or controller) based on the store instance name or storeId through the StoreManager. Really, it’s a short alias for <code>Ext.data.StoreManager.lookup("myStore")</code>;.</p>
 
-<p>We want the FindACab app to retrieve a list of cabs in the area. We already hooked up a proxy to the store, so we can load the data. When you run the Ext.getStore(“Cabs”).load() event in the console, it will look up the Cabs store through the StoreManager and return a store object with a data array that contains 20 items.</p>
+<p>We want the FindACab app to retrieve a list of cabs in the area. We already hooked up a proxy to the store, so we can load the data. When you run the Ext.getStore(&ldquo;Cabs&rdquo;).load() event in the console, it will look up the Cabs store through the StoreManager and return a store object with a data array that contains 20 items.</p>
 
 <p>Instead of just loading the store, you can also handle a callback:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">Ext.getStore('Cabs').load({
-</span><span class="line">    callback: function(records, success, operation) {
-</span><span class="line">        //callback function here
-</span><span class="line">        console.log(records);
-</span><span class="line">    },
-</span><span class="line">    scope: this
-</span><span class="line">});</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>The store has a callback function, which in this case logs all records after the store is loaded. You can also set a scope. In this case, when you log console.log(this) in your callback, it won’t log the scope within the callback, but rather the scope of the class where the store load() event is called.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.getStore('Cabs').load({
+</span><span class='line'>    callback: function(records, success, operation) {
+</span><span class='line'>        //callback function here
+</span><span class='line'>        console.log(records);
+</span><span class='line'>    },
+</span><span class='line'>    scope: this
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
 
-<p><code>TIP</code></p>
 
-<p><code>
-There are more events you can listen for in the store; for example, addrecords, beforeload, beforesync, refresh, removerecords, updaterecords, and write. Check the API docs for more details about the different store events.
-</code></p>
+<p>The store has a callback function, which in this case logs all records after the store is loaded. You can also set a scope. In this case, when you log console.log(this) in your callback, it won’t log the scope within the callback, but rather the scope of the class where the store load() event is called.<code>TIP</code>
+<code>
+There are more events you can listen for in the store; for example, addrecords, beforeload, beforesync, refresh, removerecords, updaterecords, and write. Check the API docs for more details about the different store events.</code>
+Now you will modify the store proxy config. Instead of entering a full proxy URL, you will retrieve the URL, the YELP_API key, and the YELP_TERM from the Utils.Commons static file, so it’s better organized. You can send parameters with the request by using the extraParams object, and you can modify these parameters from elsewhere in your code, as shown in Example 9-1.
+&#8220;`
+Example 9 &ndash; 1.store / Cabs.js
+Ext.define(&lsquo;FindACab.store.Cabs&rsquo;, {</p>
 
-<p>Now you will modify the store proxy config. Instead of entering a full proxy URL, you will retrieve the URL, the YELP_API key, and the YELP_TERM from the Utils.Commons static file, so it’s better organized. You can send parameters with the request by using the extraParams object, and you can modify these parameters from elsewhere in your code, as shown in Example 9-1.</p>
-
-<p><code>
-Example 9 - 1.store / Cabs.js
-Ext.define('FindACab.store.Cabs', {
-    extend: 'Ext.data.Store',
-    requires: ['Ext.data.proxy.JsonP'],
-    config: {
-        model: 'FindACab.model.Cab',
-        autoLoad: false,
-        proxy: {
-            type: 'jsonp',
-            url: Utils.Commons.YELP_API,
-            noCache: false,
-            extraParams: {
-                term: Utils.Commons.YELP_TERM,
-                ywsid: Utils.Commons.YELP_KEY,
-                location: Utils.Commons.LOCATION
-            },
-            reader: {
-                type: 'json',
-                rootProperty: 'businesses',
-            }
+<pre><code>extend: 'Ext.data.Store',
+requires: ['Ext.data.proxy.JsonP'],
+config: {
+    model: 'FindACab.model.Cab',
+    autoLoad: false,
+    proxy: {
+        type: 'jsonp',
+        url: Utils.Commons.YELP_API,
+        noCache: false,
+        extraParams: {
+            term: Utils.Commons.YELP_TERM,
+            ywsid: Utils.Commons.YELP_KEY,
+            location: Utils.Commons.LOCATION
         },
-    }
-});
-</code></p>
-
-<p>In order to maintain the store callback in the controller, you will create a system event listener to listen to the store load event. For now, this code will only log the results, and show and hide a loading indicator. Example 9-2 shows the new FindACab.controller.CabController.</p>
-
-<p>&#8220;`
-Example 9-2. controller/CabController.js</p>
-
-<p><code>
-Ext.define('FindACab.controller.CabController', {
-    extend: 'Ext.app.Controller',
-    config: {
-        models: ['Cab'],
-        stores: ['Cabs']
+        reader: {
+            type: 'json',
+            rootProperty: 'businesses',
+        }
     },
-    init: function() {
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            message: 'loading...'
-        });
-        Ext.getStore('Cabs').load();
-        Ext.getStore('Cabs').addListener('load',
-            this.onCabsStoreLoad,
-            this);
-    },
-    onCabsStoreLoad: function(records, success, operation) {
-        console.log(records.getData());
-        Ext.Viewport.unmask();
-    }
-});
-</code></p>
+}
+</code></pre>
 
-<h4 id="sorting-a-data-store-locally">Sorting a Data Store Locally</h4>
-
-<p>After you retrieve data in your store, you might notice that the store is not sorted. It is possible to sort the records in a data store on the client side. You will use the <code>Ext.data.Store.sort(sorters, [defaultDirection], [where])</code> method, and you can pass in sorters_ object, which specifies the fieldname to sort and the direction, either ASC (ascending, A–Z) and DESC (descending, Z-A).</p>
-
-<p>Here I construct a sorters array to sort the fieldname property by ASC:</p>
-
-<p><code>
-sorters: [{
-	property: "fieldname", direction: "ASC"
-}]
-</code></p>
-
-<p>The sorters array or the sort() method on the store sorts the data collection inside the
-store by one or more of its properties.</p>
-
-<p>To programmatically sort a store from elsewhere in your code, you can pass in a single
-argument, the fieldname to sort. This will toggle between ascending and descending:</p>
-
-<p><code>
-Ext.getStore("Cabs").sort("name");
-</code></p>
-
-<p>Or you can pass in the full sorters configuration:</p>
-
-<p><code>
-Ext.getStore("Cabs").sort({
-    property: "fieldname",
-    direction: "ASC"
-});
+<p>});<code>
+In order to maintain the store callback in the controller, you will create a system event listener to listen to the store load event. For now, this code will only log the results, and show and hide a loading indicator. Example 9-2 shows the new FindACab.controller.CabController.
 </code>
-Or just the string fieldname and strings “ASC” or “DESC”:</p>
+Example 9-2. controller/CabController.js
+&#8220;`
+Ext.define(&lsquo;FindACab.controller.CabController&rsquo;, {</p>
 
-<p><code>
-Ext.getStore("Cabs").sort("name", "DESC");
+<pre><code>extend: 'Ext.app.Controller',
+config: {
+    models: ['Cab'],
+    stores: ['Cabs']
+},
+init: function() {
+    Ext.Viewport.mask({
+        xtype: 'loadmask',
+        message: 'loading...'
+    });
+    Ext.getStore('Cabs').load();
+    Ext.getStore('Cabs').addListener('load',
+        this.onCabsStoreLoad,
+        this);
+},
+onCabsStoreLoad: function(records, success, operation) {
+    console.log(records.getData());
+    Ext.Viewport.unmask();
+}
+</code></pre>
+
+<p>});&#8220;`</p>
+
+<h4>Sorting a Data Store Locally</h4>
+
+<p>After you retrieve data in your store, you might notice that the store is not sorted. It is possible to sort the records in a data store on the client side. You will use the <code>Ext.data.Store.sort(sorters, [defaultDirection], [where])</code> method, and you can pass in sorters_ object, which specifies the fieldname to sort and the direction, either ASC (ascending, A–Z) and DESC (descending, Z-A).
+Here I construct a sorters array to sort the fieldname property by ASC:
+<code>
+sorters: [{ property: "fieldname", direction: "ASC"}]</code>
+The sorters array or the sort() method on the store sorts the data collection inside thestore by one or more of its properties.
+To programmatically sort a store from elsewhere in your code, you can pass in a singleargument, the fieldname to sort. This will toggle between ascending and descending:
+<code>
+Ext.getStore("Cabs").sort("name");</code>
+Or you can pass in the full sorters configuration:
+&#8220;`
+Ext.getStore(&ldquo;Cabs&rdquo;).sort({</p>
+
+<pre><code>property: "fieldname",
+direction: "ASC"
+</code></pre>
+
+<p>});<code>Or just the string fieldname and strings "ASC" or "DESC":
 </code>
-In the FindACab app, you will sort the Cabs list on the cab service name in alphabetical
-order. Therefore, the default sorter will be set to name:
-&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">sorters: [{
-</span><span class="line">    property: "name",
-</span><span class="line">    direction: "ASC"
-</span><span class="line">}],</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
-It is possible to add sorters on top of each other. For example, first sort on the field name and afterward filter on the field distance. You do so by passing an array:</p>
+Ext.getStore(&ldquo;Cabs&rdquo;).sort(&ldquo;name&rdquo;, &ldquo;DESC&rdquo;);&#8220;`
+In the FindACab app, you will sort the Cabs list on the cab service name in alphabeticalorder. Therefore, the default sorter will be set to name:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">store.sort([{
-</span><span class="line">    property: 'name',
-</span><span class="line">    direction: 'ASC'
-</span><span class="line">}, {
-</span><span class="line">    property: 'distance',
-</span><span class="line">    direction: 'DESC'
-</span><span class="line">}]);</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sorters: [{
+</span><span class='line'>    property: "name",
+</span><span class='line'>    direction: "ASC"
+</span><span class='line'>}],</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It is possible to add sorters on top of each other. For example, first sort on the field name and afterward filter on the field distance. You do so by passing an array:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>store.sort([{
+</span><span class='line'>    property: 'name',
+</span><span class='line'>    direction: 'ASC'
+</span><span class='line'>}, {
+</span><span class='line'>    property: 'distance',
+</span><span class='line'>    direction: 'DESC'
+</span><span class='line'>}]);</span></code></pre></td></tr></table></div></figure>
+
+
 <p>When the sort() method is called again with a new sorter object, any existing sorters will be removed. When the sort() method is called without any arguments, the existing sorters will be reapplied. To keep existing sorters and add new ones, you will need to run the add() method on the sorters object. Here is how you can add sorters to a store:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">store.sorters.add(new Ext.util.Sorter({
-</span><span class="line">    property: 'phone',
-</span><span class="line">    direction: 'ASC'
-</span><span class="line">}));
-</span><span class="line">store.sort();</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>store.sorters.add(new Ext.util.Sorter({
+</span><span class='line'>    property: 'phone',
+</span><span class='line'>    direction: 'ASC'
+</span><span class='line'>}));
+</span><span class='line'>store.sort();</span></code></pre></td></tr></table></div></figure>
+
+
 <p>The previous examples make sense when you want to sort on local stores. However, it’s also possible to sort remotely on the server side.</p>
 
-<h4 id="sorting-data-on-a-server">Sorting Data on a Server</h4>
+<h4>Sorting Data on a Server</h4>
+
 <p>The data that you retrieve from the server side might be very large. It could be faster to sort it on the server side instead of locally. Luckily, Sencha Touch provides a way to implement server-side paging, called <code>remote sorting</code>. You will use the Ext.data.Store.remoteSort boolean, and you will use the sorters object directly in the store or run the Ext.data.Store.sort(sorters, [defaultDirection], [where]) method where you can pass in a sorters object. (See the previous section on how to sort a store.)</p>
 
 <p>If you want to enable remote sorting, set the following settings in the store class definition:</p>
 
 <ul>
-  <li>A pageSize to define the number of records that constitutes a “page.” (Note that the default page size is set to 25.)</li>
-  <li>The boolean remoteSort config in the store class definition to true. (Note that remote sorting is false by default.)</li>
-  <li>The sorters object, as described in the previous section:</li>
+<li>A pageSize to define the number of records that constitutes a “page.” (Note that the default page size is set to 25.)<em> The boolean remoteSort config in the store class definition to true. (Note that remote sorting is false by default.)</em> The sorters object, as described in the previous section:
+<code>
+pageSize: 30,
+remoteSort: true,
+sorters: [{ property: "fieldname",  direction: "ASC" }]</code>
+Unfortunately, because we do not have control over the Yelp server side, we won’t implement a remote sorter for the FindACab app. However, I do want to share a running example of a remote sorter. In this demo, there is another data store with Car objects that sorts cars by brand in ascending order:
+<code>
+Ext.define('RemoteTest.store.Cars', {
+      extend: 'Ext.data.Store',
+      requires: ['Ext.data.proxy.JsonP'],
+      config: {
+          model: 'RemoteTest.model.Car',
+          autoLoad: true,
+          remoteSort: true, //
+          sorters: [{ //
+              property: "brand",
+              direction: "ASC"
+          }],
+      pageSize: 20, //
+      proxy: { //
+          type: 'jsonp',
+          url: 'http://someurl.com/test.php',
+          reader: { //
+              rootProperty: 'results',
+              totalProperty: 'total',
+              successProperty: 'success'
+          }
+      },
+  }
+});</code>
+<code>WARNING</code></li>
 </ul>
 
-<p><code>
-pageSize: 30, 
-remoteSort: true, 
-sorters: [{
-	property: "fieldname",
-	direction: "ASC" 
-}]
-</code></p>
-
-<p>Unfortunately, because we do not have control over the Yelp server side, we won’t implement a remote sorter for the FindACab app. However, I do want to share a running example of a remote sorter. In this demo, there is another data store with Car objects that sorts cars by brand in ascending order:</p>
-
-<p><code>
-Ext.define('RemoteTest.store.Cars', {
-        extend: 'Ext.data.Store',
-        requires: ['Ext.data.proxy.JsonP'],
-        config: {
-            model: 'RemoteTest.model.Car',
-            autoLoad: true,
-            remoteSort: true, // 
-            sorters: [{ //
-	            property: "brand",
-	            direction: "ASC"
-	        }],
-	    pageSize: 20, //
-	    proxy: { //
-	        type: 'jsonp',
-	        url: 'http://someurl.com/test.php',
-	        reader: { //
-	            rootProperty: 'results',
-	            totalProperty: 'total',
-	            successProperty: 'success'
-	        }
-	    },
-	}
-});
-</code>
-<code>WARNING</code></p>
 
 <p>The previous store has an autoLoad property. This makes sense for demo purposes, but in a real application, you would probably want to programmatically sort and load the store.</p>
 
-<p>Currently, this Car store doesn’t do much. That’s because there is no server side implemented. This is OK, because the server-side code can be a black box for us. However, let’s assume that http://<someurl>.com/test.php is a working web service that sends Car objects back.</someurl></p>
+<p>Currently, this Car store doesn’t do much. That’s because there is no server side implemented. This is OK, because the server-side code can be a black box for us. However, let’s assume that <a href="http://">http://</a><someurl>.com/test.php is a working web service that sends Car objects back.
+In the Google Developer network tab, you can see a request is made, which sends the following GET request to your server:</p>
 
-<p>In the Google Developer network tab, you can see a request is made, which sends the following GET request to your server:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>http://someurl.com/test.php?_dc=1386924081041&page=1&start=0&limit=20 &sort=%5B%7B%22property%22%3A%22brand%22%2C%22direction%22%3A%22ASC%22%7D%5D &callback=Ext.data.JsonP.callback1</span></code></pre></td></tr></table></div></figure>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">http://someurl.com/test.php?_dc=1386924081041&amp;page=1&amp;start=0&amp;limit=20 &amp;sort=%5B%7B%22property%22%3A%22brand%22%2C%22direction%22%3A%22ASC%22%7D%5D &amp;callback=Ext.data.JsonP.callback1
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 <p>Let’s format the query string parameters:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">page:1
-start:0
-limit:20 
-sort:[{"property":"name","direction":"ASC"}]</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>page:1start:0limit:20 sort:[{"property":"name","direction":"ASC"}]</span></code></pre></td></tr></table></div></figure>
+
+
 <p>The limit parameter comes from the store pageSize. The page and start parameters are used for paging. On the server side, you can calculate which set of items you have to send back to the client-side code.</p>
 
-<p>The http://<someurl>.com/test.php web service requires some logic to sort the data (e.g., in a database) and send the correct set of data back.</someurl></p>
+<p>The <a href="http://">http://</a><someurl>.com/test.php web service requires some logic to sort the data (e.g., in a database) and send the correct set of data back.</p>
 
-<p>The server response for sending back Car objects (in PHP) could look like Example 9- 3. The names of the success, total, and results properties should be set in the store’s reader.</p>
+<p>The server response for sending back Car objects (in PHP) could look like Example 9- 3. The names of the success, total, and results properties should be set in the store’s reader.&#8220;`
+{</p>
 
-<p><code>
-{
-    "success": true,
-    "total": 500,
-    ￼￼￼￼￼
-        "results": [{
-                "id": 1,
-                "brand": "BMW",
-                "type": 7
-            }, {
-                "id": 2,
-                "brand": "Mercedes",
-                "type": 5
-            }
-            ... //20 results in total
-    ]
-}
-</code></p>
-
-<h4 id="grouping-a-data-store">Grouping a Data Store</h4>
-
-<p>Grouping a data store makes sense when you want to display data into an Ext.List component in Sencha Touch and you want to visually group data. For example, when you have a store with companies, you could, for example, group by “city.” This will list every company per city.</p>
-
-<p>To enable grouping in a store, implement the groupField and groupDir configurations directly in the store class definition. The groupFields sets the field to group and the groupDir sets the direction (ASC or DESC):</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>&#8216;<model-field-name>&#8217;, 
-groupDir: &#8216;ASC&#8217;<a href="//or">DESC</a><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sb">```</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">To dynamically group a store, you can run the setGrouper() method on a store object:</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="no">Ext</span><span class="o">.</span><span class="n">getStore</span><span class="p">(</span><span class="s1">&#39;Cabs&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setGrouper</span><span class="p">({</span>
-</span><span class="line">    <span class="ss">direction</span><span class="p">:</span> <span class="s1">&#39;ASC&#39;</span><span class="p">,</span> <span class="sr">//o</span><span class="n">r</span> <span class="no">DESC</span>
-</span><span class="line">    <span class="ss">property</span><span class="p">:</span> <span class="s1">&#39;&lt;model-field-name&gt;&#39;</span>
-</span><span class="line"><span class="p">});</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">You will implement grouping on the Cabs store for the FindACab app list. This time, you will not group on city, because all the data that is in the Cabs store already shares the same city — for example, Amsterdam. Therefore, let’s group on the first alphabetical character of a cab service name. (See Figure 9-1.) You would see a group “A” that lists all names that start with an A, a group “B” that lists all names that start with a B, and so on. It’s the same behavior as when you open the contacts list on an iPhone. Names are grouped, and if you want, you can even display an index bar on the side to quickly browse to the corresponding character.</span>
-</span><span class="line">
-</span><span class="line"><span class="sb"><img src="/images/2014/10/figure7-3.png" /></span>
-</span><span class="line">
-</span><span class="line"><span class="sb">To achieve this, you will need the Ext.data.Store.grouper object, with a custom group function: groupFn(). You can set the grouper object directly in the store class definition, as shown in Example 9-4.</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="ss">grouper</span><span class="p">:</span> <span class="p">{</span>
-</span><span class="line">    <span class="ss">groupFn</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="p">{</span>
-</span><span class="line">        <span class="k">return</span> <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">toUpperCase</span><span class="p">();</span>
-</span><span class="line">    <span class="p">}</span>
-</span><span class="line"><span class="p">}</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">The groupFn function with the code return record.get(&quot;name&quot;) [0].toUpperCase(); will group the data in the store on the first (uppercase) character of the name field.</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">#### Filtering a Data Store Locally</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">A data store can also filter records. When a filter is applied, the data store will not remove records. The same records are still available in the store, but only the records that match the filter criteria are displayed.</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">Filters are added as arrays. Here’s how to implement a filter array directly in the store class definition:</span>
-</span></code></pre></td></tr></table></div>
-filters: [{
-    property: &#8220;fieldname&#8221;,
-    value: &#8220;match&#8221;
-}],
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>&#8216;<model-field-name>&#8217;, 
-groupDir: &#8216;ASC&#8217;<a href="//or">DESC</a><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-<span class="line-number">20</span>
-<span class="line-number">21</span>
-<span class="line-number">22</span>
-<span class="line-number">23</span>
-<span class="line-number">24</span>
-<span class="line-number">25</span>
-<span class="line-number">26</span>
-<span class="line-number">27</span>
-<span class="line-number">28</span>
-<span class="line-number">29</span>
-<span class="line-number">30</span>
-<span class="line-number">31</span>
-<span class="line-number">32</span>
-<span class="line-number">33</span>
-<span class="line-number">34</span>
-<span class="line-number">35</span>
-<span class="line-number">36</span>
-<span class="line-number">37</span>
-<span class="line-number">38</span>
-<span class="line-number">39</span>
-<span class="line-number">40</span>
-<span class="line-number">41</span>
-<span class="line-number">42</span>
-<span class="line-number">43</span>
-<span class="line-number">44</span>
-<span class="line-number">45</span>
-<span class="line-number">46</span>
-<span class="line-number">47</span>
-<span class="line-number">48</span>
-<span class="line-number">49</span>
-<span class="line-number">50</span>
-<span class="line-number">51</span>
-<span class="line-number">52</span>
-<span class="line-number">53</span>
-<span class="line-number">54</span>
-<span class="line-number">55</span>
-<span class="line-number">56</span>
-<span class="line-number">57</span>
-<span class="line-number">58</span>
-<span class="line-number">59</span>
-<span class="line-number">60</span>
-<span class="line-number">61</span>
-<span class="line-number">62</span>
-<span class="line-number">63</span>
-<span class="line-number">64</span>
-<span class="line-number">65</span>
-<span class="line-number">66</span>
-<span class="line-number">67</span>
-<span class="line-number">68</span>
-<span class="line-number">69</span>
-<span class="line-number">70</span>
-<span class="line-number">71</span>
-<span class="line-number">72</span>
-<span class="line-number">73</span>
-<span class="line-number">74</span>
-<span class="line-number">75</span>
-<span class="line-number">76</span>
-<span class="line-number">77</span>
-<span class="line-number">78</span>
-<span class="line-number">79</span>
-<span class="line-number">80</span>
-<span class="line-number">81</span>
-<span class="line-number">82</span>
-<span class="line-number">83</span>
-<span class="line-number">84</span>
-<span class="line-number">85</span>
-<span class="line-number">86</span>
-<span class="line-number">87</span>
-<span class="line-number">88</span>
-<span class="line-number">89</span>
-<span class="line-number">90</span>
-<span class="line-number">91</span>
-<span class="line-number">92</span>
-<span class="line-number">93</span>
-<span class="line-number">94</span>
-<span class="line-number">95</span>
-<span class="line-number">96</span>
-<span class="line-number">97</span>
-<span class="line-number">98</span>
-<span class="line-number">99</span>
-<span class="line-number">100</span>
-<span class="line-number">101</span>
-<span class="line-number">102</span>
-<span class="line-number">103</span>
-<span class="line-number">104</span>
-<span class="line-number">105</span>
-<span class="line-number">106</span>
-<span class="line-number">107</span>
-<span class="line-number">108</span>
-<span class="line-number">109</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">You</span> <span class="n">can</span> <span class="n">also</span> <span class="n">filter</span> <span class="n">programmatically</span><span class="o">.</span> <span class="no">Just</span> <span class="n">run</span> <span class="n">the</span> <span class="n">following</span> <span class="nb">method</span> <span class="n">from</span> <span class="n">a</span> <span class="n">store</span> <span class="ss">instance</span><span class="p">:</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="sb">Ext.data.Store.filter(filters, [value], [anyMatch], [caseSensitive]);</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="no">It</span><span class="err">’</span><span class="n">s</span> <span class="n">possible</span> <span class="n">to</span> <span class="n">filter</span> <span class="n">on</span> <span class="n">the</span> <span class="n">first</span> <span class="n">characters</span> <span class="n">of</span> <span class="n">a</span> <span class="n">field</span> <span class="ow">or</span> <span class="n">from</span> <span class="n">anywhere</span> <span class="p">(</span><span class="ss">argument</span><span class="p">:</span> <span class="n">anyMatch</span><span class="p">),</span> <span class="ow">and</span> <span class="n">it</span><span class="err">’</span><span class="n">s</span> <span class="n">also</span> <span class="n">possible</span> <span class="n">to</span> <span class="n">filter</span> <span class="k">for</span> <span class="k">case</span> <span class="n">sensitivity</span> <span class="p">(</span><span class="ss">argument</span><span class="p">:</span> <span class="sb">`caseSensitive`</span><span class="p">)</span><span class="o">.</span>
-</span><span class="line">
-</span><span class="line"><span class="c1">#### Custom Filter Functions</span>
-</span><span class="line">
-</span><span class="line"><span class="no">You</span> <span class="n">can</span> <span class="n">also</span> <span class="n">create</span> <span class="n">custom</span> <span class="n">filter</span> <span class="n">functions</span><span class="o">.</span> <span class="no">To</span> <span class="k">do</span> <span class="n">so</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">set</span> <span class="n">a</span> <span class="n">filterFn</span> <span class="k">in</span> <span class="n">the</span>
-</span><span class="line"><span class="n">array</span> <span class="ow">or</span> <span class="n">use</span> <span class="n">the</span> <span class="n">filterBy</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span> <span class="nb">method</span> <span class="n">on</span> <span class="n">the</span> <span class="n">store</span><span class="o">.</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="sb">filters: [{</span>
-</span><span class="line"><span class="sb">    filterFn: function(item) {</span>
-</span><span class="line"><span class="sb">        return item.get(&quot;phone&quot;).length &gt; 0;</span>
-</span><span class="line"><span class="sb">    }</span>
-</span><span class="line"><span class="sb">}],</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="c1">#### Stacking Filters</span>
-</span><span class="line"><span class="n">o</span> <span class="n">add</span> <span class="n">filters</span> <span class="n">on</span> <span class="n">top</span> <span class="n">of</span> <span class="n">each</span> <span class="n">other</span> <span class="err">—</span> <span class="k">for</span> <span class="n">example</span><span class="p">,</span> <span class="n">to</span> <span class="n">filter</span> <span class="n">on</span> <span class="n">a</span> <span class="nb">name</span> <span class="n">with</span> <span class="n">a</span> <span class="n">value</span> <span class="n">of</span> <span class="no">Taxi</span> <span class="ow">and</span> <span class="n">filter</span> <span class="n">on</span> <span class="n">a</span> <span class="n">distance</span> <span class="n">of</span> <span class="mi">20</span> <span class="n">miles</span> <span class="err">—</span> <span class="n">you</span> <span class="n">pass</span> <span class="k">in</span> <span class="n">an</span> <span class="n">array</span><span class="o">.</span> <span class="no">Here</span><span class="p">,</span> <span class="n">I</span> <span class="n">stack</span> <span class="n">a</span> <span class="n">couple</span> <span class="n">of</span> <span class="n">filters</span> <span class="n">on</span> <span class="n">top</span> <span class="n">of</span> <span class="n">each</span> <span class="ss">other</span><span class="p">:</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="sb">store.filter([{</span>
-</span><span class="line"><span class="sb">    property: &quot;name&quot;,</span>
-</span><span class="line"><span class="sb">    value: &quot;Taxi&quot;</span>
-</span><span class="line"><span class="sb">}, {</span>
-</span><span class="line"><span class="sb">    property: &quot;distance&quot;,</span>
-</span><span class="line"><span class="sb">    value: &quot;20&quot;</span>
-</span><span class="line"><span class="sb">}]);</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">`Note`</span>
-</span><span class="line">
-</span><span class="line"><span class="no">Instead</span> <span class="n">of</span> <span class="n">passing</span> <span class="n">an</span> <span class="n">array</span> <span class="n">with</span> <span class="n">filter</span> <span class="n">objects</span> <span class="n">into</span> <span class="n">the</span> <span class="n">filter</span><span class="p">()</span> <span class="nb">method</span><span class="p">,</span> <span class="n">I</span> <span class="n">could</span> <span class="n">call</span> <span class="n">the</span> <span class="n">filter</span><span class="p">()</span> <span class="nb">method</span> <span class="n">again</span> <span class="n">without</span> <span class="n">the</span> <span class="n">filter</span> <span class="n">objects</span> <span class="n">as</span> <span class="n">arguments</span><span class="o">.</span> <span class="no">Unlike</span> <span class="n">sorters</span><span class="p">,</span> <span class="n">filters</span> <span class="n">won</span><span class="err">’</span><span class="n">t</span> <span class="n">reset</span> <span class="k">if</span> <span class="n">you</span> <span class="n">call</span> <span class="n">them</span> <span class="n">again</span><span class="o">.</span> <span class="no">When</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">renew</span> <span class="n">the</span> <span class="n">filter</span><span class="p">,</span> <span class="n">you</span> <span class="n">have</span> <span class="n">to</span> <span class="n">clear</span> <span class="n">it</span> <span class="ss">first</span><span class="p">:</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="sb">store.clearFilter();</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line">
-</span><span class="line"><span class="c1">#### Filtering Data on a Server</span>
-</span><span class="line">
-</span><span class="line"><span class="no">The</span> <span class="n">data</span> <span class="n">that</span> <span class="n">you</span> <span class="n">retrieve</span> <span class="n">from</span> <span class="n">the</span> <span class="n">server</span> <span class="n">side</span> <span class="n">might</span> <span class="n">be</span> <span class="n">very</span> <span class="n">large</span><span class="o">.</span> <span class="no">It</span> <span class="n">could</span> <span class="n">be</span> <span class="n">faster</span> <span class="n">to</span> <span class="n">filter</span> <span class="n">it</span> <span class="n">on</span> <span class="n">the</span> <span class="n">server</span> <span class="n">side</span> <span class="n">instead</span> <span class="n">of</span> <span class="n">locally</span><span class="o">.</span> <span class="no">Luckily</span><span class="p">,</span> <span class="no">Sencha</span> <span class="no">Touch</span> <span class="n">provides</span> <span class="n">a</span> <span class="n">way</span> <span class="n">to</span> <span class="n">implement</span> <span class="n">server</span><span class="o">-</span><span class="n">side</span> <span class="n">filtering</span><span class="o">.</span>
-</span><span class="line">
-</span><span class="line"><span class="no">You</span> <span class="n">will</span> <span class="n">use</span> <span class="n">the</span> <span class="n">remoteFilter</span> <span class="n">boolean</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">array</span> <span class="n">with</span> <span class="n">filters</span><span class="o">.</span> <span class="no">Here</span><span class="err">’</span><span class="n">s</span> <span class="n">an</span> <span class="n">example</span> <span class="n">of</span> <span class="n">the</span> <span class="n">store</span> <span class="k">class</span> <span class="ss">definition</span><span class="p">:</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="sb">remoteFilter: true,</span>
-</span><span class="line"><span class="sb">filters: [{</span>
-</span><span class="line"><span class="sb">    property: &quot;fieldname&quot;,</span>
-</span><span class="line"><span class="sb">    value: &quot;match&quot;</span>
-</span><span class="line"><span class="sb">}],</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="n">because</span> <span class="n">we</span> <span class="k">do</span> <span class="ow">not</span> <span class="n">have</span> <span class="n">server</span><span class="o">-</span><span class="n">side</span> <span class="n">control</span> <span class="n">over</span> <span class="no">Yelp</span><span class="o">.</span><span class="n">com</span><span class="p">,</span> <span class="n">we</span> <span class="n">won</span><span class="err">’</span><span class="n">t</span> <span class="n">implement</span> <span class="n">a</span> <span class="n">remote</span> <span class="n">filter</span> <span class="k">for</span> <span class="n">the</span> <span class="no">FindACab</span> <span class="n">app</span><span class="o">.</span> <span class="n">I</span> <span class="k">do</span> <span class="n">want</span> <span class="n">to</span> <span class="n">share</span> <span class="n">an</span> <span class="n">example</span> <span class="n">of</span> <span class="n">a</span> <span class="n">remote</span> <span class="n">filter</span><span class="p">,</span> <span class="n">however</span><span class="o">.</span> <span class="no">In</span> <span class="n">this</span> <span class="n">demo</span><span class="p">,</span> <span class="n">there</span> <span class="n">is</span> <span class="n">another</span> <span class="n">data</span> <span class="n">store</span> <span class="n">with</span> <span class="no">Car</span> <span class="n">objects</span> <span class="ow">and</span> <span class="n">with</span> <span class="n">remote</span> <span class="n">filtering</span> <span class="n">enabled</span><span class="o">.</span> <span class="no">It</span> <span class="n">has</span> <span class="n">a</span> <span class="n">filter</span> <span class="n">set</span> <span class="n">that</span> <span class="n">filters</span> <span class="n">on</span> <span class="n">car</span> <span class="ss">brand</span><span class="p">:</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="sb">Ext.define(&#39;RemoteTest.store.Cars&#39;, {</span>
-</span><span class="line"><span class="sb">    extend: &#39;Ext.data.Store&#39;,</span>
-</span><span class="line"><span class="sb">    requires: [&#39;Ext.data.proxy.JsonP&#39;],</span>
-</span><span class="line"><span class="sb">    config: {</span>
-</span><span class="line"><span class="sb">        model: &#39;RemoteTest.model.Car&#39;,</span>
-</span><span class="line"><span class="sb">        autoLoad: true,</span>
-</span><span class="line"><span class="sb">        pageSize: 20,</span>
-</span><span class="line"><span class="sb">        remoteFilter: true,</span>
-</span><span class="line"><span class="sb">        filters: [{</span>
-</span><span class="line"><span class="sb">            property: &quot;brand&quot;,</span>
-</span><span class="line"><span class="sb">            value: &quot;BMW&quot;</span>
-</span><span class="line"><span class="sb">        }],</span>
-</span><span class="line"><span class="sb">        proxy: {</span>
-</span><span class="line"><span class="sb">            type: &#39;jsonp&#39;,</span>
-</span><span class="line"><span class="sb">            url: &#39;http://someurl.com/test.php&#39;,</span>
-</span><span class="line"><span class="sb">            reader: {</span>
-</span><span class="line"><span class="sb">                rootProperty: &#39;results&#39;,</span>
-</span><span class="line"><span class="sb">                totalProperty: &#39;total&#39;,</span>
-</span><span class="line"><span class="sb">                successProperty: &#39;success&#39;</span>
-</span><span class="line"><span class="sb">            }</span>
-</span><span class="line"><span class="sb">        },</span>
-</span><span class="line"><span class="sb">    }</span>
-</span><span class="line"><span class="sb">});</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="sb">`WARNING`</span>
-</span><span class="line">
-</span><span class="line"><span class="no">When</span> <span class="n">the</span> <span class="n">remoteFilter</span> <span class="n">configuration</span> <span class="n">has</span> <span class="n">been</span> <span class="n">set</span> <span class="n">to</span> <span class="kp">true</span><span class="p">,</span> <span class="n">you</span> <span class="n">will</span> <span class="n">have</span> <span class="n">to</span> <span class="n">manually</span> <span class="n">call</span> <span class="n">the</span> <span class="nb">load</span> <span class="nb">method</span> <span class="n">after</span> <span class="n">every</span> <span class="n">filter</span> <span class="n">you</span> <span class="n">set</span> <span class="n">to</span> <span class="n">retrieve</span> <span class="n">the</span> <span class="n">filtered</span> <span class="n">data</span> <span class="n">from</span> <span class="n">the</span> <span class="n">server</span><span class="o">.</span>
-</span><span class="line">
-</span><span class="line"><span class="no">Let</span><span class="err">’</span><span class="n">s</span> <span class="n">assume</span> <span class="n">that</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="o">&lt;</span><span class="n">someurl</span><span class="o">&gt;.</span><span class="n">com</span><span class="o">/</span><span class="nb">test</span><span class="o">.</span><span class="n">php</span> <span class="n">is</span> <span class="n">a</span> <span class="n">working</span> <span class="n">web</span> <span class="n">service</span> <span class="n">that</span> <span class="n">sends</span>
-</span><span class="line"><span class="no">Car</span> <span class="n">objects</span> <span class="n">back</span><span class="o">.</span> <span class="no">We</span><span class="err">’</span><span class="n">ll</span> <span class="n">filter</span> <span class="n">on</span> <span class="n">a</span> <span class="n">car</span> <span class="n">brand</span> <span class="n">of</span> <span class="no">BMW</span><span class="p">,</span> <span class="mi">20</span> <span class="n">per</span> <span class="n">time</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span>
-</span><span class="line"><span class="no">In</span> <span class="n">the</span> <span class="no">Google</span> <span class="no">Developer</span> <span class="no">Network</span> <span class="n">tab</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">see</span> <span class="n">a</span> <span class="n">request</span> <span class="n">is</span> <span class="n">made</span> <span class="n">that</span> <span class="n">sends</span> <span class="n">the</span>
-</span><span class="line"><span class="n">following</span> <span class="no">GET</span> <span class="n">request</span> <span class="n">to</span> <span class="n">your</span> <span class="ss">server</span><span class="p">:</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="sb">http://someurl.com/test.php?_dc=1387182737587&amp;page=1&amp;start=0&amp;limit=20 &amp;filter=%5B%7B%22property%22%3A%22brand%22%2C%22value%22%3A%22BMW%22%7D%5D &amp;callback=Ext.data.JsonP.callback1</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line">
-</span><span class="line"><span class="no">Let</span><span class="err">’</span><span class="n">s</span> <span class="nb">format</span> <span class="n">the</span> <span class="n">query</span> <span class="n">string</span> <span class="ss">parameters</span><span class="p">:</span>
-</span><span class="line">
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="sb">page: 1</span>
-</span><span class="line"><span class="sb">start: 0</span>
-</span><span class="line"><span class="sb">limit: 20</span>
-</span><span class="line"><span class="sb">filter: [{</span>
-</span><span class="line"><span class="sb">    &quot;property&quot;: &quot;brand&quot;,</span>
-</span><span class="line"><span class="sb">    &quot;value&quot;: &quot;BMW&quot;</span>
-</span><span class="line"><span class="sb">}]</span>
-</span><span class="line"><span class="sb">```</span>
-</span><span class="line"><span class="no">As</span> <span class="n">you</span> <span class="n">might</span> <span class="n">have</span> <span class="n">noticed</span><span class="p">,</span> <span class="n">the</span> <span class="n">implementation</span> <span class="ow">and</span> <span class="n">server</span> <span class="n">requests</span> <span class="n">of</span> <span class="n">a</span> <span class="n">remote</span> <span class="n">filter</span> <span class="n">are</span> <span class="n">similar</span> <span class="n">to</span> <span class="n">the</span> <span class="n">implementation</span> <span class="ow">and</span> <span class="n">server</span> <span class="n">requests</span> <span class="n">of</span> <span class="n">a</span> <span class="n">remote</span> <span class="n">sorter</span><span class="o">.</span> <span class="no">The</span> <span class="n">limit</span> <span class="n">parameter</span> <span class="n">comes</span> <span class="n">from</span> <span class="n">the</span> <span class="n">store</span> <span class="n">pageSize</span><span class="o">.</span> <span class="no">The</span> <span class="n">page</span> <span class="ow">and</span> <span class="n">start</span> <span class="n">parameters</span> <span class="n">are</span> <span class="n">used</span> <span class="k">for</span> <span class="n">paging</span><span class="o">.</span> <span class="no">On</span> <span class="n">the</span> <span class="n">server</span> <span class="n">side</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">calculate</span> <span class="n">which</span> <span class="n">set</span> <span class="n">of</span> <span class="n">items</span> <span class="n">you</span> <span class="n">have</span> <span class="n">to</span> <span class="nb">send</span> <span class="n">back</span> <span class="n">to</span> <span class="n">the</span> <span class="n">client</span><span class="o">-</span><span class="n">side</span> <span class="n">code</span><span class="o">.</span>
-</span><span class="line">
-</span><span class="line"><span class="no">The</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="o">&lt;</span><span class="n">someurl</span><span class="o">&gt;.</span><span class="n">com</span><span class="o">/</span><span class="nb">test</span><span class="o">.</span><span class="n">php</span> <span class="n">requires</span> <span class="n">some</span> <span class="n">logic</span> <span class="n">to</span> <span class="n">filter</span> <span class="n">their</span> <span class="n">data</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">,</span> <span class="k">in</span> <span class="n">a</span> <span class="n">database</span><span class="p">),</span> <span class="ow">and</span> <span class="nb">send</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">set</span> <span class="n">of</span> <span class="n">data</span> <span class="n">back</span><span class="o">.</span>
-</span><span class="line">
-</span><span class="line"><span class="no">The</span> <span class="n">server</span> <span class="n">response</span> <span class="k">for</span> <span class="n">sending</span> <span class="n">back</span> <span class="no">Car</span> <span class="n">objects</span> <span class="p">(</span><span class="k">in</span> <span class="no">PHP</span><span class="p">)</span> <span class="n">could</span> <span class="n">look</span> <span class="n">like</span> <span class="no">Example</span> <span class="mi">9</span><span class="o">-</span> <span class="mi">6</span><span class="o">.</span> <span class="no">The</span> <span class="n">names</span> <span class="n">of</span> <span class="n">the</span> <span class="n">success</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="ow">and</span> <span class="n">results</span> <span class="n">properties</span> <span class="n">should</span> <span class="n">be</span> <span class="n">set</span> <span class="k">in</span> <span class="n">the</span> <span class="n">store</span><span class="err">’</span><span class="n">s</span> <span class="n">reader</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div>
-// Example 9-6. A server response in PHP
-{
-    &#8220;success&#8221;: true,
-    &#8220;total&#8221;: 500,
-    &#8220;results&#8221;: [{
-            &#8220;id&#8221;: 1,
-            &#8220;brand&#8221;: &#8220;BMW&#8221;,
-            &#8220;type&#8221;: 7
+<pre><code>"success": true,
+"total": 500,
+￼￼￼￼￼
+    "results": [{
+            "id": 1,
+            "brand": "BMW",
+            "type": 7
         }, {
-            &#8220;id&#8221;: 2,
-            &#8220;brand&#8221;: &#8220;BMW&#8221;,
-            &#8220;type&#8221;: 5
+            "id": 2,
+            "brand": "Mercedes",
+            "type": 5
         }
-        &#8230;
-    ]
-}
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>&#8216;<model-field-name>&#8217;, 
-groupDir: &#8216;ASC&#8217;<a href="//or">DESC</a><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1">#### Syncing Data in a Store</span>
-</span><span class="line">
-</span><span class="line"><span class="no">To</span> <span class="n">save</span><span class="o">/</span><span class="n">synchronize</span> <span class="n">records</span> <span class="k">in</span> <span class="n">a</span> <span class="n">data</span> <span class="n">store</span> <span class="n">with</span> <span class="n">the</span> <span class="n">server</span><span class="p">,</span> <span class="n">you</span> <span class="n">will</span> <span class="n">have</span> <span class="n">to</span> <span class="n">run</span> <span class="n">the</span> <span class="sb">`sync()`</span> <span class="nb">method</span> <span class="n">on</span> <span class="n">the</span> <span class="n">store</span><span class="o">.</span> <span class="no">It</span><span class="err">’</span><span class="n">s</span> <span class="n">also</span> <span class="n">possible</span> <span class="n">to</span> <span class="n">automatically</span> <span class="n">sync</span> <span class="n">the</span> <span class="n">store</span> <span class="n">with</span> <span class="n">the</span> <span class="n">server</span> <span class="n">side</span><span class="o">.</span> <span class="no">That</span> <span class="n">way</span><span class="p">,</span> <span class="n">the</span> <span class="n">remote</span> <span class="n">server</span> <span class="n">keeps</span> <span class="k">in</span> <span class="n">close</span> <span class="n">sync</span> <span class="n">with</span> <span class="n">your</span> <span class="no">Sencha</span> <span class="no">Touch</span> <span class="n">app</span><span class="o">.</span> <span class="no">You</span> <span class="n">can</span> <span class="n">enable</span> <span class="n">this</span> <span class="n">by</span> <span class="n">setting</span> <span class="n">the</span> <span class="sb">`autoSync`</span> <span class="n">property</span> <span class="n">to</span> <span class="sb">`true`</span><span class="o">.</span>
-</span><span class="line">
-</span><span class="line"><span class="no">More</span> <span class="n">likely</span><span class="p">,</span> <span class="n">you</span> <span class="n">will</span> <span class="n">use</span> <span class="n">the</span> <span class="no">Ext</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Store</span><span class="o">.</span><span class="n">sync</span><span class="p">()</span> <span class="nb">method</span> <span class="n">to</span> <span class="n">synchronize</span> <span class="n">the</span> <span class="n">store</span> <span class="n">with</span> <span class="n">its</span> <span class="n">proxy</span> <span class="ss">programmatically</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div>
-store.sync(options);
-&#8220;`
-Before the sync process, Sencha Touch will fire a `beforesync` system event. When you run the sync() method, all inserts, updates, and deletes are sent as three separate requests, and if you want, you can declare the order in which the three operations should occur. After the sync process, an object is returned with the child objects `added, updated, and removed`.
-</model-field-name></span></figcaption></figure></notextile></div></model-field-name></span></figcaption></figure></notextile></div></model-field-name></span></figcaption></figure></notextile></div>
+        ... //20 results in total
+]
+</code></pre>
+
+<p>}&#8220;`</p>
+
+<h4>Grouping a Data Store</h4>
+
+<p>Grouping a data store makes sense when you want to display data into an Ext.List component in Sencha Touch and you want to visually group data. For example, when you have a store with companies, you could, for example, group by “city.” This will list every company per city.
+To enable grouping in a store, implement the groupField and groupDir configurations directly in the store class definition. The groupFields sets the field to group and the groupDir sets the direction (ASC or DESC):</p>
+
+<figure class='code'><figcaption><span>groupField: &#8217;<model-field-name>&#8217;, groupDir: &#8216;ASC&#8217;</span><a href='//or'>DESC</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">To</span> <span class="nx">dynamically</span> <span class="nx">group</span> <span class="nx">a</span> <span class="nx">store</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">can</span> <span class="nx">run</span> <span class="nx">the</span> <span class="nx">setGrouper</span><span class="p">()</span> <span class="nx">method</span> <span class="nx">on</span> <span class="nx">a</span> <span class="nx">store</span> <span class="nx">object</span><span class="o">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span><span class="nx">javascript</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">getStore</span><span class="p">(</span><span class="s1">&#39;Cabs&#39;</span><span class="p">).</span><span class="nx">setGrouper</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">direction</span><span class="o">:</span> <span class="s1">&#39;ASC&#39;</span><span class="p">,</span> <span class="c1">//or DESC </span>
+</span><span class='line'>    <span class="nx">property</span><span class="o">:</span> <span class="s1">&#39;&lt;model-field-name&gt;&#39;</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">You</span> <span class="nx">will</span> <span class="nx">implement</span> <span class="nx">grouping</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">Cabs</span> <span class="nx">store</span> <span class="k">for</span> <span class="nx">the</span> <span class="nx">FindACab</span> <span class="nx">app</span> <span class="nx">list</span><span class="p">.</span> <span class="nx">This</span> <span class="nx">time</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">will</span> <span class="nx">not</span> <span class="nx">group</span> <span class="nx">on</span> <span class="nx">city</span><span class="p">,</span> <span class="nx">because</span> <span class="nx">all</span> <span class="nx">the</span> <span class="nx">data</span> <span class="nx">that</span> <span class="nx">is</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">Cabs</span> <span class="nx">store</span> <span class="nx">already</span> <span class="nx">shares</span> <span class="nx">the</span> <span class="nx">same</span> <span class="nx">city</span> <span class="err">—</span> <span class="k">for</span> <span class="nx">example</span><span class="p">,</span> <span class="nx">Amsterdam</span><span class="p">.</span> <span class="nx">Therefore</span><span class="p">,</span> <span class="kd">let</span><span class="err">’</span><span class="nx">s</span> <span class="nx">group</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">first</span> <span class="nx">alphabetical</span> <span class="nx">character</span> <span class="nx">of</span> <span class="nx">a</span> <span class="nx">cab</span> <span class="nx">service</span> <span class="nx">name</span><span class="p">.</span> <span class="p">(</span><span class="nx">See</span> <span class="nx">Figure</span> <span class="mi">9</span><span class="o">-</span><span class="mi">1</span><span class="p">.)</span> <span class="nx">You</span> <span class="nx">would</span> <span class="nx">see</span> <span class="nx">a</span> <span class="nx">group</span> <span class="err">“</span><span class="nx">A</span><span class="err">”</span> <span class="nx">that</span> <span class="nx">lists</span> <span class="nx">all</span> <span class="nx">names</span> <span class="nx">that</span> <span class="nx">start</span> <span class="kd">with</span> <span class="nx">an</span> <span class="nx">A</span><span class="p">,</span> <span class="nx">a</span> <span class="nx">group</span> <span class="err">“</span><span class="nx">B</span><span class="err">”</span> <span class="nx">that</span> <span class="nx">lists</span> <span class="nx">all</span> <span class="nx">names</span> <span class="nx">that</span> <span class="nx">start</span> <span class="kd">with</span> <span class="nx">a</span> <span class="nx">B</span><span class="p">,</span> <span class="nx">and</span> <span class="nx">so</span> <span class="nx">on</span><span class="p">.</span> <span class="nx">It</span><span class="err">’</span><span class="nx">s</span> <span class="nx">the</span> <span class="nx">same</span> <span class="nx">behavior</span> <span class="nx">as</span> <span class="nx">when</span> <span class="nx">you</span> <span class="nx">open</span> <span class="nx">the</span> <span class="nx">contacts</span> <span class="nx">list</span> <span class="nx">on</span> <span class="nx">an</span> <span class="nx">iPhone</span><span class="p">.</span> <span class="nx">Names</span> <span class="nx">are</span> <span class="nx">grouped</span><span class="p">,</span> <span class="nx">and</span> <span class="k">if</span> <span class="nx">you</span> <span class="nx">want</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">can</span> <span class="nx">even</span> <span class="nx">display</span> <span class="nx">an</span> <span class="nx">index</span> <span class="nx">bar</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">side</span> <span class="nx">to</span> <span class="nx">quickly</span> <span class="nx">browse</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">corresponding</span> <span class="nx">character</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">{</span><span class="o">%</span> <span class="nx">img</span> <span class="o">/</span><span class="nx">images</span><span class="o">/</span><span class="mi">2014</span><span class="o">/</span><span class="mi">10</span><span class="o">/</span><span class="nx">figure7</span><span class="o">-</span><span class="mi">3</span><span class="p">.</span><span class="nx">png</span><span class="o">%</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">To</span> <span class="nx">achieve</span> <span class="k">this</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">will</span> <span class="nx">need</span> <span class="nx">the</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">Store</span><span class="p">.</span><span class="nx">grouper</span> <span class="nx">object</span><span class="p">,</span> <span class="kd">with</span> <span class="nx">a</span> <span class="nx">custom</span> <span class="nx">group</span> <span class="kd">function</span><span class="o">:</span> <span class="nx">groupFn</span><span class="p">().</span> <span class="nx">You</span> <span class="nx">can</span> <span class="nx">set</span> <span class="nx">the</span> <span class="nx">grouper</span> <span class="nx">object</span> <span class="nx">directly</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">store</span> <span class="kr">class</span> <span class="nx">definition</span><span class="p">,</span> <span class="nx">as</span> <span class="nx">shown</span> <span class="k">in</span> <span class="nx">Example</span> <span class="mi">9</span><span class="o">-</span><span class="mi">4</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span><span class="nx">javascript</span>
+</span><span class='line'><span class="nx">grouper</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">groupFn</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">record</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">record</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">toUpperCase</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">The</span> <span class="nx">groupFn</span> <span class="kd">function</span> <span class="kd">with</span> <span class="nx">the</span> <span class="nx">code</span> <span class="k">return</span> <span class="nx">record</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">toUpperCase</span><span class="p">();</span> <span class="nx">will</span> <span class="nx">group</span> <span class="nx">the</span> <span class="nx">data</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">store</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">first</span> <span class="p">(</span><span class="nx">uppercase</span><span class="p">)</span> <span class="nx">character</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">name</span> <span class="nx">field</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">####</span> <span class="nx">Filtering</span> <span class="nx">a</span> <span class="nx">Data</span> <span class="nx">Store</span> <span class="nx">Locally</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">A</span> <span class="nx">data</span> <span class="nx">store</span> <span class="nx">can</span> <span class="nx">also</span> <span class="nx">filter</span> <span class="nx">records</span><span class="p">.</span> <span class="nx">When</span> <span class="nx">a</span> <span class="nx">filter</span> <span class="nx">is</span> <span class="nx">applied</span><span class="p">,</span> <span class="nx">the</span> <span class="nx">data</span> <span class="nx">store</span> <span class="nx">will</span> <span class="nx">not</span> <span class="nx">remove</span> <span class="nx">records</span><span class="p">.</span> <span class="nx">The</span> <span class="nx">same</span> <span class="nx">records</span> <span class="nx">are</span> <span class="nx">still</span> <span class="nx">available</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">store</span><span class="p">,</span> <span class="nx">but</span> <span class="nx">only</span> <span class="nx">the</span> <span class="nx">records</span> <span class="nx">that</span> <span class="nx">match</span> <span class="nx">the</span> <span class="nx">filter</span> <span class="nx">criteria</span> <span class="nx">are</span> <span class="nx">displayed</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Filters</span> <span class="nx">are</span> <span class="nx">added</span> <span class="nx">as</span> <span class="nx">arrays</span><span class="p">.</span> <span class="nx">Here</span><span class="err">’</span><span class="nx">s</span> <span class="nx">how</span> <span class="nx">to</span> <span class="nx">implement</span> <span class="nx">a</span> <span class="nx">filter</span> <span class="nx">array</span> <span class="nx">directly</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">store</span> <span class="kr">class</span> <span class="nx">definition</span><span class="o">:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>filters: [{</p>
+
+<pre><code>property: "fieldname",
+value: "match"
+</code></pre>
+
+<p>}],</p>
+
+<figure class='code'><figcaption><span>groupField: &#8217;<model-field-name>&#8217;, groupDir: &#8216;ASC&#8217;</span><a href='//or'>DESC</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">You</span> <span class="nx">can</span> <span class="nx">also</span> <span class="nx">filter</span> <span class="nx">programmatically</span><span class="p">.</span> <span class="nx">Just</span> <span class="nx">run</span> <span class="nx">the</span> <span class="nx">following</span> <span class="nx">method</span> <span class="nx">from</span> <span class="nx">a</span> <span class="nx">store</span> <span class="nx">instance</span><span class="o">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">Store</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">filters</span><span class="p">,</span> <span class="p">[</span><span class="nx">value</span><span class="p">],</span> <span class="p">[</span><span class="nx">anyMatch</span><span class="p">],</span> <span class="p">[</span><span class="nx">caseSensitive</span><span class="p">]);</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">It</span><span class="err">’</span><span class="nx">s</span> <span class="nx">possible</span> <span class="nx">to</span> <span class="nx">filter</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">first</span> <span class="nx">characters</span> <span class="nx">of</span> <span class="nx">a</span> <span class="nx">field</span> <span class="nx">or</span> <span class="nx">from</span> <span class="nx">anywhere</span> <span class="p">(</span><span class="nx">argument</span><span class="o">:</span> <span class="nx">anyMatch</span><span class="p">),</span> <span class="nx">and</span> <span class="nx">it</span><span class="err">’</span><span class="nx">s</span> <span class="nx">also</span> <span class="nx">possible</span> <span class="nx">to</span> <span class="nx">filter</span> <span class="k">for</span> <span class="k">case</span> <span class="nx">sensitivity</span> <span class="p">(</span><span class="nx">argument</span><span class="o">:</span> <span class="err">`</span><span class="nx">caseSensitive</span><span class="err">`</span><span class="p">).</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">####</span> <span class="nx">Custom</span> <span class="nx">Filter</span> <span class="nx">Functions</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">You</span> <span class="nx">can</span> <span class="nx">also</span> <span class="nx">create</span> <span class="nx">custom</span> <span class="nx">filter</span> <span class="nx">functions</span><span class="p">.</span> <span class="nx">To</span> <span class="k">do</span> <span class="nx">so</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">can</span> <span class="nx">set</span> <span class="nx">a</span> <span class="nx">filterFn</span> <span class="k">in</span> <span class="nx">the</span>
+</span><span class='line'><span class="nx">array</span> <span class="nx">or</span> <span class="nx">use</span> <span class="nx">the</span> <span class="nx">filterBy</span><span class="p">(</span><span class="nx">fn</span><span class="p">)</span> <span class="nx">method</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">store</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">filters</span><span class="o">:</span> <span class="p">[{</span>
+</span><span class='line'>    <span class="nx">filterFn</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">item</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;phone&quot;</span><span class="p">).</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}],</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="err">####</span> <span class="nx">Stacking</span> <span class="nx">Filters</span>
+</span><span class='line'><span class="nx">o</span> <span class="nx">add</span> <span class="nx">filters</span> <span class="nx">on</span> <span class="nx">top</span> <span class="nx">of</span> <span class="nx">each</span> <span class="nx">other</span> <span class="err">—</span> <span class="k">for</span> <span class="nx">example</span><span class="p">,</span> <span class="nx">to</span> <span class="nx">filter</span> <span class="nx">on</span> <span class="nx">a</span> <span class="nx">name</span> <span class="kd">with</span> <span class="nx">a</span> <span class="nx">value</span> <span class="nx">of</span> <span class="nx">Taxi</span> <span class="nx">and</span> <span class="nx">filter</span> <span class="nx">on</span> <span class="nx">a</span> <span class="nx">distance</span> <span class="nx">of</span> <span class="mi">20</span> <span class="nx">miles</span> <span class="err">—</span> <span class="nx">you</span> <span class="nx">pass</span> <span class="k">in</span> <span class="nx">an</span> <span class="nx">array</span><span class="p">.</span> <span class="nx">Here</span><span class="p">,</span> <span class="nx">I</span> <span class="nx">stack</span> <span class="nx">a</span> <span class="nx">couple</span> <span class="nx">of</span> <span class="nx">filters</span> <span class="nx">on</span> <span class="nx">top</span> <span class="nx">of</span> <span class="nx">each</span> <span class="nx">other</span><span class="o">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">store</span><span class="p">.</span><span class="nx">filter</span><span class="p">([{</span>
+</span><span class='line'>    <span class="nx">property</span><span class="o">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;Taxi&quot;</span>
+</span><span class='line'><span class="p">},</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">property</span><span class="o">:</span> <span class="s2">&quot;distance&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;20&quot;</span>
+</span><span class='line'><span class="p">}]);</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">`</span><span class="nx">Note</span><span class="err">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Instead</span> <span class="nx">of</span> <span class="nx">passing</span> <span class="nx">an</span> <span class="nx">array</span> <span class="kd">with</span> <span class="nx">filter</span> <span class="nx">objects</span> <span class="nx">into</span> <span class="nx">the</span> <span class="nx">filter</span><span class="p">()</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">I</span> <span class="nx">could</span> <span class="nx">call</span> <span class="nx">the</span> <span class="nx">filter</span><span class="p">()</span> <span class="nx">method</span> <span class="nx">again</span> <span class="nx">without</span> <span class="nx">the</span> <span class="nx">filter</span> <span class="nx">objects</span> <span class="nx">as</span> <span class="nx">arguments</span><span class="p">.</span> <span class="nx">Unlike</span> <span class="nx">sorters</span><span class="p">,</span> <span class="nx">filters</span> <span class="nx">won</span><span class="err">’</span><span class="nx">t</span> <span class="nx">reset</span> <span class="k">if</span> <span class="nx">you</span> <span class="nx">call</span> <span class="nx">them</span> <span class="nx">again</span><span class="p">.</span> <span class="nx">When</span> <span class="nx">you</span> <span class="nx">want</span> <span class="nx">to</span> <span class="nx">renew</span> <span class="nx">the</span> <span class="nx">filter</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">to</span> <span class="nx">clear</span> <span class="nx">it</span> <span class="nx">first</span><span class="o">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">store</span><span class="p">.</span><span class="nx">clearFilter</span><span class="p">();</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">####</span> <span class="nx">Filtering</span> <span class="nx">Data</span> <span class="nx">on</span> <span class="nx">a</span> <span class="nx">Server</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">The</span> <span class="nx">data</span> <span class="nx">that</span> <span class="nx">you</span> <span class="nx">retrieve</span> <span class="nx">from</span> <span class="nx">the</span> <span class="nx">server</span> <span class="nx">side</span> <span class="nx">might</span> <span class="nx">be</span> <span class="nx">very</span> <span class="nx">large</span><span class="p">.</span> <span class="nx">It</span> <span class="nx">could</span> <span class="nx">be</span> <span class="nx">faster</span> <span class="nx">to</span> <span class="nx">filter</span> <span class="nx">it</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">server</span> <span class="nx">side</span> <span class="nx">instead</span> <span class="nx">of</span> <span class="nx">locally</span><span class="p">.</span> <span class="nx">Luckily</span><span class="p">,</span> <span class="nx">Sencha</span> <span class="nx">Touch</span> <span class="nx">provides</span> <span class="nx">a</span> <span class="nx">way</span> <span class="nx">to</span> <span class="nx">implement</span> <span class="nx">server</span><span class="o">-</span><span class="nx">side</span> <span class="nx">filtering</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">You</span> <span class="nx">will</span> <span class="nx">use</span> <span class="nx">the</span> <span class="nx">remoteFilter</span> <span class="kr">boolean</span> <span class="nx">and</span> <span class="nx">the</span> <span class="nx">array</span> <span class="kd">with</span> <span class="nx">filters</span><span class="p">.</span> <span class="nx">Here</span><span class="err">’</span><span class="nx">s</span> <span class="nx">an</span> <span class="nx">example</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">store</span> <span class="kr">class</span> <span class="nx">definition</span><span class="o">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">remoteFilter</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'><span class="nx">filters</span><span class="o">:</span> <span class="p">[{</span>
+</span><span class='line'>    <span class="nx">property</span><span class="o">:</span> <span class="s2">&quot;fieldname&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;match&quot;</span>
+</span><span class='line'><span class="p">}],</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">because</span> <span class="nx">we</span> <span class="k">do</span> <span class="nx">not</span> <span class="nx">have</span> <span class="nx">server</span><span class="o">-</span><span class="nx">side</span> <span class="nx">control</span> <span class="nx">over</span> <span class="nx">Yelp</span><span class="p">.</span><span class="nx">com</span><span class="p">,</span> <span class="nx">we</span> <span class="nx">won</span><span class="err">’</span><span class="nx">t</span> <span class="nx">implement</span> <span class="nx">a</span> <span class="nx">remote</span> <span class="nx">filter</span> <span class="k">for</span> <span class="nx">the</span> <span class="nx">FindACab</span> <span class="nx">app</span><span class="p">.</span> <span class="nx">I</span> <span class="k">do</span> <span class="nx">want</span> <span class="nx">to</span> <span class="nx">share</span> <span class="nx">an</span> <span class="nx">example</span> <span class="nx">of</span> <span class="nx">a</span> <span class="nx">remote</span> <span class="nx">filter</span><span class="p">,</span> <span class="nx">however</span><span class="p">.</span> <span class="nx">In</span> <span class="k">this</span> <span class="nx">demo</span><span class="p">,</span> <span class="nx">there</span> <span class="nx">is</span> <span class="nx">another</span> <span class="nx">data</span> <span class="nx">store</span> <span class="kd">with</span> <span class="nx">Car</span> <span class="nx">objects</span> <span class="nx">and</span> <span class="kd">with</span> <span class="nx">remote</span> <span class="nx">filtering</span> <span class="nx">enabled</span><span class="p">.</span> <span class="nx">It</span> <span class="nx">has</span> <span class="nx">a</span> <span class="nx">filter</span> <span class="nx">set</span> <span class="nx">that</span> <span class="nx">filters</span> <span class="nx">on</span> <span class="nx">car</span> <span class="nx">brand</span><span class="o">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;RemoteTest.store.Cars&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">extend</span><span class="o">:</span> <span class="s1">&#39;Ext.data.Store&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Ext.data.proxy.JsonP&#39;</span><span class="p">],</span>
+</span><span class='line'>    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">model</span><span class="o">:</span> <span class="s1">&#39;RemoteTest.model.Car&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">autoLoad</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">pageSize</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">remoteFilter</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">filters</span><span class="o">:</span> <span class="p">[{</span>
+</span><span class='line'>            <span class="nx">property</span><span class="o">:</span> <span class="s2">&quot;brand&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;BMW&quot;</span>
+</span><span class='line'>        <span class="p">}],</span>
+</span><span class='line'>        <span class="nx">proxy</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;jsonp&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;http://someurl.com/test.php&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">reader</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">rootProperty</span><span class="o">:</span> <span class="s1">&#39;results&#39;</span><span class="p">,</span>
+</span><span class='line'>                <span class="nx">totalProperty</span><span class="o">:</span> <span class="s1">&#39;total&#39;</span><span class="p">,</span>
+</span><span class='line'>                <span class="nx">successProperty</span><span class="o">:</span> <span class="s1">&#39;success&#39;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="err">`</span><span class="nx">WARNING</span><span class="err">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">When</span> <span class="nx">the</span> <span class="nx">remoteFilter</span> <span class="nx">configuration</span> <span class="nx">has</span> <span class="nx">been</span> <span class="nx">set</span> <span class="nx">to</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">will</span> <span class="nx">have</span> <span class="nx">to</span> <span class="nx">manually</span> <span class="nx">call</span> <span class="nx">the</span> <span class="nx">load</span> <span class="nx">method</span> <span class="nx">after</span> <span class="nx">every</span> <span class="nx">filter</span> <span class="nx">you</span> <span class="nx">set</span> <span class="nx">to</span> <span class="nx">retrieve</span> <span class="nx">the</span> <span class="nx">filtered</span> <span class="nx">data</span> <span class="nx">from</span> <span class="nx">the</span> <span class="nx">server</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Let</span><span class="err">’</span><span class="nx">s</span> <span class="nx">assume</span> <span class="nx">that</span> <span class="nx">http</span><span class="o">:</span><span class="c1">//&lt;someurl&gt;.com/test.php is a working web service that sends</span>
+</span><span class='line'><span class="nx">Car</span> <span class="nx">objects</span> <span class="nx">back</span><span class="p">.</span> <span class="nx">We</span><span class="err">’</span><span class="nx">ll</span> <span class="nx">filter</span> <span class="nx">on</span> <span class="nx">a</span> <span class="nx">car</span> <span class="nx">brand</span> <span class="nx">of</span> <span class="nx">BMW</span><span class="p">,</span> <span class="mi">20</span> <span class="nx">per</span> <span class="nx">time</span> <span class="p">(</span><span class="nx">page</span><span class="p">).</span>
+</span><span class='line'><span class="nx">In</span> <span class="nx">the</span> <span class="nx">Google</span> <span class="nx">Developer</span> <span class="nx">Network</span> <span class="nx">tab</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">can</span> <span class="nx">see</span> <span class="nx">a</span> <span class="nx">request</span> <span class="nx">is</span> <span class="nx">made</span> <span class="nx">that</span> <span class="nx">sends</span> <span class="nx">the</span>
+</span><span class='line'><span class="nx">following</span> <span class="nx">GET</span> <span class="nx">request</span> <span class="nx">to</span> <span class="nx">your</span> <span class="nx">server</span><span class="o">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">http</span><span class="o">:</span><span class="c1">//someurl.com/test.php?_dc=1387182737587&amp;page=1&amp;start=0&amp;limit=20 &amp;filter=%5B%7B%22property%22%3A%22brand%22%2C%22value%22%3A%22BMW%22%7D%5D &amp;callback=Ext.data.JsonP.callback1</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Let</span><span class="err">’</span><span class="nx">s</span> <span class="nx">format</span> <span class="nx">the</span> <span class="nx">query</span> <span class="nx">string</span> <span class="nx">parameters</span><span class="o">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">page</span><span class="o">:</span> <span class="mi">1</span>
+</span><span class='line'><span class="nx">start</span><span class="o">:</span> <span class="mi">0</span>
+</span><span class='line'><span class="nx">limit</span><span class="o">:</span> <span class="mi">20</span>
+</span><span class='line'><span class="nx">filter</span><span class="o">:</span> <span class="p">[{</span>
+</span><span class='line'>    <span class="s2">&quot;property&quot;</span><span class="o">:</span> <span class="s2">&quot;brand&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;BMW&quot;</span>
+</span><span class='line'><span class="p">}]</span>
+</span><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="nx">As</span> <span class="nx">you</span> <span class="nx">might</span> <span class="nx">have</span> <span class="nx">noticed</span><span class="p">,</span> <span class="nx">the</span> <span class="nx">implementation</span> <span class="nx">and</span> <span class="nx">server</span> <span class="nx">requests</span> <span class="nx">of</span> <span class="nx">a</span> <span class="nx">remote</span> <span class="nx">filter</span> <span class="nx">are</span> <span class="nx">similar</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">implementation</span> <span class="nx">and</span> <span class="nx">server</span> <span class="nx">requests</span> <span class="nx">of</span> <span class="nx">a</span> <span class="nx">remote</span> <span class="nx">sorter</span><span class="p">.</span> <span class="nx">The</span> <span class="nx">limit</span> <span class="nx">parameter</span> <span class="nx">comes</span> <span class="nx">from</span> <span class="nx">the</span> <span class="nx">store</span> <span class="nx">pageSize</span><span class="p">.</span> <span class="nx">The</span> <span class="nx">page</span> <span class="nx">and</span> <span class="nx">start</span> <span class="nx">parameters</span> <span class="nx">are</span> <span class="nx">used</span> <span class="k">for</span> <span class="nx">paging</span><span class="p">.</span> <span class="nx">On</span> <span class="nx">the</span> <span class="nx">server</span> <span class="nx">side</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">can</span> <span class="nx">calculate</span> <span class="nx">which</span> <span class="nx">set</span> <span class="nx">of</span> <span class="nx">items</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">to</span> <span class="nx">send</span> <span class="nx">back</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">client</span><span class="o">-</span><span class="nx">side</span> <span class="nx">code</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">The</span> <span class="nx">http</span><span class="o">:</span><span class="c1">//&lt;someurl&gt;.com/test.php requires some logic to filter their data (e.g., in a database), and send the correct set of data back.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">The</span> <span class="nx">server</span> <span class="nx">response</span> <span class="k">for</span> <span class="nx">sending</span> <span class="nx">back</span> <span class="nx">Car</span> <span class="nx">objects</span> <span class="p">(</span><span class="k">in</span> <span class="nx">PHP</span><span class="p">)</span> <span class="nx">could</span> <span class="nx">look</span> <span class="nx">like</span> <span class="nx">Example</span> <span class="mi">9</span><span class="o">-</span> <span class="mi">6</span><span class="p">.</span> <span class="nx">The</span> <span class="nx">names</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">success</span><span class="p">,</span> <span class="nx">total</span><span class="p">,</span> <span class="nx">and</span> <span class="nx">results</span> <span class="nx">properties</span> <span class="nx">should</span> <span class="nx">be</span> <span class="nx">set</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">store</span><span class="err">’</span><span class="nx">s</span> <span class="nx">reader</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>// Example 9-6. A server response in PHP
+{</p>
+
+<pre><code>"success": true,
+"total": 500,
+"results": [{
+        "id": 1,
+        "brand": "BMW",
+        "type": 7
+    }, {
+        "id": 2,
+        "brand": "BMW",
+        "type": 5
+    }
+    ...
+]
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span>groupField: &#8217;<model-field-name>&#8217;, groupDir: &#8216;ASC&#8217;</span><a href='//or'>DESC</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">####</span> <span class="nx">Syncing</span> <span class="nx">Data</span> <span class="k">in</span> <span class="nx">a</span> <span class="nx">Store</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">To</span> <span class="nx">save</span><span class="o">/</span><span class="nx">synchronize</span> <span class="nx">records</span> <span class="k">in</span> <span class="nx">a</span> <span class="nx">data</span> <span class="nx">store</span> <span class="kd">with</span> <span class="nx">the</span> <span class="nx">server</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">will</span> <span class="nx">have</span> <span class="nx">to</span> <span class="nx">run</span> <span class="nx">the</span> <span class="err">`</span><span class="nx">sync</span><span class="p">()</span><span class="err">`</span> <span class="nx">method</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">store</span><span class="p">.</span> <span class="nx">It</span><span class="err">’</span><span class="nx">s</span> <span class="nx">also</span> <span class="nx">possible</span> <span class="nx">to</span> <span class="nx">automatically</span> <span class="nx">sync</span> <span class="nx">the</span> <span class="nx">store</span> <span class="kd">with</span> <span class="nx">the</span> <span class="nx">server</span> <span class="nx">side</span><span class="p">.</span> <span class="nx">That</span> <span class="nx">way</span><span class="p">,</span> <span class="nx">the</span> <span class="nx">remote</span> <span class="nx">server</span> <span class="nx">keeps</span> <span class="k">in</span> <span class="nx">close</span> <span class="nx">sync</span> <span class="kd">with</span> <span class="nx">your</span> <span class="nx">Sencha</span> <span class="nx">Touch</span> <span class="nx">app</span><span class="p">.</span> <span class="nx">You</span> <span class="nx">can</span> <span class="nx">enable</span> <span class="k">this</span> <span class="nx">by</span> <span class="nx">setting</span> <span class="nx">the</span> <span class="err">`</span><span class="nx">autoSync</span><span class="err">`</span> <span class="nx">property</span> <span class="nx">to</span> <span class="err">`</span><span class="kc">true</span><span class="err">`</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">More</span> <span class="nx">likely</span><span class="p">,</span> <span class="nx">you</span> <span class="nx">will</span> <span class="nx">use</span> <span class="nx">the</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">Store</span><span class="p">.</span><span class="nx">sync</span><span class="p">()</span> <span class="nx">method</span> <span class="nx">to</span> <span class="nx">synchronize</span> <span class="nx">the</span> <span class="nx">store</span> <span class="kd">with</span> <span class="nx">its</span> <span class="nx">proxy</span> <span class="nx">programmatically</span><span class="o">:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>store.sync(options);
+<code>``
+Before the sync process, Sencha Touch will fire a</code>beforesync<code>system event. When you run the sync() method, all inserts, updates, and deletes are sent as three separate requests, and if you want, you can declare the order in which the three operations should occur. After the sync process, an object is returned with the child objects</code>added, updated, and removed`.</p>
 </div>
 
 </article>
@@ -697,17 +688,35 @@ Before the sync process, Sencha Touch will fire a `beforesync` system event. Whe
 </div>
 
 
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
 </div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    AllenToFight
-
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	<script src="/javascripts/slash.js"></script>
+			<script src="/javascripts/slash.js"></script>
 	
 
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -722,5 +731,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
+
+		</div>
+	</div>
 </body>
 </html>

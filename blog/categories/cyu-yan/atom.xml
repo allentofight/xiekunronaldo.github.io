@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C语言 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/cyu-yan/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T20:22:11+08:00</updated>
+  <updated>2014-10-21T21:22:26+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -18,46 +18,45 @@
     <link href="http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-liu-zhang-shu-ju-jie-gou-he-dong-tai-nei-cun/"/>
     <updated>2014-07-13T11:19:10+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-liu-zhang-shu-ju-jie-gou-he-dong-tai-nei-cun</id>
-    <content type="html"><![CDATA[<p>这一章中我们将学习到如何用结构体指针来将自定义的数据类型连接成一个更大更复杂的数据结构，我们通过创建链表来了解结构体指针的用处，也将学习到如何在堆上分配内存，并在你用完之后释放它，我们也将学习到valgrind的使用
-####在堆上分配内存以及释放内存
-```
-	typedef struct island{ 
-		char *name;
-		char *opens;
-		char *closes;
-		island *next;
-	} island;</p>
+    <content type="html"><![CDATA[<p>这一章中我们将学习到如何用结构体指针来将自定义的数据类型连接成一个更大更复杂的数据结构，我们通过创建链表来了解结构体指针的用处，也将学习到如何在堆上分配内存，并在你用完之后释放它，我们也将学习到valgrind的使用</p>
 
-<pre><code>#include&lt;stdlib.h&gt;
+<h4>在堆上分配内存以及释放内存</h4>
+
+<p>```</p>
+
+<pre><code>typedef struct island{ 
+    char *name;
+    char *opens;
+    char *closes;
+    island *next;   } island;
+
+#include&lt;stdlib.h&gt;
 island *p = malloc(sizeof(island))
-free(p); ``` 以下函数有何问题
+free(p);
 </code></pre>
 
 <p>```
-	island* create(char *name) {</p>
+以下函数有何问题</p>
 
-<pre><code>	island *i = malloc(sizeof(island)); 
+<p>```</p>
 
-	i-&gt;name = name;
-
-	i-&gt;opens = "09:00";
-
-	i-&gt;closes = "17:00";
-
-	i-&gt;next = NULL;
-
-	return i; 
-} ```
+<pre><code>island* create(char *name) {
+        island *i = malloc(sizeof(island)); 
+    i-&gt;name = name;
+    i-&gt;opens = "09:00";
+    i-&gt;closes = "17:00";
+    i-&gt;next = NULL;
+    return i; 
+}
 </code></pre>
+
+<p>```</p>
 
 <p>当在程序里调用如下代码时</p>
 
 <p><code>
-char name[80];
-fgets(name, 80, stdin);
-island *p_island0 = create(name); 
-fgets(name, 80, stdin);
-island *p_island1 = create(name);
+char name[80];fgets(name, 80, stdin);island *p_island0 = create(name);
+fgets(name, 80, stdin);island *p_island1 = create(name);
 </code></p>
 
 <p>p_island0和p_island1的name是一样的！！！原来是create函数传入的只是name的地址，两者的地址是一样的，你必须用strdup函数copy字符串,故以上create函数的代码中的</p>
@@ -67,8 +66,20 @@ island *p_island1 = create(name);
 
 <p>可改为</p>
 
-<pre><code>i-&gt;name = strdup(name); 不过要记得用strdup()拷贝字符串，最后需要用free()将此拷贝字符串release掉 ###valgrind可用来检测内存泄漏 valgrind能模拟在堆上分配的数据，它通过创建模拟的malloc()版本来工作，当你的程序想要分配一些堆上的内存时，valgrind将截获你对malloc()和free()的调用并运行它自己的模拟版本的malloc()和free(),valgrind版本的malloc()将记录调用它的那些代码以及它所分配的那部分内存,当你的程序终止时,valgrind将会报告任何堆上还存在的数据并且告诉你这些数据由哪些代码调用产生的 ####准备:添加debug信息 用valgrind运行之前你不需要对你的代码作任何操作，你甚至不需要重新编译代码，但是为了更好地利用valgrind，代需要确保你的可执行代码包含debug信息，debug信息是在编译代码后嵌入到可执行文件里的额外数据，比如代码对应的行数，如果debug信息存在了，valgrind将能给你许多内存泄漏的具体信息 测试所用程序[spies](https://gist.github.com/xiekunRonaldo/cdde073cac5636270322) 用valgrind结合--leak-check=full选项进行以下测试
+<pre><code>i-&gt;name = strdup(name);
 </code></pre>
+
+<p>不过要记得用strdup()拷贝字符串，最后需要用free()将此拷贝字符串release掉</p>
+
+<h3>valgrind可用来检测内存泄漏</h3>
+
+<p>valgrind能模拟在堆上分配的数据，它通过创建模拟的malloc()版本来工作，当你的程序想要分配一些堆上的内存时，valgrind将截获你对malloc()和free()的调用并运行它自己的模拟版本的malloc()和free(),valgrind版本的malloc()将记录调用它的那些代码以及它所分配的那部分内存,当你的程序终止时,valgrind将会报告任何堆上还存在的数据并且告诉你这些数据由哪些代码调用产生的</p>
+
+<h4>准备:添加debug信息</h4>
+
+<p>用valgrind运行之前你不需要对你的代码作任何操作，你甚至不需要重新编译代码，但是为了更好地利用valgrind，代需要确保你的可执行代码包含debug信息，debug信息是在编译代码后嵌入到可执行文件里的额外数据，比如代码对应的行数，如果debug信息存在了，valgrind将能给你许多内存泄漏的具体信息
+测试所用程序<a href="https://gist.github.com/xiekunRonaldo/cdde073cac5636270322">spies</a>
+用valgrind结合&mdash;leak-check=full选项进行以下测试</p>
 
 <p><img src="/images/2014/7/valgrind1.png"></p>
 
@@ -79,16 +90,13 @@ island *p_island1 = create(name);
 <p>这次,valgrind发现了内存泄漏,从上图可看出，在程序结束时，堆上有19个字节的空间未释放,valgrind告诉你以下信息</p>
 
 <ol>
-  <li>19个字节的内存分配了但未释放</li>
-  <li>分配了11次的内存空间，但只释放了10次</li>
-  <li>这几行给了我们什么线索</li>
-  <li>为什么是19个字节？说明了什么?
-从以个信息可得,”Loretta Barnsworth”占了19个字节,strdup导致了内存泄漏！
-    <ul>
-      <li>valgrind是如何截获对malloc()和free()的调用的
+<li>19个字节的内存分配了但未释放</li>
+<li>分配了11次的内存空间，但只释放了10次</li>
+<li>这几行给了我们什么线索</li>
+<li>为什么是19个字节？说明了什么?
+从以个信息可得,&ldquo;Loretta Barnsworth"占了19个字节,strdup导致了内存泄漏！</li>
+<li>valgrind是如何截获对malloc()和free()的调用的
 答:malloc()和free() 实际上是标准库函数，不过valgrind包含一个它自己的malloc()和free()版本的标准库函数，当你用valgrind来运行程序时，你的程序将用valgrind的malloc()和free()函数，而非C的标准库函数</li>
-    </ul>
-  </li>
 </ol>
 
 ]]></content>
@@ -99,93 +107,83 @@ island *p_island1 = create(name);
     <link href="http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-wu-zhang-xue-xi-bi-ji/"/>
     <updated>2014-07-13T09:22:09+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/07/13/head-first-cdi-wu-zhang-xue-xi-bi-ji</id>
-    <content type="html"><![CDATA[<h4 id="union">Union的初始化</h4>
-<ol>
-  <li>
-    <p>用.来初始化</p>
+    <content type="html"><![CDATA[<h4>Union的初始化</h4>
 
-    <pre><code> typedef union { 
+<ol>
+<li><p>用.来初始化</p>
+
+<pre><code> typedef union { 
      short count;
      float weight;
-     float volume;
- } quantity;
- //By name
- quantity q = {.weight=1.5};
+     float volume;       } quantity;
+ //By name       quantity q = {.weight=1.5};
  //By dot notation
  quantity q;
  q.volume = 3.7;
-</code></pre>
-  </li>
-  <li>
-    <p>struct也可以按名字(Designated initializer)来进行初始化</p>
-
-    <pre><code> typedef struct { 
-     const char *color;
-     int gears;
-     int height;
- } bike;
- bike b = {.height=17, .gears=21};
-</code></pre>
-  </li>
+</code></pre></li>
+<li><p>struct也可以按名字(Designated initializer)来进行初始化
+         typedef struct {            const char *color;          int gears;          int height;     } bike;     bike b = {.height=17, .gears=21};</p></li>
 </ol>
+
 
 <p>union可以用在struct中</p>
 
-<pre><code>typedef struct {
-	const char *name;
-	const char *country;
-	quantity amount;
-} fruit_order;
+<pre><code>typedef struct {        const char *name;       const char *country;        quantity amount;    } fruit_order;
 </code></pre>
 
-<p>你可以通过.或-&gt;来访问成员值</p>
+<p>你可以通过.或->来访问成员值</p>
 
-<pre><code>fruit_order apples = {"apples", "England", .amount.weight=4.2}; 假设有一下定义
-
-typedef union { 
-	float lemon;
-	int lime_pieces;
-} lemon_lime;
-
-typedef struct {
- 	float tequila;
- 	float cointreau;
- 	lemon_lime citrus;
-} margarita; 则以下定义是错误的
-
-margarita m;
-m = {2.0, 1.0, {0.5}};  //编译器会认为是数组 以下定义才是对的
-
-margarita m = {2.0, 1.0, {0.5}}; 在一个union里，可能会有很多可能的值，但一旦被赋值，你没法知道它存储的值的类型 我们可能为某些字段设定了值却访问了另一个字段，这可能出现大问题,假设有以下程序
-
-#include &lt;stdio.h&gt; 
-typedef union { 
-  float weight;
-  int count;
-} cupcake;
-
-
-int main() {
-	cupcake order = {2};
-	printf("Cupcakes quantity: %i\n", order.count);
-	return 0;
-} 运行程序将会出现以下结果
-
-gcc badunion.c -o badunion &amp;&amp; ./badunion 
-Cupcakes quantity: 1073741824 可以用enum来避免此类问题
+<pre><code>fruit_order apples = {"apples", "England", .amount.weight=4.2};
 </code></pre>
 
-<h4 id="bitfiled">Bitfiled</h4>
+<p>假设有一下定义</p>
+
+<pre><code>typedef union { 
+    float lemon;
+    int lime_pieces;    } lemon_lime;
+typedef struct {        float tequila;      float cointreau;        lemon_lime citrus;  } margarita;
+</code></pre>
+
+<p>则以下定义是错误的</p>
+
+<pre><code>margarita m;    m = {2.0, 1.0, {0.5}};  //编译器会认为是数组
+</code></pre>
+
+<p>以下定义才是对的</p>
+
+<pre><code>margarita m = {2.0, 1.0, {0.5}};
+</code></pre>
+
+<p>在一个union里，可能会有很多可能的值，但一旦被赋值，你没法知道它存储的值的类型
+我们可能为某些字段设定了值却访问了另一个字段，这可能出现大问题,假设有以下程序</p>
+
+<pre><code>#include &lt;stdio.h&gt; 
+typedef union { 
+  float weight;   int count;    } cupcake;
+    int main() {        cupcake order = {2};        printf("Cupcakes quantity: %i\n", order.count);     return 0;   }
+</code></pre>
+
+<p>运行程序将会出现以下结果</p>
+
+<pre><code>gcc badunion.c -o badunion &amp;&amp; ./badunion 
+Cupcakes quantity: 1073741824可以用enum来避免此类问题
+</code></pre>
+
+<h4>Bitfiled</h4>
+
 <p>bitfield能让你指定struct里的field能有几位，你可以按如下方式定义struct</p>
 
 <pre><code>typedef struct {
-	unsigned int low_pass_vcf:1;
-	unsigned int filter_coupler:1;
-} synth; 用bitfield，你能让每个field都只占一位 如果你有一连串的bitfields,计算机能将它们排列压缩以节省空间，所以如果你有8个1位的bitfields，电脑将会把它们存储到一个字节里 bitfield的不仅可以节省空间，也可以读写某些二进制文件
+    unsigned int low_pass_vcf:1;
+    unsigned int filter_coupler:1;  } synth;
 </code></pre>
 
+<p>用bitfield，你能让每个field都只占一位
+如果你有一连串的bitfields,计算机能将它们排列压缩以节省空间，所以如果你有8个1位的bitfields，电脑将会把它们存储到一个字节里
+bitfield的不仅可以节省空间，也可以读写某些二进制文件</p>
+
 <ul>
-  <li>bitfield应该被声明为unsigned int</li>
+<li>bitfield应该被声明为unsigned int</li>
 </ul>
 
 ]]></content>
@@ -199,11 +197,18 @@ Cupcakes quantity: 1073741824 可以用enum来避免此类问题
     <content type="html"><![CDATA[<p><code>#include &lt;limits.h&gt;</code>此头文件包含一些整型如int和char的值,可打印整型的最大最小值,如</p>
 
 <pre><code>printf("The value of INT_MAX is %i\n", INT_MAX); 
-printf("The value of INT_MIN is %i\n", INT_MIN); `#include &lt;float.h&gt;`此头文件包含一些浮点型如float和double的值,可打印浮点的最大最小值,如
-
-printf("The value of FLT_MAX is %f\n", FLT_MAX);
-printf("The value of FLT_MIN is %.50f\n", FLT_MIN); 如果你想知道char,short,double或long的具体细节呢,没问题，只要将INT和FLT替换成CHAR,DBL,SHRT,LNG即可 不过你会发现在不同的机器上，这些值都是不一样的，因为C在不同的OS和处理器上用了不同的数据类型，这么做允许它最大限度地利用了硬件的特性,那么C是如何做的呢 当C被发明时，许多机器是8位的，现在，许多机器是32位或64位的，由于C并不指定数据类型的确切大小，这样，它有很好的移植性，随着越来越多的机器被发明出来，C将能够有限地利用它们
+printf("The value of INT_MIN is %i\n", INT_MIN);
 </code></pre>
+
+<p><code>#include &lt;float.h&gt;</code>此头文件包含一些浮点型如float和double的值,可打印浮点的最大最小值,如</p>
+
+<pre><code>printf("The value of FLT_MAX is %f\n", FLT_MAX);
+printf("The value of FLT_MIN is %.50f\n", FLT_MIN);
+</code></pre>
+
+<p>如果你想知道char,short,double或long的具体细节呢,没问题，只要将INT和FLT替换成CHAR,DBL,SHRT,LNG即可
+不过你会发现在不同的机器上，这些值都是不一样的，因为C在不同的OS和处理器上用了不同的数据类型，这么做允许它最大限度地利用了硬件的特性,那么C是如何做的呢
+当C被发明时，许多机器是8位的，现在，许多机器是32位或64位的，由于C并不指定数据类型的确切大小，这样，它有很好的移植性，随着越来越多的机器被发明出来，C将能够有限地利用它们</p>
 
 <p><code>这里我们说的8位和64位是什么意思</code>
 一台计算机的位大小实际上表示多种情况，比如它的CPU指令的大小或者CPU一次能从内存中读取的数据大小，位大小是一台计算机能处理地最优大小
@@ -222,38 +227,65 @@ printf("The value of FLT_MIN is %.50f\n", FLT_MIN); 如果你想知道char,short
 
 <p><code>当编译器看到以下的代码时会发生什么</code></p>
 
-<pre><code>printf("Total so far: %.2f\n", add_with_tax(val)); 编译器将看到一个对不认识的函数的调用，它并不抱怨，编译器会猜想它会在源文件的随后部分发现更多此函数的信息，不幸的是，这就是问题所在,编译器会想，这个函数我从来没见过，但我要先记录它以便在源文件的后半部分对它进行处理 `问题是编译需要知道此函数的返回类型`当然，编译器此时并不知道函数的返回类型，所以它就作 了一个假设，编译器假设此函数返回int值 `但当编译器到达此函数的定义时，它将返回一个“conflicting types for ‘add_with_tax’”错误` 这是因为编译器认为它看到了两个同名函数，一个是实际存在文件中的函数，一个则是编译器假设的，返回int型的函数 `那么如何解决此问题呢，你可能会认为，把函数放在调用代码的前面按正确地顺序书写不就ok了吗` 这么做确实可以解决问题，但`修改函数的顺序是件很痛苦的事`,假设有以下情况，你添加了一个很棒的新函数
+<pre><code>printf("Total so far: %.2f\n", add_with_tax(val));
+</code></pre>
 
-int do_whatever(){...}
-float do_something_fantastic(int awesome_level) {...} int do_stuff() {
-do_something_fantastic(11); } 此时你改变注意想在do_whatever调用do_something_fantastic函数呢，那你不得不将do_something_fantastic函数移do_whatever前面,很麻烦，更麻烦的是，有些递归函数将在它被定义前调用自己,如
+<p>编译器将看到一个对不认识的函数的调用，它并不抱怨，编译器会猜想它会在源文件的随后部分发现更多此函数的信息，不幸的是，这就是问题所在,编译器会想，这个函数我从来没见过，但我要先记录它以便在源文件的后半部分对它进行处理
+<code>问题是编译需要知道此函数的返回类型</code>当然，编译器此时并不知道函数的返回类型，所以它就作 了一个假设，编译器假设此函数返回int值
+<code>但当编译器到达此函数的定义时，它将返回一个“conflicting types for ‘add_with_tax’”错误</code>
+这是因为编译器认为它看到了两个同名函数，一个是实际存在文件中的函数，一个则是编译器假设的，返回int型的函数
+<code>那么如何解决此问题呢，你可能会认为，把函数放在调用代码的前面按正确地顺序书写不就ok了吗</code>
+这么做确实可以解决问题，但<code>修改函数的顺序是件很痛苦的事</code>,假设有以下情况，你添加了一个很棒的新函数</p>
 
-float ping(){
-	pong();
+<pre><code>int do_whatever(){...}  float do_something_fantastic(int awesome_level) {...} int do_stuff() {  do_something_fantastic(11); }
+</code></pre>
+
+<p>此时你改变注意想在do_whatever调用do_something_fantastic函数呢，那你不得不将do_something_fantastic函数移do_whatever前面,很麻烦，更麻烦的是，有些递归函数将在它被定义前调用自己,如</p>
+
+<pre><code>float ping(){
+    pong();
 }
 float pong(){
-	ping();
-} 如果你有两个相互调用的函数，其中一个必然会在它定义之前被调用，这样必然性错误，解决方法是 `将声明和定义分隔开来`,将声明放在头文件(.h)将定义放在实现文件(.c) `要点` * 从以上可得知实际上你无须为返回值为int函数声明 将多个源文件编译成一个可执行程序
-
-gcc message_hider.c encrypt.c -o message_hider `编译`   gcc -c *.c
+    ping();
+}
 </code></pre>
+
+<p>如果你有两个相互调用的函数，其中一个必然会在它定义之前被调用，这样必然性错误，解决方法是
+<code>将声明和定义分隔开来</code>,将声明放在头文件(.h)将定义放在实现文件(.c)
+<code>要点</code>
+* 从以上可得知实际上你无须为返回值为int函数声明
+将多个源文件编译成一个可执行程序</p>
+
+<pre><code>gcc message_hider.c encrypt.c -o message_hider
+</code></pre>
+
+<p><code>编译</code>   gcc -c *.c</p>
 
 <p><code>链接</code>   gcc *.o -o launch</p>
 
 <p>问题是如果有非常多的源文件，当你修改一个，你需要把所有的这些源文件全都编译一遍，要浪费很多时间!那如何解决呢</p>
 
-<h4 id="make">make工具</h4>
+<h4>make工具</h4>
+
 <p>make是一种能自动编译你的源文件的一种工具
 <img src="/images/2014/7/theater.png">
-如上所未，你如何断定thruster.o文件需要重新编译呢，看时间戳，如果thruster.o文件早于thruster.c,thruster.o就需要重新创建了，相当简单的规则，不是吗，既然明白了规则，我们就可以用make工具自动进行此过程，make将会比较源文件和目标文件的时间戳，如果某些目标文件的时间戳早于源文件，则它将对这些源文件重新编译，但在此之前，你需要告诉make这个工具一些信息，包括文件的信赖关系等，你需要确切地告诉它你想要如何编译代码
-####make需要知道哪些东西</p>
+如上所未，你如何断定thruster.o文件需要重新编译呢，看时间戳，如果thruster.o文件早于thruster.c,thruster.o就需要重新创建了，相当简单的规则，不是吗，既然明白了规则，我们就可以用make工具自动进行此过程，make将会比较源文件和目标文件的时间戳，如果某些目标文件的时间戳早于源文件，则它将对这些源文件重新编译，但在此之前，你需要告诉make这个工具一些信息，包括文件的信赖关系等，你需要确切地告诉它你想要如何编译代码</p>
+
+<h4>make需要知道哪些东西</h4>
 
 <p>如果你想将thruster.c编辑成一个叫thruster.o的目标文件,依赖文件和配方分别是什么,thruster.o是目标文件,因为这是你想要生成的文件，thruster.c就是信赖文件，因为它是编译所需的转化为thruster.o的源文件，那么配方是什么呢，是将thruster.c转化为thruster.o的编译器命令</p>
 
-<pre><code>gcc -c thruster.c 明白了吗？如果你告诉make工具相应的信赖文件和配方,你就能让make工具知道何时它需要重新编译成thruster.o了 但你可以更进一步，一旦你编译了thruster.o的目标文件，你就将用它创建launch程序了，也就是说，launch文件也可以被设置成一个目标，因为它是你要产生的文件，launch的依赖文件是所有的.o的目标文件，配方是以下命令
-
-gcc *.o -o launch 一旦make知道了所有的依赖文件和规则，你所要做的就是告诉它去创建launch文件了 <img src="/images/2014/7/make.png">
+<pre><code>gcc -c thruster.c
 </code></pre>
+
+<p>明白了吗？如果你告诉make工具相应的信赖文件和配方,你就能让make工具知道何时它需要重新编译成thruster.o了
+但你可以更进一步，一旦你编译了thruster.o的目标文件，你就将用它创建launch程序了，也就是说，launch文件也可以被设置成一个目标，因为它是你要产生的文件，launch的依赖文件是所有的.o的目标文件，配方是以下命令</p>
+
+<pre><code>gcc *.o -o launch
+</code></pre>
+
+<p>一旦make知道了所有的依赖文件和规则，你所要做的就是告诉它去创建launch文件了
+<img src="/images/2014/7/make.png"></p>
 
 <p>以下是make文件的内容
 <img src="/images/2014/7/makefile.png"></p>
@@ -264,11 +296,12 @@ gcc *.o -o launch 一旦make知道了所有的依赖文件和规则，你所要�
 <img src="/images/2014/7/remake.png">
 我们可以看到，它只编译thruster.o了，然后重新链接</p>
 
-<pre><code>注:由于make文件调用OS底层的操作系统，有时同一个make文件并不适用在不同的OS上 除了编译代码，make也可用作command-line installer,或源码管理工具，实际上，有命令行上你几乎可以把make用在任何你想执行的任务上
+<pre><code>注:由于make文件调用OS底层的操作系统，有时同一个make文件并不适用在不同的OS上
 </code></pre>
 
-<p>如果你觉得make还不够自动化，你可以试试<a href="http://www.gnu.org/software/autoconf/">autoconf</a>用来产生make文件</p>
+<p>除了编译代码，make也可用作command-line installer,或源码管理工具，实际上，有命令行上你几乎可以把make用在任何你想执行的任务上</p>
 
+<p>如果你觉得make还不够自动化，你可以试试<a href="http://www.gnu.org/software/autoconf/">autoconf</a>用来产生make文件</p>
 ]]></content>
   </entry>
   
@@ -277,7 +310,8 @@ gcc *.o -o launch 一旦make知道了所有的依赖文件和规则，你所要�
     <link href="http://xiekunRonaldo.github.io/blog/2014/06/29/head-first-c-di-san-zhang-xue-xi-bi-ji-chuang-jian-%5B%3F%5D-xie-xiao-gong-ju/"/>
     <updated>2014-06-29T18:44:13+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/06/29/head-first-c-di-san-zhang-xue-xi-bi-ji-chuang-jian-[?]-xie-xiao-gong-ju</id>
-    <content type="html"><![CDATA[<h3 id="section">要点</h3>
+    <content type="html"><![CDATA[<h3>要点</h3>
+
 <p>Linux/Unix系统有很多小工具,这些小工具执行一些特定的任务，比如读写文件，过滤数据等，这些工具都只负责处理自己的事情，各司其职，无需顾虑其他的工具所做的事，这样做的好处可以如果你需要处理一个比较复杂的任务，你可以将它分割成各个小任务，每个小任务由相应的工具完成，就有效地做到了解耦,同时这么做也使得每个小程序更容易调试</p>
 
 <p>此章介绍我们将学习如何了解命令行参数，处理流信息，重定向，并快速地将各个工具组合起来</p>
@@ -285,45 +319,22 @@ gcc *.o -o launch 一旦make知道了所有的依赖文件和规则，你所要�
 <p>本章我们主要以将以下数据格式</p>
 
 <pre><code>42.363327,-71.097588,Speed = 23 
-42.363255,-71.096710,Speed = 17 转换成以下的JSON形式进行讨论分析
+42.363255,-71.096710,Speed = 17
+</code></pre>
 
-[{latitude: 42.363400, longitude: -71.098465, info: 'Speed = 21'},
+<p>转换成以下的JSON形式进行讨论分析</p>
 
+<pre><code>[{latitude: 42.363400, longitude: -71.098465, info: 'Speed = 21'},
  {latitude: 42.363327, longitude: -71.097588, info: 'Speed = 23'}, 
-
- {latitude: 42.363255, longitude: -71.096710, info: 'Speed = 17'},
-...]
+ {latitude: 42.363255, longitude: -71.096710, info: 'Speed = 17'},  ...]
 </code></pre>
 
 <p>以下程序(geo2json)能从命令行中读取以逗号分隔的行，并将它以JSON的形式展示出来</p>
 
 <pre><code>//geo2json
-#include &lt;stdio.h&gt;
-int main() {
-	float latitude;
-	float longitude;
-	char info[80]; intstarted= 0 ￼ ￼ ;
-	puts("data=["); 
-	while (scanf("%f,%f,%79[^\n]", &amp;latitude, &amp;longitude, info) == 3) {
-		if (started) 
-			printf(",\n");
-		else
-			started= 1 ;
-
-		if ((latitude &lt; -90.0) || (latitude &gt; 90.0)) { 
-			printf(“Invalid latitude: %f\n”, latitude);
-			return 2;
-
-		}
-		if ((longitude &lt; -180.0) || (longitude &gt; 180.0)) {
-			printf(“Invalid longitude: %f\n”, longitude);
-			return 2; 
-		}
-		printf("{latitude: %f, longitude: %f, info: '%s'}", latitude , longitude , info );
-	}
-	puts("\n]");
-	return 0; 
-}
+#include &lt;stdio.h&gt;  int main() {        float latitude;     float longitude;        char info[80]; intstarted= 0 ￼ ￼ ;      puts("data=[");         while (scanf("%f,%f,%79[^\n]", &amp;latitude, &amp;longitude, info) == 3) {         if (started)                printf(",\n");          else                started= 1 ;
+        if ((latitude &lt; -90.0) || (latitude &gt; 90.0)) {              printf(“Invalid latitude: %f\n”, latitude);             return 2;
+        }           if ((longitude &lt; -180.0) || (longitude &gt; 180.0)) {              printf(“Invalid longitude: %f\n”, longitude);               return 2;           }           printf("{latitude: %f, longitude: %f, info: '%s'}", latitude , longitude , info );      }       puts("\n]");        return 0;   }
 </code></pre>
 
 <p>scanf()会返回输入的参数个数</p>
@@ -332,8 +343,9 @@ int main() {
 </code></pre>
 
 <ul>
-  <li>注意以上的[^\n]表示第三个输入参数的内容为除换行以外的字符串</li>
+<li>注意以上的[^\n]表示第三个输入参数的内容为除换行以外的字符串</li>
 </ul>
+
 
 <p>以上程序让你在键盘上输入GPS数据，将将它们在JSON的形式输出到屏幕上,问题是输入和输出混起来了，如果有许多的数据，你肯定不想在键盘上手动输入，你肯定希望能用一个小工具(geo2json)将大量的数据通过读取文件来获取.</p>
 
@@ -346,46 +358,65 @@ scanf()和printf()两个函数并不关心数据来自哪里，去向何方，�
 <p>程序系统用标准输入和标准输出的形式与程序进行交互有一个很好的理由:
 你可以重定向标准输入和标准输出到其他地方，比如文件</p>
 
-<p>你可以用”&lt;”来重定向标准输入:</p>
+<p>你可以用"&lt;&ldquo;来重定向标准输入:</p>
 
 <pre><code>./geo2json &lt; gpsdata.csv
 </code></pre>
 
-<p>”&lt;”告诉操作系统程序的标准输入应与gpsdata.csv文件连接，而非键盘，所以你可以通过文件向程序传送数据</p>
+<p>&ldquo;&lt;"告诉操作系统程序的标准输入应与gpsdata.csv文件连接，而非键盘，所以你可以通过文件向程序传送数据</p>
 
-<p>你也可以用”&gt;”来重定向标准输出</p>
+<p>你也可以用">&ldquo;来重定向标准输出</p>
 
-<pre><code>./geo2json &lt; gpsdata.csv &gt; output.json 将你执行以上命令，你将发现在屏幕上没有任何数据，因为结果已经输出到output.json这个文件去了
+<pre><code>./geo2json &lt; gpsdata.csv &gt; output.json
 </code></pre>
+
+<p>将你执行以上命令，你将发现在屏幕上没有任何数据，因为结果已经输出到output.json这个文件去了</p>
 
 <p>以上的程序(geo2json)虽然加了错误判断，但如果有非法数据，在最后的输出文件中，一样会有非法数据
 如果发生错误，如何发现错误码(以上为2)</p>
 
-<pre><code>echo $? 如果数据错误了，能有专门针对这些错误的输出该多好! 标准错误(Stand Error)应运而生!它就是专门针对错误信息的输出，默认情况下，标准错误与屏幕相连,以下是默认状态下的三种标准对应设备的图
+<pre><code>echo $?
 </code></pre>
 
-<p><img src="/images/2014/6/standardIOE.png">  </p>
+<p>如果数据错误了，能有专门针对这些错误的输出该多好!
+标准错误(Stand Error)应运而生!它就是专门针对错误信息的输出，默认情况下，标准错误与屏幕相连,以下是默认状态下的三种标准对应设备的图</p>
 
-<p>也就是说如果重定向了标准出入和标准输出，标准错误仍将发送数据到屏幕上</p>
+<p> <img src="/images/2014/6/standardIOE.png"></p>
 
-<p><img src="/images/2014/6/standardIOE2.png"></p>
+<p> 也就是说如果重定向了标准出入和标准输出，标准错误仍将发送数据到屏幕上</p>
 
-<h3 id="fprintf">fprintf()输出到一个数据流中(标准输出或标准错误)</h3>
+<p> <img src="/images/2014/6/standardIOE2.png"></p>
+
+<h3>fprintf()输出到一个数据流中(标准输出或标准错误)</h3>
+
 <p>我们已经知道print()将数据输出到标准输出中，实际上print()只是fprintf()的一个特例而已
 当你调用</p>
 
-<pre><code>printf("I like Turtles!"); 时，实际上它调用的是
-
-fprintf(stdout, "I like Turtles!"); 以上清楚地显示了字符串"I like Turtles"输出到stdout,你可以告诉fprintf()发送数据到stdout或stderr 既然知道了fprintf()的用法，我们就可以修改geo2json了  <img src="/images/2014/7/updategeo2json.png"> 这样错误信息就与标准错误而不是标准输出关联了,重新运行代码，你将看到尽管标准输出重定向到了output.json文件，错误信息仍然打印到屏幕上，这是因为标准错误信息默认就是打印到屏幕上
+<pre><code>printf("I like Turtles!");
 </code></pre>
 
-<p><img src="/images/2014/7/stderroutput.png"></p>
+<p>时，实际上它调用的是</p>
 
-<p>标准错误的创建其实就是为了将错误信息和正常的输出区分开来，不过要记得，标准错误和标准输出都是输出流，你可以随心所欲地用按自己的想法利用它们
-####要点
-* printf()默认发送数据到标准输出
-* 标准输出默认输出数据到屏幕上
-* 在命令行中你可以用’&gt;’来重定向标准输出,用’2&gt;’来重定向标准错</p>
+<pre><code>fprintf(stdout, "I like Turtles!");
+</code></pre>
+
+<p>以上清楚地显示了字符串"I like Turtles"输出到stdout,你可以告诉fprintf()发送数据到stdout或stderr
+既然知道了fprintf()的用法，我们就可以修改geo2json了
+ <img src="/images/2014/7/updategeo2json.png">
+这样错误信息就与标准错误而不是标准输出关联了,重新运行代码，你将看到尽管标准输出重定向到了output.json文件，错误信息仍然打印到屏幕上，这是因为标准错误信息默认就是打印到屏幕上</p>
+
+<p> <img src="/images/2014/7/stderroutput.png"></p>
+
+<p>标准错误的创建其实就是为了将错误信息和正常的输出区分开来，不过要记得，标准错误和标准输出都是输出流，你可以随心所欲地用按自己的想法利用它们</p>
+
+<h4>要点</h4>
+
+<ul>
+<li>printf()默认发送数据到标准输出</li>
+<li>标准输出默认输出数据到屏幕上</li>
+<li>在命令行中你可以用'>&lsquo;来重定向标准输出,用'2>'来重定向标准错</li>
+</ul>
+
 
 <p>在以上处理经纬度数据的程序中，如果你想得到一定范围内的数据，如下图
 <img src="/images/2014/7/range.png"></p>
@@ -393,83 +424,97 @@ fprintf(stdout, "I like Turtles!"); 以上清楚地显示了字符串"I like Tur
 <p>为了不改变geo2json这个工具，你可以另外创建一个工具(称它为bermude吧)来过滤不在以上范围的数据</p>
 
 <pre><code>//bermude
-#include &lt;stdio.h&gt;
-
-int main()
+#include &lt;stdio.h&gt;  int main()
 {
-	float latitude;
-	float longitude;
-	char info[80];
-	while (scanf("%f,%f,%79[^\n]", &amp;latitude, &amp;longitude , info ￼) == 3)
-
-	if (( ￼ ￼ latitude ￼ &gt; ￼ ￼ 26 ￼ ) ￼ ￼ &amp;&amp; ￼ ( ￼ ￼ latitude ￼ &lt; ￼ ￼ 34 ￼ ))
-	￼￼￼￼￼￼￼if (( longitude &gt; -76 ) &amp;&amp; ( longitude &lt; -64 )) 
-		printf("%f,%f,%s\n", latitude , longitude , info );
-	￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼return 0;
-}
+    float latitude;     float longitude;        char info[80];      while (scanf("%f,%f,%79[^\n]", &amp;latitude, &amp;longitude , info ￼) == 3)
+    if (( ￼ ￼ latitude ￼ &gt; ￼ ￼ 26 ￼ ) ￼ ￼ &amp;&amp; ￼ ( ￼ ￼ latitude ￼ &lt; ￼ ￼ 34 ￼ ))     ￼￼￼￼￼￼￼if (( longitude &gt; -76 ) &amp;&amp; ( longitude &lt; -64 )) 
+        printf("%f,%f,%s\n", latitude , longitude , info );     ￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼return 0;
+}   
 </code></pre>
 
-<table>
-  <tbody>
-    <tr>
-      <td>这样，你可以通过管道’</td>
-      <td>‘将”bermude”的输出连接到geo2json的标准输入上，进而得到相应的结果</td>
-    </tr>
-  </tbody>
-</table>
+<p>这样，你可以通过管道'|&lsquo;将"bermude"的输出连接到geo2json的标准输入上，进而得到相应的结果</p>
 
 <p><img src="/images/2014/7/pipe.png"></p>
 
 <p>操作系统将处理管道工作的细节，你需要做的只是运行一下以下的命令</p>
 
-<pre><code>bermuda | geo2json 操作系统将同时运行两个程序，完整的命令操作如下
-
-(./bermuda | ./geo2json) &lt; spooky.csv &gt; output.json 通过管道将两个程序联合起来一起运行，你可以把两个程序当作一个进行看待，这样，你就能像之前那样重定向标准输出和标准输出了，注意括号是必要的！，这样保证了文件的内容将传到bermuda程序的标准输入中 思考：如果多个程序通过管道连接起来，此时我用"&gt;"和"&lt;"来重定向标准输入和标准输出，哪一个程序将让它们的输入输出重定向 答:"&lt;"将把文件的内容传到管道中的第一个程序中,"&gt;"将从管道中的最后一个程序中获取标准输出 #### 如果你想将输出传到多个文件中去呢? 我们已经知道如何用重定向从一个文件中读取数据和写入数据到一个文件中去了，那如果程序想做一些更复杂的，比如发送数据到多个文件中去该如何操作呢？ 假设你需要另外一个工具，这个工具将从一个文件中读取一系列的数据，并将数据分割到多个文件中去 <img src="/images/2014/7/threefiles.png"> 问题是什么？你最多只能重定向到两个文件中，分别从标准输出和标准错误中重定向，那第三个文件该怎么办呢? ####用FILE 每一个数据流由一个指向文件的指针表示，你可以用fopen()来创建一个数据流
-
-FILE *in_file = fopen("input.txt", "r"); 以上创建了一个数据流，从一个文件中读取数据
-
-ILE *out_file = fopen("output.txt", "w"); 以上创建的一个数据流，将写入数据到文件中 一旦你创建了一个数据流，你可以用fprintf()将输出的数据指向此文件中
-
-fprintf(out_file, "Don't wear %s with %s", "red", "green"); 那如果想从文件中读取数据呢，用fscanf()
-
-fscanf(in_file, "%79[^\n]\n", sentence); 最后，当你处理完了以上针对文件的数据流操作，你需要关闭它，实际上当程序结束的时候所有的数据流都会自动关闭，不过在不需要它们时手动关闭数据流总量一个好习惯 回到以上的问题，现在我们能把数据输出到3个文件中去了，示例如下
-
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
-int main() {
-	char line[80];
-	FILE *in = fopen("spooky.csv","r");
-	FILE *file1 = fopen("ufos.csv", “w”);
-	FILE *file2 = fopen("disappearances.csv","w");
-	FILE *file3 = fopen("others.csv","w");	
-	while(fscanf(in,"%79[^\n]\n", line) == 1){
-		if (strstr(line, "UFO"))
-			fprintf (file1, "%s\n", line);
-		else if (strstr(line, "Disappearance")) 
-			fprintf (file2, "%s\n", line);
-		else fprintf (file3, "%s\n", line);
-	}
-
-	fclose (file1); 
-	fclose (file2);
-	fclose (file3);
-	return 0;
-}	  程序正常运行了，当你编译并执行以下命令 <img src="/images/2014/7/threefilesok.png">
+<pre><code>bermuda | geo2json
 </code></pre>
 
+<p>操作系统将同时运行两个程序，完整的命令操作如下</p>
+
+<pre><code>(./bermuda | ./geo2json) &lt; spooky.csv &gt; output.json
+</code></pre>
+
+<p>通过管道将两个程序联合起来一起运行，你可以把两个程序当作一个进行看待，这样，你就能像之前那样重定向标准输出和标准输出了，注意括号是必要的！，这样保证了文件的内容将传到bermuda程序的标准输入中
+思考：如果多个程序通过管道连接起来，此时我用">&ldquo;和&rdquo;&lt;&ldquo;来重定向标准输入和标准输出，哪一个程序将让它们的输入输出重定向
+答:&rdquo;&lt;&ldquo;将把文件的内容传到管道中的第一个程序中,&rdquo;>&ldquo;将从管道中的最后一个程序中获取标准输出</p>
+
+<h4>如果你想将输出传到多个文件中去呢?</h4>
+
+<p>我们已经知道如何用重定向从一个文件中读取数据和写入数据到一个文件中去了，那如果程序想做一些更复杂的，比如发送数据到多个文件中去该如何操作呢？
+假设你需要另外一个工具，这个工具将从一个文件中读取一系列的数据，并将数据分割到多个文件中去
+<img src="/images/2014/7/threefiles.png">
+问题是什么？你最多只能重定向到两个文件中，分别从标准输出和标准错误中重定向，那第三个文件该怎么办呢?</p>
+
+<h4>用FILE</h4>
+
+<p>每一个数据流由一个指向文件的指针表示，你可以用fopen()来创建一个数据流</p>
+
+<pre><code>FILE *in_file = fopen("input.txt", "r");
+</code></pre>
+
+<p>以上创建了一个数据流，从一个文件中读取数据</p>
+
+<pre><code>ILE *out_file = fopen("output.txt", "w");以上创建的一个数据流，将写入数据到文件中
+</code></pre>
+
+<p>一旦你创建了一个数据流，你可以用fprintf()将输出的数据指向此文件中</p>
+
+<pre><code>fprintf(out_file, "Don't wear %s with %s", "red", "green");
+</code></pre>
+
+<p>那如果想从文件中读取数据呢，用fscanf()</p>
+
+<pre><code>fscanf(in_file, "%79[^\n]\n", sentence);
+</code></pre>
+
+<p>最后，当你处理完了以上针对文件的数据流操作，你需要关闭它，实际上当程序结束的时候所有的数据流都会自动关闭，不过在不需要它们时手动关闭数据流总量一个好习惯
+回到以上的问题，现在我们能把数据输出到3个文件中去了，示例如下</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+int main() {        char line[80];      FILE *in = fopen("spooky.csv","r");     FILE *file1 = fopen("ufos.csv", “w”);
+    FILE *file2 = fopen("disappearances.csv","w");
+    FILE *file3 = fopen("others.csv","w");  
+    while(fscanf(in,"%79[^\n]\n", line) == 1){
+        if (strstr(line, "UFO"))                fprintf (file1, "%s\n", line);          else if (strstr(line, "Disappearance")) 
+            fprintf (file2, "%s\n", line);          else fprintf (file3, "%s\n", line);     }
+    fclose (file1);         fclose (file2);     fclose (file3);     return 0;
+}   
+</code></pre>
+
+<p> 程序正常运行了，当你编译并执行以下命令
+<img src="/images/2014/7/threefilesok.png"></p>
+
 <p>程序正常运行，并将结果输出到3个文件中
-问题是如果你想数据输出到不同的文件(而不是指定的文件)，又该如何操作呢，每次用户都需要重新编译程序吗
-####main()函数的参数
-实际上，任何你写的程序都需要给用户改变程序工作方式的灵活性，如果是一个GUI程序，你需要提供它的偏好设置，如果是一个命令行程序，就像我们的categorize工具，它需要提供给用户传送命令行参数的能力
+问题是如果你想数据输出到不同的文件(而不是指定的文件)，又该如何操作呢，每次用户都需要重新编译程序吗</p>
+
+<h4>main()函数的参数</h4>
+
+<p>实际上，任何你写的程序都需要给用户改变程序工作方式的灵活性，如果是一个GUI程序，你需要提供它的偏好设置，如果是一个命令行程序，就像我们的categorize工具，它需要提供给用户传送命令行参数的能力
 <img src="/images/2014/7/commandlineparam.png">
 那么，如何从程序中读取命令行参数呢，目前为止，你用的是main()函数，没有包含任何参数，实际上，你还可以用上main()函数的第二个版本</p>
 
 <pre><code>int main(int argc, char *argv[])
 {
-	......Do stuff
-} 以上的main()函数把命令行的参数当作一个字符串数组，实际上，由于C没有内置的字符串类型，它将用一个指针数组来指向这些命令行参数 <img src="/images/2014/7/argv.png">
+    ......Do stuff
+}
 </code></pre>
+
+<p>以上的main()函数把命令行的参数当作一个字符串数组，实际上，由于C没有内置的字符串类型，它将用一个指针数组来指向这些命令行参数
+<img src="/images/2014/7/argv.png"></p>
 
 <p>像C数组一样,你也需要知道一个数组的长度，argc就表示此长度
 命令行参数给了你程序很大的灵活性，确实需要仔细考虑下在程序运行时该让用户传哪些参数，它将让你的程序更有价值
@@ -477,65 +522,77 @@ int main() {
 
 <pre><code>#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
-int main(int argc, char *argv[]) {
-	char line[80];
-	if (argc != 6) {
-		fprintf(stderr, "You need to give 6 arguments\n");
-		return 1;
-	}
-	
-	FILE *in = fopen("spooky.csv", "r");
-	
-	FILE *file1 = fopen(argv[2], "w");
-	
-	FILE *file2 = fopen(argv[4], "w");
-	
-	FILE *file3 = fopen(argv[5], "w");
-	
-	while (fscanf(in, "%79[^\n]\n", line) == 1) {
-		if (strstr(line, argv[1]))
-			fprintf(file1, "%s\n", line);
-		else if (strstr(line, argv[3]))
-			fprintf(file2, "%s\n", line);
-		else 
-			fprintf(file3, "%s\n", line);
-	}
-	
-	fclose(file1);
-	fclose(file2);
-	fclose(file3); 
-	return 0;
-} 运行以上程序，你首选需要以下格式的`spooky.csv`文件
+#include &lt;string.h&gt; int main(int argc, char *argv[]) {      char line[80];
+    if (argc != 6) {
+        fprintf(stderr, "You need to give 6 arguments\n");
+        return 1;
+    }
 
-30.685163,-68.137207,Type=Yeti 28.304380,-74.575195,Type=UFO 	29.132971,-71.136475,Type=Ship 28.343065,-62.753906,Type=Elvis 	27.868217,-68.005371,Type=Goatsucker 30.496017,-73.333740,Type=Disappearance 	26.224447,-71.477051,Type=UFO 29.401320,-66.027832,Type=Ship 	37.879536,-69.477539,Type=Elvis 这样，在命令行中输出以下格式运行程序
+    FILE *in = fopen("spooky.csv", "r");
 
-categorize UFO aliens.csv Elvis elvises.csv the_rest.csv 当程序运行后，产生了以下三个文件 <img src="/images/2014/7/3outputfiles.png">	 尽管在以上的程序中我们打开关闭程序没有出现错误，在实际操作中是很可能犯错的，幸运的是，如果在打开数据流发生了错误,fopen()将返回0，因此，以上的程序中，你应该将以下的程序
+    FILE *file1 = fopen(argv[2], "w");
 
-FILE *in = fopen("i_dont_exist.txt", "r");
+    FILE *file2 = fopen(argv[4], "w");
+
+    FILE *file3 = fopen(argv[5], "w");
+
+    while (fscanf(in, "%79[^\n]\n", line) == 1) {
+        if (strstr(line, argv[1]))
+            fprintf(file1, "%s\n", line);
+        else if (strstr(line, argv[3]))
+            fprintf(file2, "%s\n", line);
+        else 
+            fprintf(file3, "%s\n", line);
+    }
+
+    fclose(file1);
+    fclose(file2);
+    fclose(file3); 
+    return 0;
+}
 </code></pre>
 
-<p>改为</p>
+<p>运行以上程序，你首选需要以下格式的<code>spooky.csv</code>文件</p>
 
-<pre><code>FILE *in;
-if (!(in = fopen("dont_exist.txt", "r"))) {
-	fprintf(stderr, "Can't open the file.\n");
-	return 1; 
-} 很可能你写的程序需要一些选项，如果你创建了一个聊天程序，它需要一些偏好设置，如果你写了一个命令行工具，你可能需要提供类似以下的命令行的一些选项
-
-ps -ae
- 	tail -f logfile.out 有一个叫做getopt()的库函数能让你更好地处理命令行选项,每次你调用它，它将返回下一个在命令行中的命令行选项 假设你有一个函数，能提供多个命令行选项
-
-rocket_to -e 4 -a Brasilia Tokyo London 这个函数将需要两个个选项，其中一个选项需要提供一个值，另一个仅仅表示此选项是否开关,你可以在一个循环中调用getopt()来处理这些选项，如下 <img src="/images/2014/7/getopt.png"> 在循环中，你用switch来处理每一个合法的选项,字符串"ae:"告知getopt()函数a和e是合法的选项，紧跟在e之后的冒号表示-e后面需要一个的值，getopt()将用optarg变量表示这个值 当循环结束，你让argv和argc变量跳过所有的选项，此时它们表示跟随这些选项之后的命令行参数，这样，argv数组表示如下
+<pre><code>30.685163,-68.137207,Type=Yeti 28.304380,-74.575195,Type=UFO    29.132971,-71.136475,Type=Ship 28.343065,-62.753906,Type=Elvis  27.868217,-68.005371,Type=Goatsucker 30.496017,-73.333740,Type=Disappearance    26.224447,-71.477051,Type=UFO 29.401320,-66.027832,Type=Ship    37.879536,-69.477539,Type=Elvis
 </code></pre>
 
-<p><img src="/images/2014/7/skipargv.png">
-我们也可以将两个选项结合起来
+<p>这样，在命令行中输出以下格式运行程序</p>
+
+<pre><code>categorize UFO aliens.csv Elvis elvises.csv the_rest.csv
+</code></pre>
+
+<p>当程序运行后，产生了以下三个文件
+<img src="/images/2014/7/3outputfiles.png">  <br/>
+尽管在以上的程序中我们打开关闭程序没有出现错误，在实际操作中是很可能犯错的，幸运的是，如果在打开数据流发生了错误,fopen()将返回0，因此，以上的程序中，你应该将以下的程序</p>
+
+<pre><code>FILE *in = fopen("i_dont_exist.txt", "r");改为
+FILE *in;   if (!(in = fopen("dont_exist.txt", "r"))) {     fprintf(stderr, "Can't open the file.\n");      return 1;   }
+</code></pre>
+
+<p>很可能你写的程序需要一些选项，如果你创建了一个聊天程序，它需要一些偏好设置，如果你写了一个命令行工具，你可能需要提供类似以下的命令行的一些选项</p>
+
+<pre><code>ps -ae
+tail -f logfile.out
+</code></pre>
+
+<p>有一个叫做getopt()的库函数能让你更好地处理命令行选项,每次你调用它，它将返回下一个在命令行中的命令行选项
+假设你有一个函数，能提供多个命令行选项</p>
+
+<pre><code>rocket_to -e 4 -a Brasilia Tokyo London这个函数将需要两个个选项，其中一个选项需要提供一个值，另一个仅仅表示此选项是否开关,你可以在一个循环中调用getopt()来处理这些选项，如下
+</code></pre>
+
+<p><img src="/images/2014/7/getopt.png">
+在循环中，你用switch来处理每一个合法的选项,字符串"ae:&ldquo;告知getopt()函数a和e是合法的选项，紧跟在e之后的冒号表示-e后面需要一个的值，getopt()将用optarg变量表示这个值当循环结束，你让argv和argc变量跳过所有的选项，此时它们表示跟随这些选项之后的命令行参数，这样，argv数组表示如下</p>
+
+<p><img src="/images/2014/7/skipargv.png">我们也可以将两个选项结合起来
 如用-td而不是-t -d
-默认情况下，如果程序在命令行中看到以”-“开头的命令行，程序将会把它当作命令行选项，如果要避免此种情况，可以在”-“前加–,这样，在”–“之后的参数就被当作普通的参数了</p>
+默认情况下，如果程序在命令行中看到以"&ndash;&ldquo;开头的命令行，程序将会把它当作命令行选项，如果要避免此种情况，可以在&rdquo;&ndash;&ldquo;前加&mdash;,这样，在&rdquo;&mdash;&ldquo;之后的参数就被当作普通的参数了</p>
 
-<pre><code>set_temperature -c -- -4 以上的命令行中，-4就被当作普通的参数而非命令行选项
+<pre><code>set_temperature -c -- -4
 </code></pre>
+
+<p>以上的命令行中，-4就被当作普通的参数而非命令行选项</p>
 ]]></content>
   </entry>
   
@@ -544,128 +601,155 @@ rocket_to -e 4 -a Brasilia Tokyo London 这个函数将需要两个个选项，�
     <link href="http://xiekunRonaldo.github.io/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji/"/>
     <updated>2014-06-27T22:01:57+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji</id>
-    <content type="html"><![CDATA[<h5 id="section">问:运算符和函数的区别</h5>
+    <content type="html"><![CDATA[<h5>问:运算符和函数的区别</h5>
+
 <p>答:运算符会被编译器编译成一串指令，而如果调用了函数，则会跳到一块单独的代码块中,也就是说在编译的时候sizeof就被执行了，因为编译器能在编译的时候就知道存储空间的大小了</p>
 
-<h5 id="section-1">问:为何在不同的机器上，指针的大小是不同的?</h5>
+<h5>问:为何在不同的机器上，指针的大小是不同的?</h5>
+
 <p>答:在32位OS上，一个内存地址以一个32比特的数字来表示，这也是它被称为32位的原因,32bit = 8bytes,则也是为何64位OS用8bytes来存储一个地址的原因</p>
 
-<h5 id="section-2">写一个函数，则函数只打印一个字符串的第7个字符以后的信息</h5>
+<h5>写一个函数，则函数只打印一个字符串的第7个字符以后的信息</h5>
 
-<pre><code>void skip(char *msg) {
-	puts( msg + 6 ); 
-}  以下写法是错误的
+<pre><code>void skip(char *msg) {      puts( msg + 6 );    } 
+</code></pre>
 
-char food[5];
-printf("Enter favorite food: "); 
-scanf("%s", food); 应改为
+<p>以下写法是错误的</p>
 
-scanf("%4s", food);
+<pre><code>char food[5];   printf("Enter favorite food: ");    scanf("%s", food);
+</code></pre>
+
+<p>应改为</p>
+
+<pre><code>scanf("%4s", food);
 </code></pre>
 
 <p>否则将导致缓冲区溢出(buffer overflow),或者说栈错误(segmentation fault)</p>
 
-<h2 id="fgets">fgets()是一种替代方式</h2>
+<h2>fgets()是一种替代方式</h2>
 
 <p>它接受一个char的指针，但不像scanf(),fgets()必须指定一个最大长度</p>
 
-<pre><code>char food[5];
-printf("Enter favorite food: ");
-fgets(food, sizeof(food), stdin); `注意点`:不过需要注意的是sizeof返回 的是一个变量所占据的空间,以上的例子中,food是一个数组变量 ,所以sizeof返回了数组的大小，如果food只是一个指针变量,sizeof将返回一个指针的大小如果你知道你所传的参数是一个数组变量,那用sizeof是ok的，如果你传的是一个指针变量，你需要传入确定的大小,如下
-
-printf("Enter favorite food: "); 
-fgets(food, 5, stdin); ## fgets和scanf的比较 1. 输入大小限制
-* scanf()能限制输入的大小，只要你记得在输入的字符串格式上加上相应的大小即可,如"%4s"
-* fgets()有一个强制输入大小的限制
+<pre><code>char food[5];   printf("Enter favorite food: ");    fgets(food, sizeof(food), stdin);
 </code></pre>
+
+<p><code>注意点</code>:不过需要注意的是sizeof返回 的是一个变量所占据的空间,以上的例子中,food是一个数组变量 ,所以sizeof返回了数组的大小，如果food只是一个指针变量,sizeof将返回一个指针的大小如果你知道你所传的参数是一个数组变量,那用sizeof是ok的，如果你传的是一个指针变量，你需要传入确定的大小,如下</p>
+
+<pre><code>printf("Enter favorite food: "); 
+fgets(food, 5, stdin);
+</code></pre>
+
+<h2>fgets和scanf的比较</h2>
 
 <ol>
-  <li>输入类型
-    <ul>
-      <li>scanf()不仅仅能让你输入多种类型，还让你指定比如在相应的输入数据之间用什么数据来分隔,如scanf(“%d,%d”)表示输入的两个整数之间必须用”,”隔开</li>
-      <li>fgets()只允许你输入一个字符串到缓冲区中,其他数据类型都是不允许的</li>
-    </ul>
-  </li>
-  <li>字符串中的空格
-    <ul>
-      <li>对scanf()来说，如果它用%s来输入一个字符串,如果碰到一个空格时，它将马上终止输入,所以如果你想输入两个单词，要么你调用两次scanf()来输入，要么你用一些古怪的正则表达式来操作</li>
-      <li>fgets()无任何问题,每次fgets()都可读入整个string</li>
-    </ul>
-  </li>
+<li><p>输入大小限制</p>
+
+<ul>
+<li>scanf()能限制输入的大小，只要你记得在输入的字符串格式上加上相应的大小即可,如"%4s"</li>
+<li>fgets()有一个强制输入大小的限制</li>
+</ul>
+</li>
+<li><p>输入类型</p>
+
+<ul>
+<li>scanf()不仅仅能让你输入多种类型，还让你指定比如在相应的输入数据之间用什么数据来分隔,如scanf(&ldquo;%d,%d&rdquo;)表示输入的两个整数之间必须用",&ldquo;隔开</li>
+<li>fgets()只允许你输入一个字符串到缓冲区中,其他数据类型都是不允许的</li>
+</ul>
+</li>
+<li><p>字符串中的空格</p>
+
+<ul>
+<li>对scanf()来说，如果它用%s来输入一个字符串,如果碰到一个空格时，它将马上终止输入,所以如果你想输入两个单词，要么你调用两次scanf()来输入，要么你用一些古怪的正则表达式来操作</li>
+<li>fgets()无任何问题,每次fgets()都可读入整个string</li>
+</ul>
+</li>
 </ol>
 
-<h2 id="section-3">字符串常量不能被修改</h2>
+
+<h2>字符串常量不能被修改</h2>
+
 <pre><code>char *cards = "JQK"
-cards[0] = 'H' 错误！字符串常量被存储在常量存储区，这个区域是只读的,如果你想要改变一个字符串，copy它，你需要将string拷贝到一个可写的内存区域，这样你就能修改它了,如下
-
-char cards[] = "JQK"; 可能你不清楚发生了什么，所有的string都是数组，但在之前的错误代码中，cards仅仅是一个指针，在新代码中，如果你定义了一个叫做cards的数组，然后将一个字符串常量赋值给它，cards数组得到的是一份全新的拷贝，此时"JQK"在栈上 为了避免当cards是指针时修改它产生错误，你应该按哪下方式进行声明
-
-const char *s = "JQK"; 这样，如果编译器看到试图修改此string的代码，就会报错
-
-s[0] = 'S'		//error: assignment of read-only location
+cards[0] = 'H'
 </code></pre>
 
-<h2 id="cardscards">cards[]还是cards*</h2>
+<p>错误！字符串常量被存储在常量存储区，这个区域是只读的,如果你想要改变一个字符串，copy它，你需要将string拷贝到一个可写的内存区域，这样你就能修改它了,如下</p>
+
+<pre><code>char cards[] = "JQK";
+</code></pre>
+
+<p>可能你不清楚发生了什么，所有的string都是数组，但在之前的错误代码中，cards仅仅是一个指针，在新代码中，如果你定义了一个叫做cards的数组，然后将一个字符串常量赋值给它，cards数组得到的是一份全新的拷贝，此时"JQK"在栈上
+为了避免当cards是指针时修改它产生错误，你应该按哪下方式进行声明</p>
+
+<pre><code>const char *s = "JQK";
+</code></pre>
+
+<p>这样，如果编译器看到试图修改此string的代码，就会报错</p>
+
+<pre><code>s[0] = 'S'      //error: assignment of read-only location
+</code></pre>
+
+<h2>cards[]还是cards*</h2>
+
 <p>如果你看到以下的声明，意味着什么</p>
 
-<pre><code>char cards[] 一切取决于你在哪看到它的，如果是一个正常的声明，那么意味着它是一个数组，必须给它赋值
+<pre><code>char cards[]
+</code></pre>
 
-int my_function()
-{
-	//此时cards是一个数组
-	char cards[] = "JQK"; ... 
-}
+<p>一切取决于你在哪看到它的，如果是一个正常的声明，那么意味着它是一个数组，必须给它赋值</p>
+
+<pre><code>int my_function()   {
+    //此时cards是一个数组        char cards[] = "JQK"; ...   }
 </code></pre>
 
 <p>如果cards出现在一个函数的参数中，此时cards表示一个指针</p>
 
-<pre><code>void stack_deck(char cards[])
-{
-
-}
+<pre><code>void stack_deck(char cards[])   {       }
 </code></pre>
 
 <p>等价于</p>
 
-<pre><code>void stack_deck(char *cards) {
-
-} ##存储区   <img class="left" src="/images/2014/6/memory_memorizer.png" width="350" height="350" title="'image'" >
+<pre><code>void stack_deck(char *cards) {      }
 </code></pre>
 
+<h2>存储区</h2>
+
+<p>  <img class="left" src="/images/2014/6/memory_memorizer.png" width="350" height="350" title="&lsquo;image&rsquo;" ></p>
+
 <ul>
-  <li>栈
+<li>栈
 栈用来存储局部变量,每次你调用一个函数，所有此函数的局部变量都创建在栈上，它被称称栈，是因为它像一叠盘子,将你创建一个函数的时候，变量被加到栈中，将你离开一个函数时，这些变量又会变销毁，奇怪的是栈的工作方式，总是从高地址开始，向低地址增长</li>
-  <li>堆
+<li>堆
 堆主要用在动态内存分配上,创建在堆上的数据在程序运行时即可创建，不过会保持相当长的一段时间，直到你手动释放它</li>
-  <li>全局存储区
-一个全局存储区的作用域在所有函数之外，并且对所有函数可见，全局变量在程序首次运行的时候创建，你可以随意改变它们，但却不像…</li>
-  <li>常量存储区
+<li>全局存储区
+一个全局存储区的作用域在所有函数之外，并且对所有函数可见，全局变量在程序首次运行的时候创建，你可以随意改变它们，但却不像&hellip;</li>
+<li>常量存储区
 常量也在用户首次运行的时候创建，但它们只存储在只读的存储区域中,常量就像字符串字面量一样，程序运行的时候你可能需要它们，但你却无法改变它们</li>
-  <li>代码存储区
+<li>代码存储区
 许多操作系统将代码存储区置于最低的内存地址中,代码存储区是只读的，这里实际上是汇编代码加载的区域</li>
 </ul>
 
-<h2 id="section-4">字符串</h2>
-<p>使用前#include<string.h>
-提供的函数如下</string.h></p>
+
+<h2>字符串</h2>
+
+<p>使用前#include&lt;string.h>
+提供的函数如下</p>
 
 <ol>
-  <li>strchr() : 寻找字符串中某个字符的位置</li>
-  <li>strcmp() : 比较两个字符串</li>
-  <li>strstr() : 寻找字符串中对应字符串的位置</li>
+<li>strchr() : 寻找字符串中某个字符的位置</li>
+<li>strcmp() : 比较两个字符串</li>
+<li>strstr() : 寻找字符串中对应字符串的位置</li>
 </ol>
+
 
 <p>如果找到了，返回被寻找的字符串的位置，如果没有，返回0</p>
 
-<pre><code>char s0[] = "dysfunctional"; char s1[] = "fun";
-if (strstr(s0, s1))
-puts("I found the fun in dysfunctional!");
+<pre><code>char s0[] = "dysfunctional"; char s1[] = "fun"; if (strstr(s0, s1)) puts("I found the fun in dysfunctional!");
 </code></pre>
 
 <ol>
-  <li>strcpy() : 拷贝字符串</li>
-  <li>strlen() : 求字符串的长度</li>
-  <li>strcat() : 连接两个字符串</li>
+<li>strcpy() : 拷贝字符串</li>
+<li>strlen() : 求字符串的长度</li>
+<li>strcat() : 连接两个字符串</li>
 </ol>
 
 ]]></content>
