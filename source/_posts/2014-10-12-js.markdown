@@ -1,19 +1,21 @@
 ---
 
 layout: post
-title: "js"
+title: "Speaking Javascript学习笔记"
 date: 2014-10-12 14:22:28 +0800
 comments: true
 categories: javascript
 ---
-## Speaking Javascript学习笔记
+
+
 ### Primitive Values Versus Objects
 JavaScript makes a somewhat arbitrary distinction between values:
 
 * The primitive values are booleans, numbers, strings, null, and undefined.* All other values are objects.
+
 A major difference between the two is how they are compared; each object has a uniqueidentity and is only (strictly) equal to itself:
 
-```
+```javascript
 > var obj1 = {}; // an empty object> var obj2 = {}; // another empty object > obj1 === obj2false> obj1 === obj1true
 ```
 
@@ -1192,7 +1194,7 @@ You get the error result NaN if you try to “neutralize” one Infinity with an
 ```
 ##### Checking for Infinity
 
-```
+```javascript
 > var x = Infinity; 
 > x === Infinity true
 
