@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T18:44:02+08:00</updated>
+  <updated>2014-10-21T18:51:01+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -30,7 +30,7 @@ A major difference between the two is how they are compared; each object has a u
 </ul>
 
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var obj1 = {}; // an empty object> var obj2 = {}; // another empty object > obj1 === obj2false> obj1 === obj1true
 ```</p></blockquote>
@@ -1628,7 +1628,7 @@ Error: division by zero</p></blockquote>
 
 <h5>Checking for Infinity</h5></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var x = Infinity;
 x === Infinity true</p>

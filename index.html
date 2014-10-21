@@ -129,8 +129,17 @@ A major difference between the two is how they are compared; each object has a u
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var obj1 = {}; // an empty object&gt; var obj2 = {}; // another empty object &gt; obj1 === obj2false&gt; obj1 === obj1true</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// an empty object</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// another empty object &gt; obj1 === obj2</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj1</span> <span class="o">===</span> <span class="nx">obj1</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Primitive Values</h4>
@@ -148,8 +157,17 @@ Primitives have the following characteristics:</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; var str = 'abc';     &gt; str.length = 1; // try to change property `length`     &gt; str.length // ⇒ no effect 3     &gt; str.foo = 3; // try to create property `foo`   &gt;str.foo // ⇒ no effect, unknown property undefined</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span><span class="p">;</span>
+</span><span class='line'>     <span class="o">&gt;</span> <span class="nx">str</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// try to change property `length`</span>
+</span><span class='line'>     <span class="o">&gt;</span> <span class="nx">str</span><span class="p">.</span><span class="nx">length</span> <span class="c1">// ⇒ no effect 3</span>
+</span><span class='line'>   <span class="o">&gt;</span> <span class="nx">str</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">// try to create property `foo`</span>
+</span><span class='line'>   <span class="o">&gt;</span><span class="nx">str</span><span class="p">.</span><span class="nx">foo</span> <span class="c1">// ⇒ no effect, unknown property undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Objects</h4>
@@ -161,8 +179,15 @@ Primitives have the following characteristics:</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> {            firstName: 'Jane',            lastName: 'Doe'}</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">firstName</span><span class="o">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">lastName</span><span class="o">:</span> <span class="s1">&#39;Doe&#39;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -170,8 +195,9 @@ Primitives have the following characteristics:</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[ 'apple', 'banana', 'cherry' ]</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span> <span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;banana&#39;</span><span class="p">,</span> <span class="s1">&#39;cherry&#39;</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -179,8 +205,9 @@ Primitives have the following characteristics:</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/^a+b+$/</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="sr">/^a+b+$/</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Objects have the following characteristics:</p>
@@ -191,16 +218,23 @@ Identities are compared; every value has its own identity:</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; {} === {}  // two different empty objectsfalse
-</span><span class='line'>&gt; var obj1 = {}; 
-</span><span class='line'>&gt; var obj2 = obj1; 
-</span><span class='line'>&gt; obj1 === obj2 
-</span><span class='line'>true</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="p">{}</span> <span class="o">===</span> <span class="p">{}</span>  <span class="c1">// two different empty objects</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="nx">obj1</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj1</span> <span class="o">===</span> <span class="nx">obj2</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -209,8 +243,13 @@ You can normally freely change, add, and remove properties</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var obj = {};&gt; obj.foo = 123; // add property `foo` &gt; obj.foo123</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span> <span class="c1">// add property `foo` &gt; obj.foo</span>
+</span><span class='line'><span class="mi">123</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>undefined and null</h4>
@@ -222,28 +261,35 @@ You can normally freely change, add, and remove properties</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var foo; 
-</span><span class='line'>&gt; foo 
-</span><span class='line'>undefined</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">foo</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">foo</span>
+</span><span class='line'><span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Missing parameters are undefined:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; function f(x) { return x } 
-</span><span class='line'>&gt; f()undefined</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">function</span> <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span> <span class="p">}</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">f</span><span class="p">()</span>
+</span><span class='line'><span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>If you read a nonexistent property, you get undefined:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var obj = {}; // empty object 
-</span><span class='line'>&gt; obj.fooundefined</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// empty object </span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -257,18 +303,24 @@ You can normally freely change, add, and remove properties</li>
 
 <h4>Checking for undefined or null</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (x === undefined || x === null) { 
-</span><span class='line'>  ...}</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">||</span> <span class="nx">x</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>You can also exploit the fact that both undefined and null are considered false:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (!x) { 
-</span><span class='line'>  ...}</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p><code>Note</code></p>
@@ -281,12 +333,27 @@ You can normally freely change, add, and remove properties</li>
 
 <p>typeof looks like this:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>typeof value
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">typeof</span> <span class="nx">value</span>
 </span><span class='line'>
-</span><span class='line'>&gt; typeof true'boolean'&gt; typeof 'abc''string'&gt; typeof {} // empty object literal'object'&gt; typeof [] // empty array literal'object'</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">typeof</span> <span class="kc">true</span>
+</span><span class='line'><span class="s1">&#39;boolean&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">typeof</span> <span class="s1">&#39;abc&#39;</span>
+</span><span class='line'><span class="s1">&#39;string&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">typeof</span> <span class="p">{}</span> <span class="c1">// empty object literal</span>
+</span><span class='line'><span class="s1">&#39;object&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">typeof</span> <span class="p">[]</span> <span class="c1">// empty array literal</span>
+</span><span class='line'><span class="s1">&#39;object&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The following table lists all results of typeof:</p>
@@ -340,14 +407,38 @@ typeof null returning &lsquo;object&rsquo; is a bug that can’t be fixed, becau
 
 <p>instanceof looks like this:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>value instanceof Constr</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">value</span> <span class="k">instanceof</span> <span class="nx">Constr</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>It returns true if value is an object that has been created by the constructor Constr</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var b = new Bar(); // object created by constructor Bar &gt; b instanceof Bartrue&gt; {} instanceof Objecttrue&gt; [] instanceof Arraytrue&gt; [] instanceof Object  // Array is a subconstructor of Objecttrue&gt; undefined instanceof Objectfalse&gt; null instanceof Objectfalse</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Bar</span><span class="p">();</span> <span class="c1">// object created by constructor Bar &gt; b instanceof Bar</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="p">{}</span> <span class="k">instanceof</span> <span class="nb">Object</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="p">[]</span> <span class="k">instanceof</span> <span class="nb">Array</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="p">[]</span> <span class="k">instanceof</span> <span class="nb">Object</span>  <span class="c1">// Array is a subconstructor of Object</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kc">undefined</span> <span class="k">instanceof</span> <span class="nb">Object</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kc">null</span> <span class="k">instanceof</span> <span class="nb">Object</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Truthy and Falsy</h4>
@@ -363,16 +454,38 @@ Boolean(), called as a function, converts its parameter to a boolean. You can us
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Boolean(undefined)false&gt; Boolean(0)false&gt; Boolean(3)true&gt; Boolean({}) // empty objecttrue&gt; Boolean([]) // empty arraytrue</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">Boolean</span><span class="p">(</span><span class="kc">undefined</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Boolean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Boolean</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Boolean</span><span class="p">({})</span> <span class="c1">// empty object</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Boolean</span><span class="p">([])</span> <span class="c1">// empty array</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Numbers</h4>
 
 <p>All numbers in JavaScript are floating-point:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; 1 === 1.0true</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="mi">1</span> <span class="o">===</span> <span class="mf">1.0</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Special numbers include the following:</p>
@@ -382,8 +495,13 @@ Boolean(), called as a function, converts its parameter to a boolean. You can us
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> An error value:        &gt; Number('xyz')  // 'xyz' can’t be converted to a number        NaN</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="nx">An</span> <span class="nx">error</span> <span class="nx">value</span><span class="o">:</span>
+</span><span class='line'>        <span class="o">&gt;</span> <span class="nb">Number</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">)</span>  <span class="c1">// &#39;xyz&#39; can’t be converted to a number</span>
+</span><span class='line'>      <span class="kc">NaN</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -392,86 +510,165 @@ Also mostly an error value:</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;3/ 0Infinity&gt; Math.pow(2, 1024)  // number too largeInfinity</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span><span class="mi">3</span><span class="o">/</span> <span class="mi">0</span>
+</span><span class='line'><span class="kc">Infinity</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>  <span class="c1">// number too large</span>
+</span><span class='line'><span class="kc">Infinity</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Strings</h4>
 
 <p>Single characters are accessed via square brackets:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var str = 'abc'; 
-</span><span class='line'>&gt; str[1]'b'</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="s1">&#39;b&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>String Methods</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; 'abc'.slice(1)  // copy a substring'bc'&gt; 'abc'.slice(1, 2)'b'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">// copy a substring</span>
+</span><span class='line'><span class="s1">&#39;bc&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;b&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Function Declarations Are Hoisted</h4>
 
 <p>Function declarations are hoisted—moved in their entirety to the beginning of the cur‐ rent scope. That allows you to refer to functions that are declared later:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function foo() { bar(); // OK, bar is hoisted 
-</span><span class='line'>  function bar() {        ...     }}</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">bar</span><span class="p">();</span> <span class="c1">// OK, bar is hoisted </span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">bar</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="p">...</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Note that while var declarations are also hoisted (see “Variables Are Hoisted” on page 23), assignments performed by them are not:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function foo() { bar(); // Not OK, bar is still undefined    var bar = function () { // ...  }; }</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">bar</span><span class="p">();</span> <span class="c1">// Not OK, bar is still undefined </span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Too Many or Too Few Arguments</h4>
 
 <p>Let’s use the following function to explore how too many or too few parameters are handled in JavaScript</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function f(x, y) { 
-</span><span class='line'>  console.log(x, y);  return toArray(arguments);}</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">toArray</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Additional parameters will be ignored (except by arguments):</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; f('a', 'b', 'c')ab[ 'a', 'b', 'c' ]</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="nx">ab</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Missing parameters will get the value undefined:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; f('a')a undefined[ 'a' ]&gt; f()undefined undefined []</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="nx">a</span> <span class="kc">undefined</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span> <span class="p">]</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">f</span><span class="p">()</span>
+</span><span class='line'><span class="kc">undefined</span> <span class="kc">undefined</span> <span class="p">[]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Optional Parameters</h4>
 
 <p>The following is a common pattern for assigning default values to parameters:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function pair(x, y) {    x = x || 0; // (1)  y = y || 0; return [ x, y ];}</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">pair</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// (1) </span>
+</span><span class='line'>  <span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Enforcing an Arity</h4>
 
 <p>If you want to enforce an arity (a specific number of parameters), you can check arguments.length:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function pair(x, y) {if (arguments.length !== 2) {   throw new Error('Need exactly 2 arguments'); }  ... }</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">pair</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span> <span class="o">!==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Need exactly 2 arguments&#39;</span><span class="p">);</span> <span class="p">}</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Converting arguments to an Array</h4>
 
 <p>arguments is not an array, it is only array-like (see “Array-Like Objects and Generic Methods” on page 262). It has a property length, and you can access its elements via indices in square brackets. You cannot, however, remove elements or invoke any of the array methods on it. Thus, you sometimes need to convert arguments to an array</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function toArray(arrayLikeObject) {  return Array.prototype.slice.call(arrayLikeObject);}</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">toArray</span><span class="p">(</span><span class="nx">arrayLikeObject</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arrayLikeObject</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>`</p>
@@ -480,7 +677,7 @@ Also mostly an error value:</li>
 
 <p>The most common way to handle exceptions (see Chapter 14) is as follows:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -499,25 +696,26 @@ Also mostly an error value:</li>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function getPerson(id) {
-</span><span class='line'>    if (id &lt; 0) {
-</span><span class='line'>        throw new Error('ID must not be negative: ' + id);
-</span><span class='line'>    }
-</span><span class='line'>    return {
-</span><span class='line'>        id: id
-</span><span class='line'>    }; // normally: retrieved from database }
-</span><span class='line'>    function getPersons(ids) {
-</span><span class='line'>        var result = [];
-</span><span class='line'>        ids.forEach(function(id) {
-</span><span class='line'>            try {
-</span><span class='line'>                var person = getPerson(id);
-</span><span class='line'>                result.push(person);
-</span><span class='line'>            } catch (exception) {
-</span><span class='line'>                console.log(exception);
-</span><span class='line'>            }
-</span><span class='line'>        });
-</span><span class='line'>        return result;
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getPerson</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">id</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;ID must not be negative: &#39;</span> <span class="o">+</span> <span class="nx">id</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">id</span><span class="o">:</span> <span class="nx">id</span>
+</span><span class='line'>    <span class="p">};</span> <span class="c1">// normally: retrieved from database }</span>
+</span><span class='line'>    <span class="kd">function</span> <span class="nx">getPersons</span><span class="p">(</span><span class="nx">ids</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>        <span class="nx">ids</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">try</span> <span class="p">{</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="nx">getPerson</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+</span><span class='line'>                <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">person</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">exception</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">exception</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The try clause surrounds critical code, and the catch clause is executed if an exception is thrown inside the try clause. Using the preceding code:
@@ -581,7 +779,7 @@ if (false) {
 
 <p>Each function stays connected to the variables of the functions that surround it, even after it leaves the scope in which it was created. For example:</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -590,15 +788,26 @@ if (false) {
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function createIncrementor(start) {
-</span><span class='line'>    return function() { // (1)
-</span><span class='line'>        start++;
-</span><span class='line'>        return start;
-</span><span class='line'>    }
-</span><span class='line'>}
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">createIncrementor</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// (1)</span>
+</span><span class='line'>        <span class="nx">start</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">start</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>&gt; var inc = createIncrementor(5); 
-</span><span class='line'>&gt; inc()6&gt; inc()7&gt; inc()8</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">inc</span> <span class="o">=</span> <span class="nx">createIncrementor</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">inc</span><span class="p">()</span>
+</span><span class='line'><span class="mi">6</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">inc</span><span class="p">()</span>
+</span><span class='line'><span class="mi">7</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">inc</span><span class="p">()</span>
+</span><span class='line'><span class="mi">8</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>A closure is a function plus the connection to the variables of its surrounding scopes. Thus, what createIncrementor() returns is a closure.</p>
@@ -607,8 +816,13 @@ if (false) {
 
 <p>Sometimes you want to introduce a new variable scope—for example, to prevent a vari‐able from becoming global. In JavaScript, you can’t use a block to do so; you must use a function. But there is a pattern for using a function in a block-like manner. It is called IIFE (immediately invoked function expression, pronounced “iffy”):</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(function () { // open IIFEvar tmp = ...; // not a global variable}()); // close IIFE</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="c1">// open IIFE</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="p">...;</span> <span class="c1">// not a global variable</span>
+</span><span class='line'><span class="p">}());</span> <span class="c1">// close IIFE</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>An IIFE is a function expression that is called <code>immediately</code> after you define it. Inside the function, a new scope exists, preventing tmp from becoming global</p>
@@ -617,7 +831,7 @@ if (false) {
 
 <p>Closures keep their connections to outer variables, which is sometimes not what you want:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -625,19 +839,20 @@ if (false) {
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var result = [];
-</span><span class='line'>for (var i = 0; i &lt; 5; i++) {
-</span><span class='line'>    result.push(function() {
-</span><span class='line'>        return i
-</span><span class='line'>    }); // (1) 
-</span><span class='line'>}
-</span><span class='line'>console.log(result[1]()); // 5 (not 1) 
-</span><span class='line'>console.log(result[3]()); // 5 (not 3)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">i</span>
+</span><span class='line'>    <span class="p">});</span> <span class="c1">// (1) </span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]());</span> <span class="c1">// 5 (not 1) </span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">[</span><span class="mi">3</span><span class="p">]());</span> <span class="c1">// 5 (not 3)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The value returned in line (1) is always the current value of i, not the value it had when the function was created. After the loop is finished, i has the value 5, which is why all functions in the array return that value. If you want the function in line (1) to receive a snapshot of the current value of i, you can use an IIFE:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -645,14 +860,15 @@ if (false) {
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for (var i = 0; i &lt; 5; i++) {
-</span><span class='line'>    (function() {
-</span><span class='line'>        var i2 = i; // copy current i
-</span><span class='line'>        result.push(function() {
-</span><span class='line'>            return i2
-</span><span class='line'>        });
-</span><span class='line'>    }());
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">i2</span> <span class="o">=</span> <span class="nx">i</span><span class="p">;</span> <span class="c1">// copy current i</span>
+</span><span class='line'>        <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">i2</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>    <span class="p">}());</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Objects and Constructors</h4>
@@ -664,54 +880,88 @@ if (false) {
 
 <p>In JavaScript, you can directly create plain objects, via object literals:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>'use strict';
-</span><span class='line'>var jane = {
-</span><span class='line'>    name: 'Jane',
-</span><span class='line'>    describe: function() {
-</span><span class='line'>        return 'Person named ' + this.name;
-</span><span class='line'>    }
-</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">jane</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">describe</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s1">&#39;Person named &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The in operator checks whether a property exists:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; 'newProperty' in janetrue&gt; 'foo' in janefalse</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="s1">&#39;newProperty&#39;</span> <span class="k">in</span> <span class="nx">jane</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;foo&#39;</span> <span class="k">in</span> <span class="nx">jane</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>If you read a property that does not exist, you get the value undefined. Hence, the previous two checks could also be performed like this:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; jane.newProperty !== undefinedtrue&gt; jane.foo !== undefinedfalse</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="nx">jane</span><span class="p">.</span><span class="nx">newProperty</span> <span class="o">!==</span> <span class="kc">undefined</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">jane</span><span class="p">.</span><span class="nx">foo</span> <span class="o">!==</span> <span class="kc">undefined</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The delete operator removes a property:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; delete jane.newPropertytrue</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="k">delete</span> <span class="nx">jane</span><span class="p">.</span><span class="nx">newProperty</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Arbitrary Property Keys</h4>
 
 <p>A property key can be any string. So far, we have seen property keys in object literals and after the dot operator. However, you can use them that way <code>only if</code> they are <code>identifiers</code> (see “Identifiers and Variable Names” on page 6). If you want to use other strings as keys, you have to quote them in an object literal and use square brackets to get and set the property:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var obj = { 'not an identifier': 123 }; 
-</span><span class='line'>&gt; obj['not an identifier']123&gt; obj['not an identifier'] = 456;</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;not an identifier&#39;</span><span class="o">:</span> <span class="mi">123</span> <span class="p">};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">[</span><span class="s1">&#39;not an identifier&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="mi">123</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">[</span><span class="s1">&#39;not an identifier&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">456</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Square brackets also allow you to compute the key of a property:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; var obj = { hello: 'world' };&gt; var x = 'hello';&gt; obj[x]'world'&gt; obj['hel'+'lo']'world'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">hello</span><span class="o">:</span> <span class="s1">&#39;world&#39;</span> <span class="p">};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="s1">&#39;hello&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span>
+</span><span class='line'><span class="s1">&#39;world&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">[</span><span class="s1">&#39;hel&#39;</span><span class="o">+</span><span class="s1">&#39;lo&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="s1">&#39;world&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Extracting Methods</h4>
@@ -719,41 +969,50 @@ if (false) {
 <p>If you extract a method, it loses its connection with the object. On its own, the function is not a method anymore, and this has the value undefined (in strict mode).
 As an example, let’s go back to the earlier object jane:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>'use strict';
-</span><span class='line'>var jane = {
-</span><span class='line'>    name: 'Jane',
-</span><span class='line'>    describe: function() {
-</span><span class='line'>        return 'Person named ' + this.name;
-</span><span class='line'>    }
-</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">jane</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">describe</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s1">&#39;Person named &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>We want to extract the method describe from jane, put it into a variable func, and call it. However, that doesn’t work:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var func = jane.describe;&gt; func()TypeError: Cannot read property 'name' of undefined</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">func</span> <span class="o">=</span> <span class="nx">jane</span><span class="p">.</span><span class="nx">describe</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">func</span><span class="p">()</span>
+</span><span class='line'><span class="nx">TypeError</span><span class="o">:</span> <span class="nx">Cannot</span> <span class="nx">read</span> <span class="nx">property</span> <span class="s1">&#39;name&#39;</span> <span class="nx">of</span> <span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The solution is to use the method bind() that all functions have. It creates a new function whose this always has the given value:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var func2 = jane.describe.bind(jane); 
-</span><span class='line'>&gt; func2()'Person named Jane'</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">func2</span> <span class="o">=</span> <span class="nx">jane</span><span class="p">.</span><span class="nx">describe</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">jane</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">func2</span><span class="p">()</span>
+</span><span class='line'><span class="s1">&#39;Person named Jane&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Functions Inside a Method</h5>
 
 <p>Every function has its own special variable this. This is inconvenient if you nest a function inside a method, because you can’t access the method’s this from the function. The following is an example where we call forEach with a function to iterate over an array:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -764,23 +1023,27 @@ As an example, let’s go back to the earlier object jane:</p>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var jane = {
-</span><span class='line'>    name: 'Jane',
-</span><span class='line'>    friends: ['Tarzan', 'Cheeta'],
-</span><span class='line'>    logHiToFriends: function() {
-</span><span class='line'>        'use strict';
-</span><span class='line'>        this.friends.forEach(function(friend) {
-</span><span class='line'>            // `this` is undefined here
-</span><span class='line'>            console.log(this.name + ' says hi to ' + friend);
-</span><span class='line'>        });
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">jane</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">friends</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Tarzan&#39;</span><span class="p">,</span> <span class="s1">&#39;Cheeta&#39;</span><span class="p">],</span>
+</span><span class='line'>    <span class="nx">logHiToFriends</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="p">.</span><span class="nx">friends</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">friend</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="c1">// `this` is undefined here</span>
+</span><span class='line'>            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39; says hi to &#39;</span> <span class="o">+</span> <span class="nx">friend</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Calling logHiToFriends produces an error:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; jane.logHiToFriends()TypeError: Cannot read property 'name' of undefined</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">jane</span><span class="p">.</span><span class="nx">logHiToFriends</span><span class="p">()</span>
+</span><span class='line'><span class="nx">TypeError</span><span class="o">:</span> <span class="nx">Cannot</span> <span class="nx">read</span> <span class="nx">property</span> <span class="s1">&#39;name&#39;</span> <span class="nx">of</span> <span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Let’s look at two ways of fixing this.</p>
@@ -790,20 +1053,21 @@ As an example, let’s go back to the earlier object jane:</p>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>logHiToFriends: function() {
-</span><span class='line'>    'use strict';
-</span><span class='line'>    var that = this;
-</span><span class='line'>    this.friends.forEach(function(friend) {
-</span><span class='line'>        console.log(that.name + ' says hi to ' + friend);
-</span><span class='line'>    });
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">logHiToFriends</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">friends</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">friend</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">that</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39; says hi to &#39;</span> <span class="o">+</span> <span class="nx">friend</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -826,7 +1090,7 @@ logHiToFriends: function() {
 
 <p>Constructors are thus a rough analog to classes in other languages. By convention, the names of constructors start with <code>capital letters</code>. For example:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -835,15 +1099,16 @@ logHiToFriends: function() {
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Set up instance data
-</span><span class='line'>function Point(x, y) {
-</span><span class='line'>    this.x = x;
-</span><span class='line'>    this.y = y;
-</span><span class='line'>}
-</span><span class='line'>// Methods
-</span><span class='line'>Point.prototype.dist = function() {
-</span><span class='line'>    return Math.sqrt(this.x * this.x + this.y * this.y);
-</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Set up instance data</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Point</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// Methods</span>
+</span><span class='line'><span class="nx">Point</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">dist</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>We can see that a constructor has two parts. First, the function Point sets up the instance data. Second, the property Point.prototype contains an object with the methods. The former data is specific to each instance, while the latter data is shared among all instances.&#8220;&#8220;</p>
@@ -856,7 +1121,7 @@ p.x3> p.dist()
 
 <p>The length property indicates how many elements an array has. You can use it to append elements and to remove elements:</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -867,89 +1132,151 @@ p.x3> p.dist()
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var arr = ['a', 'b']; 
-</span><span class='line'>&gt; arr.length
-</span><span class='line'>2
-</span><span class='line'>&gt; arr[arr.length] = 'c'; 
-</span><span class='line'>&gt; arr
-</span><span class='line'>[ 'a', 'b', 'c' ]
-</span><span class='line'>&gt; arr.length
-</span><span class='line'>3
-</span><span class='line'>&gt; arr.length = 1; 
-</span><span class='line'>&gt; arr
-</span><span class='line'>[ 'a' ]</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span>
+</span><span class='line'><span class="mi">2</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">]</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The <code>in</code> operator works for arrays, too:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var arr = [ 'a', 'b', 'c' ];&gt; 1 in arr // is there an element at index 1? 
-</span><span class='line'>true&gt; 5 in arr // is there an element at index 5? false</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">];</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="mi">1</span> <span class="k">in</span> <span class="nx">arr</span> <span class="c1">// is there an element at index 1? </span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="mi">5</span> <span class="k">in</span> <span class="nx">arr</span> <span class="c1">// is there an element at index 5? </span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Note that arrays are objects and can thus have object properties:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var arr = []; 
-</span><span class='line'>&gt; arr.foo = 123; 
-</span><span class='line'>&gt; arr.foo123</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="mi">123</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Array Methods</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var arr = [ 'a', 'b', 'c' ];
-</span><span class='line'>arr.push('x')  // append an element
-</span><span class='line'>&gt; arr.pop()  // remove last element'x'&gt; arr[ 'a', 'b', 'c' ]
-</span><span class='line'> &gt; arr.shift()  // remove first element'a'&gt; arr[ 'b', 'c' ]&gt; arr.unshift('x')  // prepend an element3&gt; arr[ 'x', 'b', 'c' ]</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">];</span>
+</span><span class='line'><span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>  <span class="c1">// append an element</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span>  <span class="c1">// remove last element</span>
+</span><span class='line'><span class="s1">&#39;x&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'> <span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">shift</span><span class="p">()</span>  <span class="c1">// remove first element</span>
+</span><span class='line'><span class="s1">&#39;a&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">]</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>  <span class="c1">// prepend an element</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Iterating over Arrays</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[ 'a', 'b', 'c' ].forEach(function (elem, index) { // (1)            console.log(index + '. ' + elem);        });</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">].</span><span class="nx">forEach</span><span class="p">(</span>
+</span><span class='line'><span class="kd">function</span> <span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// (1)</span>
+</span><span class='line'>            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">index</span> <span class="o">+</span> <span class="s1">&#39;. &#39;</span> <span class="o">+</span> <span class="nx">elem</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>map creates a new array by applying a function to each element of an existing array:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; [1,2,3].map(function (x) { return x*x })[ 1, 4, 9 ]</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="o">*</span><span class="nx">x</span> <span class="p">})</span>
+</span><span class='line'><span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Regular Expressions</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; /^a+b+$/.test('aaab')true&gt; /^a+b+$/.test('aaa')false</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="sr">/^a+b+$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;aaab&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="sr">/^a+b+$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;aaa&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Method exec(): Match and Capture Groups</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; /a(b+)a/.exec('_abbba_aba_')
-</span><span class='line'>[ 'abbba', 'bbb' ]</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="sr">/a(b+)a/</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="s1">&#39;_abbba_aba_&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;abbba&#39;</span><span class="p">,</span> <span class="s1">&#39;bbb&#39;</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The returned array contains the complete match at index 0, the capture of the first group at index 1, and so on.</p>
 
 <h5>Method replace(): Search and Replace</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; '&lt;a&gt; &lt;bbb&gt;'.replace(/&lt;(.*?)&gt;/g, '[$1]')'[a] [bbb]'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;&lt;a&gt; &lt;bbb&gt;&#39;</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/&lt;(.*?)&gt;/g</span><span class="p">,</span> <span class="s1">&#39;[$1]&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;[a] [bbb]&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Evaluating an object literal via eval()</h4>
 
 <p>eval parses its argument in statement context. You have to put parentheses around an object literal if you want eval to return an object:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; eval('{ foo: 123 }')123&gt; eval('({ foo: 123 })'){ foo: 123 }</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;{ foo: 123 }&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="mi">123</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;({ foo: 123 })&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span> <span class="nx">foo</span><span class="o">:</span> <span class="mi">123</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Immediately invoking a function expression</h4>
@@ -957,24 +1284,35 @@ p.x3> p.dist()
 <p>The following code is an <code>immediately invoked function expression</code> (IIFE), a function whose body is executed right away
 If you omit the parentheses, you get a syntax error, because JavaScript sees a function declaration, which can’t be anonymous:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; function () { return 'abc' }()SyntaxError: function statement requires a name</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;abc&#39;</span> <span class="p">}()</span>
+</span><span class='line'><span class="nx">SyntaxError</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">statement</span> <span class="nx">requires</span> <span class="nx">a</span> <span class="nx">name</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>If you add a name, you also get a syntax error, because function declarations can’t be immediately invoked:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; function foo() { return 'abc' }()SyntaxError: Unexpected token )</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;abc&#39;</span> <span class="p">}()</span>
+</span><span class='line'><span class="nx">SyntaxError</span><span class="o">:</span> <span class="nx">Unexpected</span> <span class="nx">token</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Invoking Methods on Number Literals</h4>
 
 <p>With method invocations, it is important to distinguish between the floating-point dot and the method invocation dot. Thus, you cannot write 1.toString(); you must use one of the following alternatives:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1..toString()1 .toString() // space before dot 
-</span><span class='line'>(1).toString()1.0.toString()</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="mi">1</span><span class="p">..</span><span class="nx">toString</span><span class="p">()</span>
+</span><span class='line'><span class="mi">1</span> <span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="c1">// space before dot </span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">toString</span><span class="p">()</span>
+</span><span class='line'><span class="mf">1.0</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Strict Mode</h4>
@@ -1017,36 +1355,50 @@ function strictFunc() {
 
 <p>In sloppy mode, the value of this in nonmethod functions is the global object (window in browsers;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function sloppyFunc() {  console.log(this === window); // true}</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">sloppyFunc</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span> <span class="o">===</span> <span class="nb">window</span><span class="p">);</span> <span class="c1">// true</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In strict mode, it is undefined:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function strictFunc() { 
-</span><span class='line'>  'use strict';   console.log(this === undefined); // true }</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">strictFunc</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">);</span> <span class="c1">// true </span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>This is useful for constructors. For example, the following constructor, Point, is in strict mode:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function Point(x, y) {
-</span><span class='line'>    'use strict';
-</span><span class='line'>    this.x = x;
-</span><span class='line'>    this.y = y;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">Point</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Due to strict mode, you get a warning when you accidentally forget new and call it as a function:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; var pt = Point(3, 1);TypeError: Cannot set property 'x' of undefined</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">pt</span> <span class="o">=</span> <span class="nx">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">TypeError</span><span class="o">:</span> <span class="nx">Cannot</span> <span class="nx">set</span> <span class="nx">property</span> <span class="s1">&#39;x&#39;</span> <span class="nx">of</span> <span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Setting and Deleting Immutable Properties Fails with an Exception in Strict Mode</h5>
@@ -1077,8 +1429,13 @@ str.length = 7; // TypeError: Cannot assign to // read-only property 'length'
 delete foo</code>
 In strict mode, you get a syntax error whenever you try to delete unqualified identifiers. You can still delete global variables like this:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>delete window.foo; // browsersdelete global.foo; // Node.jsdelete this.foo; // everywhere (in global scope)</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">delete</span> <span class="nb">window</span><span class="p">.</span><span class="nx">foo</span><span class="p">;</span> <span class="c1">// browsers</span>
+</span><span class='line'><span class="k">delete</span> <span class="nx">global</span><span class="p">.</span><span class="nx">foo</span><span class="p">;</span> <span class="c1">// Node.js</span>
+</span><span class='line'><span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">foo</span><span class="p">;</span> <span class="c1">// everywhere (in global scope)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>eval() Is Cleaner in Strict Mode</h5>
@@ -1095,14 +1452,20 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; 010 === 8true</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="mi">010</span> <span class="o">===</span> <span class="mi">8</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In strict mode, you get a syntax error if you use this kind of literal:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; function f() { 'use strict'; return 010 }SyntaxError: Octal literals are not allowed in strict mode.</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">function</span> <span class="nx">f</span><span class="p">()</span> <span class="p">{</span> <span class="s1">&#39;use strict&#39;</span><span class="p">;</span> <span class="k">return</span> <span class="mi">010</span> <span class="p">}</span>
+</span><span class='line'><span class="nx">SyntaxError</span><span class="o">:</span> <span class="nx">Octal</span> <span class="nx">literals</span> <span class="nx">are</span> <span class="nx">not</span> <span class="nx">allowed</span> <span class="k">in</span> <span class="nx">strict</span> <span class="nx">mode</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>　JavaScript’s Type System</h4>
@@ -1111,20 +1474,24 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 
 <p>In JavaScript, the main way of dealing with a value whose type doesn’t fit is to coerce it to the correct type. Coercion means implicit type conversion. Most operands coerce:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; '3' * '4'12</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;3&#39;</span> <span class="o">*</span> <span class="s1">&#39;4&#39;</span>
+</span><span class='line'><span class="mi">12</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Primitive Values Versus Objects</h5>
 
 <p>In contrast, all primitive values encoding the same value are considered the same:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var prim1 = 123; 
-</span><span class='line'>&gt; var prim2 = 123; 
-</span><span class='line'>&gt; prim1 === prim2 true</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">prim1</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">prim2</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">prim1</span> <span class="o">===</span> <span class="nx">prim2</span> <span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Primitives have the following characteristics:</h5>
@@ -1134,8 +1501,15 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; 3 === 3true&gt; 'abc' === 'abc'true</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="mi">3</span> <span class="o">===</span> <span class="mi">3</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span> <span class="o">===</span> <span class="s1">&#39;abc&#39;</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -1145,10 +1519,17 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 
 <p>Properties can’t be changed, added, or removed:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var str = 'abc';&gt; str.length = 1; // try to change property `length`&gt; str.length // ⇒ no effect 3&gt; str.foo = 3; // try to create property `foo` 
-</span><span class='line'>&gt; str.foo // ⇒ no effect, unknown property undefined</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">str</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// try to change property `length`</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">str</span><span class="p">.</span><span class="nx">length</span> <span class="c1">// ⇒ no effect 3</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">str</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">// try to create property `foo` </span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">str</span><span class="p">.</span><span class="nx">foo</span> <span class="c1">// ⇒ no effect, unknown property undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -1165,8 +1546,13 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var obj = {};&gt; obj.foo = 123; // add property `foo` &gt; obj.foo123</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span> <span class="c1">// add property `foo` &gt; obj.foo</span>
+</span><span class='line'><span class="mi">123</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>undefined and null</h4>
@@ -1179,14 +1565,27 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 
 <p>undefined and null are the only values for which any kind of property access results in an exception:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; function returnFoo(x) { return x.foo }
-</span><span class='line'> &gt; returnFoo(true)undefined&gt; returnFoo(0)undefined
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="kd">function</span> <span class="nx">returnFoo</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">.</span><span class="nx">foo</span> <span class="p">}</span>
+</span><span class='line'> <span class="o">&gt;</span> <span class="nx">returnFoo</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+</span><span class='line'><span class="kc">undefined</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">returnFoo</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="kc">undefined</span>
 </span><span class='line'>
-</span><span class='line'>&gt; returnFoo(null)TypeError: Cannot read property 'foo' of null&gt; returnFoo(undefined)TypeError: Cannot read property 'foo' of undefined</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">returnFoo</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span>
+</span><span class='line'><span class="nx">TypeError</span><span class="o">:</span> <span class="nx">Cannot</span> <span class="nx">read</span> <span class="nx">property</span> <span class="s1">&#39;foo&#39;</span> <span class="nx">of</span> <span class="kc">null</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">returnFoo</span><span class="p">(</span><span class="kc">undefined</span><span class="p">)</span>
+</span><span class='line'><span class="nx">TypeError</span><span class="o">:</span> <span class="nx">Cannot</span> <span class="nx">read</span> <span class="nx">property</span> <span class="s1">&#39;foo&#39;</span> <span class="nx">of</span> <span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p><code>undefined</code> is also sometimes used as more of a metavalue that indicates <code>nonexistence</code>. In contrast, <code>null</code> indicates <code>emptiness</code>.</p>
@@ -1208,10 +1607,11 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var foo; 
-</span><span class='line'>&gt; foo undefined</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">foo</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">foo</span> <span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -1219,10 +1619,13 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; function f(x) { return x } 
-</span><span class='line'>&gt; f()undefined</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">function</span> <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span> <span class="p">}</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">f</span><span class="p">()</span>
+</span><span class='line'><span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -1230,24 +1633,32 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var obj = {}; // empty object 
-</span><span class='line'>&gt; obj.fooundefined</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// empty object </span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>And functions implicitly return undefined if nothing has been explicitly returned:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; function f() {} 
-</span><span class='line'>&gt; f()undefined
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">function</span> <span class="nx">f</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">f</span><span class="p">()</span>
+</span><span class='line'><span class="kc">undefined</span>
 </span><span class='line'>
-</span><span class='line'>&gt; function g() { return; } 
-</span><span class='line'>&gt; g()undefined</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">function</span> <span class="nx">g</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">g</span><span class="p">()</span>
+</span><span class='line'><span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h6>Occurrences of null</h6>
@@ -1257,8 +1668,11 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Object.getPrototypeOf(Object.prototype)null</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">getPrototypeOf</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">)</span>
+</span><span class='line'><span class="kc">null</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -1266,8 +1680,11 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; /x/.exec('aaa')null</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="sr">/x/</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="s1">&#39;aaa&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kc">null</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Checking for undefined or null</h4>
@@ -1276,32 +1693,58 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 
 <p>You check for null via strict equality:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (x === null) ...</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Checking for undefined</h4>
 
 <p>Strict equality (===) is the canonical way of checking for undefined:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (x === undefined) ...</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Checking for either undefined or null</h4>
 
 <p>Most functions allow you to indicate a missing value via either undefined or null. One way of checking for both of them is via an explicit comparison:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Does x have a value?if (x !== undefined && x !== null) {  ...}    // Is x a non-value?if (x === undefined || x === null) { 
-</span><span class='line'>  ...}</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Does x have a value?</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="nx">x</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>    <span class="c1">// Is x a non-value?</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">||</span> <span class="nx">x</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Another way is to exploit the fact that both undefined and null are considered false</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Does x have a value (is it truthy)?if (x) { ...}// Is x falsy?if (!x) { ...}</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Does x have a value (is it truthy)?</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// Is x falsy?</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>false, 0, NaN, and &lsquo;&rsquo; are <code>also</code> considered false.</p>
@@ -1315,8 +1758,13 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 
 <p>Shadow the global undefined (which may have the wrong value):</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(function (undefined) {  if (x === undefined) ... // safe now}()); // don’t hand in a parameter</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">...</span> <span class="c1">// safe now</span>
+</span><span class='line'><span class="p">}());</span> <span class="c1">// don’t hand in a parameter</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>`
@@ -1335,8 +1783,11 @@ if (x === void 0) // always safe</code></p>
 <blockquote><p>typeof new String(&lsquo;abc&rsquo;)&lsquo;object&rsquo;> new String(&lsquo;abc&rsquo;) === &lsquo;abc&#8217;false&#8220;`
 * As functions,they convert values to the corresponding primitive types(see“Functions for Converting to Boolean, Number, String, and Object” on page 78). This is the recommended method of conversion:</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; String(123)'123'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;123&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>It’s considered a best practice to avoid wrapper objects. You normal‐ ly don’t need them, as there is nothing that objects can do that primitives can’t (with the exception of being mutated).</p>
@@ -1345,18 +1796,36 @@ if (x === void 0) // always safe</code></p>
 
 <p>Primitive values such as &lsquo;abc&rsquo; are fundamentally different from wrapper instances such as new String(&lsquo;abc&rsquo;):</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; typeof 'abc'  // a primitive value'string'&gt; typeof new String('abc')  // an object'object'&gt; 'abc' instanceof String  // never true for primitivesfalse&gt; 'abc' === new String('abc')false</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="k">typeof</span> <span class="s1">&#39;abc&#39;</span>  <span class="c1">// a primitive value</span>
+</span><span class='line'><span class="s1">&#39;string&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">typeof</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>  <span class="c1">// an object</span>
+</span><span class='line'><span class="s1">&#39;object&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span> <span class="k">instanceof</span> <span class="nb">String</span>  <span class="c1">// never true for primitives</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span> <span class="o">===</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Wrapper instances are objects, and there is no way of comparing objects in JavaScript, not even via lenient equals == (see “Equality Operators: === Versus ==” on page 83):</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var a = new String('abc'); 
-</span><span class='line'>&gt; var b = new String('abc'); 
-</span><span class='line'>&gt; a == bfalse</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">a</span> <span class="o">==</span> <span class="nx">b</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Wrapping and Unwrapping Primitives</h4>
@@ -1365,58 +1834,97 @@ if (x === void 0) // always safe</code></p>
 
 <p>Wrap a primitive by invoking a wrapper constructor:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>new Boolean(true) 
-</span><span class='line'>new Number(123) 
-</span><span class='line'>new String('abc')</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">new</span> <span class="nb">Boolean</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+</span><span class='line'><span class="k">new</span> <span class="nb">Number</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+</span><span class='line'><span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Unwrap a primitive by invoking the method <code>valueOf()</code>.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; new Boolean(true).valueOf()true&gt; new Number(123).valueOf()123&gt; new String('abc').valueOf()'abc'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="k">new</span> <span class="nb">Boolean</span><span class="p">(</span><span class="kc">true</span><span class="p">).</span><span class="nx">valueOf</span><span class="p">()</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">new</span> <span class="nb">Number</span><span class="p">(</span><span class="mi">123</span><span class="p">).</span><span class="nx">valueOf</span><span class="p">()</span>
+</span><span class='line'><span class="mi">123</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">).</span><span class="nx">valueOf</span><span class="p">()</span>
+</span><span class='line'><span class="s1">&#39;abc&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Converting wrapper objects to primitives properly extracts numbers and strings, but not booleans:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; Boolean(new Boolean(false))  // does not unwraptrue&gt; Number(new Number(123))  // unwraps123&gt; String(new String('abc'))  // unwraps'abc'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nb">Boolean</span><span class="p">(</span><span class="k">new</span> <span class="nb">Boolean</span><span class="p">(</span><span class="kc">false</span><span class="p">))</span>  <span class="c1">// does not unwrap</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Number</span><span class="p">(</span><span class="k">new</span> <span class="nb">Number</span><span class="p">(</span><span class="mi">123</span><span class="p">))</span>  <span class="c1">// unwraps</span>
+</span><span class='line'><span class="mi">123</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">))</span>  <span class="c1">// unwraps</span>
+</span><span class='line'><span class="s1">&#39;abc&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Primitives Borrow Their Methods from Wrappers</h5>
 
 <p>Primitives don’t have their own methods and borrow them from wrappers:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; 'abc'.charAt === String.prototype.charAt 
-</span><span class='line'>&gt; true</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span><span class="p">.</span><span class="nx">charAt</span> <span class="o">===</span> <span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">charAt</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Sloppy mode and strict mode handle this borrowing differently. In sloppy mode, prim‐ itives are <code>converted to wrappers</code> on the fly:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>String.prototype.sloppyMethod = function () { 
-</span><span class='line'>  console.log(typeof this); // object 
-</span><span class='line'>  console.log(this instanceof String); // true};''.sloppyMethod(); // call the above method</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sloppyMethod</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="k">this</span><span class="p">);</span> <span class="c1">// object </span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span> <span class="c1">// true</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="s1">&#39;&#39;</span><span class="p">.</span><span class="nx">sloppyMethod</span><span class="p">();</span> <span class="c1">// call the above method</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In strict mode, methods from the wrapper prototype are used transparently:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>String.prototype.strictMethod = function () { 
-</span><span class='line'>  'use strict';   console.log(typeof this); // string console.log(this instanceof String); // false };    ''.strictMethod(); // call the above method</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">strictMethod</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="k">this</span><span class="p">);</span> <span class="c1">// string</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span> <span class="c1">// false };</span>
+</span><span class='line'>  <span class="s1">&#39;&#39;</span><span class="p">.</span><span class="nx">strictMethod</span><span class="p">();</span> <span class="c1">// call the above method</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Type Coercion</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; '3' * '4'12</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;3&#39;</span> <span class="o">*</span> <span class="s1">&#39;4&#39;</span>
+</span><span class='line'><span class="mi">12</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>As another example, if one of the operands is a string, the plus operator (+) converts the other one to a string:&#8220;`</p>
@@ -1425,14 +1933,24 @@ if (x === void 0) // always safe</code></p>
 
 <h5>Type Coercion Can Hide Bugs</h5></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var formData = { width: '100' };// You think formData.width is a number // and get unexpected resultsvar w = formData.width;var outer = w + 20;// You expect outer to be 120, but it’s not console.log(outer === 120); // false console.log(outer === '10020'); // true</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">formData</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span> <span class="s1">&#39;100&#39;</span> <span class="p">};</span>
+</span><span class='line'><span class="c1">// You think formData.width is a number // and get unexpected results</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="nx">formData</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">outer</span> <span class="o">=</span> <span class="nx">w</span> <span class="o">+</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'><span class="c1">// You expect outer to be 120, but it’s not console.log(outer === 120); // false console.log(outer === &#39;10020&#39;); // true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In cases such as the preceding one, you should convert to the appropriate type early on:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var w = Number(formData.width);</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">width</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Functions for Converting to Boolean, Number, String, and Object</h5>
@@ -1449,10 +1967,17 @@ Converts a value to a boolean. The following values are converted to false; they
 
 <p>*　Number()</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>• undefined becomes NaN.• null becomes 0.• false becomes 0, true becomes 1.• Strings are parsed.
-</span><span class='line'>• Objects are first converted to primitives (discussed shortly), which are then converted to numbers.</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">•</span> <span class="kc">undefined</span> <span class="nx">becomes</span> <span class="kc">NaN</span><span class="p">.</span>
+</span><span class='line'><span class="err">•</span> <span class="kc">null</span> <span class="nx">becomes</span> <span class="mi">0</span><span class="p">.</span>
+</span><span class='line'><span class="err">•</span> <span class="kc">false</span> <span class="nx">becomes</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">true</span> <span class="nx">becomes</span> <span class="mi">1</span><span class="p">.</span>
+</span><span class='line'><span class="err">•</span> <span class="nx">Strings</span> <span class="nx">are</span> <span class="nx">parsed</span><span class="p">.</span>
+</span><span class='line'><span class="err">•</span> <span class="nx">Objects</span> <span class="nx">are</span> <span class="nx">first</span> <span class="nx">converted</span> <span class="nx">to</span> <span class="nx">primitives</span> <span class="p">(</span><span class="nx">discussed</span> <span class="nx">shortly</span><span class="p">),</span> <span class="nx">which</span> <span class="nx">are</span> <span class="nx">then</span> <span class="nx">converted</span> <span class="nx">to</span> <span class="nx">numbers</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -1461,8 +1986,19 @@ Converts a value to a string. It has the obvious results for all primitives. For
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; String(null)'null'&gt; String(123.45)'123.45'&gt; String(false)'false'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;null&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="mf">123.45</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;123.45&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;false&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Objects are first converted to primitives (discussed shortly), which are then con‐ verted to strings.</p>
@@ -1470,10 +2006,19 @@ Converts a value to a string. It has the obvious results for all primitives. For
 <p>*　Object()
 Converts objects to themselves, undefined and null to empty objects, and primi‐ tives to wrapped primitives. For example:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var obj = { foo: 123 }; 
-</span><span class='line'>&gt; Object(obj) === obj true&gt; Object(undefined){}&gt; Object('abc') instanceof Stringtrue</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">foo</span><span class="o">:</span> <span class="mi">123</span> <span class="p">};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Object</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="o">===</span> <span class="nx">obj</span> <span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Object</span><span class="p">(</span><span class="kc">undefined</span><span class="p">)</span>
+</span><span class='line'><span class="p">{}</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Object</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span> <span class="k">instanceof</span> <span class="nb">String</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Algorithm: ToPrimitive()—Converting a Value to a Primitive</h4>
@@ -1482,8 +2027,9 @@ Converts objects to themselves, undefined and null to empty objects, and primi�
 
 <p>The ECMAScript specification has an internal function, ToPrimitive() (which is not accessible from JavaScript), that performs this conversion. Understanding ToPrimi tive() enables you to configure how objects are converted to numbers and strings. It has the following signature:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ToPrimitive(input, PreferredType?)</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">ToPrimitive</span><span class="p">(</span><span class="nx">input</span><span class="p">,</span> <span class="nx">PreferredType</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The optional parameter PreferredType indicates the final type of the conversion: it is either Number or String, depending on whether the result of ToPrimitive() will be converted to a number or a string.</p>
@@ -1520,8 +2066,19 @@ String(s)&lsquo;7&rsquo;> Number(s)7&#8220;`</p>
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; [1, 2] + [3]'1,23'&gt; String([1, 2])'1,2'&gt; String([3])'3'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="s1">&#39;1,23&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="s1">&#39;1,2&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">([</span><span class="mi">3</span><span class="p">])</span>
+</span><span class='line'><span class="s1">&#39;3&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Equality Operators: === Versus ==</h4>
@@ -1582,16 +2139,44 @@ Similarly, while the empty string is equal to false, not all nonempty strings ar
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; '' == falsetrue&gt; '1' == truetrue&gt; '2' == truefalse// 0 === 0// 1 === 1// 2 === 1&gt; 'abc' == true  // NaN === 1false</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;&#39;</span> <span class="o">==</span> <span class="kc">false</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;1&#39;</span> <span class="o">==</span> <span class="kc">true</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;2&#39;</span> <span class="o">==</span> <span class="kc">true</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="c1">// 0 === 0</span>
+</span><span class='line'><span class="c1">// 1 === 1</span>
+</span><span class='line'><span class="c1">// 2 === 1</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span> <span class="o">==</span> <span class="kc">true</span>  <span class="c1">// NaN === 1</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Pitfall: lenient equality and strings</h4>
 
 <p>Some of the leniency can be useful, depending on what you want:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; 'abc' == new String('abc')  // 'abc' == 'abc'true&gt; '123' == 123  // 123 === 123true</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span> <span class="o">==</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>  <span class="c1">// &#39;abc&#39; == &#39;abc&#39;</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;123&#39;</span> <span class="o">==</span> <span class="mi">123</span>  <span class="c1">// 123 === 123</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Other cases are problematic, due to how JavaScript converts strings to numbers (see “Converting to Number” on page 104):
@@ -1606,8 +2191,19 @@ Similarly, while the empty string is equal to false, not all nonempty strings ar
 {} == '[object Object]'true&gt; ['123'] == 123true&gt; [] == 0true</code>
 However, two objects are only equal if they are they same object. That means that you can’t really compare two wrapper objects:</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; new Boolean(true) === new Boolean(true)false&gt; new Number(123) === new Number(123)false&gt; new String('abc') == new String('abc')false</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="k">new</span> <span class="nb">Boolean</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="o">===</span> <span class="k">new</span> <span class="nb">Boolean</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">new</span> <span class="nb">Number</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span> <span class="o">===</span> <span class="k">new</span> <span class="nb">Number</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>There Are No Valid Use Cases for ==</h4>
@@ -1618,20 +2214,23 @@ The following comparison ensures that x is neither undefined nor null:</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (x != null) ...</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>replace the above with</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (x) ...</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>If you want to be more precise, you should perform an explicit check for both values:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (x !== undefined && x !== null) ...</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="nx">x</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -1653,14 +2252,18 @@ There are three reasons against this approach. First, lenient equality does not 
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; new String('abc') == new String('abc')false</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Second, you should avoid wrappers anyway. Third, if you do use them, it is better to be explicit:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (wrapped.valueOf() === 'abc') ...</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">wrapped</span><span class="p">.</span><span class="nx">valueOf</span><span class="p">()</span> <span class="o">===</span> <span class="s1">&#39;abc&#39;</span><span class="p">)</span> <span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>What is void used for?</h4>
@@ -1680,8 +2283,9 @@ In some situations, it is important to return undefined as opposed to the result
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>javascript:void window.open("http://example.com/")</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">javascript</span><span class="o">:</span><span class="k">void</span> <span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s2">&quot;http://example.com/&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -1702,28 +2306,61 @@ An IIFE must be parsed as an expression. One of several ways to ensure that is b
 
 <h5>typeof: Categorizing Primitives</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> &gt; typeof undefined'undefined'&gt; typeof 'abc''string'&gt; typeof {}'object'&gt; typeof []'object'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="k">typeof</span> <span class="kc">undefined</span>
+</span><span class='line'><span class="s1">&#39;undefined&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">typeof</span> <span class="s1">&#39;abc&#39;</span>
+</span><span class='line'><span class="s1">&#39;string&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">typeof</span> <span class="p">{}</span>
+</span><span class='line'><span class="s1">&#39;object&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="k">typeof</span> <span class="p">[]</span>
+</span><span class='line'><span class="s1">&#39;object&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>Pitfall: typeof null</h5>
 
 <p>Unfortunately,typeof nullis&#8217;object&#8217;.Thisisconsideredabug(nullisnotamember of the internal type Object), but it can’t be fixed, because doing so would break existing code. You thus have to be wary of null</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function isObject(value) { 
-</span><span class='line'>  return (value !== null  && (typeof value === 'object'   || typeof value === 'function'));}
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">isObject</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">(</span><span class="nx">value</span> <span class="o">!==</span> <span class="kc">null</span>
+</span><span class='line'>  <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span>
+</span><span class='line'>  <span class="o">||</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>&gt; isObject(123)false&gt; isObject(null)false&gt; isObject({})true</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">isObject</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">isObject</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">isObject</span><span class="p">({})</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Checking whether a variable exists</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>typeof x === 'undefined'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">typeof</span> <span class="nx">x</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ol>
@@ -1755,8 +2392,15 @@ The object options may or may not have the property title. If it is missing, the
 
 <p>The function countOccurrences counts how often regex matches inside str:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function countOccurrences(regex, str) {  // Omitted: check that /g is set for `regex`    return (str.match(regex) || []).length;}</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">countOccurrences</span><span class="p">(</span><span class="nx">regex</span><span class="p">,</span> <span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Omitted: check that /g is set for `regex` </span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="o">||</span> <span class="p">[]).</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>Numbers</h4>
@@ -1891,6 +2535,8 @@ However, isNaN does not work properly with nonnumbers, because it first converts
 </pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">#####</span> <span class="nx">Checking</span> <span class="k">for</span> <span class="kc">Infinity</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>javascript</p>
 
 <blockquote><p>var x = Infinity;
 x === Infinity true</p>
