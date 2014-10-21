@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T19:55:15+08:00</updated>
+  <updated>2014-10-21T19:57:38+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -14,13 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[js]]></title>
+    <title type="html"><![CDATA[Speaking Javascript学习笔记]]></title>
     <link href="http://xiekunRonaldo.github.io/blog/2014/10/12/js/"/>
     <updated>2014-10-12T14:22:28+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/10/12/js</id>
-    <content type="html"><![CDATA[<h2 id="speaking-javascript">Speaking Javascript学习笔记</h2>
-
-<h3 id="primitive-values-versus-objects">Primitive Values Versus Objects</h3>
+    <content type="html"><![CDATA[<h3 id="primitive-values-versus-objects">Primitive Values Versus Objects</h3>
 <p>JavaScript makes a somewhat arbitrary distinction between values:</p>
 
 <ul>
