@@ -210,10 +210,10 @@ The server response for sending back Car objects (in PHP) could look like Exampl
 Grouping a data store makes sense when you want to display data into an Ext.List component in Sencha Touch and you want to visually group data. For example, when you have a store with companies, you could, for example, group by “city.” This will list every company per city.
 To enable grouping in a store, implement the groupField and groupDir configurations directly in the store class definition. The groupFields sets the field to group and the groupDir sets the direction (ASC or DESC):
 
-```groupField: '<model-field-name>', groupDir: 'ASC' //or DESC
+```javascriptgroupField: '<model-field-name>', groupDir: 'ASC' //or DESC
 ```
 To dynamically group a store, you can run the setGrouper() method on a store object:
-```
+```javascript
 Ext.getStore('Cabs').setGrouper({
     direction: 'ASC', //or DESC 
     property: '<model-field-name>'
@@ -221,7 +221,7 @@ Ext.getStore('Cabs').setGrouper({
 You will implement grouping on the Cabs store for the FindACab app list. This time, you will not group on city, because all the data that is in the Cabs store already shares the same city — for example, Amsterdam. Therefore, let’s group on the first alphabetical character of a cab service name. (See Figure 9-1.) You would see a group “A” that lists all names that start with an A, a group “B” that lists all names that start with a B, and so on. It’s the same behavior as when you open the contacts list on an iPhone. Names are grouped, and if you want, you can even display an index bar on the side to quickly browse to the corresponding character.
 {% img /images/2014/10/figure7-3.png%}
 To achieve this, you will need the Ext.data.Store.grouper object, with a custom group function: groupFn(). You can set the grouper object directly in the store class definition, as shown in Example 9-4.
-```
+```javascript
 grouper: {
     groupFn: function(record) {
         return record.get('name')[0].toUpperCase();

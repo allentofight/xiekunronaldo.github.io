@@ -11,13 +11,13 @@ categories: Sencha Touch
 * How to define your own custom class* How to define getters and setters* How to define singletons and static members How inheritance works (extending)* How multiple inheritance works (mixins)
 #### 定义我们自己的类let’s discuss how the Sencha class system works and how to define your own blueprints to define a class.
 Let’s make a blueprint containing a variable, myVar, and a method, myMethod. Using Ext.define():
-```
+```javascript
 Ext.define('AppName.packagename.ClassName', { 
 	//class configuration object	myVar: 1,	myMethod: function(name){		//console.log("Log: " + name);	} },function(){	//optional callback used for logging});```
 It’s important to know that components in the Sencha framework are, in fact, classes.To create a class definition, you will use the Ext.define method.
 In general, the string class name consists of the following parts:
 
-```
+```javascript
 AppName.packagename.ClassName
 ```For example, the following class maps to the file app/view/ListView.js:
 

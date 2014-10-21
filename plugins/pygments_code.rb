@@ -11,9 +11,6 @@ module HighlightCode
     lang = 'objc' if lang == 'm'
     lang = 'perl' if lang == 'pl'
     lang = 'yaml' if lang == 'yml'
-    lang = 'ruby' if lang == 'sencha'
-    lang = 'ruby' if lang == 'var'
-    lang = 'ruby' if lang == 'groupField:'
     str = pygments(str, lang).match(/<pre>(.+)<\/pre>/m)[1].to_s.gsub(/ *$/, '') #strip out divs <div class="highlight">
     tableize_code(str, lang)
   end
