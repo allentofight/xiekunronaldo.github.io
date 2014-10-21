@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Html5 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/html5/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T18:58:31+08:00</updated>
+  <updated>2014-10-21T19:51:25+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -18,26 +18,21 @@
     <link href="http://xiekunRonaldo.github.io/blog/2014/09/22/head-first-html5/"/>
     <updated>2014-09-22T08:44:56+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/09/22/head-first-html5</id>
-    <content type="html"><![CDATA[<h4>JS</h4>
-
+    <content type="html"><![CDATA[<h4 id="js">JS</h4>
 <p>对象的操作</p>
 
 <ul>
-<li>如何创建一个对象</li>
+  <li>如何创建一个对象</li>
 </ul>
 
-
-<p>```
-var fido = {</p>
-
-<pre><code>name: "Fido",
-weight: 40,
-breed: "Mixed",
-loves = ["walks", "fetching balls"]
-</code></pre>
-
-<p>}
-```
+<p><code>
+var fido = {
+	name: "Fido",
+	weight: 40,
+	breed: "Mixed",
+	loves = ["walks", "fetching balls"]
+}
+</code>
 * 获取对象的属性</p>
 
 <p><code>
@@ -45,9 +40,8 @@ fido.weight 或者 fido["weight"]
 </code></p>
 
 <ul>
-<li>改变一个属性的值</li>
+  <li>改变一个属性的值</li>
 </ul>
-
 
 <p><code>
 fido.weight = 27;
@@ -55,39 +49,31 @@ fido.loves.push("chewing bones");
 </code></p>
 
 <ul>
-<li>遍历一个对象的属性</li>
+  <li>遍历一个对象的属性</li>
 </ul>
 
-
-<p>```
+<p><code>
 var prop;
-for (prop in fido) {</p>
-
-<pre><code>alert("Fido has a "+prop+" property ");
-if (prop == "name") {
-    alert("This is "+ fido[prop]);
+for (prop in fido) {
+	alert("Fido has a "+prop+" property ");
+	if (prop == "name") {
+		alert("This is "+ fido[prop]);
+	}
 }
-</code></pre>
-
-<p>}
-```
+</code>
 需要注意的是遍历时对象属性的顺序是任意的</p>
 
 <ul>
-<li>遍历对象的数组</li>
+  <li>遍历对象的数组</li>
 </ul>
-
 
 <p>```
 var likes = fido.loves;
-var likesString = &ldquo;Fido likes&rdquo;;</p>
+var likesString = “Fido likes”;</p>
 
-<p>for (var i = 0; i &lt; likes.length; i++) {</p>
-
-<pre><code>likesString += " "+ likes[i];
-</code></pre>
-
-<p>}
+<p>for (var i = 0; i &lt; likes.length; i++) {
+	likesString += “ “+ likes[i];
+}
 alert(likesString);
 ```
 * 可以任意添加或删除属性
@@ -102,20 +88,17 @@ delete fido.age;
 </code>
 * 对象也能有方法(函数)</p>
 
-<p>```
-var fido = {</p>
-
-<pre><code>name: "Fido",
-weight: 40,
-breed: "Mixed",
-loves = ["walks", "fetching balls"]
-bar: func() {
-    alert("Woof woof!");
+<p><code>
+var fido = {
+	name: "Fido",
+	weight: 40,
+	breed: "Mixed",
+	loves = ["walks", "fetching balls"]
+	bar: func() {
+		alert("Woof woof!");
+	}
 }
-</code></pre>
-
-<p>}
-```
+</code>
 可以像以下这样调用</p>
 
 <p><code>
@@ -124,24 +107,38 @@ fido.bark();
 <code>注意</code>如果在函数中引用了对象的属性，属性前必需加this</p>
 
 <p>```
-var movie1 = {  title: &ldquo;Plan 9 from Outer Space&rdquo;,   genre: &ldquo;Cult Classic&rdquo;,  rating: 5,  showtimes: [&ldquo;3:00pm&rdquo;, &ldquo;7:00pm&rdquo;, &ldquo;11:00pm&rdquo;], getNextShowing: function() {        var now = new Date().getTime();     for (var i = 0; i &lt; this.showtimes.length; i++) {           var showtime = getTimeFromString(this.showtimes[i]);</p>
+var movie1 = {
+	title: “Plan 9 from Outer Space”,
+	genre: “Cult Classic”,
+	rating: 5,
+	showtimes: [“3:00pm”, “7:00pm”, “11:00pm”],
+	getNextShowing: function() {
+		var now = new Date().getTime();
+		for (var i = 0; i &lt; this.showtimes.length; i++) {
+			var showtime = getTimeFromString(this.showtimes[i]); </p>
 
-<pre><code>                    if ((showtime - now) &gt; 0) {             return "Next showing of " + this.title + " is " + this.showtimes[i];            } 
-    }       return null;    }};
+<pre><code>		if ((showtime - now) &gt; 0) {
+			return "Next showing of " + this.title + " is " + this.showtimes[i];
+		} 
+	} 
+	return null; 
+} }; ``` * 构造器
 </code></pre>
 
 <p>```
-* 构造器</p>
+function Dog(name, breed, weight) { 
+	this.name = name;
+	this.breed = breed; 
+	this.weight = weight; 
+	this.bark = function() {
+		if (this.weight &gt; 25) { 
+			alert(this.name + “ says Woof!”);
+		} else {
+			alert(this.name + “ says Yip!”);
+		} </p>
 
-<p>```
-function Dog(name, breed, weight) {</p>
-
-<pre><code>this.name = name;   this.breed = breed;     this.weight = weight;   this.bark = function() {        if (this.weight &gt; 25) {             alert(this.name + " says Woof!");       } else {            alert(this.name + " says Yip!");        } 
-};}
+<pre><code>}; } ``` 用构造器创建对象
 </code></pre>
-
-<p>```
-用构造器创建对象</p>
 
 <p><code>
 var fido = new Dog("Fido", "Mixed", 38);
@@ -159,70 +156,61 @@ insertBefore
 setAttribute
 getAttribute</p>
 
-<p>```</p>
-
-<h3>Geolocation</h3>
-
-<p>To test your geolocation code on a mobile device, you’re going to want a server.
-Unless you have a means of loading yourHTML, JavaScript and CSS files directly onto your mobile device, the easiest way to test them is to place them on a server,  and access them there.we encourage you to follow along with the code on your desktop, and once you have it working there, then test on your mobile device using the server</p>
+<p>```
+###Geolocation
+To test your geolocation code on a mobile device, you’re going to want a server.
+Unless you have a means of loading your
+HTML, JavaScript and CSS files directly onto your mobile device, the easiest way to test them is to place them on a server,  and access them there.we encourage you to follow along with the code on your desktop, and once you have it working there, then test on your mobile device using the server </p>
 
 <ul>
-<li>Some devices may support the other coordinates properties: altitude, altitudeAccuracy, heading, and speed.</li>
+  <li>Some devices may support the other coordinates properties: altitude, altitudeAccuracy, heading, and speed.</li>
 </ul>
 
-
-<h3>CSS</h3>
+<h3 id="css">CSS</h3>
 
 <ol>
-<li><p>display: inline 和 display: inline-block的<a href="http://stackoverflow.com/questions/8969381/what-is-the-difference-between-display-inline-and-display-inline-block">区别</a></p></li>
-<li><p>CSS Links</p></li>
+  <li>
+    <p>display: inline 和 display: inline-block的<a href="http://stackoverflow.com/questions/8969381/what-is-the-difference-between-display-inline-and-display-inline-block">区别</a></p>
+  </li>
+  <li>
+    <p>CSS Links</p>
+  </li>
 </ol>
 
+<p>```
+/* unvisited link */
+a:link {
+    color: #FF0000;
+}</p>
+
+<p>/* visited link */
+a:visited {
+    color: #00FF00;
+}</p>
+
+<p>/* mouse over link */
+a:hover {
+    color: #FF00FF;
+}</p>
+
+<p>/* selected link */
+a:active {
+    color: #0000FF;
+}</p>
 
 <p>```
-/<em> unvisited link </em>/
-a:link {</p>
-
-<pre><code>color: #FF0000;
-</code></pre>
-
-<p>}</p>
-
-<p>/<em> visited link </em>/
-a:visited {</p>
-
-<pre><code>color: #00FF00;
-</code></pre>
-
-<p>}</p>
-
-<p>/<em> mouse over link </em>/
-a:hover {</p>
-
-<pre><code>color: #FF00FF;
-</code></pre>
-
-<p>}</p>
-
-<p>/<em> selected link </em>/
-a:active {</p>
-
-<pre><code>color: #0000FF;
-</code></pre>
-
-<p>}</p>
-
-<p>```
-但是需要注意</p>
+但是需要注意 </p>
 
 <ul>
-<li>a:hover MUST come after a:link and a:visited</li>
-<li><p>a:active MUST come after a:hover</p></li>
-<li><p><a href="http://960development.com/understand-css-margins-collapsing/">margin Collapse</a></p></li>
+  <li>a:hover MUST come after a:link and a:visited</li>
+  <li>a:active MUST come after a:hover</li>
 </ul>
 
+<ol>
+  <li><a href="http://960development.com/understand-css-margins-collapsing/">margin Collapse</a></li>
+</ol>
 
-<h3>HTML</h3>
+<h3 id="html">HTML</h3>
 
 <p>block element: <code>&lt;h1&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;table&gt;</code>前后会留间隙</p>
 
@@ -230,22 +218,25 @@ a:active {</p>
 
 <p>inline element: <code>&lt;b&gt;, &lt;td&gt;, &lt;a&gt;, &lt;img&gt;</code></p>
 
-<h3>工具</h3>
-
+<h3 id="section">工具</h3>
 <ul>
-<li><p>Modernizr</p>
+  <li>
+    <p>Modernizr</p>
 
-<p>  detect support</p></li>
+    <p>detect support</p>
+  </li>
 </ul>
 
-
-<p>```</p>
-
-<pre><code>if (Modernizr.geolocation) { 
-    console.log("You have geo!");   }   if (Modernizr.localstorage) {       console.log("You have web storage!"); } if (Modernizr.video) {      console.log("You have video!"); }
-</code></pre>
-
-<p>```</p>
+<p><code>
+	if (Modernizr.geolocation) { 
+		console.log("You have geo!");
+	}
+	if (Modernizr.localstorage) {
+		console.log("You have web storage!"); }
+	if (Modernizr.video) { 
+		console.log("You have video!");
+	}
+</code></p>
 ]]></content>
   </entry>
   

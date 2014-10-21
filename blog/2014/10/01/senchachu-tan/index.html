@@ -9,8 +9,11 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Sencha初探 入门教程笔记 创建app cd到sencha touch的sdk(目前最新版本为touch-2.4.0)下执行以下命令 1
-sencha generate app MyApp /path/to/www/myapp Sencha+PhoneGap+Cordova &hellip;">
+	<meta name="description" content="Sencha初探 入门教程笔记
+#### 创建app
+cd到sencha touch的sdk(目前最新版本为touch-2.4.0)下执行以下命令 1
+sencha generate app MyApp /path/to/www/myapp
+####Sencha+PhoneGap+Cordova &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,303 +93,296 @@ sencha generate app MyApp /path/to/www/myapp Sencha+PhoneGap+Cordova &hellip;">
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Sencha初探</h1>
-	<div class="entry-content" itemprop="articleBody"><p><a href="http://vimeo.com/76568053">入门教程</a>笔记</p>
+	<div class="entry-content" itemprop="articleBody"><p><a href="http://vimeo.com/76568053">入门教程</a>笔记
+#### 创建app
+cd到sencha touch的sdk(目前最新版本为touch-2.4.0)下执行以下命令</p>
 
-<h4>创建app</h4>
-
-<p>cd到sencha touch的sdk(目前最新版本为touch-2.4.0)下执行以下命令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sencha generate app MyApp /path/to/www/myapp</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Sencha+PhoneGap+Cordova</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sencha generate app MyApp /path/to/www/myapp</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>####Sencha+PhoneGap+Cordova</p>
 
 <ul>
-<li>PhoneGap和Cordova的安装</li>
+  <li>PhoneGap和Cordova的安装</li>
 </ul>
-
 
 <p>首选安装<a href="http://nodejs.org/">NodeJS</a>安装以后执行以下命令</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo npm install -g phonegap
-</span><span class='line'>sudo npm install -g cordova</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo npm install -g phonegap
+</span><span class="line">sudo npm install -g cordova</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>即可安装<a href="http://phonegap.com/">phonegap</a>,<a href="http://cordova.apache.org/">cordova</a></p>
 
-<h4>为Sencha App添加Cordova支持</h4>
-
-<p>进入Sencha app的根据目录,执行以下命令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sencha cordova init [bundleID] [Native app name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意<code>Native app name</code>可以为空,这样编译到手机的名字即为sencha touch app的名字
+<h4 id="sencha-appcordova">为Sencha App添加Cordova支持</h4>
+<p>进入Sencha app的根据目录,执行以下命令
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">sencha cordova init [bundleID] [Native app name]</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+注意<code>Native app name</code>可以为空,这样编译到手机的名字即为sencha touch app的名字
 执行完以上的命令后,<code>app.json</code>里会出现cordova的选项,如下图所示</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"cordova" : {
-</span><span class='line'>                "config": {
-</span><span class='line'>                    // Uncomment the line below and add the platforms you wish to build for
-</span><span class='line'>                    //"platforms": "ios android",
-</span><span class='line'>
-</span><span class='line'>                    "id": "com.doouya.growIndex",
-</span><span class='line'>                    "name": "NotesApp"
-</span><span class='line'>                }
-</span><span class='line'>            }</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">"cordova" : {
+</span><span class="line">                "config": {
+</span><span class="line">                    // Uncomment the line below and add the platforms you wish to build for
+</span><span class="line">                    //"platforms": "ios android",
+</span><span class="line">
+</span><span class="line">                    "id": "com.doouya.growIndex",
+</span><span class="line">                    "name": "NotesApp"
+</span><span class="line">                }
+</span><span class="line">            }</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>在<code>platforms</code>选项上添加你想支持的平台，这里我选了iOS,然后编译app</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sencha app build native</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sencha app build native</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>或者运行到真机上
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">sencha app run native</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+或是在模拟器上运行</p>
 
-
-<p>或者运行到真机上</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sencha app run native</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或是在模拟器上运行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sencha app emulate native</span></code></pre></td></tr></table></div></figure>
-
-
-<p>集成phonegap和Cordova后，我们可以看看集成是否成功,在app.js里的launch函数里写入以下代码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (Ext.browser.is.PhoneGap){
-</span><span class='line'>  //TestCode
-</span><span class='line'>  alert(device.uuid);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sencha app emulate native</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>集成phonegap和Cordova后，我们可以看看集成是否成功,在app.js里的launch函数里写入以下代码
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">if (Ext.browser.is.PhoneGap){
+</span><span class="line">	//TestCode
+</span><span class="line">	alert(device.uuid);
+</span><span class="line">}</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
 <p>注意这行<code>alert(device.uuid);</code>，现在phoneGap将native api剥离它的Core代码了,以plugin的形式管理,如上，如果你想用device，你需要将相应的plugin添加进来,以下为添加步骤:
 * 进入Cordova的目录下
 * 执行以下命令</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cordova plugin add org.apache.cordova.device</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cordova plugin add org.apache.cordova.device</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>#### 项目开发中的问题
+如果修改了app.css或新增css文件，重新编译一次以便生效</p>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sencha app build native</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>#### Workspace
+类似xcode加的workspace,执行以下命令以产生一个workspace</p>
 
-<h4>项目开发中的问题</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sencha generate workspace &lt;../myworkspacefolder&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>The generate workspace command will generate workspace metadata in the hidden .sencha folder, which contains the workspace classpath.It will copy the touch framework folder in the root of the workspace folder. The generate workspace command will also create two new (empty) folders: a packages folder, in case you want to download Sencha plug-ins, and a build folder, which will be the location where your build packages will be created and stored.</p>
 
-<p>如果修改了app.css或新增css文件，重新编译一次以便生效</p>
+<p>Once you have a workspace, generating apps is the same as before:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sencha app build native</span></code></pre></td></tr></table></div></figure>
+<p><code>
+cd &lt;../myworkspacefolder&gt;
+cd touch
+sencha generate app -name &lt;namespace}&gt; -path &lt;../appfolder&gt;
+</code>
+<code>Tip</code></p>
 
+<p>If you want to upgrade to a newer version of Sencha Touch, you can download the latest version from the website and let Sencha Cmd update your folder structure. Here’s an example of how to upgrade the app (or workspace) from the command line:</p>
 
-<h4>Workspace</h4>
+<p><code>
+	sencha app upgrade ../path-new-sdk-folder
+</code>
+When upgrading your framework, you don’t need to worry — it won’t touch your self-written classes. It basically just copies a newer version of the sdk in your application root or workspace, and it might change some metadata in the hidden .sencha folder. However, it’s also possible that it will need to update the app.js, app.json, or bootstrap.js files.</p>
 
-<p>类似xcode加的workspace,执行以下命令以产生一个workspace</p>
+<h4 id="generating-a-model-with-sencha-cmd">Generating a Model with Sencha Cmd</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sencha generate workspace &lt;../myworkspacefolder&gt;</span></code></pre></td></tr></table></div></figure>
+<p>To create the model definition, you create a new JavaScript file and save it in the app/model directory. But a better choice is to have Sencha Cmd generate it for you.</p>
 
+<p>Here’s the general syntax for implementing the model definition for a Sencha MVC application. On the command line, navigate to the app folder and run the following command:</p>
 
-<p>The generate workspace command will generate workspace metadata in the hidden .sencha folder, which contains the workspace classpath.It will copy the touch framework folder in the root of the workspace folder. The generate workspace command will also create two new (empty) folders: a packages folder, in case you want to download Sencha plug-ins, and a build folder, which will be the location where your build packages will be created and stored.Once you have a workspace, generating apps is the same as before:
-<code>
-cd &lt;../myworkspacefolder&gt;cd touchsencha generate app -name &lt;namespace}&gt; -path &lt;../appfolder&gt;</code>
-<code>Tip</code>
-If you want to upgrade to a newer version of Sencha Touch, you can download the latest version from the website and let Sencha Cmd update your folder structure. Here’s an example of how to upgrade the app (or workspace) from the command line:
-&#8220;`</p>
-
-<pre><code>sencha app upgrade ../path-new-sdk-folder```When upgrading your framework, you don’t need to worry — it won’t touch your self-written classes. It basically just copies a newer version of the sdk in your application root or workspace, and it might change some metadata in the hidden .sencha folder. However, it’s also possible that it will need to update the app.js, app.json, or bootstrap.js files.
-</code></pre>
-
-<h4>Generating a Model with Sencha Cmd</h4>
-
-<p>To create the model definition, you create a new JavaScript file and save it in the app/model directory. But a better choice is to have Sencha Cmd generate it for you.
-Here’s the general syntax for implementing the model definition for a Sencha MVC application. On the command line, navigate to the app folder and run the following command:</p>
-
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sb">```</span>
-</span><span class='line'><span class="sb">Make sure you already have an MVC application generated with Sencha Cmd. To generate our FindACab app model, navigate to your project folder and type the following:</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">```</span>
-</span><span class='line'>  <span class="n">sencha</span> <span class="n">generate</span> <span class="n">model</span> <span class="no">Cab</span> <span class="nb">id</span><span class="ss">:auto</span><span class="p">,</span><span class="nb">name</span><span class="ss">:string</span><span class="p">,</span><span class="ss">latitude</span><span class="p">:</span><span class="n">float</span><span class="p">,</span><span class="ss">longitude</span><span class="p">:</span><span class="n">float</span><span class="p">,</span> <span class="ss">address1</span><span class="p">:</span><span class="n">string</span><span class="p">,</span><span class="ss">phone</span><span class="p">:</span><span class="n">string</span><span class="p">,</span><span class="n">state_code</span><span class="ss">:string</span><span class="p">,</span><span class="ss">zip</span><span class="p">:</span><span class="n">string</span><span class="p">,</span><span class="ss">city</span><span class="p">:</span><span class="n">string</span><span class="p">,</span> <span class="ss">userinput</span><span class="p">:</span><span class="n">string</span><span class="p">,</span><span class="n">country_code</span><span class="ss">:string</span><span class="p">,</span><span class="n">avg_rating</span><span class="ss">:float</span><span class="p">,</span><span class="ss">distance</span><span class="p">:</span><span class="n">float</span>
-</span><span class='line'><span class="sb">```</span>
-</span><span class='line'><span class="sb">Sencha Cmd will generate the code shown below</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ext.define(&lsquo;FindACab.model.Cab&rsquo;, {</p>
-
-<pre><code>extend: 'Ext.data.Model',   config: {   fields: [       { name: 'id', type: 'auto' },       { name: 'name', type: 'string' },       { name: 'latitude', type: 'float' },        { name: 'longitude', type: 'float' },       { name: 'address1', type: 'string' },       { name: 'phone', type: 'string' },      { name: 'state_code', type: 'string' },     { name: 'zip', type: 'string' },        { name: 'city', type: 'string' },       { name: 'userinput', type: 'string'},       { name: 'country_code', type: 'string' },       { name: 'avg_rating', type: 'float' },      { name: 'distance', type: 'float' }     ]   }});
-</code></pre>
-
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">The</span> <span class="n">code</span> <span class="k">in</span> <span class="n">our</span> <span class="n">newly</span> <span class="n">generated</span> <span class="no">JavaScript</span> <span class="n">file</span> <span class="n">defines</span> <span class="n">the</span> <span class="n">model</span> <span class="no">Cab</span><span class="o">.</span><span class="n">js</span><span class="o">.</span>
-</span><span class='line'><span class="no">Every</span> <span class="n">field</span> <span class="nb">name</span> <span class="n">has</span> <span class="n">a</span> <span class="n">type</span><span class="p">;</span> <span class="k">for</span> <span class="n">example</span><span class="p">,</span> <span class="n">the</span> <span class="n">field</span> <span class="nb">name</span> <span class="n">phone</span> <span class="n">has</span> <span class="n">a</span> <span class="n">type</span> <span class="n">string</span><span class="o">.</span> <span class="no">The</span> <span class="n">possible</span> <span class="n">field</span> <span class="n">types</span> <span class="k">for</span> <span class="n">a</span> <span class="n">model</span> <span class="n">are</span> <span class="n">string</span><span class="p">,</span> <span class="n">int</span><span class="p">,</span> <span class="n">float</span><span class="p">,</span> <span class="n">boolean</span><span class="p">,</span> <span class="ow">and</span> <span class="n">auto</span><span class="o">.</span> <span class="no">The</span> <span class="n">type</span> <span class="n">auto</span> <span class="n">means</span> <span class="n">there</span> <span class="n">is</span> <span class="n">no</span> <span class="n">type</span> <span class="n">conversion</span> <span class="n">at</span> <span class="n">all</span><span class="o">.</span>
-</span><span class='line'><span class="err">定义一个</span><span class="n">store</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ext.define(&lsquo;FindACab.store.Cabs&rsquo;, {</p>
-
-<pre><code>extend: 'Ext.data.Store', 
-config: {       model: 'FindACab.model.Cab',        autoLoad: true  }});
-</code></pre>
-
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sb">`Tips`</span>
-</span><span class='line'><span class="no">Stores</span> <span class="n">can</span> <span class="n">be</span> <span class="n">written</span> <span class="n">without</span> <span class="n">models</span><span class="o">.</span> <span class="no">You</span> <span class="n">can</span> <span class="n">write</span> <span class="n">the</span> <span class="n">model</span> <span class="k">in</span><span class="o">-</span><span class="n">line</span> <span class="k">in</span> <span class="n">the</span> <span class="n">store</span> <span class="n">by</span> <span class="n">just</span> <span class="n">defining</span> <span class="n">a</span> <span class="sb">`fields`</span> <span class="n">array</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Generating a Controller with Sencha Cmd</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>sencha generate controller &lt;MyController&gt;
-</code></pre>
-
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#### Referencing a Component from a Controller</span>
-</span><span class='line'><span class="no">When</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="n">reference</span> <span class="n">from</span> <span class="n">the</span> <span class="no">Sencha</span> <span class="no">MVC</span> <span class="n">controller</span> <span class="n">to</span> <span class="n">a</span> <span class="n">component</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">either</span> <span class="n">use</span> <span class="n">refs</span> <span class="ow">or</span> <span class="n">you</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="n">component</span> <span class="n">query</span>
-</span><span class='line'><span class="no">Controller</span> <span class="n">refs</span> <span class="n">are</span> <span class="n">available</span> <span class="n">only</span> <span class="k">in</span> <span class="p">(</span><span class="n">of</span> <span class="n">course</span><span class="p">)</span> <span class="n">the</span> <span class="n">controller</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Example 6-3. Defining a Controller reference
-refs: { myRef: &lsquo;somextype&rsquo;}</p>
-
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">The</span> <span class="n">component</span> <span class="n">query</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span> <span class="n">anywhere</span> <span class="k">in</span> <span class="n">your</span> <span class="ss">code</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ext.ComponentQuery.query(&lsquo;somextype&rsquo;);&#8220;`
-Every ref that is created will automatically generate a getter. In Example 6-3, then, this.getMyRef() would find the component that has the xtype: &ldquo;somextype&rdquo;.</p>
-
-<h4>Listening to Events from a Controller</h4>
-
-<p>When you want to control events in the Sencha MVC controller, add a control object to the controller’s config object. This control object contains a reference to a component (in this example, myref) and adds an event listener with some event that dispatches to myFunction:</p>
-
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">control</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>  <span class="s1">&#39;myref&#39;</span> <span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">event</span><span class="o">&gt;</span><span class="p">:</span> <span class="s1">&#39;myFunction&#39;</span><span class="p">,</span> <span class="p">}</span>
-</span><span class='line'><span class="p">},</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">```</span>
-</span><span class='line'><span class="sb">Once you have a reference to a component, you can bind an event to it. The trick is the control object, which listens to key/value pairs. For the key, you enter the reference name (the CSS-like selector, or it could also be the xtype); this key has another object as a value. This object accepts the name of the event as a key (for example, tap or initialize) and as a value, the string name of controller function that should be called after the event has happened.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Example 6-5. app/controller/CabController.js
-Ext.define(&lsquo;FindACab.controller.CabController&rsquo;, {</p>
-
-<pre><code>extend: 'Ext.app.Controller',   config: {   models: ['Cab'],    stores: ['Cabs'],   refs: {     main: 'mainview'    },  control: {      'mainview': {           initialize: 'onInitMain',       }, 
-    'button[action=press]': {           tap: 'onTapMain' }      }       },  onInitMain: function() {        console.log("Initialize mainview"); },  onTapMain: function() {     console.log("Tapped a button in mainview");     }});
-</code></pre>
-
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">The</span> <span class="no">CSS</span><span class="o">-</span><span class="n">like</span> <span class="n">selector</span> <span class="n">button</span><span class="o">[</span><span class="n">action</span><span class="o">=</span><span class="n">press</span><span class="o">]</span> <span class="n">invokes</span> <span class="n">the</span> <span class="n">controller</span> <span class="nb">method</span> <span class="n">onTapMain</span><span class="p">(),</span> <span class="n">which</span> <span class="n">listens</span> <span class="n">to</span> <span class="n">all</span> <span class="n">button</span> <span class="n">xtypes</span> <span class="n">that</span> <span class="n">have</span> <span class="n">the</span> <span class="n">config</span> <span class="ss">action</span><span class="p">:</span> <span class="n">press</span> <span class="n">set</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Loading External Classes</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">In</span> <span class="n">app</span><span class="o">.</span><span class="n">js</span><span class="p">,</span> <span class="n">specify</span> <span class="n">the</span> <span class="n">paths</span> <span class="n">to</span> <span class="n">the</span> <span class="n">classes</span> <span class="k">in</span> <span class="n">the</span> <span class="no">Ext</span><span class="o">.</span><span class="n">Loader</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ext.Loader.setPath({    &lsquo;Ext&rsquo;: &lsquo;touch/src&rsquo;, &lsquo;FindACab&rsquo;: &lsquo;app&rsquo;   &lsquo;<new namespace>&rsquo;: &lsquo;&lt;folder-to-point-to>&rsquo;});</p>
-
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">This</span> <span class="n">doesn</span><span class="err">’</span><span class="n">t</span> <span class="nb">load</span> <span class="n">anything</span> <span class="k">in</span> <span class="n">memory</span> <span class="n">yet</span><span class="p">;</span> <span class="n">it</span> <span class="n">just</span> <span class="n">tells</span> <span class="n">the</span> <span class="no">Sencha</span> <span class="no">Touch</span> <span class="n">loader</span> <span class="n">where</span> <span class="n">to</span> <span class="n">find</span> <span class="n">files</span> <span class="n">that</span> <span class="n">use</span> <span class="n">the</span> <span class="no">Utils</span> <span class="n">namespace</span><span class="o">.</span> <span class="no">You</span> <span class="n">will</span> <span class="n">use</span> <span class="n">the</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="k">class</span> <span class="k">in</span> <span class="n">your</span> <span class="n">app</span> <span class="n">so</span> <span class="n">the</span> <span class="no">Sencha</span> <span class="no">Touch</span> <span class="n">loader</span> <span class="n">needs</span> <span class="n">to</span> <span class="nb">load</span> <span class="n">the</span> <span class="k">class</span> <span class="k">in</span> <span class="n">its</span> <span class="n">memory</span><span class="o">.</span> <span class="no">Therefore</span><span class="p">,</span> <span class="n">you</span> <span class="n">add</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="n">to</span> <span class="n">the</span> <span class="n">requires</span> <span class="n">array</span> <span class="k">in</span> <span class="n">the</span> <span class="n">app</span><span class="o">.</span><span class="n">js</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">The</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="k">class</span> <span class="n">is</span> <span class="n">just</span> <span class="n">a</span> <span class="k">class</span> <span class="n">with</span> <span class="n">static</span> <span class="n">members</span><span class="o">.</span> <span class="n">I</span> <span class="n">can</span> <span class="n">access</span> <span class="n">the</span> <span class="n">defined</span> <span class="n">properties</span> <span class="n">from</span> <span class="n">anywhere</span> <span class="k">in</span> <span class="n">my</span> <span class="n">code</span><span class="o">.</span> <span class="no">For</span> <span class="n">example</span><span class="p">,</span> <span class="k">in</span> <span class="n">the</span> <span class="no">FindACab</span> <span class="n">app</span><span class="p">,</span> <span class="n">I</span> <span class="n">will</span> <span class="n">need</span> <span class="n">to</span> <span class="n">have</span> <span class="n">global</span> <span class="n">access</span> <span class="n">to</span> <span class="n">the</span> <span class="no">YELP_API</span> <span class="no">URL</span><span class="o">.</span> <span class="no">If</span> <span class="n">I</span> <span class="n">add</span> <span class="n">it</span> <span class="n">to</span> <span class="n">the</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="n">class</span><span class="p">,</span> <span class="n">I</span> <span class="n">can</span> <span class="n">access</span> <span class="n">it</span> <span class="n">from</span> <span class="n">anywhere</span> <span class="k">in</span> <span class="n">my</span> <span class="n">code</span> <span class="n">by</span> <span class="n">calling</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Common</span><span class="o">.</span><span class="n">YELP_API</span><span class="o">.</span> <span class="no">The</span> <span class="n">code</span> <span class="k">for</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="n">will</span> <span class="n">look</span> <span class="n">like</span> <span class="no">Example</span> <span class="mi">6</span><span class="o">-</span><span class="mi">7</span><span class="o">.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ext.define(&lsquo;Utils.Commons&rsquo;, {</p>
-
-<pre><code>statics: {      YELP_API: 'http://api.yelp.com/business_review_search?', YELP_KEY: 'ftPpQUCgfSA3yV98-uJn9g',        YELP_TERM: 'Taxi',      LOCATION: 'Amsterdam NL',
-    getUrl: function() {            return this.YELP_API + "term=" + this.YELP_TERM +
-                "&amp;ywsid=" + this.YELP_KEY + 
-                "&amp;location=" + this.LOCATION;
-    }
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sb">```</span>
+</span><span class="line"><span class="sb">Make sure you already have an MVC application generated with Sencha Cmd. To generate our FindACab app model, navigate to your project folder and type the following:</span>
+</span><span class="line">
+</span><span class="line"><span class="sb">```</span>
+</span><span class="line">	<span class="n">sencha</span> <span class="n">generate</span> <span class="n">model</span> <span class="no">Cab</span> <span class="nb">id</span><span class="ss">:auto</span><span class="p">,</span><span class="nb">name</span><span class="ss">:string</span><span class="p">,</span><span class="ss">latitude</span><span class="p">:</span><span class="n">float</span><span class="p">,</span><span class="ss">longitude</span><span class="p">:</span><span class="n">float</span><span class="p">,</span> <span class="ss">address1</span><span class="p">:</span><span class="n">string</span><span class="p">,</span><span class="ss">phone</span><span class="p">:</span><span class="n">string</span><span class="p">,</span><span class="n">state_code</span><span class="ss">:string</span><span class="p">,</span><span class="ss">zip</span><span class="p">:</span><span class="n">string</span><span class="p">,</span><span class="ss">city</span><span class="p">:</span><span class="n">string</span><span class="p">,</span> <span class="ss">userinput</span><span class="p">:</span><span class="n">string</span><span class="p">,</span><span class="n">country_code</span><span class="ss">:string</span><span class="p">,</span><span class="n">avg_rating</span><span class="ss">:float</span><span class="p">,</span><span class="ss">distance</span><span class="p">:</span><span class="n">float</span>
+</span><span class="line"><span class="sb">```</span>
+</span><span class="line"><span class="sb">Sencha Cmd will generate the code shown below</span>
+</span></code></pre></td></tr></table></div>
+Ext.define(&#8216;FindACab.model.Cab&#8217;, { 
+	extend: &#8216;Ext.data.Model&#8217;,
+	config: { 
+	fields: [
+		{ name: &#8216;id&#8217;, type: &#8216;auto&#8217; },
+		{ name: &#8216;name&#8217;, type: &#8216;string&#8217; },
+		{ name: &#8216;latitude&#8217;, type: &#8216;float&#8217; },
+		{ name: &#8216;longitude&#8217;, type: &#8216;float&#8217; },
+		{ name: &#8216;address1&#8217;, type: &#8216;string&#8217; },
+		{ name: &#8216;phone&#8217;, type: &#8216;string&#8217; },
+		{ name: &#8216;state_code&#8217;, type: &#8216;string&#8217; },
+		{ name: &#8216;zip&#8217;, type: &#8216;string&#8217; },
+		{ name: &#8216;city&#8217;, type: &#8216;string&#8217; },
+		{ name: &#8216;userinput&#8217;, type: &#8216;string&#8217;},
+		{ name: &#8216;country_code&#8217;, type: &#8216;string&#8217; }, 
+		{ name: &#8216;avg_rating&#8217;, type: &#8216;float&#8217; },
+		{ name: &#8216;distance&#8217;, type: &#8216;float&#8217; }
+		] 
+	}
+});
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">The</span> <span class="n">code</span> <span class="k">in</span> <span class="n">our</span> <span class="n">newly</span> <span class="n">generated</span> <span class="no">JavaScript</span> <span class="n">file</span> <span class="n">defines</span> <span class="n">the</span> <span class="n">model</span> <span class="no">Cab</span><span class="o">.</span><span class="n">js</span><span class="o">.</span>
+</span><span class="line"><span class="no">Every</span> <span class="n">field</span> <span class="nb">name</span> <span class="n">has</span> <span class="n">a</span> <span class="n">type</span><span class="p">;</span> <span class="k">for</span> <span class="n">example</span><span class="p">,</span> <span class="n">the</span> <span class="n">field</span> <span class="nb">name</span> <span class="n">phone</span> <span class="n">has</span> <span class="n">a</span> <span class="n">type</span> <span class="n">string</span><span class="o">.</span> <span class="no">The</span> <span class="n">possible</span> <span class="n">field</span> <span class="n">types</span> <span class="k">for</span> <span class="n">a</span> <span class="n">model</span> <span class="n">are</span> <span class="n">string</span><span class="p">,</span> <span class="n">int</span><span class="p">,</span> <span class="n">float</span><span class="p">,</span> <span class="n">boolean</span><span class="p">,</span> <span class="ow">and</span> <span class="n">auto</span><span class="o">.</span> <span class="no">The</span> <span class="n">type</span> <span class="n">auto</span> <span class="n">means</span> <span class="n">there</span> <span class="n">is</span> <span class="n">no</span> <span class="n">type</span> <span class="n">conversion</span> <span class="n">at</span> <span class="n">all</span><span class="o">.</span>
+</span><span class="line"><span class="err">定义一个</span><span class="n">store</span>
+</span></code></pre></td></tr></table></div>
+Ext.define(&#8216;FindACab.store.Cabs&#8217;, { 
+	extend: &#8216;Ext.data.Store&#8217;, 
+	config: {
+		model: &#8216;FindACab.model.Cab&#8217;,
+		autoLoad: true 
+	}
+});
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sb">`Tips`</span>
+</span><span class="line"><span class="no">Stores</span> <span class="n">can</span> <span class="n">be</span> <span class="n">written</span> <span class="n">without</span> <span class="n">models</span><span class="o">.</span> <span class="no">You</span> <span class="n">can</span> <span class="n">write</span> <span class="n">the</span> <span class="n">model</span> <span class="k">in</span><span class="o">-</span><span class="n">line</span> <span class="k">in</span> <span class="n">the</span> <span class="n">store</span> <span class="n">by</span> <span class="n">just</span> <span class="n">defining</span> <span class="n">a</span> <span class="sb">`fields`</span> <span class="n">array</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">#### Generating a Controller with Sencha Cmd</span>
+</span></code></pre></td></tr></table></div>
+	sencha generate controller <mycontroller>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="c1">#### Referencing a Component from a Controller</span>
+</span><span class="line"><span class="no">When</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="n">reference</span> <span class="n">from</span> <span class="n">the</span> <span class="no">Sencha</span> <span class="no">MVC</span> <span class="n">controller</span> <span class="n">to</span> <span class="n">a</span> <span class="n">component</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">either</span> <span class="n">use</span> <span class="n">refs</span> <span class="ow">or</span> <span class="n">you</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="n">component</span> <span class="n">query</span>
+</span><span class="line"><span class="no">Controller</span> <span class="n">refs</span> <span class="n">are</span> <span class="n">available</span> <span class="n">only</span> <span class="k">in</span> <span class="p">(</span><span class="n">of</span> <span class="n">course</span><span class="p">)</span> <span class="n">the</span> <span class="n">controller</span>
+</span></code></pre></td></tr></table></div>
+Example 6-3. Defining a Controller reference 
+refs: {
+	myRef: &#8216;somextype&#8217;
 }
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">The</span> <span class="n">component</span> <span class="n">query</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span> <span class="n">anywhere</span> <span class="k">in</span> <span class="n">your</span> <span class="ss">code</span><span class="p">:</span>
+</span></code></pre></td></tr></table></div>
+Ext.ComponentQuery.query(&#8216;somextype&#8217;);
+&#8220;`
+Every ref that is created will automatically generate a getter. In Example 6-3, then, this.getMyRef() would find the component that has the xtype: &#8220;somextype&#8221;.
+#### Listening to Events from a Controller
+When you want to control events in the Sencha MVC controller, add a control object to the controller’s config object. This control object contains a reference to a component (in this example, myref) and adds an event listener with some event that dispatches to myFunction:
 
-<p>});</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="ss">control</span><span class="p">:</span> <span class="p">{</span>
+</span><span class="line">	<span class="s1">&#39;myref&#39;</span> <span class="p">:</span> <span class="p">{</span>
+</span><span class="line">	<span class="o">&lt;</span><span class="n">event</span><span class="o">&gt;</span><span class="p">:</span> <span class="s1">&#39;myFunction&#39;</span><span class="p">,</span> <span class="p">}</span>
+</span><span class="line"><span class="p">},</span>
+</span><span class="line">
+</span><span class="line"><span class="sb">```</span>
+</span><span class="line"><span class="sb">Once you have a reference to a component, you can bind an event to it. The trick is the control object, which listens to key/value pairs. For the key, you enter the reference name (the CSS-like selector, or it could also be the xtype); this key has another object as a value. This object accepts the name of the event as a key (for example, tap or initialize) and as a value, the string name of controller function that should be called after the event has happened.</span>
+</span></code></pre></td></tr></table></div>
+Example 6-5. app/controller/CabController.js
+Ext.define(&#8216;FindACab.controller.CabController&#8217;, { 
+	extend: &#8216;Ext.app.Controller&#8217;,
+	config: {
+	models: [&#8216;Cab&#8217;],
+	stores: [&#8216;Cabs&#8217;],
+	refs: {
+		main: &#8216;mainview&#8217;
+	}, 
+	control: {
+		&#8216;mainview&#8217;: {
+			initialize: &#8216;onInitMain&#8217;,
+		}, 
 
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Using</span> <span class="n">the</span> <span class="no">Ext</span><span class="o">.</span><span class="n">Loader</span> <span class="n">is</span> <span class="n">really</span> <span class="n">powerful</span><span class="o">.</span> <span class="no">You</span> <span class="n">no</span> <span class="n">longer</span> <span class="n">have</span> <span class="n">to</span> <span class="n">worry</span> <span class="n">about</span> <span class="n">loading</span> <span class="n">scripts</span> <span class="k">in</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">order</span><span class="o">.</span>
-</span><span class='line'><span class="no">It</span><span class="err">’</span><span class="n">s</span> <span class="n">a</span> <span class="n">really</span> <span class="n">good</span> <span class="n">thing</span> <span class="n">that</span> <span class="n">the</span> <span class="no">Sencha</span> <span class="no">Touch</span> <span class="n">loader</span> <span class="n">takes</span> <span class="n">care</span> <span class="n">of</span> <span class="n">this</span><span class="o">.</span> <span class="no">However</span><span class="p">,</span> <span class="n">you</span> <span class="k">do</span> <span class="n">need</span> <span class="n">to</span> <span class="n">tell</span> <span class="n">the</span> <span class="no">Ext</span><span class="o">.</span><span class="n">Loader</span><span class="p">,</span> <span class="err">“</span><span class="no">Hey</span> <span class="n">loader</span><span class="p">,</span> <span class="n">I</span> <span class="nb">require</span> <span class="n">this</span> <span class="n">class</span><span class="p">,</span> <span class="n">so</span> <span class="n">don</span><span class="err">’</span><span class="n">t</span> <span class="n">forget</span> <span class="n">to</span> <span class="nb">load</span> <span class="n">it</span><span class="o">.</span><span class="err">”</span> <span class="no">You</span> <span class="n">can</span> <span class="n">give</span> <span class="n">this</span> <span class="n">instruction</span> <span class="n">by</span> <span class="n">setting</span> <span class="n">the</span> <span class="n">requires</span> <span class="n">array</span> <span class="k">in</span> <span class="n">a</span> <span class="k">class</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">`Note`</span>
-</span><span class='line'><span class="no">When</span> <span class="n">you</span><span class="err">’</span><span class="n">re</span> <span class="n">adding</span> <span class="no">Sencha</span> <span class="n">classes</span> <span class="n">to</span> <span class="n">your</span> <span class="n">project</span> <span class="ow">and</span> <span class="n">they</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">saved</span> <span class="n">within</span> <span class="n">the</span> <span class="n">app</span> <span class="n">folder</span><span class="p">,</span> <span class="n">you</span> <span class="n">will</span> <span class="n">also</span> <span class="n">need</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">the</span> <span class="n">paths</span> <span class="n">to</span> <span class="n">the</span> <span class="n">classpath</span> <span class="n">used</span> <span class="k">for</span> <span class="n">the</span> <span class="n">build</span> <span class="n">process</span><span class="p">;</span> <span class="n">otherwise</span><span class="p">,</span> <span class="n">your</span> <span class="n">builds</span> <span class="n">will</span> <span class="nb">fail</span><span class="o">.</span>
-</span><span class='line'><span class="no">There</span> <span class="n">is</span> <span class="n">an</span> <span class="sb">`app`</span> <span class="ow">and</span> <span class="sb">`workspace classpath`</span><span class="o">.</span> <span class="no">The</span> <span class="n">workspace</span> <span class="n">classpath</span> <span class="n">matters</span> <span class="k">when</span> <span class="n">you</span> <span class="n">have</span> <span class="n">multiple</span> <span class="n">applications</span> <span class="ow">and</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">share</span> <span class="n">code</span><span class="p">;</span> <span class="k">in</span> <span class="n">all</span> <span class="n">other</span> <span class="n">situations</span><span class="p">,</span> <span class="n">the</span> <span class="n">app</span> <span class="n">classpath</span> <span class="n">should</span> <span class="n">be</span> <span class="n">good</span> <span class="n">enough</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">In</span> <span class="no">Chapter</span> <span class="mi">14</span><span class="p">,</span> <span class="n">you</span> <span class="n">will</span> <span class="n">add</span> <span class="n">the</span> <span class="n">utils</span> <span class="n">folder</span> <span class="n">to</span> <span class="n">the</span> <span class="n">app</span> <span class="n">classpath</span> <span class="k">in</span> <span class="n">the</span> <span class="n">hidden</span> <span class="o">.</span><span class="n">sencha</span><span class="o">/</span><span class="n">sencha</span><span class="o">.</span><span class="n">cfg</span> <span class="n">file</span> <span class="n">so</span> <span class="n">the</span> <span class="no">FindACab</span> <span class="n">app</span> <span class="n">can</span> <span class="n">be</span> <span class="ss">built</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
+		&#8216;button[action=press]&#8217;: {
+			tap: &#8216;onTapMain&#8217; }
+		} 
+		},
+	onInitMain: function() { 
+		console.log(&#8220;Initialize mainview&#8221;);
+	},
+	onTapMain: function() {
+		console.log(&#8220;Tapped a button in mainview&#8221;); 
+	}
+});
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">The</span> <span class="no">CSS</span><span class="o">-</span><span class="n">like</span> <span class="n">selector</span> <span class="n">button</span><span class="o">[</span><span class="n">action</span><span class="o">=</span><span class="n">press</span><span class="o">]</span> <span class="n">invokes</span> <span class="n">the</span> <span class="n">controller</span> <span class="nb">method</span> <span class="n">onTapMain</span><span class="p">(),</span> <span class="n">which</span> <span class="n">listens</span> <span class="n">to</span> <span class="n">all</span> <span class="n">button</span> <span class="n">xtypes</span> <span class="n">that</span> <span class="n">have</span> <span class="n">the</span> <span class="n">config</span> <span class="ss">action</span><span class="p">:</span> <span class="n">press</span> <span class="n">set</span><span class="o">.</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">#### Loading External Classes</span>
+</span><span class="line">
+</span><span class="line"><span class="no">In</span> <span class="n">app</span><span class="o">.</span><span class="n">js</span><span class="p">,</span> <span class="n">specify</span> <span class="n">the</span> <span class="n">paths</span> <span class="n">to</span> <span class="n">the</span> <span class="n">classes</span> <span class="k">in</span> <span class="n">the</span> <span class="no">Ext</span><span class="o">.</span><span class="n">Loader</span><span class="p">:</span>
+</span></code></pre></td></tr></table></div>
+Ext.Loader.setPath({
+	&#8216;Ext&#8217;: &#8216;touch/src&#8217;,
+	&#8216;FindACab&#8217;: &#8216;app&#8217;
+	&#8217;<new namespace="">&#8217;: &#8217;<folder-to-point-to>&#8217;
+});
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">This</span> <span class="n">doesn</span><span class="err">’</span><span class="n">t</span> <span class="nb">load</span> <span class="n">anything</span> <span class="k">in</span> <span class="n">memory</span> <span class="n">yet</span><span class="p">;</span> <span class="n">it</span> <span class="n">just</span> <span class="n">tells</span> <span class="n">the</span> <span class="no">Sencha</span> <span class="no">Touch</span> <span class="n">loader</span> <span class="n">where</span> <span class="n">to</span> <span class="n">find</span> <span class="n">files</span> <span class="n">that</span> <span class="n">use</span> <span class="n">the</span> <span class="no">Utils</span> <span class="n">namespace</span><span class="o">.</span> <span class="no">You</span> <span class="n">will</span> <span class="n">use</span> <span class="n">the</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="k">class</span> <span class="k">in</span> <span class="n">your</span> <span class="n">app</span> <span class="n">so</span> <span class="n">the</span> <span class="no">Sencha</span> <span class="no">Touch</span> <span class="n">loader</span> <span class="n">needs</span> <span class="n">to</span> <span class="nb">load</span> <span class="n">the</span> <span class="k">class</span> <span class="k">in</span> <span class="n">its</span> <span class="n">memory</span><span class="o">.</span> <span class="no">Therefore</span><span class="p">,</span> <span class="n">you</span> <span class="n">add</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="n">to</span> <span class="n">the</span> <span class="n">requires</span> <span class="n">array</span> <span class="k">in</span> <span class="n">the</span> <span class="n">app</span><span class="o">.</span><span class="n">js</span><span class="o">.</span>
+</span><span class="line">
+</span><span class="line"><span class="no">The</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="k">class</span> <span class="n">is</span> <span class="n">just</span> <span class="n">a</span> <span class="k">class</span> <span class="n">with</span> <span class="n">static</span> <span class="n">members</span><span class="o">.</span> <span class="n">I</span> <span class="n">can</span> <span class="n">access</span> <span class="n">the</span> <span class="n">defined</span> <span class="n">properties</span> <span class="n">from</span> <span class="n">anywhere</span> <span class="k">in</span> <span class="n">my</span> <span class="n">code</span><span class="o">.</span> <span class="no">For</span> <span class="n">example</span><span class="p">,</span> <span class="k">in</span> <span class="n">the</span> <span class="no">FindACab</span> <span class="n">app</span><span class="p">,</span> <span class="n">I</span> <span class="n">will</span> <span class="n">need</span> <span class="n">to</span> <span class="n">have</span> <span class="n">global</span> <span class="n">access</span> <span class="n">to</span> <span class="n">the</span> <span class="no">YELP_API</span> <span class="no">URL</span><span class="o">.</span> <span class="no">If</span> <span class="n">I</span> <span class="n">add</span> <span class="n">it</span> <span class="n">to</span> <span class="n">the</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="n">class</span><span class="p">,</span> <span class="n">I</span> <span class="n">can</span> <span class="n">access</span> <span class="n">it</span> <span class="n">from</span> <span class="n">anywhere</span> <span class="k">in</span> <span class="n">my</span> <span class="n">code</span> <span class="n">by</span> <span class="n">calling</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Common</span><span class="o">.</span><span class="n">YELP_API</span><span class="o">.</span> <span class="no">The</span> <span class="n">code</span> <span class="k">for</span> <span class="no">Utils</span><span class="o">.</span><span class="n">Commons</span> <span class="n">will</span> <span class="n">look</span> <span class="n">like</span> <span class="no">Example</span> <span class="mi">6</span><span class="o">-</span><span class="mi">7</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div>
+Ext.define(&#8216;Utils.Commons&#8217;, { 
+	statics: {
+		YELP_API: &#8216;http://api.yelp.com/business_review_search?&#8217;, YELP_KEY: &#8216;ftPpQUCgfSA3yV98-uJn9g&#8217;,
+		YELP_TERM: &#8216;Taxi&#8217;,
+		LOCATION: &#8216;Amsterdam NL&#8217;,
 
-
-<pre><code>app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils
-</code></pre>
-
-<figure class='code'><figcaption><span>generate model <MyModelName> <fieldstring></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">You</span> <span class="n">can</span> <span class="n">forget</span> <span class="n">to</span> <span class="n">inform</span> <span class="n">the</span> <span class="sb">`Ext.Loader`</span> <span class="n">about</span> <span class="n">your</span> <span class="n">dependencies</span><span class="p">,</span> <span class="ow">or</span> <span class="n">just</span> <span class="n">ignore</span> <span class="n">it</span><span class="o">.</span> <span class="no">When</span> <span class="n">you</span> <span class="n">run</span> <span class="n">your</span> <span class="n">application</span> <span class="k">in</span> <span class="n">debug</span> <span class="n">mode</span> <span class="p">(</span><span class="n">you</span> <span class="n">can</span> <span class="n">enable</span> <span class="n">it</span> <span class="k">in</span> <span class="n">the</span> <span class="n">app</span><span class="o">.</span><span class="n">json</span> <span class="n">file</span> <span class="n">by</span> <span class="n">loading</span> <span class="n">the</span> <span class="n">sencha</span><span class="o">-</span><span class="n">touch</span><span class="o">-</span><span class="n">debug</span><span class="o">.</span><span class="n">js</span> <span class="n">framework</span> <span class="n">with</span> <span class="n">debug</span> <span class="n">messages</span> <span class="n">instead</span> <span class="n">of</span> <span class="n">sencha</span><span class="o">-</span> <span class="n">touch</span><span class="o">.</span><span class="n">js</span><span class="p">),</span> <span class="n">the</span> <span class="n">console</span> <span class="n">will</span> <span class="kp">throw</span> <span class="n">some</span> <span class="n">warnings</span> <span class="ow">and</span> <span class="n">indicate</span> <span class="n">which</span> <span class="n">classes</span> <span class="n">you</span> <span class="n">need</span> <span class="n">to</span> <span class="nb">require</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#### Implementing a Form</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>sencha generate form -name MyForm -fields field,field2:textfield
-</code></pre>
-
-<p>&#8220;`</p>
+		getUrl: function() {
+			return this.YELP_API + &#8220;term=&#8221; + this.YELP_TERM +
+					&#8220;&amp;ywsid=&#8221; + this.YELP_KEY + 
+					&#8220;&amp;location=&#8221; + this.LOCATION;
+		}
+	}
+});
+		
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Using</span> <span class="n">the</span> <span class="no">Ext</span><span class="o">.</span><span class="n">Loader</span> <span class="n">is</span> <span class="n">really</span> <span class="n">powerful</span><span class="o">.</span> <span class="no">You</span> <span class="n">no</span> <span class="n">longer</span> <span class="n">have</span> <span class="n">to</span> <span class="n">worry</span> <span class="n">about</span> <span class="n">loading</span> <span class="n">scripts</span> <span class="k">in</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">order</span><span class="o">.</span>
+</span><span class="line"><span class="no">It</span><span class="err">’</span><span class="n">s</span> <span class="n">a</span> <span class="n">really</span> <span class="n">good</span> <span class="n">thing</span> <span class="n">that</span> <span class="n">the</span> <span class="no">Sencha</span> <span class="no">Touch</span> <span class="n">loader</span> <span class="n">takes</span> <span class="n">care</span> <span class="n">of</span> <span class="n">this</span><span class="o">.</span> <span class="no">However</span><span class="p">,</span> <span class="n">you</span> <span class="k">do</span> <span class="n">need</span> <span class="n">to</span> <span class="n">tell</span> <span class="n">the</span> <span class="no">Ext</span><span class="o">.</span><span class="n">Loader</span><span class="p">,</span> <span class="err">“</span><span class="no">Hey</span> <span class="n">loader</span><span class="p">,</span> <span class="n">I</span> <span class="nb">require</span> <span class="n">this</span> <span class="n">class</span><span class="p">,</span> <span class="n">so</span> <span class="n">don</span><span class="err">’</span><span class="n">t</span> <span class="n">forget</span> <span class="n">to</span> <span class="nb">load</span> <span class="n">it</span><span class="o">.</span><span class="err">”</span> <span class="no">You</span> <span class="n">can</span> <span class="n">give</span> <span class="n">this</span> <span class="n">instruction</span> <span class="n">by</span> <span class="n">setting</span> <span class="n">the</span> <span class="n">requires</span> <span class="n">array</span> <span class="k">in</span> <span class="n">a</span> <span class="k">class</span>
+</span><span class="line">
+</span><span class="line"><span class="sb">`Note`</span>
+</span><span class="line"><span class="no">When</span> <span class="n">you</span><span class="err">’</span><span class="n">re</span> <span class="n">adding</span> <span class="no">Sencha</span> <span class="n">classes</span> <span class="n">to</span> <span class="n">your</span> <span class="n">project</span> <span class="ow">and</span> <span class="n">they</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">saved</span> <span class="n">within</span> <span class="n">the</span> <span class="n">app</span> <span class="n">folder</span><span class="p">,</span> <span class="n">you</span> <span class="n">will</span> <span class="n">also</span> <span class="n">need</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">the</span> <span class="n">paths</span> <span class="n">to</span> <span class="n">the</span> <span class="n">classpath</span> <span class="n">used</span> <span class="k">for</span> <span class="n">the</span> <span class="n">build</span> <span class="n">process</span><span class="p">;</span> <span class="n">otherwise</span><span class="p">,</span> <span class="n">your</span> <span class="n">builds</span> <span class="n">will</span> <span class="nb">fail</span><span class="o">.</span>
+</span><span class="line"><span class="no">There</span> <span class="n">is</span> <span class="n">an</span> <span class="sb">`app`</span> <span class="ow">and</span> <span class="sb">`workspace classpath`</span><span class="o">.</span> <span class="no">The</span> <span class="n">workspace</span> <span class="n">classpath</span> <span class="n">matters</span> <span class="k">when</span> <span class="n">you</span> <span class="n">have</span> <span class="n">multiple</span> <span class="n">applications</span> <span class="ow">and</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">share</span> <span class="n">code</span><span class="p">;</span> <span class="k">in</span> <span class="n">all</span> <span class="n">other</span> <span class="n">situations</span><span class="p">,</span> <span class="n">the</span> <span class="n">app</span> <span class="n">classpath</span> <span class="n">should</span> <span class="n">be</span> <span class="n">good</span> <span class="n">enough</span><span class="o">.</span>
+</span><span class="line">
+</span><span class="line"><span class="no">In</span> <span class="no">Chapter</span> <span class="mi">14</span><span class="p">,</span> <span class="n">you</span> <span class="n">will</span> <span class="n">add</span> <span class="n">the</span> <span class="n">utils</span> <span class="n">folder</span> <span class="n">to</span> <span class="n">the</span> <span class="n">app</span> <span class="n">classpath</span> <span class="k">in</span> <span class="n">the</span> <span class="n">hidden</span> <span class="o">.</span><span class="n">sencha</span><span class="o">/</span><span class="n">sencha</span><span class="o">.</span><span class="n">cfg</span> <span class="n">file</span> <span class="n">so</span> <span class="n">the</span> <span class="no">FindACab</span> <span class="n">app</span> <span class="n">can</span> <span class="n">be</span> <span class="ss">built</span><span class="p">:</span>
+</span></code></pre></td></tr></table></div>
+	app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>generate model <mymodelname> <fieldstring><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">You</span> <span class="n">can</span> <span class="n">forget</span> <span class="n">to</span> <span class="n">inform</span> <span class="n">the</span> <span class="sb">`Ext.Loader`</span> <span class="n">about</span> <span class="n">your</span> <span class="n">dependencies</span><span class="p">,</span> <span class="ow">or</span> <span class="n">just</span> <span class="n">ignore</span> <span class="n">it</span><span class="o">.</span> <span class="no">When</span> <span class="n">you</span> <span class="n">run</span> <span class="n">your</span> <span class="n">application</span> <span class="k">in</span> <span class="n">debug</span> <span class="n">mode</span> <span class="p">(</span><span class="n">you</span> <span class="n">can</span> <span class="n">enable</span> <span class="n">it</span> <span class="k">in</span> <span class="n">the</span> <span class="n">app</span><span class="o">.</span><span class="n">json</span> <span class="n">file</span> <span class="n">by</span> <span class="n">loading</span> <span class="n">the</span> <span class="n">sencha</span><span class="o">-</span><span class="n">touch</span><span class="o">-</span><span class="n">debug</span><span class="o">.</span><span class="n">js</span> <span class="n">framework</span> <span class="n">with</span> <span class="n">debug</span> <span class="n">messages</span> <span class="n">instead</span> <span class="n">of</span> <span class="n">sencha</span><span class="o">-</span> <span class="n">touch</span><span class="o">.</span><span class="n">js</span><span class="p">),</span> <span class="n">the</span> <span class="n">console</span> <span class="n">will</span> <span class="kp">throw</span> <span class="n">some</span> <span class="n">warnings</span> <span class="ow">and</span> <span class="n">indicate</span> <span class="n">which</span> <span class="n">classes</span> <span class="n">you</span> <span class="n">need</span> <span class="n">to</span> <span class="nb">require</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">#### Implementing a Form</span>
+</span></code></pre></td></tr></table></div>
+	sencha generate form -name MyForm -fields field,field2:textfield
+&#8220;`
+</fieldstring></mymodelname></span></figcaption></figure></notextile></div></fieldstring></mymodelname></span></figcaption></figure></notextile></div></fieldstring></mymodelname></span></figcaption></figure></notextile></div></folder-to-point-to></new></fieldstring></mymodelname></span></figcaption></figure></notextile></div></fieldstring></mymodelname></span></figcaption></figure></notextile></div></fieldstring></mymodelname></span></figcaption></figure></notextile></div></fieldstring></mymodelname></span></figcaption></figure></notextile></div></mycontroller></fieldstring></mymodelname></span></figcaption></figure></notextile></div></fieldstring></mymodelname></span></figcaption></figure></notextile></div></fieldstring></mymodelname></span></figcaption></figure></notextile></div>
 </div>
 
 </article>

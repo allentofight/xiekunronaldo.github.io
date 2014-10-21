@@ -89,7 +89,7 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">More About Methods</h1>
-	<div class="entry-content" itemprop="articleBody"><h5>定义一个方法</h5>
+	<div class="entry-content" itemprop="articleBody"><h5 id="section">定义一个方法</h5>
 
 <p>一个方法用关键字def来定义，方法名应该以一个小写字母或一个下划线开头，紧跟着字母，数字和下划线,方法名也许以一个?,!或=号结尾，一个返回bool值的方法通常以一个?结果</p>
 
@@ -104,61 +104,95 @@
 能出现在赋值运算符<code>=</code>左边的方法以一个<code>=</code>结尾,如</p>
 
 <pre><code>class BookInStock
-        attr_reader :isbn, :price
-    def initialize(isbn, price) 
-    @isbn = isbn
-    @price = Float(price)
-    end
-    def price=(new_price) 
-    @price = new_price
-    end     # ...   end
+
+	attr_reader :isbn, :price
+
+	def initialize(isbn, price) 
+
+	@isbn = isbn
+
+	@price = Float(price)
+
+	end
+
+	def price=(new_price) 
+
+	@price = new_price
+
+	end
+	# ...
+end
+
 book = BookInStock.new("isbn1", 33.80) 
-book.price = book.price * 0.75
-</code></pre>
 
-<p>有参和无参方法定义如下</p>
+book.price = book.price * 0.75 有参和无参方法定义如下
 
-<pre><code>def my_new_method(arg1, arg2, arg3) # 3 arguments 
+def my_new_method(arg1, arg2, arg3) # 3 arguments 
 
-    # Code for the method would go here end
+	# Code for the method would go here
+end
+
 def my_other_new_method # No arguments 
-    # Code for the method would go here     end
+
+	# Code for the method would go here
+
+end
 </code></pre>
 
 <p>可以为参数指定默认值</p>
 
-<pre><code>    def cool_dude(arg1="Miles", arg2="Coltrane", arg3="Roach") 
-    "#{arg1}, #{arg2}, #{arg3}."
+<pre><code>def cool_dude(arg1="Miles", arg2="Coltrane", arg3="Roach") 
+
+	"#{arg1}, #{arg2}, #{arg3}."
+
 end
 
-cool_dude                           # =&gt; "Miles, Coltrane, Roach."
-            cool_dude("Bart")                   # =&gt; "Bart, Coltrane, Roach."
-cool_dude("Bart", "Elwood")         # =&gt; "Bart, Elwood, Roach."
+cool_dude							# =&gt; "Miles, Coltrane, Roach."
+		
+cool_dude("Bart")					# =&gt; "Bart, Coltrane, Roach."
+
+cool_dude("Bart", "Elwood")			# =&gt; "Bart, Elwood, Roach."
+
 cool_dude("Bart", "Elwood", "Linus") # =&gt; "Bart, Coltrane, Linus."
 </code></pre>
 
 <p>后一个参数的默认值也可以指定为与前一个参数相关的表达式</p>
 
 <pre><code>def surround(word, pad_width=word.length/2) 
-    "[" * pad_width + word + "]" * pad_width
+
+	"[" * pad_width + word + "]" * pad_width
+
 end
+
 surround("elephant") # =&gt; "[[[[elephant]]]]" 
+
 surround("fox") # =&gt; "[fox]"
-surround("fox", 10) # =&gt; "[[[[[[[[[[fox]]]]]]]]]]"#####可变参数
-def varargs(arg1, *rest)
-    "arg1=#{arg1}. rest=#{rest.inspect}"
-end
-varargs("one")                  # =&gt; arg1=one.  rest=[]
-varargs("one", "two")           # =&gt; arg1=one.  rest=["two"]
-varargs "one", "two", "three"   # =&gt; arg1=one.  rest=["two", "three"]   
+
+surround("fox", 10) # =&gt; "[[[[[[[[[[fox]]]]]]]]]]"
 </code></pre>
 
-<p>有时我们用*来指定不被此类方法但被superclass中的此同名方法调用的参数,注意这种情况下我们直接调用super(无任何参数)，这种特殊的情况下意味着&#8221;在superclass中调用此方法，此所有的参数传到此类super的同名方法&#8221;</p>
+<h5 id="section-1">可变参数</h5>
 
-<pre><code>class Child &lt; Parent
+<pre><code>def varargs(arg1, *rest)
+
+	"arg1=#{arg1}. rest=#{rest.inspect}"
+
+end
+
+varargs("one")					# =&gt; arg1=one.  rest=[]
+
+varargs("one", "two")			# =&gt; arg1=one.  rest=["two"]
+
+varargs "one", "two", "three"	# =&gt; arg1=one.  rest=["two", "three"]	 有时我们用*来指定不被此类方法但被superclass中的此同名方法调用的参数,注意这种情况下我们直接调用super(无任何参数)，这种特殊的情况下意味着"在superclass中调用此方法，此所有的参数传到此类super的同名方法"
+
+class Child &lt; Parent
+
 def do_something(*not_used)
+
     # our processing
+
 super end
+
 end
 </code></pre>
 
@@ -166,55 +200,90 @@ end
 
 <pre><code>class Child &lt; Parent 
 
-    def do_something(*)
-            # our processing
-            super 
-        end
+	def do_something(*)
+
+	    # our processing
+
+		super 
+
+	end
+
 end
 </code></pre>
 
 <p>你可以将带*的参数放在方法参数列表的任意位置</p>
 
 <pre><code>def split_apart(first, *splat, last)
-        puts "First: #{first.inspect}, splat: #{splat.inspect}, " +     "last: #{last.inspect}" 
+
+	puts "First: #{first.inspect}, splat: #{splat.inspect}, " +
+	"last: #{last.inspect}" 
+
 end
+
 split_apart(1,2)
+
 split_apart(1,2,3)
+
 split_apart(1,2,3,4)
+
 produces:
+
 First: 1, splat: [], last: 2
+
 First: 1, splat: [2], last: 3
+
 First: 1, splat: [2, 3], last: 4
-你也可以只关心起始的参数，这样，你可以像以下这样定义方法
-def split_apart(first, *, last)
 </code></pre>
 
-<h5>Methods and Blocks</h5>
+<p>你也可以只关心起始的参数，这样，你可以像以下这样定义方法</p>
+
+<pre><code>def split_apart(first, *, last)
+</code></pre>
+
+<h5 id="methods-and-blocks">Methods and Blocks</h5>
 
 <p>方法可以用yield来调用与它相关联的block</p>
 
 <pre><code>def double(p1) yield(p1*2)
+
 end
+
 double(3) {|val| "I got #{val}" } # =&gt; "I got 6" 
-double("tom") {|val| "Then I got #{val}" } # =&gt; "Then I got tomtom"如果一个方法的最后一个参数以&amp;开头，任何相关的block都能当作参数传入方法并被转化为一个Proc对象
-class TaxCalculator
-    def initialize(name, &amp;block)
-            @name, @block = name, block
-        end
-        def get_tax(amount)
-            "#@name on #{amount} = #{ @block.call(amount) }" 
-        end
+
+double("tom") {|val| "Then I got #{val}" } # =&gt; "Then I got tomtom"
+</code></pre>
+
+<p>如果一个方法的最后一个参数以&amp;开头，任何相关的block都能当作参数传入方法并被转化为一个Proc对象</p>
+
+<pre><code>class TaxCalculator
+
+	def initialize(name, &amp;block)
+
+		@name, @block = name, block
+
+	end
+
+	def get_tax(amount)
+
+		"#@name on #{amount} = #{ @block.call(amount) }" 
+
+	end
+
 end
+
+
 tc = TaxCalculator.new("Sales tax") {|amt| amt * 0.075 } 
+
 tc.get_tax(100) # =&gt; "Sales tax on 100 = 7.5"
+
 tc.get_tax(250) # =&gt; "Sales tax on 250 = 18.75"
 </code></pre>
 
-<h5>调用方法</h5>
+<h5 id="section-2">调用方法</h5>
 
 <pre><code>connection.download_mp3("jitterbug") {|p| show_progress(p) } //对象
 
-File.size("testfile") # =&gt; 66           //类
+File.size("testfile") # =&gt; 66 			//类
 
 Math.sin(Math::PI/4) # =&gt; 0.7071067811865475    //Module
 </code></pre>
@@ -222,165 +291,265 @@ Math.sin(Math::PI/4) # =&gt; 0.7071067811865475    //Module
 <p>如果省略了receiver,默认是self</p>
 
 <pre><code>class InvoiceWriter
-        def initialize(order)
 
-        @order = order
-                end
-    def write_on(output)
-        write_header_on(output)
-        write_body_on(output)
-        write_totals_on(output)
-    end
+	def initialize(order)
 
-private     def write_header_on(output)
-    # ...
-    end
-    def write_body_on(output)
-    # ...
-    end
-    def write_totals_on(output)
-    # ...
-    end 
-end#####将参数传给方法
+	    @order = order
+	    
+	end
+
+	def write_on(output)
+
+	    write_header_on(output)
+
+	    write_body_on(output)
+
+	    write_totals_on(output)
+
+	end
+
+private
+	def write_header_on(output)
+
+	# ...
+
+	end
+
+	def write_body_on(output)
+
+	# ...
+
+	end
+
+	def write_totals_on(output)
+
+	# ...
+
+	end 
+
+end
 </code></pre>
+
+<h5 id="section-3">将参数传给方法</h5>
 
 <p>在不引起歧义的情况下，你可以省略括号，不过通常不推荐这么做</p>
 
 <pre><code># for some suitable value in 
+
 obj: a = obj.hash # Same as
+
 a = obj.hash() # this.
+
 obj.some_method "Arg1", arg2, arg3 # Same thing as //1.8之前
-obj.some_method("Arg1", arg2, arg3) # with parentheses. 如果你将多个参数传给return语句，方法将会以数组的形式返回这些参数
-def meth_three 100.times do |num|
+
+obj.some_method("Arg1", arg2, arg3) # with parentheses.
+</code></pre>
+
+<p>如果你将多个参数传给return语句，方法将会以数组的形式返回这些参数</p>
+
+<pre><code>def meth_three 100.times do |num|
+
    square = num*num
+
 return num, square if square &gt; 1000 end
+
 end
+
 meth_three # =&gt; [32, 1024]
 </code></pre>
 
 <p>你可以按以下方式来获取返回的值</p>
 
 <pre><code>num, square = meth_three 
+
 num # =&gt; 32
-square # =&gt; 1024    
+
+square # =&gt; 1024	
 </code></pre>
 
-<h5>*!在方法调用中展开Collections</h5>
+<h5 id="collections">*!在方法调用中展开Collections</h5>
 
 <pre><code>def five(a, b, c, d, e)
-    "I was passed #{a} #{b} #{c} #{d} #{e}"
+
+	"I was passed #{a} #{b} #{c} #{d} #{e}"
+
 end
+
 five(1,2,3,4,5) #=&gt;"Iwaspassed12345" 
+
 five(1, 2, 3, *['a', 'b']) # =&gt; "I was passed 1 2 3 a b" 
+
 five(*['a', 'b'], 1, 2, 3) # =&gt; "I was passed a b 1 2 3" five(*(10..14)) 
+
 #=&gt;"Iwaspassed1011121314" 
-five(*[1,2], 3, *(4..5)) #=&gt;"Iwaspassed12345"
+
+five(*[1,2], 3, *(4..5)) #=&gt;"Iwaspassed12345" Ruby 1.9中， 带*参数可以出现参数列表中的任意位置
 </code></pre>
 
-<p>Ruby 1.9中， 带*参数可以出现参数列表中的任意位置</p>
-
-<h5>Block的妙用</h5>
+<h5 id="block">Block的妙用</h5>
 
 <p>先来看一段代码</p>
 
 <pre><code>print "(t)imes or (p)lus: " operator = gets
+
 print "number: "
+
 number = Integer(gets)
+
 if operator =~ /^t/
+
 puts((1..10).collect {|n| n*number }.join(", "))
+
 else
+
 puts((1..10).collect {|n| n+number }.join(", ")) 
+
 end
+
 produces:
+
 (t)imes or (p)lus: t
+
 number: 2
+
 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
 </code></pre>
 
 <p>以上的代码能工作，但是很丑陋，我们注意到if和else的语句几乎一样，可以用block来改进如下</p>
 
 <pre><code>print "(t)imes or (p)lus: " 
+
 operator = gets
+
 print "number: "
+
 number = Integer(gets)
+
 if operator =~ /^t/
+
 calc = lambda {|n| n*number }
+
 else
+
   calc = lambda {|n| n+number }
+
 end
+
 puts((1..10).collect(&amp;calc).join(", "))
+
 produces:
+
 (t)imes or (p)lus: t
+
 number: 2
+
 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
 </code></pre>
 
 <p>如果方法的最后一个参数是以&amp;开头的，则Ruby认为它是一个Proc对象，方法将它移除出参数列表，然后将Proc对象转为block，再与方法关联</p>
 
-<h5>Hash and Keyword Arguments</h5>
-
+<h5 id="hash-and-keyword-arguments">Hash and Keyword Arguments</h5>
 <p>先来看一段代码</p>
 
 <pre><code>class SongList
-    def search(field, params)
-        # ...
-        end 
+
+	def search(field, params)
+
+	# ...
+
+	end 
+
 end
+
 list = SongList.new
+
 list.search(:titles, { genre: "jazz", duration_less_than: 270 })
 </code></pre>
 
-<p>实际上这种方式不值得推荐，{}很容易让人误认为是一个block，所以Ruby提供了一个捷径，在参数列表中你可以传入key => value这种形式,只要它们跟在正常的参数之后，在任何的*和block参数之前，所有的这些键值对都将被组装成一个hash参数传入方法中,可以略去{}</p>
+<p>实际上这种方式不值得推荐，{}很容易让人误认为是一个block，所以Ruby提供了一个捷径，在参数列表中你可以传入key =&gt; value这种形式,只要它们跟在正常的参数之后，在任何的*和block参数之前，所有的这些键值对都将被组装成一个hash参数传入方法中,可以略去{}	</p>
 
 <pre><code>list.search(:titles, genre: "jazz", duration_less_than: 270)
 </code></pre>
 
-<h5>Keyword Argument Lists</h5>
-
+<h5 id="keyword-argument-lists">Keyword Argument Lists</h5>
 <p>我们仔细研究一下search方法，它接受一个field的名字和一个options hash,也许我们想要默认的duration为120s，并且加入验证方法-非法的验证不让它通过</p>
 
 <p>Ruby 2.0之前，代码是这么写的</p>
 
 <pre><code>def search(field, options)
-    options = { duration: 120 }.merge(options) 
-    if options.has_key?(:duration)
-        duration = options[:duration]
-        options.delete(:duration)
-    end
-    if options.has_key?(:genre)
-        genre = options[:genre]
-        options.delete(:genre)
-    end
-    fail "Invalid options: #{options.keys.join(', ')}" unless options.empty? 
-    # rest of method
-end 如果是Ruby 2.0，可以简化为以下
-def search(field, genre: nil, duration: 120) 
-    p [field, genre, duration ]
-end search(:title)
+
+	options = { duration: 120 }.merge(options) 
+
+	if options.has_key?(:duration)
+
+	    duration = options[:duration]
+
+	    options.delete(:duration)
+
+	end
+
+	if options.has_key?(:genre)
+
+	    genre = options[:genre]
+
+	    options.delete(:genre)
+
+	end
+
+	fail "Invalid options: #{options.keys.join(', ')}" unless options.empty? 
+
+	# rest of method
+
+end
+</code></pre>
+
+<p>如果是Ruby 2.0，可以简化为以下</p>
+
+<pre><code>def search(field, genre: nil, duration: 120) 
+
+	p [field, genre, duration ]
+
+end
+
+search(:title)
+
 search(:title, duration: 432)
+
 search(:title, duration: 432, genre: "jazz")
+
 produces:
+
 [:title, nil, 120]
+
 [:title, nil, 432]
+
 [:title, "jazz", 432]
 </code></pre>
 
 <p>如果传入的是一个非法选项，Ruby将会报错</p>
 
 <pre><code>search(:title, duraton: 432)
+
 produces:
-//是duration，不是duraton!  prog.rb:5:in `&lt;main&gt;': unknown keyword: duraton (ArgumentError)
+//是duration，不是duraton!
+prog.rb:5:in `&lt;main&gt;': unknown keyword: duraton (ArgumentError)
 </code></pre>
 
 <p>你也可以将多个hash参数整合为一个hash参数，只要在方法的参数列表里在某参数的前面加<code>两个</code>星号</p>
 
 <pre><code>def search(field, genre: nil, duration: 120, **rest) 
-    p [field, genre, duration, rest ]
+
+	p [field, genre, duration, rest ]
+
 end
+
 search(:title, duration: 432, stars: 3, genre: "jazz", tempo: "slow") 
+
 produces:
+
 [:title, "jazz", 432, {:stars=&gt;3, :tempo=&gt;"slow"}]
 </code></pre>
+
 </div>
 
 </article>

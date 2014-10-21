@@ -91,7 +91,7 @@
 	<h1 class="title" itemprop="name">C++ &amp; Objective C</h1>
 	<div class="entry-content" itemprop="articleBody"><p>译自<a href="http://paralaxer.com/cpp-vs-objective-c/">C++ vs Objective C</a></p>
 
-<h2>C++ 是一辆手动档汽车</h2>
+<h2 id="c-">C++ 是一辆手动档汽车</h2>
 
 <p>如果说object C是一辆自动档汽车，那么C++就是一辆手动档的汽车</p>
 
@@ -101,7 +101,7 @@
 
 <p>比如，C++在解引用指针前不检查指针(是否为空或有效)来节省时间，这提升了你游戏的运行速度,给了你更多的掌控，同时它也使得你必须在debug模式下使用用assert</p>
 
-<h2>发送消息给空对象</h2>
+<h2 id="section">发送消息给空对象</h2>
 
 <p>我们来看一下ObjC和C++的一个最根本的区别之一</p>
 
@@ -109,7 +109,7 @@
 
 <pre><code>// in Objective C
 Node* node = nil;
-
+ 
 // this will not crash, it will just do nothing
 [node setPosition:Point(10,10)];
 </code></pre>
@@ -145,8 +145,7 @@ assert(node);
 
 <p>由于断言通常被定义为宏,用它的一个好处是在发布模式下(或者其他任何定义了NDEBUG的模式中)，此断言宏不做任何事情,本质上,编译器不会为它产生任何二进制的代码，这样，在debug模式时，你就可以放心地用它,同时,也保证了发布模式下的程序运行速度(由于针对assert的二进制代码被忽略掉了)</p>
 
-<h2>可读性</h2>
-
+<h2 id="section-1">可读性</h2>
 <p>我们来看看两者的另一个基本的区别,Object C生来就比C++有更好的可读性,因为方法的参数名称也集成到了方法名中</p>
 
 <pre><code>// Objective C
@@ -168,7 +167,7 @@ layer-&gt;addChild(sprite, 1);
 layer-&gt;addChild(sprite, z);
 </code></pre>
 
-<h2>速度和可移植性</h2>
+<h2 id="section-2">速度和可移植性</h2>
 
 <p>我们已经讨论了C++为何比Objective C更快,那么可移植性呢,这才是C++闪光的地方</p>
 
@@ -184,8 +183,7 @@ layer-&gt;addChild(sprite, z);
 
 <p>除了速度，可移植性和可读性，我们来看看更具体的区别,比如oc的dClass和id类型</p>
 
-<h2>Class和id类型</h2>
-
+<h2 id="classid">Class和id类型</h2>
 <p>OC有一个叫Class类型的实现,它允许你获得对象的类并且将你存储在一个变量中.</p>
 
 <p>C++并没有相应的Class类型的实现方式，但它有一个叫做运行时类型信息(RTTI)的东西,可以粗略地将一个指针转换为一个字符串,这个字符串包含有一个以<a href="http://www.cplusplus.com/reference/typeinfo/type_info/">typeid</a>表示的对象类,不过,由于各个平台的转换结果不同,这种解决方式似乎并不可靠</p>
@@ -208,7 +206,7 @@ if( string == "Hammer" )
 
 <p>你可以看到以上代码中我们用了ObjC的id类型,它本质上是一个指向对象类型的指针,大致相当于C++中的void*,但仍有不用两者的许多理由</p>
 
-<h2>惰性</h2>
+<h2 id="section-3">惰性</h2>
 
 <p>假设有一个叫做Parent的父类,有一个继续它的Child子类，同时有一个叫做goToSleep的方法</p>
 
@@ -253,7 +251,7 @@ void Child::goToSleep() {}
 
 <p>C++之所以迫使程序员重新定义被重写的函数的原因是因为这么做可以让编译器的工作变得更加容易，编辑器无需因为一些神秘的方法去检查类的继承关系</p>
 
-<h2>虚函数</h2>
+<h2 id="section-4">虚函数</h2>
 
 <p>在以上的例子中,我们看到了C++中virtual关键字的使用,当virtual被用在函数时，位于继承层次中最低的那个类有最高的优先级调用此函数(比如以上例子中，Child的goToSleep先被调用)</p>
 
@@ -261,7 +259,7 @@ void Child::goToSleep() {}
 
 <p>另外，如前所述，C++相当于手动档汽车,你可以根据需要指定或不指定函数为virtual</p>
 
-<h2>栈</h2>
+<h2 id="section-5">栈</h2>
 
 <p>在OC中，你只能在堆上分配对象
 在C++中，你可以在栈上分配对象，有栈上创建对象比在堆上创建快，同时也保证了，对象超出相应的作用范围时析构函数能被调用,即便在已经抛出异常的情况下</p>
@@ -277,9 +275,8 @@ Tool* tool = [[Tool alloc] init];
 Tool tool;
 </code></pre>
 
-<h2>运算符重载</h2>
-
-<p>在C++中，你可以重载运算符,比如，如果你写了一个Vector对象,你可以重载&#8221;+&ldquo;符号,这样Vector的对象就能进行相加的运算了</p>
+<h2 id="section-6">运算符重载</h2>
+<p>在C++中，你可以重载运算符,比如，如果你写了一个Vector对象,你可以重载”+”符号,这样Vector的对象就能进行相加的运算了</p>
 
 <pre><code>// C++
 class Vector
@@ -309,7 +306,7 @@ NSString* a = @"something";
 NSString* b = @"else";
 if( [a isEqualToString:b] )
    [self doSomething];
-
+   
 // C++
 string a = "something";
 string b = "else";
@@ -317,7 +314,7 @@ if( a == b )
    doSomething();
 </code></pre>
 
-<h2>私有性</h2>
+<h2 id="section-7">私有性</h2>
 
 <p>OC在技术上是没有私有方法的，不过我们可以在.m文件中定义一个空的类别，并在此空的类别中定义此方法(来模拟私有方法),达种方法是很优雅的,因为这样一来私有方法就无需在公共接口中声明了(因此由于头文件的变化，你的代码将会重新进行索引和编译)</p>
 
@@ -338,7 +335,7 @@ if( a == b )
 
 <p>如果你确实不想在公有接口中声明私有的方法，你可以采用在.m文件中声明静态函数的形式来避免它(这和之前提到的OC的空类别有点类似)</p>
 
-<h2>类扩展</h2>
+<h2 id="section-8">类扩展</h2>
 
 <p>如上例所示，OC可以用一个类别来扩展一个类</p>
 
@@ -346,9 +343,8 @@ if( a == b )
 
 <p>技术上C++是不能扩展一个类的，不过它有<a href="http://www.cprogramming.com/tutorial/multiple_inheritance.html">多继承</a></p>
 
-<h2>默认参数</h2>
-
-<p>C++还有一个很cool的地方:默认参数.函数中的参数可以有一个默认值,这样我们可以选择在调用函数时是否给此参数传值</p>
+<h2 id="section-9">默认参数</h2>
+<p>C++还有一个很cool的地方:默认参数.函数中的参数可以有一个默认值,这样我们可以选择在调用函数时是否给此参数传值 </p>
 
 <pre><code>// C++
 class Something
@@ -376,7 +372,7 @@ s.doSomething(5, 1.0f);
    {
       [self doSomething:i withF:0.0f];
    }
-
+   
    -(void) doSomething:(int)i withF:(float)f
    {
       // do something with i and f...
@@ -391,8 +387,7 @@ Something* s = [[Something alloc] init];
 [s doSomething:5 withF:1.0f];
 </code></pre>
 
-<h2>结论:混合使用C++和OC</h2>
-
+<h2 id="coc">结论:混合使用C++和OC</h2>
 <p>以上就是C++和OC的主要区别
 需要记住两者总是可以共存的，实际上你可以采用<a href="http://en.wikipedia.org/wiki/Objective-C#Objective-C.2B.2B">Objecttive C++</a>的使用来让两者共存</p>
 
@@ -404,7 +399,7 @@ Something* s = [[Something alloc] init];
    {
       // Do some Objective C stuff
       window = [[Window alloc] initWithContentRect:...];
-
+      
       // Now switch to C++ and launch Cocos2dx
       Application::getInstance()-&gt;run();
    }

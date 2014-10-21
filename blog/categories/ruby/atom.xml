@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T18:58:31+08:00</updated>
+  <updated>2014-10-21T19:51:25+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -18,49 +18,91 @@
     <link href="http://xiekunRonaldo.github.io/blog/2014/07/30/fibers-threads-processes/"/>
     <updated>2014-07-30T15:42:25+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/07/30/fibers-threads-processes</id>
-    <content type="html"><![CDATA[<p>Ruby gives you two basic ways to organize your program so that you can run different parts of it apparently “at the same time.” Fibers let you suspend execution of one part of your program and run some other part. For more decoupled execution, you can split up cooper- ating tasks within the program, using multiple threads, or you can split up tasks between different programs, using multiple processes. Let’s look at each in turn.####Fibers
-Ruby 1.9引入了fibers的概念,尽管名字意味着某种轻量级的线程，实际上，fibers仅仅是一种非常简单的coroutine机制，它能让你写一些看起来用了线程的程序，实际上没有引发任何线程中内在的复杂机制
-计算一个文件中单词的出现次数，不用fibers版本</p>
+    <content type="html"><![CDATA[<p>Ruby gives you two basic ways to organize your program so that you can run different parts of it apparently “at the same time.” Fibers let you suspend execution of one part of your program and run some other part. For more decoupled execution, you can split up cooper- ating tasks within the program, using multiple threads, or you can split up tasks between different programs, using multiple processes. Let’s look at each in turn.</p>
+
+<h4 id="fibers">Fibers</h4>
+
+<p>Ruby 1.9引入了fibers的概念,尽管名字意味着某种轻量级的线程，实际上，fibers仅仅是一种非常简单的coroutine机制，它能让你写一些看起来用了线程的程序，实际上没有引发任何线程中内在的复杂机制</p>
+
+<p>计算一个文件中单词的出现次数，不用fibers版本</p>
 
 <pre><code>counts = Hash.new(0) 
+
 File.foreach("testfile") do |line|
-    line.scan(/\w+/) do |word| 
-    word = word.downcase 
-    counts[word] += 1
-    end 
+
+	line.scan(/\w+/) do |word| 
+
+	word = word.downcase 
+
+	counts[word] += 1
+
+	end 
+
 end
+
 counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
+
 produces:
-and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1这段代码非常的ugly,它混合了查找word和计算word两种逻辑,来看看用Fiber的方法
-words = Fiber.new do 
-    File.foreach("testfile") do |line|          line.scan(/\w+/) do |word| 
-        Fiber.yield word.downcase
-        end 
-    end     nil ￼end
+
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
+</code></pre>
+
+<p>这段代码非常的ugly,它混合了查找word和计算word两种逻辑,来看看用Fiber的方法</p>
+
+<pre><code>words = Fiber.new do 
+
+	File.foreach("testfile") do |line|
+		line.scan(/\w+/) do |word| 
+
+		Fiber.yield word.downcase
+
+		end 
+
+	end
+	nil
+￼end
+
 counts = Hash.new(0)
+
 while word = words.resume 
-    counts[word] += 1
+
+	counts[word] += 1
+
 end
+
 counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
+
 produces:
+
 and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
 </code></pre>
 
 <p>再来看一个demo</p>
 
 <pre><code>twos = Fiber.new do 
-    num = 2     loop do         Fiber.yield(num) unless num % 3 == 0 
-        num += 2
-        end 
-    end 10.times { print twos.resume, " " } 
+
+	num = 2
+	loop do
+		Fiber.yield(num) unless num % 3 == 0 
+
+		num += 2
+
+		end 
+
+	end
+10.times { print twos.resume, " " } 
+
 produces:
+
 2 4 8 10 14 16 20 22 26 28
 </code></pre>
 
-<p>以上也可以用之前提到的lazy Enumberators中实现由于fibers也是对象，你可以将它们存储在变量中，并且fibers只能在创建它们的线程中resume
+<p>以上也可以用之前提到的lazy Enumberators中实现
+由于fibers也是对象，你可以将它们存储在变量中，并且fibers只能在创建它们的线程中resume
 fibers can yield control only back to the code that resumed them,不过Ruby提供了两种标准库来拓展这种行为fiber库和continuation库</p>
 
-<h4>多线程</h4>
+<h4 id="section">多线程</h4>
+
 ]]></content>
   </entry>
   
@@ -77,44 +119,66 @@ fibers can yield control only back to the code that resumed them,不过Ruby提�
 name = gets
 </code></pre>
 
-<p>一系列I/O相关的方法在Kernel module里实现gets, open, print, printf, putc, puts, readline, readlines, 和 test,这些方法通常都与标准输入，标准输出有关
-第二个则是与IO对象交互
-IO类，有两个子类File和BasicSocket</p>
+<p>一系列I/O相关的方法在Kernel module里实现gets, open, print, printf, putc, puts, readline, readlines, 和 test,这些方法通常都与标准输入，标准输出有关</p>
 
-<h5>开头文件</h5>
+<p>第二个则是与IO对象交互</p>
+
+<p>IO类，有两个子类File和BasicSocket</p>
+
+<h5 id="section">开头文件</h5>
 
 <pre><code>file = File.new("testfile", "r") 
+
 # ... process the file 
+
 file.close
 </code></pre>
 
 <p>File与Block</p>
 
 <pre><code>File.open("testfile", "r") do |file| 
-    # ... process the file
-end # &lt;- file automatically closed here与exception结合
-class File
-    def File.open(*args)
-        result = f = File.new(*args) 
-            if block_given?
-                begin
-                    result = yield f
-                ensure
-                    f.close
-                end 
-            end
-            result
-            end 
+
+	# ... process the file
+
+end # &lt;- file automatically closed here
+</code></pre>
+
+<p>与exception结合</p>
+
+<pre><code>class File
+
+	def File.open(*args)
+
+		result = f = File.new(*args) 
+
+		if block_given?
+
+			begin
+
+				result = yield f
+
+			ensure
+
+				f.close
+
+			end 
+
+		end
+
+		result
+
+		end 
+
 end
 </code></pre>
 
-<h5>读写文件</h5>
-
+<h5 id="section-1">读写文件</h5>
 <p>来看一段copy.rb代码</p>
 
 <pre><code>while line = gets 
 
-    puts line
+	puts line
+
 end
 </code></pre>
 
@@ -130,99 +194,154 @@ that I am typing
 
 that I am typing 
 
-^D
-</code></pre>
+^D 如果带文件名，则与文件交互
 
-<p>如果带文件名，则与文件交互</p>
-
-<pre><code>$ ruby copy.rb testfile 
+$ ruby copy.rb testfile 
 
 This is line one
+
 This is line two
+
 This is line three
+
 And so on...
 </code></pre>
 
 <p>我们可以用File类来读写文件</p>
 
 <pre><code>File.open("testfile") do |file| 
-    while line = file.gets          puts line       end 
+
+	while line = file.gets
+		puts line
+	end 
+
 end
-    produces:
+
+
+produces:
+
 This is line one
+
 This is line two
+
 This is line three
+
 And so on...
 </code></pre>
 
-<h5>Iterators for Reading</h5>
+<h5 id="iterators-for-reading">Iterators for Reading</h5>
 
-<p>你可以用各种iterators与IO流交互
-O#each_byte invokes a block with the next 8-bit byte from the IO object,chr则将integer转化为ASCII字符</p>
+<p>你可以用各种iterators与IO流交互</p>
+
+<p>O#each_byte invokes a block with the next 8-bit byte from the IO object,chr则将integer转化为ASCII字符</p>
 
 <pre><code>File.open("testfile") do |file| 
-    file.each_byte.with_index do |ch, index|
-        print "#{ch.chr}:#{ch} "
-        break if index &gt; 10 
-    end
+
+	file.each_byte.with_index do |ch, index|
+
+		print "#{ch.chr}:#{ch} "
+
+		break if index &gt; 10 
+
+	end
+
 end
+
 produces:
+
 T:84 h:104 i:105 s:115  :32 i:105 s:115  :32 l:108 i:105 n:110 e:101
 </code></pre>
 
 <p>IO#each_line</p>
 
 <pre><code>File.open("testfile") do |file|
-    file.each_line {|line| puts "Got #{line.dump}" }
+
+	file.each_line {|line| puts "Got #{line.dump}" }
+
 end
+
 produces:
+
 Got "This is line one\n"
+
 Got "This is line two\n"
+
 Got "This is line three\n"
+
 Got "And so on...\n"
 </code></pre>
 
 <p>你也可以将一串字符传给each_line来作为一个line separator,默认是\n</p>
 
 <pre><code>File.open("testfile") do |file|
-    file.each_line("e") {|line| puts "Got #{ line.dump }" }
+
+	file.each_line("e") {|line| puts "Got #{ line.dump }" }
+
 end
+
 produces:
+
 Got "This is line"
+
 Got " one"
+
 Got "\nThis is line"
+
 Got " two\nThis is line"
+
 Got " thre"
+
 Got "e"
+
 Got "\nAnd so on...\n"
 </code></pre>
 
 <p>combine iterator和autoclosing block,我们得到了IO.foreach,这个方法打开文件，调用iterator一次一行，然后自动关闭文件</p>
 
-<pre><code>IO.foreach("testfile") {|line| puts line }将整个文件文件的内容保存在一个string或每行保存在一个数组里
-//保存在string中
+<pre><code>IO.foreach("testfile") {|line| puts line }
+</code></pre>
+
+<p>将整个文件文件的内容保存在一个string或每行保存在一个数组里</p>
+
+<pre><code>//保存在string中
+
 # read into string
+
 str = IO.read("testfile")
+
 str.length # =&gt; 66
+
 str[0, 30] # =&gt; "This is line one\nThis is line "
+
 
 //保存在array中
 
-# read into an array    arr = IO.readlines("testfile") 
+# read into an array
+arr = IO.readlines("testfile") 
+
 arr.length # =&gt; 4
+
 arr[0] # =&gt; "This is line one\n"
 </code></pre>
 
-<h4>写入文件</h4>
+<h4 id="section-2">写入文件</h4>
 
 <pre><code># Note the "w", which opens the file for writing
+
 File.open("output.txt", "w") do |file| 
+
 file.puts "Hello"
+
 file.puts "1 + 2 = #{1+2}"
+
 end
+
 # Now read the file in and print its contents to STDOUT
+
 puts File.read("output.txt")
+
 produces:
+
 Hello 1+2=3
 </code></pre>
 
@@ -231,113 +350,180 @@ Hello 1+2=3
 <pre><code>str1 = "\001\002\003" # =&gt; "\u0001\u0002\u0003" 
 
 str2 = ""
+
 str2 &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3 # =&gt; "\u0001\u0002\u0003" 
+
 [ 1, 2, 3 ].pack("c*") # =&gt; "\x01\x02\x03"
 </code></pre>
 
-<p>你也可以用&lt;&lt;将对象添加到输出流中</p>
+<p>你也可以用«将对象添加到输出流中</p>
 
 <pre><code>endl = "\n"
+
 STDOUT &lt;&lt; 99 &lt;&lt; " red balloons" &lt;&lt; endl
+
 produces:
-99 red balloons 
+
+99 red balloons	
 </code></pre>
 
-<p>&lt;&lt;方法在打印前将用to_s将它的参数转为string</p>
-
-<h5>Doing I/O with StringsStringIO对象，它们操作起来就像I/O对象，但它们只是读写strings，而不是files</h5>
+<p>«方法在打印前将用to_s将它的参数转为string
+#####Doing I/O with Strings
+StringIO对象，它们操作起来就像I/O对象，但它们只是读写strings，而不是files</p>
 
 <pre><code>require 'stringio'
+
 ip = StringIO.new("now is\nthe time\nto learn\nRuby!")
+
 op = StringIO.new("", "w")
+
 ip.each_line do |line| 
-    op.puts line.reverse
+
+	op.puts line.reverse
+
 end
+
 op.string # =&gt; "\nsi won\n\nemit eht\n\nnrael ot\n!ybuR\n"
 </code></pre>
 
-<h4>Talking to Networkds</h4>
-
-<p>socekt库封装了TCP,UDP,SOCKS和Unix domainsockes require &lsquo;socket&rsquo;    client = TCPSocket.open(&lsquo;127.0.0.1&rsquo;, &lsquo;www&rsquo;)</p>
+<h4 id="talking-to-networkds">Talking to Networkds</h4>
+<p>socekt库封装了TCP,UDP,SOCKS和Unix domainsockes
+	require ‘socket’
+	client = TCPSocket.open(‘127.0.0.1’, ‘www’) </p>
 
 <pre><code>client.send("OPTIONS /~dave/ HTTP/1.0\n\n", 0) 
+
 puts client.readlines
+
 client.close
+
 produces:
+
 # 0 means standard packet
+
 HTTP/1.1 200 OK
+
 Date: Mon, 27 May 2013 17:31:00 GMT
+
 Server: Apache/2.2.22 (Unix) DAV/2 PHP/5.3.15 with Suhosin-Patch mod_ssl/2.2.22
+
 OpenSSL/0.9.8r
+
 Allow: GET,HEAD,POST,OPTIONS
+
 Content-Length: 0
+
 Connection: close
-Content-Type: text/html
-</code></pre>
 
-<p>在高层,lib/net library modules提供了对通信协议的许多支持(FTP, HTTP, POP, SMTP, and telnet)</p>
+Content-Type: text/html 在高层,lib/net library modules提供了对通信协议的许多支持(FTP, HTTP, POP, SMTP, and telnet)
 
-<pre><code>//以下只是一部分代码
+//以下只是一部分代码
 require 'net/http'
+
 http = Net::HTTP.new('pragprog.com', 80)
+
 response = http.get('/book/ruby3/programming-ruby-1-9')
+
 if response.message == "OK"
+
 puts response.body.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
+
 end
+
 produces:
+
        http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
+
        http://pragprog.com/assets/drm-
+
        free80-9120ffac998173dc0ba7e5875d082f18.png
+
        http://imagery.pragprog.com/products/99/ruby3_xlargecover.jpg?
-       1349967653open-url库中的Object#open方法能识别文件中的http://和ftp://URLs,也能自动处理重定向 
+
+       1349967653 open-url库中的Object#open方法能识别文件中的http://和ftp://URLs,也能自动处理重定向 
+
 require 'open-uri'
+
 open('http://pragprog.com') do |f|
+
 puts f.read.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
+
 end
+
 produces:
+
        http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
+
        http://pragprog.com/assets/drm-free80-9120ffac998173dc0ba7e5875d082f18.png
+
        http://imagery.pragprog.com/products/353/jvrails2_xlargebeta.jpg?1368826914
 </code></pre>
 
-<h4>Parsing HTML</h4>
+<h4 id="parsing-html">Parsing HTML</h4>
 
 <pre><code>require 'open-uri'
+
 page = open('http://pragprog.com/titles/ruby3/programming-ruby-1-9').read 
+
 if page =~ %r{&lt;title&gt;(.*?)&lt;/title&gt;}m
-    puts "Title is #{$1.inspect}" 
+
+	puts "Title is #{$1.inspect}" 
+
 end
+
 produces:
+
        Title is "The Pragmatic Bookshelf | Programming Ruby 1.9"
 </code></pre>
 
 <p>但用此法不太妥当，可能title和尖括号间多个个空格如何是好，可以用第三方库Nokogiri</p>
 
 <pre><code>require 'open-uri' 
+
 require 'nokogiri'
+
 doc = Nokogiri::HTML(open("http://pragprog.com/"))
+
 puts "Page title is " + doc.xpath("//title").inner_html
+
 # Output the first paragraph in the div with an id="copyright" 
+
 # (nokogiri supports both xpath and css-like selectors)
+
 puts doc.css('div#copyright p')
+
 # Output the second hyperlink in the site-links div using xpath and css
+
 puts "\nSecond hyperlink is"
+
 puts doc.xpath('id("site-links")//a[2]') puts doc.css('#site-links a:nth-of-type(2)')
+
 produces:
+
 Page title is The Pragmatic Bookshelf
 &lt;p&gt;
+
     The &lt;em&gt;Pragmatic BookshelfTM&lt;/em&gt; is an imprint of
+
         &lt;a href="http://pragprog.com/"&gt;The Pragmatic Programmers, LLC&lt;/a&gt;.
+
     &lt;br&gt;
+
     Copyright © 1999–2013 The Pragmatic Programmers, LLC.
+
     All Rights Reserved.
+
 &lt;/p&gt;
+
 Second hyperlink is
+
 &lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
+
 &lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
 </code></pre>
 
 <p>Nokogiri can also update and create HTML and XML.</p>
+
 ]]></content>
   </entry>
   
@@ -346,8 +532,7 @@ Second hyperlink is
     <link href="http://xiekunRonaldo.github.io/blog/2014/07/30/exceptions-catch-throw/"/>
     <updated>2014-07-30T11:52:27+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/07/30/exceptions-catch-throw</id>
-    <content type="html"><![CDATA[<h4>The Exception Class</h4>
-
+    <content type="html"><![CDATA[<h4 id="the-exception-class">The Exception Class</h4>
 <p>异常的信息被封装进了Exception类的对象或者Exception类的子类对象里,Ruby预定义了exceptions的hierarchy,如下</p>
 
 <p><img src="/images/2014/7/exception_hierarchy.png"></p>
@@ -358,12 +543,17 @@ Second hyperlink is
 这是有一个用open-url的库来下载一个网页的内容并将它写入一个文件中的demo</p>
 
 <pre><code>require 'open-uri'
+
 web_page = open("http://pragprog.com/podcasts") 
+
 output = File.open("podcasts.html", "w")
+
 while line = web_page.gets
 
 output.puts line
+
 end
+
 output.close
 </code></pre>
 
@@ -371,34 +561,45 @@ output.close
 我们看看如何处理异常的代码，我们将可能发生异常的代码放在begin/end的block中，然后用rescue语句来告诉Ruby我们想要捕获的异常类型</p>
 
 <pre><code>require 'open-uri'
+
 page = "podcasts"
+
 file_name = "#{page}.html"
+
 web_page = open("http://pragprog.com/#{page}") output = File.open(file_name, "w")
+
 begin
-    while line = web_page.gets output.puts line
+
+	while line = web_page.gets output.puts line
+
 end
+
 output.close 
+
 rescue Exception
-    STDERR.puts "Failed to download #{page}: #{$!}" output.close
-        File.delete(file_name)
-        raise
-end 
-</code></pre>
 
-<p>When an exception is raised and independent of any subsequent exception handling, Ruby places a reference to the associated exception object into the global variable $! (the exclamation point presumably mirroring our surprise that any of our code could cause errors). In the previous example, we used the $! variable to format our error message.
-关掉并删除文件后，我们可以调用无参的raise，这样又在$!里重新抛出了异常，抛到更高层去了
-还可以为捕获取的异常指定别名</p>
+	STDERR.puts "Failed to download #{page}: #{$!}" output.close
 
-<pre><code>begin
-    eval string
+	File.delete(file_name)
+
+	raise
+
+end	 When an exception is raised and independent of any subsequent exception handling, Ruby places a reference to the associated exception object into the global variable $! (the exclamation point presumably mirroring our surprise that any of our code could cause errors). In the previous example, we used the $! variable to format our error message. 关掉并删除文件后，我们可以调用无参的raise，这样又在$!里重新抛出了异常，抛到更高层去了 还可以为捕获取的异常指定别名
+
+begin
+
+	eval string
+
 rescue SyntaxError, NameError =&gt; boom
-    print "String doesn't compile: " + boom 
-rescue StandardError =&gt; bang
-    print "Error running script: " + bang 
-end
-</code></pre>
 
-<h5>System ErrorsSystem errors are raised when a call to the operating system returns an error code,On POSIX systems, these errors have names such as EAGAIN and EPERM. (If you’re on a Unix box, you could type man errno to get a list of these errors.)</h5>
+	print "String doesn't compile: " + boom 
+
+rescue StandardError =&gt; bang
+
+	print "Error running script: " + bang 
+
+end #####System Errors System errors are raised when a call to the operating system returns an error code,On POSIX systems, these errors have names such as EAGAIN and EPERM. (If you’re on a Unix box, you could type man errno to get a list of these errors.)
+</code></pre>
 
 <p>Ruby将这些错误打包成一个具体的exception的对象,每一个是SymstemCallError的子类，并且都定义在Errno module中,这意味着你将看到Excetion的类另如Errno::EAGAIN, Errno::EIO, 和Errno::EPERM,如果你想要获取system error code,每个Error exception类都有一个叫做Errno类常量</p>
 
@@ -416,11 +617,17 @@ Errno::EWOULDBLOCK::Errno # =&gt; 35
 <pre><code>f = File.open("testfile") 
 
 begin
+
 # .. process
+
 rescue
+
   # .. handle error
+
 ensure
+
 f.close
+
 end
 </code></pre>
 
@@ -431,54 +638,80 @@ end
 <pre><code>f = File.open("testfile") 
 
 begin
+
 # .. process
+
 rescue
+
   # .. handle error
+
 else
+
 puts "Congratulations-- no errors!" 
+
 ensure
+
 f.close
-end
-</code></pre>
 
-<p>注意else里的语句只有在无异发生时才会调用
-有时你能改正抛出异常的cause,此时可以用retry语句来重新执行begin/end的block</p>
+end 注意else里的语句只有在无异发生时才会调用 有时你能改正抛出异常的cause,此时可以用retry语句来重新执行begin/end的block
 
-<pre><code>@esmtp = true
+@esmtp = true
+
 begin
-    # First try an extended login. If it fails, fall back to a normal login
-    if @esmtp then @command.ehlo(helodom) 
-                    else @command.helo(helodom)
-        end
+
+	# First try an extended login. If it fails, fall back to a normal login
+
+	if @esmtp then @command.ehlo(helodom) 
+
+				else @command.helo(helodom)
+
+	end
+
 rescue ProtocolError
-    if @esmtp then
-            @esmtp = false
-            retry 
-        else
-            raise
-        end 
+
+	if @esmtp then
+
+	    @esmtp = false
+
+		retry 
+
+	else
+
+		raise
+
+	end 
+
 end
 </code></pre>
 
-<h5>Raising Exceptions</h5>
+<h5 id="raising-exceptions">Raising Exceptions</h5>
 
 <p>你可以用Object#raise方法来抛出异常</p>
 
-<pre><code>raise   //抛出当前的exception,如果没有，则抛出RuntimeError
-raise "bad mp3 encoding"    //创建一个新的RuntimeError,然后抛到调用栈上
+<pre><code>raise	//抛出当前的exception,如果没有，则抛出RuntimeError
 
-//创建InterfaceException，与之相关的信息，然后抛到stack trace上 raise InterfaceException, "Keyboard failure", caller
+raise "bad mp3 encoding"	//创建一个新的RuntimeError,然后抛到调用栈上
+
+//创建InterfaceException，与之相关的信息，然后抛到stack trace上
+raise InterfaceException, "Keyboard failure", caller
 </code></pre>
 
-<p>stack trace通常用Object#caller
-也可以将Exception抛给call stack一部分的子集
-假设我们定义了一个RetryException类</p>
+<p>stack trace通常用Object#caller</p>
+
+<p>也可以将Exception抛给call stack一部分的子集</p>
+
+<p>假设我们定义了一个RetryException类</p>
 
 <pre><code>class RetryException &lt; RuntimeError
-    attr :ok_to_retry
-        def initialize(ok_to_retry)
-                   @ok_to_retry = ok_to_retry
-        end 
+
+	attr :ok_to_retry
+
+	def initialize(ok_to_retry)
+
+	           @ok_to_retry = ok_to_retry
+
+	end 
+
 end
 </code></pre>
 
@@ -486,49 +719,88 @@ end
 
 <pre><code>def read_data(socket) 
 
-    data = socket.read(512) 
+	data = socket.read(512) 
 
-    if data.nil?
-    raise RetryException.new(true), "transient read error" 
-    end        # .. normal processing   endhigher up te call stack,我们处理异常
-begin        stuff = read_data(socket)        # .. process stuff    rescue RetryException =&gt; detail 
-    retry if detail.ok_to_retry 
-    raise   end
+	if data.nil?
+
+	raise RetryException.new(true), "transient read error" 
+
+	end
+    # .. normal processing
+end
 </code></pre>
 
-<h5>catch and throw</h5>
+<p>higher up te call stack,我们处理异常</p>
+
+<pre><code>begin
+    stuff = read_data(socket)
+    # .. process stuff
+rescue RetryException =&gt; detail 
+
+	retry if detail.ok_to_retry 
+
+	raise
+end
+</code></pre>
+
+<h5 id="catch-and-throw">catch and throw</h5>
 
 <pre><code>word_list = File.open("wordlist") 
+
 word_in_error = catch(:done) do
-        result = []
-        while line = word_list.gets
-    word = line.chomp
-    throw(:done, word) unless word =~ /^\w+$/ 
-        result &lt;&lt; word
-    end
-      puts result.reverse
+
+	result = []
+
+	while line = word_list.gets
+
+	word = line.chomp
+
+	throw(:done, word) unless word =~ /^\w+$/ 
+
+	result &lt;&lt; word
+
+	end
+
+	  puts result.reverse
+
 end
+
 if word_in_error
-    puts "Failed: '#{word_in_error}' found, but a word was expected" 
+
+	puts "Failed: '#{word_in_error}' found, but a word was expected" 
+
 end
 </code></pre>
 
 <p>throw不一定非要出现在catch语句里</p>
 
 <pre><code>def prompt_and_get(prompt)
-    print prompt
-    res = readline.chomp
-    throw :quit_requested if res == "!" 
-    res
+
+	print prompt
+
+	res = readline.chomp
+
+	throw :quit_requested if res == "!" 
+
+	res
+
 end
+
 catch :quit_requested do
-    name = prompt_and_get("Name: ") 
-    age = prompt_and_get("Age: ") 
-    sex = prompt_and_get("Sex: ") 
-    # ..
-    # process information
-end 
+
+	name = prompt_and_get("Name: ") 
+
+	age = prompt_and_get("Age: ") 
+
+	sex = prompt_and_get("Sex: ") 
+
+	# ..
+
+	# process information
+
+end
 </code></pre>
+
 ]]></content>
   </entry>
   
@@ -540,79 +812,117 @@ end
     <content type="html"><![CDATA[<p>显而易见的是我们可以chain statements</p>
 
 <pre><code>a = b = c = 0 # =&gt; 0
+
 [ 3, 1, 7, 0 ].sort.reverse # =&gt; [7, 3, 1, 0]
 </code></pre>
 
 <p>比如不明显的是，在C或Java中的语句在Ruby中通常是expressions,比如if和case语句都返回了最后一个表达式</p>
 
 <pre><code>song_type = if song.mp3_type == MP3::Jazz
-                if song.written &lt; Date.new(1935, 1, 1)
-                    Song::TradJazz
-                else
-                    Song::Jazz
-                end 
-            else
-                Song::Other
-            end
+
+				if song.written &lt; Date.new(1935, 1, 1)
+
+					Song::TradJazz
+
+				else
+
+					Song::Jazz
+
+				end 
+
+			else
+
+				Song::Other
+
+			end
+
 rating = case votes_cast
-￼         when 0...10     then Rating::SkipThisOne
-            when 10...50    then Rating::CouldDoBetter 
-            else    Rating::Rave
-         end
-</code></pre>
 
-<h5>Operator Expressions</h5>
+￼			when 0...10		then Rating::SkipThisOne
 
-<p>在Ruby中，许多operations是以方法调用的形式实现的，比如，当你写a*b+c时，实际上你是调用了a的方法<code>*</code>传入参数b,然后a<code>*</code>b的结果返回一个对象，我们再对其执行<code>+</code>的方法,然后将c作为参数传入,实际下相当于以下代码</p>
+			when 10...50 	then Rating::CouldDoBetter 
 
-<pre><code>a, b, c = 1, 2, 3
+			else	Rating::Rave
+
+		 end #####Operator Expressions 在Ruby中，许多operations是以方法调用的形式实现的，比如，当你写a*b+c时，实际上你是调用了a的方法`*`传入参数b,然后a`*`b的结果返回一个对象，我们再对其执行`+`的方法,然后将c作为参数传入,实际下相当于以下代码
+
+a, b, c = 1, 2, 3
+
 a * b + c # =&gt; 5
+
  (a.*(b)).+(c) # =&gt; 5
 </code></pre>
 
 <p>我们问题可以定义最基本的运算符操作</p>
 
 <pre><code>class Fixnum
+
 alias old_plus + # We can reference the original '+' as 'old_plus'
+
 def +(other) # Redefine addition of Fixnums. This is a BAD IDEA! 
+
 old_plus(other).succ
+
 end end
+
 1 + 2 # =&gt; 4 a=3
+
 a+=4 #=&gt;8 
-a + a + a # =&gt; 26    
+
+a + a + a # =&gt; 26	 
 </code></pre>
 
-<h6>&lt;&lt;操作符</h6>
+<h6 id="section">«操作符</h6>
 
 <pre><code>a = [ 1, 2, 3 ]
-    a&lt;&lt;4 #=&gt;[1,2,3,4]
+
+a&lt;&lt;4 #=&gt;[1,2,3,4]
 </code></pre>
 
-<p>我们也可以定义&lt;&lt;操作符方法</p>
+<p>我们也可以定义«操作符方法</p>
 
 <pre><code>class ScoreKeeper 
-    def initialize
-               @total_score = @count = 0
-        end
-        def &lt;&lt;(score)
-                   @total_score += score
-                   @count += 1
-                   self
-        end
-        def average
-            fail "No scores" if @count.zero?
-            Float(@total_score) / @count
-        end 
-end      
+
+	def initialize
+
+           @total_score = @count = 0
+
+	end
+
+	def &lt;&lt;(score)
+
+	           @total_score += score
+
+	           @count += 1
+
+	           self
+
+	end
+
+	def average
+
+		fail "No scores" if @count.zero?
+
+	    Float(@total_score) / @count
+
+	end 
+
+end
+     
 scores = ScoreKeeper.new
+
 scores &lt;&lt; 10 &lt;&lt; 20 &lt;&lt; 40
+
 puts "Average = #{scores.average}"
+
 produces:
+
        Average = 23.333333333333332
 </code></pre>
 
-<p>注意&lt;&lt;方法中返回了self，这样它就允许<code>scores &lt;&lt; 10 &lt;&lt; 20 &lt;&lt; 40</code>这样的形式
-<code>[]</code>也能被定义为一个方法调用，你可以这么写</p>
+<p>注意«方法中返回了self，这样它就允许<code>scores &lt;&lt; 10 &lt;&lt; 20 &lt;&lt; 40</code>这样的形式</p>
+
+<p><code>[]</code>也能被定义为一个方法调用，你可以这么写</p>
 
 <pre><code>some_obj[1,2,3]
 </code></pre>
@@ -620,125 +930,202 @@ produces:
 <p>我们可以这样定义</p>
 
 <pre><code>class SomeClass
-    def [](p1, p2, p3)
-        # ...
-        end
+
+	def [](p1, p2, p3)
+
+	# ...
+
+	end
+
 end
 </code></pre>
 
-<p>同样地，也可以定义<code>[]=</code>方法  class SomeClass</p>
+<p>同样地，也可以定义<code>[]=</code>方法</p>
 
-<pre><code>    def []=(*params)
-        value = params.pop
-        puts "Indexed with #{params.join(', ')}" 
-        puts "value = #{value.inspect}"
-    end
+<pre><code>class SomeClass 
+
+	def []=(*params)
+
+		value = params.pop
+
+		puts "Indexed with #{params.join(', ')}" 
+
+		puts "value = #{value.inspect}"
+
+	end
+
 end
+
 s = SomeClass.new
+
 s[1] = 2
+
 s['cat', 'dog'] = 'enemies'
+
 produces:
+
        Indexed with 1
+
        value = 2
+
        Indexed with cat, dog
-       value = "enemies"
+
+       value = "enemies" 从上面我们可以看到`[]`里的参数作为params的前n个数，而=右边的值为params的最后一个参数 #####各种各样的表达式 * Command Expression 以\`\`括起来的字符串或以%x开头的字符串被OS解析为一条bash命令,注意换行符还在
+
+	`date` # =&gt; "Mon May 27 12:30:56 CDT 2013\n" 
+
+	`ls`.split[34] # =&gt; "newfile"
+
+	%x{echo "hello there"} # =&gt; "hello there\n"
+
+	
+	for i in 0..3
+
+		status = `dbmanager status id=#{i}` # ...
+
+	end
 </code></pre>
 
-<p>从上面我们可以看到<code>[]</code>里的参数作为params的前n个数，而=右边的值为params的最后一个参数</p>
+<p>我们可以通过全局变量$?来查看命令的exit status</p>
 
-<h5>各种各样的表达式</h5>
+<h4 id="section-1">重定义`</h4>
 
-<ul>
-<li>Command Expression
-以``括起来的字符串或以%x开头的字符串被OS解析为一条bash命令,注意换行符还在
-      <code>date</code> # => &ldquo;Mon May 27 12:30:56 CDT 2013\n&rdquo;
-      <code>ls</code>.split[34] # => &ldquo;newfile&rdquo;
-          %x{echo &ldquo;hello there&rdquo;} # => &ldquo;hello there\n&rdquo;
-              for i in 0..3
-          status = <code>dbmanager status id=#{i}</code> # &hellip;
-      end
-我们可以通过全局变量$?来查看命令的exit status
+<p>以上我们得知``里的字符串默认被当作命令来执行，实际上，string是被当作参数传给了方法Object#`,如果你想，可以重写它，</p>
 
-<h4>重定义`</h4>
+<pre><code>alias old_backquote ` 
 
-以上我们得知``里的字符串默认被当作命令来执行，实际上，string是被当作参数传给了方法Object#`,如果你想，可以重写它，
-  alias old_backquote <code>
-      def</code>(cmd)
-          result = old_backquote(cmd)
-          if $? != 0
-              puts &ldquo;<strong><em> Command #{cmd} failed: status = #{$?.exitstatus}&rdquo;
-          end     result  end
-  print <code>ls -l /etc/passwd</code>
-  print <code>ls -l /etc/wibble</code>
-  produces:
-     -rw-r&mdash;r&mdash;  1 root  wheel  5086 Jul 20  2011 /etc/passwd
-     ls: /etc/wibble: No such file or directory
-     </em></strong> Command ls -l /etc/wibble failed: status = 1
+	def `(cmd)
 
-<h4>赋值</h4>
+	result = old_backquote(cmd) 
 
-<p>Ruby有两种形式的赋值，第一种是将对象的引用赋予一个变量或常量
-      instrument = &ldquo;piano&rdquo;
-  MIDDLE_A = 440
-第二种形式涉及到<code>having an object attribute or element reference on the left side.</code>这种形式是很特别的，因为它们通过在左值中调用方法来实现，也就是说你可以重写这些方法
-   class ProjectList
-       def initialize
-          @projects = []
-      end
-      def projects=(list)
-          @projects = list.map(&amp;:upcase) # store list of names in uppercase
-      end
-      def <a href="offset"></a>
-          @projects[offset]
-      end
-  end
-  list = ProjectList.new
-  list.projects = %w{ strip sand prime sand paint sand paint rub paint }
-  list[3] # => &ldquo;SAND&rdquo;
-  list[4] # => &ldquo;PAINT&rdquo;
-来看一段有意思的代码</p>
+	if $? != 0
 
-<p>  class Test
-      def val=(val)
-          @val = val
-          return 99
-      end
-  end</p>
+		puts "*** Command #{cmd} failed: status = #{$?.exitstatus}" 
 
-<p>  t = Test.new
-      result = (t.val = 2)
-  result
-以上的result会是什么值?
+	end
+	result
+end
+
+print `ls -l /etc/passwd`
+
+print `ls -l /etc/wibble`
+
+produces:
+
+   -rw-r--r--  1 root  wheel  5086 Jul 20  2011 /etc/passwd
+
+   ls: /etc/wibble: No such file or directory
+
+   *** Command ls -l /etc/wibble failed: status = 1
+</code></pre>
+
+<h4 id="section-2">赋值</h4>
+
+<p>Ruby有两种形式的赋值，第一种是将对象的引用赋予一个变量或常量</p>
+
+<pre><code>instrument = "piano" 
+
+MIDDLE_A = 440
+</code></pre>
+
+<p>第二种形式涉及到<code>having an object attribute or element reference on the left side.</code>这种形式是很特别的，因为它们通过在左值中调用方法来实现，也就是说你可以重写这些方法</p>
+
+<pre><code> class ProjectList 
+
+	 def initialize
+
+	    @projects = []
+
+	end
+
+	def projects=(list)
+
+		@projects = list.map(&amp;:upcase) # store list of names in uppercase 
+
+	end
+
+	def [](offset) 
+
+		@projects[offset]
+
+	end 
+
+end
+
+list = ProjectList.new
+
+list.projects = %w{ strip sand prime sand paint sand paint rub paint }
+
+list[3] # =&gt; "SAND"
+
+list[4] # =&gt; "PAINT" 来看一段有意思的代码
+
+class Test
+
+	def val=(val)
+
+		@val = val
+
+		return 99 
+
+	end
+
+end
+
+t = Test.new
+
+result = (t.val = 2)
+
+result
+</code></pre>
+
+<p>以上的result会是什么值?
 在Ruby的过去版本中，赋值方法的返回值<code>总量</code>return的值，而从Ruby1.8开始,返回值总是传入的参数值
-所以以上的result值如果在过去的版本中为99，但在1.8版本后则为2</p></li>
-</ul>
+所以以上的result值如果在过去的版本中为99，但在1.8版本后则为2</p>
 
-
-<h6>Parallel Assignment</h6>
+<h6 id="parallel-assignment">Parallel Assignment</h6>
 
 <pre><code>a,b=1,2 #a=1,b=2 
 
 a,b=b,a #b=2,a=1
+
 a=1,2,3,4 # a=[1,2,3,4] 
-    b=[1,2,3,4] # b=[1,2,3,4]   
+
+b=[1,2,3,4] # b=[1,2,3,4]	
+
 a,b=1,2,3,4 # a=1, b=2 
+
 c,=1,2,3,4 # c=1
 </code></pre>
 
-<h5>Splats and Assignment</h5>
+<h5 id="splats-and-assignment">Splats and Assignment</h5>
 
-<pre><code>a, b, c, d, e = *(1..2), 3, *[4, 5] # a=1, b=2, c=3, d=4, e=5       a,*b=1,2,3 # a=1, b=[2,3] a,*b=1 # a=1, b=[]
-*a,b=1,2,3,4        # a=[1,2,3], b=4
-c,*d,e=1,2,3,4      # c=1, d=[2,3], e=4
-f,*g,h,i,j=1,2,3,4  # f=1, g=[], h=2, i=3, j=4      first, *, last = 1,2,3,4,5,6 # first=1, last=6#####嵌套赋值
-a, (b, c), d = 1,2,3,4          # a=1, b=2, c=nil, d=3
-a, (b, c), d = [1,2,3,4]        # a=1, b=2, c=nil, d=3
-a, (b, c), d = 1,[2,3],4        # a=1, b=2, c=3, d=4
-a, (b, c), d = 1,[2,3,4],5      # a=1, b=2, c=3, d=5
-a, (b,*c), d = 1,[2,3,4],5      # a=1, b=2, c=[3, 4], d=5Ruby中木有++和--运算符
+<pre><code>a, b, c, d, e = *(1..2), 3, *[4, 5] # a=1, b=2, c=3, d=4, e=5
+ 	
+a,*b=1,2,3 # a=1, b=[2,3] a,*b=1 # a=1, b=[]
+
+*a,b=1,2,3,4 		# a=[1,2,3], b=4
+
+c,*d,e=1,2,3,4 		# c=1, d=[2,3], e=4
+
+f,*g,h,i,j=1,2,3,4	# f=1, g=[], h=2, i=3, j=4
+
+first, *, last = 1,2,3,4,5,6 # first=1, last=6 #####嵌套赋值
+
+a, (b, c), d = 1,2,3,4			# a=1, b=2, c=nil, d=3
+
+a, (b, c), d = [1,2,3,4] 		# a=1, b=2, c=nil, d=3
+
+a, (b, c), d = 1,[2,3],4 		# a=1, b=2, c=3, d=4
+
+a, (b, c), d = 1,[2,3,4],5 		# a=1, b=2, c=3, d=5
+
+a, (b,*c), d = 1,[2,3,4],5		# a=1, b=2, c=[3, 4], d=5
 </code></pre>
 
-<h4>Conditional Execution</h4>
+<p>Ruby中木有++和–运算符</p>
+
+<h4 id="conditional-execution">Conditional Execution</h4>
 
 <pre><code>var ||= "default value"
 </code></pre>
@@ -748,241 +1135,368 @@ a, (b,*c), d = 1,[2,3,4],5      # a=1, b=2, c=[3, 4], d=5Ruby中木有++和--运
 <pre><code>var = "default value" unless var 
 </code></pre>
 
-<h5>defined?</h5>
+<h5 id="defined">defined?</h5>
 
-<pre><code>defined? 1          # =&gt; "expression"
-defined? dummy      # =&gt; nil
-defined? printf     # =&gt; "method"
-defined? String     # =&gt; "contant"
-defined? $_         # =&gt; "global-variable"
+<pre><code>defined? 1			# =&gt; "expression"
+
+defined? dummy		# =&gt; nil
+
+defined? printf		# =&gt; "method"
+
+defined? String		# =&gt; "contant"
+
+defined? $_			# =&gt; "global-variable"
+
 defined? Math::PI # =&gt; "constant"
-defined? a = 1      # =&gt; "assignment"
-defined? 42.abs     # =&gt; "method"
-defined? nil        # =&gt; "nil"
+
+defined? a = 1 		# =&gt; "assignment"
+
+defined? 42.abs 	# =&gt; "method"
+
+defined? nil		# =&gt; "nil"
 </code></pre>
 
-<h5>Comparing Objects</h5>
+<h5 id="comparing-objects">Comparing Objects</h5>
 
-<p>除了boolean运算符，Ruby对象支持用方法==，===，&lt;=>, =~,eql?和equal?来比较,&lt;=>定义在Object类中,但通常被重写来实现类希望的语义,比如Array类重定义了==所以两个array对象只有在它们的元素个数一样，并且相应的元素也相等的情况下才真正的相等
-==和=~都有相应地否定形式,!=和!~,如果调用!=或!~,Ruby首先寻找此类的!=或!~,如果发现就调用它们，如果不发现，就调用==或=~,然后再对结果取反</p>
+<p>除了boolean运算符，Ruby对象支持用方法==，===，&lt;=&gt;, =~,eql?和equal?来比较,&lt;=&gt;定义在Object类中,但通常被重写来实现类希望的语义,比如Array类重定义了==所以两个array对象只有在它们的元素个数一样，并且相应的元素也相等的情况下才真正的相等</p>
+
+<p>==和=~都有相应地否定形式,!=和!~,如果调用!=或!~,Ruby首先寻找此类的!=或!~,如果发现就调用它们，如果不发现，就调用==或=~,然后再对结果取反</p>
 
 <pre><code>class T
-    def ==(other)
-            puts "Comparing self == #{other}"
-        other == "value" 
-        end
+
+	def ==(other)
+
+		puts "Comparing self == #{other}"
+
+	other == "value" 
+
+	end
+
 end
+
 t = T.new
+
 p (t == "value") 
+
 p (t != "value")
+
 produces:
+
 Comparing self == value
+
 true
+
 Comparing self == value
+
 false
 </code></pre>
 
-<p>以上调用<code>t != "value"</code>时,首先调用t = &ldquo;value&rdquo;,然后再对结果取反
+<p>以上调用<code>t != "value"</code>时,首先调用t = “value”,然后再对结果取反
 各操作符的意义如下</p>
 
 <p><img src="/images/2014/7/operator.png"></p>
 
-<h5>if and unless Expressions</h5>
-
+<h5 id="if-and-unless-expressions">if and unless Expressions</h5>
 <p>if then语句</p>
 
 <pre><code>if artist == "Gillespie" then handle = "Dizzy"
+
 elsif artist == "Parker" then handle = "Bird"
+
 else
+
 handle = "unknown" 
+
 end
 </code></pre>
 
 <p>关键字<code>then</code>是optional的，如果你想将语句多行排列的话</p>
 
 <pre><code>if artist == "Gillespie" 
-    handle = "Dizzy"
+
+	handle = "Dizzy"
+
 elsif artist == "Parker" 
-    handle = "Bird"
+
+	handle = "Bird"
+
 else
+
 handle = "unknown" 
+
 end
 </code></pre>
 
 <p>不过如果你想将then后对应的语句与if语句放在同一行，then是必不可少的!</p>
 
 <pre><code>if artist == "Gillespie" then handle = "Dizzy" 
+
 elsif artist == "Parker" then handle = "Bird" 
+
 else handle = "unknown"
+
 end
 </code></pre>
 
 <p>与if对应的是unless</p>
 
 <pre><code>unless duration &gt; 180 
-    listen_intently
+
+	listen_intently
+
 end
 </code></pre>
 
-<h5>if and unless Modifiers</h5>
+<h5 id="if-and-unless-modifiers">if and unless Modifiers</h5>
 
 <pre><code>mon, day, year = $1, $2, $3 if date =~ /(\d\d)-(\d\d)-(\d\d)/ 
+
 puts "a = #{a}" if $DEBUG
+
 print total unless total.zero?
+
 File.foreach("/etc/passwd") do |line|
+
 next if line =~ /^#/ # Skip comments 
+
 parse(line) unless line =~ /^$/ # Don't parse empty lines
+
 end
 </code></pre>
 
-<h5>case Expressions</h5>
-
+<h5 id="case-expressions">case Expressions</h5>
 <ul>
-<li>第一种形式
-      case
-          when song.name == &ldquo;Misty&rdquo;
-          puts &ldquo;Not again!&rdquo;
-          when song.duration > 120
-          puts &ldquo;Too long!&rdquo;
-          when Time.now.hour > 21
-          puts &ldquo;It&rsquo;s too late&rdquo;
-          else
-          song.play
-          end
+  <li>
+    <p>第一种形式</p>
 
-<ul>
-<li>第二种形式           case command
-  when &ldquo;debug&rdquo;
-    dump_debug_info
-    dump_symbols
-  when /p\s+(\w+)/
-  dump_variable($1)
-  when &ldquo;quit&rdquo;, &ldquo;exit&rdquo;
-  exit
+    <pre><code>  case
+
+  when song.name == "Misty"
+
+  puts "Not again!"
+
+  when song.duration &gt; 120
+
+  puts "Too long!"
+
+  when Time.now.hour &gt; 21
+
+  puts "It's too late" 
+
   else
-  print &ldquo;Illegal command: #{command}&rdquo;
-  end</li>
-</ul>
-</li>
-<li><p>第三种形式
-与then语句结合使用</p>
 
-<pre><code>  kind = case year
-  when 1850..1889 then "Blues"
-  when 1890..1909 then "Ragtime"
-  when 1910..1929 then "New Orleans Jazz" when 1930..1939 then "Swing"
-  else "Jazz"
+  song.play
+
   end
 </code></pre>
+  </li>
+  <li>
+    <p>第二种形式	</p>
 
-case的比较是用 <code>===</code>来比较的,所以，只要类为<code>===</code>定义了有意义的语义,此类的对象就能用在case语句中
-需要<code>注意</code>的是,ruby的类是<code>Class</code>类的对象，===已经在Class类中定义了，可以用来测试相应的argument是否是receiver的instance或它的superclasses之一，所以你可以测试对象的类
-  case shape
-  when Square, Rectangle
-  # &hellip;
-  when Circle
-  # &hellip;
-  when Triangle
-  # &hellip;
+    <pre><code>  case command 
+
+  when "debug"
+
+    dump_debug_info
+
+    dump_symbols 
+
+  when /p\s+(\w+)/
+
+  dump_variable($1) 
+
+  when "quit", "exit"
+
+  exit
+
   else
-  # &hellip;
+
+  print "Illegal command: #{command}" 
+
   end
+</code></pre>
+  </li>
+  <li>
+    <p>第三种形式
+与then语句结合使用</p>
 
-<h4>Loops</h4>
+    <pre><code>  kind = case year
 
-<p>while与until表达的意义相反
-  while line = gets # &hellip;
-  end   <br/>
-  until play_list.duration > 60</p>
+  when 1850..1889 then "Blues"
 
-<p>  play_list.add(song_list.pop)
+  when 1890..1909 then "Ragtime"
+
+  when 1910..1929 then "New Orleans Jazz" when 1930..1939 then "Swing"
+
+  else "Jazz"
+
   end
-  a=1
-  a*=2 whilea<100 a # => 128
-  a &ndash;= 10 until a &lt; 100 a # => 98</p></li>
+</code></pre>
+  </li>
 </ul>
 
+<p>case的比较是用 <code>===</code>来比较的,所以，只要类为<code>===</code>定义了有意义的语义,此类的对象就能用在case语句中</p>
+
+<p>需要<code>注意</code>的是,ruby的类是<code>Class</code>类的对象，===已经在Class类中定义了，可以用来测试相应的argument是否是receiver的instance或它的superclasses之一，所以你可以测试对象的类</p>
+
+<pre><code>case shape
+
+when Square, Rectangle
+
+# ...
+
+when Circle
+
+# ...
+
+when Triangle 
+
+# ...
+
+else
+
+# ...
+
+end
+</code></pre>
+
+<h4 id="loops">Loops</h4>
+
+<p>while与until表达的意义相反</p>
+
+<pre><code>while line = gets # ...
+
+end	
+
+until play_list.duration &gt; 60 
+
+play_list.add(song_list.pop)
+
+end
+
+a=1
+
+a*=2 whilea&lt;100 a # =&gt; 128
+
+a -= 10 until a &lt; 100 a # =&gt; 98
+</code></pre>
 
 <p>range用作条件语句</p>
 
 <pre><code>file = File.open("ordinal") 
+
 while line = file.gets
-    puts(line) if line =~ /third/ .. line =~ /fifth/ 
+
+	puts(line) if line =~ /third/ .. line =~ /fifth/ 
+
 end
+
 produces:
+
 third
+
 fourth
+
 fifth
 </code></pre>
 
 <p>range中的起始位置也可以是表达式</p>
 
-<pre><code>File.foreach("ordinal") do |line|       if (($. == 1) || line =~ /eig/) .. (($. == 3) || line =~ /nin/)     print line      end 
+<pre><code>File.foreach("ordinal") do |line|
+	if (($. == 1) || line =~ /eig/) .. (($. == 3) || line =~ /nin/)
+	print line
+	end 
+
 end
+
 produces:
+
 first
+
 second
+
 third
+
 eighth
-ninth如果你用`begin.....end`block，则不论while的条件语句是什么，都会`至少`执行一次
+
+ninth 如果你用`begin.....end`block，则不论while的条件语句是什么，都会`至少`执行一次
+
 print "Hello\n" while false 
+
 begin
-    print "Goodbye\n" 
+
+	print "Goodbye\n" 
+
 end while false
+
 produces:
+
 Goodbye
 </code></pre>
 
-<h4>Iterators</h4>
+<h4 id="iterators">Iterators</h4>
 
 <pre><code>3.times do
 
 print "Ho! "
+
 end
+
 produces:
+
 Ho! Ho! Ho!
 </code></pre>
 
 <p>upto有使用</p>
 
 <pre><code>0.upto(9) do |x|
+
 print x, " "
+
 end
+
 produces:
-0123456789step
+
+0123456789 step
+
 0.step(12, 3) {|x| print x, " " } 
+
 produces:
+
 0 3 6 9 12
 </code></pre>
 
 <p>array的遍历</p>
 
 <pre><code>[ 1, 1, 2, 3, 5 ].each {|val| print val, " " } 
+
 produces:
-11235
-</code></pre>
 
-<p>each</p>
+11235 each
 
-<pre><code>File.open("ordinal").grep(/d$/) do |line| 
+File.open("ordinal").grep(/d$/) do |line| 
 
-    puts line
+	puts line
+
 end
+
 produces:
+
 second
+
 third
 </code></pre>
 
 <p>loop的使用</p>
 
-<pre><code>loop do     # block ... end
-</code></pre>
+<pre><code>loop do
+	# block ...
+end for...in
 
-<p>for&hellip;in</p>
-
-<pre><code>for song in playlist
+for song in playlist
 
 song.play
+
 end
 </code></pre>
 
@@ -990,45 +1504,69 @@ end
 
 <pre><code>playlist.each do |song|
 
-    song.play
-end你可以将for....in用在任何定义了each的方法的类上
+	song.play
+
+end 你可以将for....in用在任何定义了each的方法的类上
+
 for i in File.open("ordinal").find_all {|line| line =~ /d$/} 
-    print i.chomp, " "
+
+	print i.chomp, " "
+
 end
 
+
+
 class Periods 
-    def each
-    yield "Classical" 
-    yield "Jazz" 
-    yield "Rock"
-    end 
+
+	def each
+
+	yield "Classical" 
+
+	yield "Jazz" 
+
+	yield "Rock"
+
+	end 
+
 end
+
 periods = Periods.new 
+
 for genre in periods
+
 print genre, " " end
+
 produces:
+
 Classical 
+
 Jazz 
+
 Rock
 </code></pre>
 
-<h5>break,redo,next</h5>
-
+<h5 id="breakredonext">break,redo,next</h5>
 <p>break和next后面可以跟一个value</p>
 
 <pre><code>result = while line = gets
-            break(line) if line =~ /answer/
-         end process_answer(result) if result
+
+			break(line) if line =~ /answer/
+
+	 	 end process_answer(result) if result
 </code></pre>
 
-<h4>作用域</h4>
+<h4 id="section-3">作用域</h4>
 
 <p>注意以下代码中,a的赋值语句虽然没有执行，但在之后的语句中a仍然可用</p>
 
 <pre><code>a = "never used" if false 
+
 [99].each do |i|
-    a = i # this sets the variable in the outer scope 
+
+	a = i # this sets the variable in the outer scope 
+
 end
+
 a # =&gt; 99
 </code></pre>
 ]]></content>
@@ -1039,7 +1577,7 @@ a # =&gt; 99
     <link href="http://xiekunRonaldo.github.io/blog/2014/07/29/more-about-methods/"/>
     <updated>2014-07-29T22:17:21+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/07/29/more-about-methods</id>
-    <content type="html"><![CDATA[<h5>定义一个方法</h5>
+    <content type="html"><![CDATA[<h5 id="section">定义一个方法</h5>
 
 <p>一个方法用关键字def来定义，方法名应该以一个小写字母或一个下划线开头，紧跟着字母，数字和下划线,方法名也许以一个?,!或=号结尾，一个返回bool值的方法通常以一个?结果</p>
 
@@ -1054,61 +1592,95 @@ a # =&gt; 99
 能出现在赋值运算符<code>=</code>左边的方法以一个<code>=</code>结尾,如</p>
 
 <pre><code>class BookInStock
-        attr_reader :isbn, :price
-    def initialize(isbn, price) 
-    @isbn = isbn
-    @price = Float(price)
-    end
-    def price=(new_price) 
-    @price = new_price
-    end     # ...   end
+
+	attr_reader :isbn, :price
+
+	def initialize(isbn, price) 
+
+	@isbn = isbn
+
+	@price = Float(price)
+
+	end
+
+	def price=(new_price) 
+
+	@price = new_price
+
+	end
+	# ...
+end
+
 book = BookInStock.new("isbn1", 33.80) 
-book.price = book.price * 0.75
-</code></pre>
 
-<p>有参和无参方法定义如下</p>
+book.price = book.price * 0.75 有参和无参方法定义如下
 
-<pre><code>def my_new_method(arg1, arg2, arg3) # 3 arguments 
+def my_new_method(arg1, arg2, arg3) # 3 arguments 
 
-    # Code for the method would go here end
+	# Code for the method would go here
+end
+
 def my_other_new_method # No arguments 
-    # Code for the method would go here     end
+
+	# Code for the method would go here
+
+end
 </code></pre>
 
 <p>可以为参数指定默认值</p>
 
-<pre><code>    def cool_dude(arg1="Miles", arg2="Coltrane", arg3="Roach") 
-    "#{arg1}, #{arg2}, #{arg3}."
+<pre><code>def cool_dude(arg1="Miles", arg2="Coltrane", arg3="Roach") 
+
+	"#{arg1}, #{arg2}, #{arg3}."
+
 end
 
-cool_dude                           # =&gt; "Miles, Coltrane, Roach."
-            cool_dude("Bart")                   # =&gt; "Bart, Coltrane, Roach."
-cool_dude("Bart", "Elwood")         # =&gt; "Bart, Elwood, Roach."
+cool_dude							# =&gt; "Miles, Coltrane, Roach."
+		
+cool_dude("Bart")					# =&gt; "Bart, Coltrane, Roach."
+
+cool_dude("Bart", "Elwood")			# =&gt; "Bart, Elwood, Roach."
+
 cool_dude("Bart", "Elwood", "Linus") # =&gt; "Bart, Coltrane, Linus."
 </code></pre>
 
 <p>后一个参数的默认值也可以指定为与前一个参数相关的表达式</p>
 
 <pre><code>def surround(word, pad_width=word.length/2) 
-    "[" * pad_width + word + "]" * pad_width
+
+	"[" * pad_width + word + "]" * pad_width
+
 end
+
 surround("elephant") # =&gt; "[[[[elephant]]]]" 
+
 surround("fox") # =&gt; "[fox]"
-surround("fox", 10) # =&gt; "[[[[[[[[[[fox]]]]]]]]]]"#####可变参数
-def varargs(arg1, *rest)
-    "arg1=#{arg1}. rest=#{rest.inspect}"
-end
-varargs("one")                  # =&gt; arg1=one.  rest=[]
-varargs("one", "two")           # =&gt; arg1=one.  rest=["two"]
-varargs "one", "two", "three"   # =&gt; arg1=one.  rest=["two", "three"]   
+
+surround("fox", 10) # =&gt; "[[[[[[[[[[fox]]]]]]]]]]"
 </code></pre>
 
-<p>有时我们用*来指定不被此类方法但被superclass中的此同名方法调用的参数,注意这种情况下我们直接调用super(无任何参数)，这种特殊的情况下意味着"在superclass中调用此方法，此所有的参数传到此类super的同名方法"</p>
+<h5 id="section-1">可变参数</h5>
 
-<pre><code>class Child &lt; Parent
+<pre><code>def varargs(arg1, *rest)
+
+	"arg1=#{arg1}. rest=#{rest.inspect}"
+
+end
+
+varargs("one")					# =&gt; arg1=one.  rest=[]
+
+varargs("one", "two")			# =&gt; arg1=one.  rest=["two"]
+
+varargs "one", "two", "three"	# =&gt; arg1=one.  rest=["two", "three"]	 有时我们用*来指定不被此类方法但被superclass中的此同名方法调用的参数,注意这种情况下我们直接调用super(无任何参数)，这种特殊的情况下意味着"在superclass中调用此方法，此所有的参数传到此类super的同名方法"
+
+class Child &lt; Parent
+
 def do_something(*not_used)
+
     # our processing
+
 super end
+
 end
 </code></pre>
 
@@ -1116,55 +1688,90 @@ end
 
 <pre><code>class Child &lt; Parent 
 
-    def do_something(*)
-            # our processing
-            super 
-        end
+	def do_something(*)
+
+	    # our processing
+
+		super 
+
+	end
+
 end
 </code></pre>
 
 <p>你可以将带*的参数放在方法参数列表的任意位置</p>
 
 <pre><code>def split_apart(first, *splat, last)
-        puts "First: #{first.inspect}, splat: #{splat.inspect}, " +     "last: #{last.inspect}" 
+
+	puts "First: #{first.inspect}, splat: #{splat.inspect}, " +
+	"last: #{last.inspect}" 
+
 end
+
 split_apart(1,2)
+
 split_apart(1,2,3)
+
 split_apart(1,2,3,4)
+
 produces:
+
 First: 1, splat: [], last: 2
+
 First: 1, splat: [2], last: 3
+
 First: 1, splat: [2, 3], last: 4
-你也可以只关心起始的参数，这样，你可以像以下这样定义方法
-def split_apart(first, *, last)
 </code></pre>
 
-<h5>Methods and Blocks</h5>
+<p>你也可以只关心起始的参数，这样，你可以像以下这样定义方法</p>
+
+<pre><code>def split_apart(first, *, last)
+</code></pre>
+
+<h5 id="methods-and-blocks">Methods and Blocks</h5>
 
 <p>方法可以用yield来调用与它相关联的block</p>
 
 <pre><code>def double(p1) yield(p1*2)
+
 end
+
 double(3) {|val| "I got #{val}" } # =&gt; "I got 6" 
-double("tom") {|val| "Then I got #{val}" } # =&gt; "Then I got tomtom"如果一个方法的最后一个参数以&amp;开头，任何相关的block都能当作参数传入方法并被转化为一个Proc对象
-class TaxCalculator
-    def initialize(name, &amp;block)
-            @name, @block = name, block
-        end
-        def get_tax(amount)
-            "#@name on #{amount} = #{ @block.call(amount) }" 
-        end
+
+double("tom") {|val| "Then I got #{val}" } # =&gt; "Then I got tomtom"
+</code></pre>
+
+<p>如果一个方法的最后一个参数以&amp;开头，任何相关的block都能当作参数传入方法并被转化为一个Proc对象</p>
+
+<pre><code>class TaxCalculator
+
+	def initialize(name, &amp;block)
+
+		@name, @block = name, block
+
+	end
+
+	def get_tax(amount)
+
+		"#@name on #{amount} = #{ @block.call(amount) }" 
+
+	end
+
 end
+
+
 tc = TaxCalculator.new("Sales tax") {|amt| amt * 0.075 } 
+
 tc.get_tax(100) # =&gt; "Sales tax on 100 = 7.5"
+
 tc.get_tax(250) # =&gt; "Sales tax on 250 = 18.75"
 </code></pre>
 
-<h5>调用方法</h5>
+<h5 id="section-2">调用方法</h5>
 
 <pre><code>connection.download_mp3("jitterbug") {|p| show_progress(p) } //对象
 
-File.size("testfile") # =&gt; 66           //类
+File.size("testfile") # =&gt; 66 			//类
 
 Math.sin(Math::PI/4) # =&gt; 0.7071067811865475    //Module
 </code></pre>
@@ -1172,165 +1779,265 @@ Math.sin(Math::PI/4) # =&gt; 0.7071067811865475    //Module
 <p>如果省略了receiver,默认是self</p>
 
 <pre><code>class InvoiceWriter
-        def initialize(order)
 
-        @order = order
-                end
-    def write_on(output)
-        write_header_on(output)
-        write_body_on(output)
-        write_totals_on(output)
-    end
+	def initialize(order)
 
-private     def write_header_on(output)
-    # ...
-    end
-    def write_body_on(output)
-    # ...
-    end
-    def write_totals_on(output)
-    # ...
-    end 
-end#####将参数传给方法
+	    @order = order
+	    
+	end
+
+	def write_on(output)
+
+	    write_header_on(output)
+
+	    write_body_on(output)
+
+	    write_totals_on(output)
+
+	end
+
+private
+	def write_header_on(output)
+
+	# ...
+
+	end
+
+	def write_body_on(output)
+
+	# ...
+
+	end
+
+	def write_totals_on(output)
+
+	# ...
+
+	end 
+
+end
 </code></pre>
+
+<h5 id="section-3">将参数传给方法</h5>
 
 <p>在不引起歧义的情况下，你可以省略括号，不过通常不推荐这么做</p>
 
 <pre><code># for some suitable value in 
+
 obj: a = obj.hash # Same as
+
 a = obj.hash() # this.
+
 obj.some_method "Arg1", arg2, arg3 # Same thing as //1.8之前
-obj.some_method("Arg1", arg2, arg3) # with parentheses. 如果你将多个参数传给return语句，方法将会以数组的形式返回这些参数
-def meth_three 100.times do |num|
+
+obj.some_method("Arg1", arg2, arg3) # with parentheses.
+</code></pre>
+
+<p>如果你将多个参数传给return语句，方法将会以数组的形式返回这些参数</p>
+
+<pre><code>def meth_three 100.times do |num|
+
    square = num*num
+
 return num, square if square &gt; 1000 end
+
 end
+
 meth_three # =&gt; [32, 1024]
 </code></pre>
 
 <p>你可以按以下方式来获取返回的值</p>
 
 <pre><code>num, square = meth_three 
+
 num # =&gt; 32
-square # =&gt; 1024    
+
+square # =&gt; 1024	
 </code></pre>
 
-<h5>*!在方法调用中展开Collections</h5>
+<h5 id="collections">*!在方法调用中展开Collections</h5>
 
 <pre><code>def five(a, b, c, d, e)
-    "I was passed #{a} #{b} #{c} #{d} #{e}"
+
+	"I was passed #{a} #{b} #{c} #{d} #{e}"
+
 end
+
 five(1,2,3,4,5) #=&gt;"Iwaspassed12345" 
+
 five(1, 2, 3, *['a', 'b']) # =&gt; "I was passed 1 2 3 a b" 
+
 five(*['a', 'b'], 1, 2, 3) # =&gt; "I was passed a b 1 2 3" five(*(10..14)) 
+
 #=&gt;"Iwaspassed1011121314" 
-five(*[1,2], 3, *(4..5)) #=&gt;"Iwaspassed12345"
+
+five(*[1,2], 3, *(4..5)) #=&gt;"Iwaspassed12345" Ruby 1.9中， 带*参数可以出现参数列表中的任意位置
 </code></pre>
 
-<p>Ruby 1.9中， 带*参数可以出现参数列表中的任意位置</p>
-
-<h5>Block的妙用</h5>
+<h5 id="block">Block的妙用</h5>
 
 <p>先来看一段代码</p>
 
 <pre><code>print "(t)imes or (p)lus: " operator = gets
+
 print "number: "
+
 number = Integer(gets)
+
 if operator =~ /^t/
+
 puts((1..10).collect {|n| n*number }.join(", "))
+
 else
+
 puts((1..10).collect {|n| n+number }.join(", ")) 
+
 end
+
 produces:
+
 (t)imes or (p)lus: t
+
 number: 2
+
 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
 </code></pre>
 
 <p>以上的代码能工作，但是很丑陋，我们注意到if和else的语句几乎一样，可以用block来改进如下</p>
 
 <pre><code>print "(t)imes or (p)lus: " 
+
 operator = gets
+
 print "number: "
+
 number = Integer(gets)
+
 if operator =~ /^t/
+
 calc = lambda {|n| n*number }
+
 else
+
   calc = lambda {|n| n+number }
+
 end
+
 puts((1..10).collect(&amp;calc).join(", "))
+
 produces:
+
 (t)imes or (p)lus: t
+
 number: 2
+
 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
 </code></pre>
 
 <p>如果方法的最后一个参数是以&amp;开头的，则Ruby认为它是一个Proc对象，方法将它移除出参数列表，然后将Proc对象转为block，再与方法关联</p>
 
-<h5>Hash and Keyword Arguments</h5>
-
+<h5 id="hash-and-keyword-arguments">Hash and Keyword Arguments</h5>
 <p>先来看一段代码</p>
 
 <pre><code>class SongList
-    def search(field, params)
-        # ...
-        end 
+
+	def search(field, params)
+
+	# ...
+
+	end 
+
 end
+
 list = SongList.new
+
 list.search(:titles, { genre: "jazz", duration_less_than: 270 })
 </code></pre>
 
-<p>实际上这种方式不值得推荐，{}很容易让人误认为是一个block，所以Ruby提供了一个捷径，在参数列表中你可以传入key => value这种形式,只要它们跟在正常的参数之后，在任何的*和block参数之前，所有的这些键值对都将被组装成一个hash参数传入方法中,可以略去{}</p>
+<p>实际上这种方式不值得推荐，{}很容易让人误认为是一个block，所以Ruby提供了一个捷径，在参数列表中你可以传入key =&gt; value这种形式,只要它们跟在正常的参数之后，在任何的*和block参数之前，所有的这些键值对都将被组装成一个hash参数传入方法中,可以略去{}	</p>
 
 <pre><code>list.search(:titles, genre: "jazz", duration_less_than: 270)
 </code></pre>
 
-<h5>Keyword Argument Lists</h5>
-
+<h5 id="keyword-argument-lists">Keyword Argument Lists</h5>
 <p>我们仔细研究一下search方法，它接受一个field的名字和一个options hash,也许我们想要默认的duration为120s，并且加入验证方法-非法的验证不让它通过</p>
 
 <p>Ruby 2.0之前，代码是这么写的</p>
 
 <pre><code>def search(field, options)
-    options = { duration: 120 }.merge(options) 
-    if options.has_key?(:duration)
-        duration = options[:duration]
-        options.delete(:duration)
-    end
-    if options.has_key?(:genre)
-        genre = options[:genre]
-        options.delete(:genre)
-    end
-    fail "Invalid options: #{options.keys.join(', ')}" unless options.empty? 
-    # rest of method
-end 如果是Ruby 2.0，可以简化为以下
-def search(field, genre: nil, duration: 120) 
-    p [field, genre, duration ]
-end search(:title)
+
+	options = { duration: 120 }.merge(options) 
+
+	if options.has_key?(:duration)
+
+	    duration = options[:duration]
+
+	    options.delete(:duration)
+
+	end
+
+	if options.has_key?(:genre)
+
+	    genre = options[:genre]
+
+	    options.delete(:genre)
+
+	end
+
+	fail "Invalid options: #{options.keys.join(', ')}" unless options.empty? 
+
+	# rest of method
+
+end
+</code></pre>
+
+<p>如果是Ruby 2.0，可以简化为以下</p>
+
+<pre><code>def search(field, genre: nil, duration: 120) 
+
+	p [field, genre, duration ]
+
+end
+
+search(:title)
+
 search(:title, duration: 432)
+
 search(:title, duration: 432, genre: "jazz")
+
 produces:
+
 [:title, nil, 120]
+
 [:title, nil, 432]
+
 [:title, "jazz", 432]
 </code></pre>
 
 <p>如果传入的是一个非法选项，Ruby将会报错</p>
 
 <pre><code>search(:title, duraton: 432)
+
 produces:
-//是duration，不是duraton!  prog.rb:5:in `&lt;main&gt;': unknown keyword: duraton (ArgumentError)
+//是duration，不是duraton!
+prog.rb:5:in `&lt;main&gt;': unknown keyword: duraton (ArgumentError)
 </code></pre>
 
 <p>你也可以将多个hash参数整合为一个hash参数，只要在方法的参数列表里在某参数的前面加<code>两个</code>星号</p>
 
 <pre><code>def search(field, genre: nil, duration: 120, **rest) 
-    p [field, genre, duration, rest ]
+
+	p [field, genre, duration, rest ]
+
 end
+
 search(:title, duration: 432, stars: 3, genre: "jazz", tempo: "slow") 
+
 produces:
+
 [:title, "jazz", 432, {:stars=&gt;3, :tempo=&gt;"slow"}]
 </code></pre>
+
 ]]></content>
   </entry>
   

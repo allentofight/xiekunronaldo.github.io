@@ -91,53 +91,65 @@
 	<h1 class="title" itemprop="name">Themes and Styles</h1>
 	<div class="entry-content" itemprop="articleBody"><p>Mobile web applications should either look and behave <code>exactly</code> the same as native apps, or they shouldn’t look like native at all</p>
 
-<h4>Sencha Touch Stylesheets</h4>
-
-<p>In Sencha Touch version 2.3, the framework ships with stylesheets that mimic native designs and experiences of all modern major devices</p>
+<h4 id="sencha-touch-stylesheets">Sencha Touch Stylesheets</h4>
+<p>In Sencha Touch version 2.3, the framework ships with stylesheets that mimic native designs and experiences of all modern major devices </p>
 
 <p>When you create a production build of your app and you want to host it on the Web, it’s even possible to make use of the Sencha platform switcher. This switcher can make sure that the correct stylesheet will be shown for each platform. For example, the BB10 theme will be used when the platform is BlackBerry and show the Windows theme when the app is being viewed on Internet Explorer 10.</p>
 
-<h4>Using Sass</h4>
+<h4 id="using-sass">Using Sass</h4>
 
-<p>Sass stands for “syntactically awesome style sheets,” a powerful CSS extension. And yes, it is awesome! I describe it as CSS infused with a lot of coffee and Red Bull, because it overcomes many of the shortcomings of CSS.
-Sass is a preprocessor, which means that Sass files should be compiled to (minified) CSS files. A CSS file is the stylesheet your browser uses to display Sencha Touch components. (And that’s also the file that goes into your production build or server.) Therefore, Sass needs a compiler. You can compile Sencha Sass themes with Sass and Compass installed on top of Ruby (see Appendix A), but if you are not really into design, you can also use just the <code>Sencha Cmd build</code> process. A Sencha app build can compile Sass files too, but it just takes a little bit longer.</p>
+<p>Sass stands for “syntactically awesome style sheets,” a powerful CSS extension. And yes, it is awesome! I describe it as CSS infused with a lot of coffee and Red Bull, because it overcomes many of the shortcomings of CSS.</p>
 
-<p>Sass has two syntaxes.</p>
+<p>Sass is a preprocessor, which means that Sass files should be compiled to (minified) CSS files. A CSS file is the stylesheet your browser uses to display Sencha Touch components. (And that’s also the file that goes into your production build or server.) Therefore, Sass needs a compiler. You can compile Sencha Sass themes with Sass and Compass installed on top of Ruby (see Appendix A), but if you are not really into design, you can also use just the <code>Sencha Cmd build</code> process. A Sencha app build can compile Sass files too, but it just takes a little bit longer.</p>
+
+<p>Sass has two syntaxes. </p>
 
 <ul>
-<li><p>The most commonly used syntax is known as <code>SCSS</code> (which stands for Sassy CSS), and is a superset of CSS3’s syntax. This means that every valid CSS3 stylesheet is valid SCSS as well. SCSS files use the extension <code>.scss</code>.</p></li>
-<li><p>The second, older syntax is known as the indented syntax (or just .sass). Instead of brackets and semicolons, it uses line indentation to specify blocks. Files in the indented syntax use the extension <code>.sass</code>.</p></li>
+  <li>
+    <p>The most commonly used syntax is known as <code>SCSS</code> (which stands for Sassy CSS), and is a superset of CSS3’s syntax. This means that every valid CSS3 stylesheet is valid SCSS as well. SCSS files use the extension <code>.scss</code>.</p>
+  </li>
+  <li>
+    <p>The second, older syntax is known as the indented syntax (or just .sass). Instead of brackets and semicolons, it uses line indentation to specify blocks. Files in the indented syntax use the extension <code>.sass</code>.</p>
+  </li>
 </ul>
-
 
 <p>The Sencha themes are <code>Sassy CSS files</code>. You can combine CSS3 syntax with the amazing features of Sass.</p>
 
 <p>In this chapter, you’ll learn how to:</p>
 
 <ul>
-<li>Use platform-specific out-of-the-box themes</li>
-<li>Create your own custom theme<em> Incorporate custom fonts</em> Incorporate custom icons* Optimize your stylesheet for best performance</li>
+  <li>Use platform-specific out-of-the-box themes </li>
+  <li>Create your own custom theme</li>
+  <li>Incorporate custom fonts</li>
+  <li>Incorporate custom icons</li>
+  <li>Optimize your stylesheet for best performance</li>
 </ul>
 
-
 <p>Sencha Cmd 4 and higher have the command <code>sencha app watch</code>, You can compare this with the Compass command <code>compass watch</code>,. Sencha Cmd watches the app and every time you hit Save, Sencha Cmd builds your app and compiles your Sass stylesheets. When changes are detected, only the minimum amount of work necessary is performed to bring your app and its CSS up to date, saving you from rebuilding your Sass. It is so quick that when you navigate to your browser, the latest version is present
-After writing your Sass theme, use the following command from the resources/sass folder to compile to app.css:<code>
-sencha ant sass</code>
+After writing your Sass theme, use the following command from the resources/sass folder to compile to app.css:</p>
+
+<p><code>
+sencha ant sass
+</code>
 <code>TIP</code>
-There are some great resources on Sass and CSS at <a href="http://sass-lang.com/">the Sass website</a>. To learn more about Sass, see <a href="http://vimeo.com/75258560">The Sass Way. Learn Sass at Code School</a>, and check out “Unleash Your Inner Picasso: Advanced Theming by Platform,” an online video tutorial by Robert Dogan</p>
-
-<h4>Incorporating Custom Fonts</h4>
-
-<p>When you want to incorporate fonts in your theme, you can use <code>@font-face</code>. @font- face is a CSS technique that is often used to incorporate custom web fonts. Where system fonts will be visible only if they’re available on your OS, @font-face directly <code>downloads</code> the font from the Internet to display it</p>
+There are some great resources on Sass and CSS at <a href="http://sass-lang.com/">the Sass website</a>. To learn more about Sass, see <a href="http://vimeo.com/75258560">The Sass Way. Learn Sass at Code School</a>, and check out “Unleash Your Inner Picasso: Advanced Theming by Platform,” an online video tutorial by Robert Dogan
+#### Incorporating Custom Fonts
+When you want to incorporate fonts in your theme, you can use <code>@font-face</code>. @font- face is a CSS technique that is often used to incorporate custom web fonts. Where system fonts will be visible only if they’re available on your OS, @font-face directly <code>downloads</code> the font from the Internet to display it</p>
 
 <p><code>TIP</code></p>
 
-<p>Read more about @font-face on <a href="http://www.paulirish.com/2010/font-face-gotchas/">Paul Irish’s blog</a> and download HTML5 @font-face kits from <a href="http://www.fontsquirrel.com/">FontSquirrel</a> or at font ex. You can also use a font service like Adobe <a href="https://typekit.com/">Typekit</a> or <a href="http://www.google.com/fonts">Google Fonts</a>.Check out the <a href="http://pictos.cc/font/">Pictos icon font</a>, the <a href="https://icomoon.io/">Ico Moon icon font</a>, and the Fontello icon font. There’s more information about icon fonts at <a href="http://css-tricks.com/html-for-icon-font-usage/">CSS-Tricks</a>, and you can use <a href="https://www.branah.com/unicode-converter">Branah’s tool</a> to convert text to unicodes and back.</p>
+<p>Read more about @font-face on <a href="http://www.paulirish.com/2010/font-face-gotchas/">Paul Irish’s blog</a> and download HTML5 @font-face kits from <a href="http://www.fontsquirrel.com/">Font
+Squirrel</a> or at font ex. You can also use a font service like Adobe <a href="https://typekit.com/">Typekit</a> or <a href="http://www.google.com/fonts">Google Fonts</a>.</p>
 
-<h4>Optimizing Your Stylesheet for Best Performance</h4>
+<p>Check out the <a href="http://pictos.cc/font/">Pictos icon font</a>, the <a href="https://icomoon.io/">Ico Moon icon font</a>, and the Fontello icon font. There’s more information about icon fonts at <a href="http://css-tricks.com/html-for-icon-font-usage/">CSS-Tricks</a>, and you can use <a href="https://www.branah.com/unicode-converter">Branah’s tool</a> to convert text to unicodes and back.</p>
+
+<h4 id="optimizing-your-stylesheet-for-best-performance">Optimizing Your Stylesheet for Best Performance</h4>
 
 <ul>
-<li>Minify your stylesheet* Import only the required mixins in your stylesheet * Exclude experimental support for uncommon browsers * Exclude unusable default fonts and icons</li>
+  <li>Minify your stylesheet</li>
+  <li>Import only the required mixins in your stylesheet </li>
+  <li>Exclude experimental support for uncommon browsers </li>
+  <li>Exclude unusable default fonts and icons</li>
 </ul>
 
 </div>

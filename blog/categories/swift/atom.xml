@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Swift | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T18:58:31+08:00</updated>
+  <updated>2014-10-21T19:51:25+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -19,9 +19,8 @@
     <updated>2014-08-31T14:25:53+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/08/31/swift-tips</id>
     <content type="html"><![CDATA[<ul>
-<li><code>..&lt;</code>等价于<code>..</code></li>
+  <li><code>..&lt;</code>等价于<code>..</code></li>
 </ul>
-
 
 <p><code>
 let possibleTipsInferred = [0.15, 0.18, 0.20]
@@ -33,7 +32,7 @@ for i in 0..&lt;possibleTipsInferred.count {
 * Dictionary返回类型</p>
 
 <p><code>
-func returnPossibleTips() -&gt; [Int: Double] {
+func returnPossibleTips() -&gt; [Int: Double] { 
 }
 </code>
 * 命名空间
@@ -44,21 +43,15 @@ import UIKit</p>
 
 <p>class ViewController: UIViewController {</p>
 
-<p>  override func viewDidLoad() {</p>
+<p>override func viewDidLoad() {
+    super.viewDidLoad()
+    // Do any additional setup after loading the view, typically from a nib.
+  }</p>
 
-<pre><code>super.viewDidLoad()
-// Do any additional setup after loading the view, typically from a nib.
-</code></pre>
-
-<p>  }</p>
-
-<p>  override func didReceiveMemoryWarning() {</p>
-
-<pre><code>super.didReceiveMemoryWarning()
-// Dispose of any resources that can be recreated.
-</code></pre>
-
-<p>  }
+<p>override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+    // Dispose of any resources that can be recreated.
+  }
 ```
 This is the first example you’ve seen of a class that subclasses another class. Here, you are declaring a new class ViewController that subclasses Apple’s UIViewController.</p>
 
@@ -108,41 +101,36 @@ If you need to expose a Swift type for use within Objective-C you can provide a 
 </code></p>
 
 <ul>
-<li><p>Value Types and Reference Types</p>
+  <li>
+    <p>Value Types and Reference Types</p>
 
-<p>  Instances of value types are copied whenever they’re assigned or used as a function argument. Numbers, strings, arrays, dictionaries, enums, tuples, and structs are value types. For example:</p></li>
+    <p>Instances of value types are copied whenever they’re assigned or used as a function argument. Numbers, strings, arrays, dictionaries, enums, tuples, and structs are value types. For example:</p>
+  </li>
 </ul>
 
-
-<p>```</p>
-
-<pre><code>var a = "Hello"
-var b = a
-b.extend(", world")
-println("a: \(a); b: \(b)") // a: Hello; b: Hello, world
-</code></pre>
-
-<p>```
+<p><code>
+	var a = "Hello"
+	var b = a
+	b.extend(", world")
+	println("a: \(a); b: \(b)") // a: Hello; b: Hello, world
+</code>
 * xcode 6.1 beta版</p>
 
 <p>现在，可以直接在构造器中返回nil表示构造失败。一个表示失败的构造器可以通过init?来声明，它可以返回一个显式的可选类型或隐式解封的可选类型。但要注意对于枚举和结构体来说随时都可以返回nil，而对类则不一样，只有当所有的存储属性被初始化后或者其self.init和super.init被调用后才可以返回nil，当前调用代码就可以收到nil，来判断构造是否成功：</p>
 
-<p>```
+<p><code>
 extension Int {
 init?(fromString: String) {
 if let i = fromString.toInt() {
 // Initialize
 self = i
 } else {
-// Discard self and return &lsquo;nil&rsquo;.
-return nil</p>
-
-<pre><code>}
-</code></pre>
-
-<p>  }
+// Discard self and return 'nil'.
+return nil
+    }
+  }
 }
-```
+</code>
 可以这么使用：</p>
 
 <p><code>
@@ -165,7 +153,7 @@ class MyFunClass {</p>
 
 <p>}
 let myFunClass = MyFunClass()
-myFunClass.hello(&ldquo;Mr. Roboto&rdquo;, age: 5, location: &ldquo;San Francisco&rdquo;)
+myFunClass.hello(“Mr. Roboto”, age: 5, location: “San Francisco”)
 ```
 It is therefore best practice to include your first parameter name in your method name, just like in Objective-C:</p>
 
@@ -179,7 +167,7 @@ class MyFunClass {</p>
 
 <p>}
 let myFunClass = MyFunClass()
-myFunClass.helloWithName(&ldquo;Mr. Roboto&rdquo;, age: 5, location: &ldquo;San Francisco&rdquo;)
+myFunClass.helloWithName(“Mr. Roboto”, age: 5, location: “San Francisco”)
 ```
 If for some special reason you want to skip the external parameter names in your function (I’d recommend having a very good reason for doing so), use an _ for the external parameter name:</p>
 
@@ -194,12 +182,12 @@ class MyFunClass {</p>
 <p>}</p>
 
 <p>let myFunClass = MyFunClass()
-myFunClass.helloWithName(&ldquo;Mr. Roboto&rdquo;, 5, &ldquo;San Francisco&rdquo;)
+myFunClass.helloWithName(“Mr. Roboto”, 5, “San Francisco”)
 ```
 * Instance Methods Are Curried Functions
 One cool thing to note is that instance methods are actually curried functions in Swift:</p>
 
-<pre><code>    The basic idea behind currying is that a function can be partially applied, meaning that some of its parameter values can be specified (bound) before the function is called. Partial function application yields a new function.
+<pre><code>	The basic idea behind currying is that a function can be partially applied, meaning that some of its parameter values can be specified (bound) before the function is called. Partial function application yields a new function.
 </code></pre>
 
 <p>So given that I have a class:</p>
@@ -209,24 +197,21 @@ class MyHelloWorldClass {</p>
 
 <pre><code>func helloWithName(name: String) -&gt; String {
     return "hello, \(name)"
-}
+} } ```
 </code></pre>
-
-<p>}
-```</p>
 
 <p>I can create a variable that points to the class’s helloWithName function:</p>
 
 <p><code>
 let helloWithNameFunc = MyHelloWorldClass.helloWithName
 </code>
-My new helloWithNameFunc is of type MyHelloWorldClass &ndash;> (String) &ndash;> String, a function that takes in an instance of my class and returns another function that takes in a string value and returns a string value.
+My new helloWithNameFunc is of type MyHelloWorldClass -&gt; (String) -&gt; String, a function that takes in an instance of my class and returns another function that takes in a string value and returns a string value.
 So I can actually call my function like this:</p>
 
 <p>```
 let myHelloWorldClassInstance = MyHelloWorldClass()</p>
 
-<p>helloWithNameFunc(myHelloWorldClassInstance)(&ldquo;Mr. Roboto&rdquo;)
+<p>helloWithNameFunc(myHelloWorldClassInstance)(“Mr. Roboto”) 
 // hello, Mr. Roboto
 ```
 * Init: A Special Note
@@ -242,7 +227,7 @@ class Person {</p>
 
 <p>}</p>
 
-<p>Person(name: &ldquo;Mr. Roboto&rdquo;)
+<p>Person(name: “Mr. Roboto”)
 ```</p>
 
 <p>Notice that, unlike other methods, the <code>first parameter</code> name of an init method is required externally when the class is instantiated.</p>
@@ -259,26 +244,23 @@ class Person {</p>
 
 <p>}</p>
 
-<p>Person(fromName: &ldquo;Mr. Roboto&rdquo;)
+<p>Person(fromName: “Mr. Roboto”)
 ```
 And of course, just like with other methods, you can add an _ if you want your init method to skip the external parameter name.</p>
 
 <p>```
-struct Celsius {</p>
-
-<pre><code>var temperatureInCelsius: Double
-init(fromFahrenheit fahrenheit: Double) {
-    temperatureInCelsius = (fahrenheit - 32.0) / 1.8
-}
-init(fromKelvin kelvin: Double) {
-    temperatureInCelsius = kelvin - 273.15
-}
-init(_ celsius: Double) {
-    temperatureInCelsius = celsius
-}
-</code></pre>
-
-<p>}</p>
+struct Celsius {
+    var temperatureInCelsius: Double
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+    init(_ celsius: Double) {
+        temperatureInCelsius = celsius
+    }
+}</p>
 
 <p>let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
 // boilingPointOfWater.temperatureInCelsius is 100.0</p>
@@ -293,19 +275,15 @@ init(_ celsius: Double) {
 Optionals are similar to using nil with pointers in Objective-C, but they work for any type, not just classes. Optionals are safer and more expressive than nil pointers in Objective-C and are at the heart of many of Swift’s most powerful features.</p>
 
 <ul>
-<li>Parameters with Default Values</li>
+  <li>Parameters with Default Values</li>
 </ul>
 
-
 <p>```
-func hello(name: String = &ldquo;you&rdquo;) {</p>
+func hello(name: String = “you”) {
+    println(“hello, (name)”)
+}</p>
 
-<pre><code>println("hello, \(name)")
-</code></pre>
-
-<p>}</p>
-
-<p>hello(name: &ldquo;Mr. Roboto&rdquo;)
+<p>hello(name: “Mr. Roboto”)
 // hello, Mr. Roboto</p>
 
 <p>hello()
@@ -315,27 +293,23 @@ func hello(name: String = &ldquo;you&rdquo;) {</p>
 <p>Note that a parameter <code>with a default value</code> automatically has an external parameter name.</p>
 
 <ul>
-<li>Variadic Parameters</li>
+  <li>Variadic Parameters</li>
 </ul>
 
-
 <p>```
-func helloWithNames(names: String&hellip;) {</p>
-
-<pre><code>for name in names {
-    println("Hello, \(name)")
-}
-</code></pre>
-
-<p>}</p>
+func helloWithNames(names: String…) {
+    for name in names {
+        println(“Hello, (name)”)
+    }
+}</p>
 
 <p>// 2 names
-helloWithNames(&ldquo;Mr. Robot&rdquo;, &ldquo;Mr. Potato&rdquo;)
+helloWithNames(“Mr. Robot”, “Mr. Potato”)
 // Hello, Mr. Robot
 // Hello, Mr. Potato</p>
 
 <p>// 4 names
-helloWithNames(&ldquo;Batman&rdquo;, &ldquo;Superman&rdquo;, &ldquo;Wonder Woman&rdquo;, &ldquo;Catwoman&rdquo;)
+helloWithNames(“Batman”, “Superman”, “Wonder Woman”, “Catwoman”)
 // Hello, Batman
 // Hello, Superman
 // Hello, Wonder Woman
@@ -344,18 +318,15 @@ helloWithNames(&ldquo;Batman&rdquo;, &ldquo;Superman&rdquo;, &ldquo;Wonder Woman
 The catch here is to remember that it is possible to pass in 0 values, just like it is possible to pass in an empty array, so don’t forget to check for the empty array if needed:</p>
 
 <p>```
-func helloWithNames(names: String&hellip;) {</p>
-
-<pre><code>if names.count &gt; 0 {
-    for name in names {
-        println("Hello, \(name)")
+func helloWithNames(names: String…) {
+    if names.count &gt; 0 {
+        for name in names {
+            println(“Hello, (name)”)
+        }
+    } else {
+        println(“Nobody here!”)
     }
-} else {
-    println("Nobody here!")
-}
-</code></pre>
-
-<p>}</p>
+}</p>
 
 <p>helloWithNames()
 // Nobody here!
@@ -363,40 +334,30 @@ func helloWithNames(names: String&hellip;) {</p>
 Another note about variadic parameters: the variadic parameter must be the last parameter in your function’s parameter list!</p>
 
 <ul>
-<li>Functions as Parameters
+  <li>Functions as Parameters
 In Swift, functions can be passed around just like variables. For example, a function can have another function passed in as a parameter:</li>
 </ul>
 
-
 <p>```
-func luckyNumberForName(name: String, #lotteryHandler: (String, Int) &ndash;> String) &ndash;> String {</p>
+func luckyNumberForName(name: String, #lotteryHandler: (String, Int) -&gt; String) -&gt; String {
+    let luckyNumber = Int(arc4random() % 100)
+    return lotteryHandler(name, luckyNumber)
+}</p>
 
-<pre><code>let luckyNumber = Int(arc4random() % 100)
-return lotteryHandler(name, luckyNumber)
-</code></pre>
+<p>func defaultLotteryHandler(name: String, luckyNumber: Int) -&gt; String {
+    return “(name), your lucky number is (luckyNumber)”
+}</p>
 
-<p>}</p>
-
-<p>func defaultLotteryHandler(name: String, luckyNumber: Int) &ndash;> String {</p>
-
-<pre><code>return "\(name), your lucky number is \(luckyNumber)"
-</code></pre>
-
-<p>}</p>
-
-<p>luckyNumberForName(&ldquo;Mr. Roboto&rdquo;, lotteryHandler: defaultLotteryHandler)
+<p>luckyNumberForName(“Mr. Roboto”, lotteryHandler: defaultLotteryHandler)
 // Mr. Roboto, your lucky number is 38
 ```
 Instance methods can also be passed in a similar way:</p>
 
 <p>```
-func luckyNumberForName(name: String, #lotteryHandler: (String, Int) &ndash;> String) &ndash;> String {</p>
-
-<pre><code>let luckyNumber = Int(arc4random() % 100)
-return lotteryHandler(name, luckyNumber)
-</code></pre>
-
-<p>}</p>
+func luckyNumberForName(name: String, #lotteryHandler: (String, Int) -&gt; String) -&gt; String {
+    let luckyNumber = Int(arc4random() % 100)
+    return lotteryHandler(name, luckyNumber)
+}</p>
 
 <p>class FunLottery {</p>
 
@@ -408,53 +369,41 @@ return lotteryHandler(name, luckyNumber)
 <p>}</p>
 
 <p>let funLottery = FunLottery()
-luckyNumberForName(&ldquo;Mr. Roboto&rdquo;, lotteryHandler: funLottery.defaultLotteryHandler)
+luckyNumberForName(“Mr. Roboto”, lotteryHandler: funLottery.defaultLotteryHandler)
 // Mr. Roboto, your lucky number is 38
 ```
 To make your function definition a bit more readable, consider type-aliasing your function (similar to typedef in Objective-C):</p>
 
 <p>```
-typealias lotteryOutputHandler = (String, Int) &ndash;> String</p>
+typealias lotteryOutputHandler = (String, Int) -&gt; String</p>
 
-<p>func luckyNumberForName(name: String, #lotteryHandler: lotteryOutputHandler) &ndash;> String {</p>
-
-<pre><code>let luckyNumber = Int(arc4random() % 100)
-return lotteryHandler(name, luckyNumber)
-</code></pre>
-
-<p>}
+<p>func luckyNumberForName(name: String, #lotteryHandler: lotteryOutputHandler) -&gt; String {
+    let luckyNumber = Int(arc4random() % 100)
+    return lotteryHandler(name, luckyNumber)
+}
 ```
 You can also have a function without a name as a parameter type (similar to blocks in Objective-C):</p>
 
 <p>```
-func luckyNumberForName(name: String, #lotteryHandler: (String, Int) &ndash;> String) &ndash;> String {</p>
+func luckyNumberForName(name: String, #lotteryHandler: (String, Int) -&gt; String) -&gt; String {
+    let luckyNumber = Int(arc4random() % 100)
+    return lotteryHandler(name, luckyNumber)
+}</p>
 
-<pre><code>let luckyNumber = Int(arc4random() % 100)
-return lotteryHandler(name, luckyNumber)
-</code></pre>
-
-<p>}</p>
-
-<p>luckyNumberForName(&ldquo;Mr. Roboto&rdquo;, lotteryHandler: {name, number in</p>
-
-<pre><code>return "\(name)'s' lucky number is \(number)"
-</code></pre>
-
-<p>})
-// Mr. Roboto&rsquo;s lucky number is 74
+<p>luckyNumberForName(“Mr. Roboto”, lotteryHandler: {name, number in
+    return “(name)’s’ lucky number is (number)”
+})
+// Mr. Roboto’s lucky number is 74
 ```
 * Return a Function
 Any function can also return a function in Swift:</p>
 
 <p>```
-func myFuncThatReturnsAFunc() &ndash;> (Int) &ndash;> String {</p>
-
-<pre><code>return { number in
-    return "The lucky number is \(number)"
-}
-</code></pre>
-
-<p>}</p>
+func myFuncThatReturnsAFunc() -&gt; (Int) -&gt; String {
+    return { number in
+        return “The lucky number is (number)”
+    }
+}</p>
 
 <p>let returnedFunction = myFuncThatReturnsAFunc()</p>
 
@@ -464,16 +413,13 @@ func myFuncThatReturnsAFunc() &ndash;> (Int) &ndash;> String {</p>
 <p>To make this more readable, you can of course use type-aliasing for your return function:</p>
 
 <p>```
-typealias returnedFunctionType = (Int) &ndash;> String</p>
+typealias returnedFunctionType = (Int) -&gt; String</p>
 
-<p>func myFuncThatReturnsAFunc() &ndash;> returnedFunctionType {</p>
-
-<pre><code>return { number in
-    return "The lucky number is \(number)"
-}
-</code></pre>
-
-<p>}</p>
+<p>func myFuncThatReturnsAFunc() -&gt; returnedFunctionType {
+    return { number in
+        return “The lucky number is (number)”
+    }
+}</p>
 
 <p>let returnedFunction = myFuncThatReturnsAFunc()</p>
 
@@ -489,33 +435,20 @@ func myFunctionWithNumber(someNumber: Int) {</p>
 }
 
 let incrementedNumber = increment(someNumber)
-println("The incremented number is \(incrementedNumber)")
+println("The incremented number is \(incrementedNumber)") }
 </code></pre>
-
-<p>}</p>
 
 <p>myFunctionWithNumber(5)
 // The incremented number is 15
 ```
-* <a href="http://www.objc.io/issue-16/functional-swift-apis.html">Functional APIs with Swift</a></p>
+* <a href="http://www.objc.io/issue-16/functional-swift-apis.html">Functional APIs with Swift</a>
+	* The Filter Type</p>
 
-<pre><code>* The Filter Type
-
-```
+<pre><code>```
 typealias Filter = CIImage -&gt; CIImage
-```
+``` it may seem strange to use the name Filter for a function type. Usually, we’d use such a name for a class, and the temptation to somehow denote the function nature of this type is high. We could name it FilterFunction or something similar. However, we consciously chose the name Filter, since the key philosophy underlying functional programming is that functions are just values. They’re no different from structs, integers, tuples, or classes. It took me some getting used to as well, but after a while, it started to make a lot of sense.
+* Building Filters * Class 和 Struct的区别 来看以下demo
 </code></pre>
-
-<p>it may seem strange to use the name Filter for a function type. Usually, we’d use such a name for a class, and the temptation to somehow denote the function nature of this type is high. We could name it FilterFunction or something similar. However, we consciously chose the name Filter, since the key philosophy underlying functional programming is that functions are just values. They’re no different from structs, integers, tuples, or classes. It took me some getting used to as well, but after a while, it started to make a lot of sense.</p>
-
-<pre><code>* Building Filters
-</code></pre>
-
-<ul>
-<li>Class 和 Struct的区别
-来看以下demo</li>
-</ul>
-
 
 <p>```
 struct MyStruct {
@@ -523,26 +456,23 @@ struct MyStruct {
   var u: String
 }</p>
 
-<p>let struct2 = MyStruct(t: 12, u: &ldquo;World&rdquo;)
-struct2.u = &ldquo;Planet&rdquo; // Error: struct2 is immutable
-struct2 = MyStruct(t: 10, u: &ldquo;Defeat&rdquo;) // Error: struct2 is an immutable ref</p>
+<p>let struct2 = MyStruct(t: 12, u: “World”)
+struct2.u = “Planet” // Error: struct2 is immutable
+struct2 = MyStruct(t: 10, u: “Defeat”) // Error: struct2 is an immutable ref</p>
 
 <p>class MyClass {
   let t = 12
   var u: String</p>
 
-<p>  init(t: Int, u: String) {</p>
-
-<pre><code>self.t = t
-self.u = u
-</code></pre>
-
-<p>  }
+<p>init(t: Int, u: String) {
+    self.t = t
+    self.u = u
+  }
 }</p>
 
-<p>let class2 = MyClass(t: 12, u: &ldquo;World&rdquo;)
-class2.u = &ldquo;Planet&rdquo; // No error
-class2 = MyClass(t: 11, u: &ldquo;Geoid&rdquo;) Error: class2 is an immutable reference</p>
+<p>let class2 = MyClass(t: 12, u: “World”)
+class2.u = “Planet” // No error
+class2 = MyClass(t: 11, u: “Geoid”) Error: class2 is an immutable reference</p>
 
 <p>```</p>
 
@@ -550,11 +480,10 @@ class2 = MyClass(t: 11, u: &ldquo;Geoid&rdquo;) Error: class2 is an immutable re
 因为struct是<code>值类型</code>,class是<code>引用类型</code></p>
 
 <ul>
-<li>Array</li>
+  <li>Array</li>
 </ul>
 
-
-<p>Swift arrays aren&rsquo;t like this &ndash; they are value types instead of reference types. This means that they behave like a struct, not a class. Therefore, the let or var keyword not only specifies whether or not the variable can be redefined, but also whether or not the created array is mutable.</p>
+<p>Swift arrays aren’t like this - they are value types instead of reference types. This means that they behave like a struct, not a class. Therefore, the let or var keyword not only specifies whether or not the variable can be redefined, but also whether or not the created array is mutable.</p>
 
 <p>```
 var array1 = [1,2,3,4]
@@ -566,7 +495,7 @@ array2.append(0) // Error: array2 is immutablearray2[2] = 36   // Error: array2 
 array2 = [5,6]   // Error: cannot reassign an immutable reference
 ```
 * AnyObject
-AnyObject behaves almost exactly the same as id in objective-C. The difference is that properties and methods which take no arguments will return nil if that method/property doesn&rsquo;t exist on the AnyObject:</p>
+AnyObject behaves almost exactly the same as id in objective-C. The difference is that properties and methods which take no arguments will return nil if that method/property doesn’t exist on the AnyObject:</p>
 
 <p><code>
 let myString: AnyObject = "hello"
@@ -575,14 +504,11 @@ myString.cornerRadius // Returns nil
 还可以有以下用法</p>
 
 <p>```
-func someFunc(parameter: AnyObject!) &ndash;> AnyObject! {
-  if let castedParameter = parameter as? NSString {</p>
-
-<pre><code>// Now I know I have a string :)
-...
-</code></pre>
-
-<p>  }
+func someFunc(parameter: AnyObject!) -&gt; AnyObject! {
+  if let castedParameter = parameter as? NSString {
+    // Now I know I have a string :)
+    …
+  }
 }</p>
 
 <p>func someArrayFunc(parameter: [AnyObject]!) {
@@ -597,15 +523,15 @@ protocol MyProtocol {
   func myProtocolMethod() -&gt; Bool
 }
 </code>
-In order to check conformance of a protocol that protocol must be an objective-C protocol &ndash; and annotated with @objc:</p>
+In order to check conformance of a protocol that protocol must be an objective-C protocol - and annotated with @objc:</p>
 
 <p>```
 @objc protocol MyNewProtocol {
-  func myProtocolMethod() &ndash;> Bool
+  func myProtocolMethod() -&gt; Bool
 }</p>
 
 <p>if let class1AsMyNewProtocol = class1 as? MyNewProtocol {
-  // We&rsquo;re in
+  // We’re in
 }
 ```
 * Double Optional</p>
@@ -621,7 +547,7 @@ var twice_optional: String?? = Optional.Some(nil)
 
 <p>```
 * Language can be changed
-在lldb中,对oc来说,$0,$1&hellip;.保存了之前的表达式,而在swift文件中则是$R0, $R1&hellip;.
+在lldb中,对oc来说,$0,$1….保存了之前的表达式,而在swift文件中则是$R0, $R1….
 ,可能断点在swift文件中停住了,此时调用[$0 class]可能会报错，可以用以下表达式</p>
 
 <p><code>
@@ -635,28 +561,22 @@ expr -l objc++ -- (Class)[$0 class]
 
 <p>假设有以下一个对象</p>
 
-<p>```
-class MyObject: NSObject {</p>
-
-<pre><code>var myInt = 1
-override var description: String! {
-    return "Hello Swift subclass. myInt = \(myInt)"
+<p><code>
+class MyObject: NSObject {
+	var myInt = 1
+	override var description: String! {
+		return "Hello Swift subclass. myInt = \(myInt)"
+	}
 }
-</code></pre>
+</code>
+如果有一个MyObject的对象objc,在lldb中调用<code>po object</code>命令，会出现以下结果</p>
 
-<p>}
-<code>``
-如果有一个MyObject的对象objc,在lldb中调用</code>po object`命令，会出现以下结果</p>
-
-<p>```
+<p><code>
 (lldb) po object
-0x0000000100700ea0</p>
-
-<pre><code>(ObjectiveC.NSObject) = {}, myInt = 1)
-</code></pre>
-
-<p><code>``
-如何让</code>po object`调用object的description方式</p>
+0x0000000100700ea0
+	(ObjectiveC.NSObject) = {}, myInt = 1)
+</code>
+如何让<code>po object</code>调用object的description方式</p>
 
 <p><code>
 expr -l objc++ -o -- 0x0000000100700ea0
@@ -670,30 +590,24 @@ Hello Swift subclass. myInt = 1
 
 <p>假设有以下struct</p>
 
-<p>```
-struct Address {</p>
+<p><code>
+struct Address {
+	var name: String
+	var city: String
+	var zip: Int
+	var state: State
+}
+</code>
+假设有一个Address的对象enrico,如果 <code>po enrico</code>则显示 </p>
 
-<pre><code>var name: String
-var city: String
-var zip: Int
-var state: State
-</code></pre>
-
-<p>}
-<code>``
-假设有一个Address的对象enrico,如果</code>po enrico`则显示</p>
-
-<p>```
-{</p>
-
-<pre><code>Name = "Enrico Granata"
-City = "Mountain View"
-Zip = 94043
-State = California
-</code></pre>
-
-<p>}
-```
+<p><code>
+{
+	Name = "Enrico Granata"
+	City = "Mountain View"
+	Zip = 94043
+	State = California
+}
+</code>
 可以按固定的格式显示，如下</p>
 
 <p><code>
@@ -721,12 +635,13 @@ _TF5MyApp6myFuncFTSiSi_TSS_ ---&gt; MyApp.myFunc (Swift.Int, Swift.Int) -&gt; (S
 </code></p>
 
 <ul>
-<li>@objc的妙用</li>
+  <li>@objc的妙用</li>
 </ul>
 
-
 <p><code>
-@objc protocol WeeklyWeatherContainer { var dailyWeather: [DailyWeather] { get set }}
+@objc protocol WeeklyWeatherContainer {
+	var dailyWeather: [DailyWeather] { get set }
+}
 </code>
  This protocol includes the @objc attribute as required for runtime conformance checking – i.e. checking that a particular object adopts a protocol at runtime, as opposed to compile time.</p>
 ]]></content>

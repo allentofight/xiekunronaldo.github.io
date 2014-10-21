@@ -9,9 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Head First C第七章笔记-高级函数 导读:这一章我们将学习函数的一些高级特性,如 将函数作为一个参数进行传递
-用比较函数进行排序
-用可变参数的函数让你的代码变得更加灵活 函数指针 int (*warp_fn)(int); 将函数指针当作参数传递给函数 1
+	<meta name="description" content="Head First C第七章笔记-高级函数 导读:这一章我们将学习函数的一些高级特性,如 将函数作为一个参数进行传递 用比较函数进行排序 用可变参数的函数让你的代码变得更加灵活 函数指针 int (*warp_fn)(int); 将函数指针当作参数传递给函数 1
 2
 3
 4
@@ -99,121 +97,130 @@ void &hellip;">
 	<div class="entry-content" itemprop="articleBody"><p>导读:这一章我们将学习函数的一些高级特性,如</p>
 
 <ol>
-<li>将函数作为一个参数进行传递</li>
-<li>用比较函数进行排序</li>
-<li>用可变参数的函数让你的代码变得更加灵活</li>
+  <li>将函数作为一个参数进行传递</li>
+  <li>用比较函数进行排序</li>
+  <li>用可变参数的函数让你的代码变得更加灵活</li>
 </ol>
 
-
-<h5>函数指针</h5>
+<h5 id="section">函数指针</h5>
 
 <pre><code>int (*warp_fn)(int);
 </code></pre>
 
 <p>将函数指针当作参数传递给函数</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void find(int (*mactch)(char *)){
-</span><span class='line'>  if (match(ADS[i])){
-</span><span class='line'>      //char *ADS[] = {"one", "two"};
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">void find(int (*mactch)(char *)){
+</span><span class="line">	if (match(ADS[i])){
+</span><span class="line">		//char *ADS[] = {"one", "two"};
+</span><span class="line">	}
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-
-<h5>用函数指针来排序</h5>
-
+<h5 id="section-1">用函数指针来排序</h5>
 <p>C标准库里有一个排序指针如下</p>
 
-<p><img src="/images/2014/7/qsort.png"></p>
+<p><img src="/images/2014/7/qsort.png" /></p>
 
-<p>假设你有以下整形数组，你想按升序排序，该如何写排序函数</p>
+<p>假设你有以下整形数组，你想按升序排序，该如何写排序函数 </p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int scores[] = {543,323,32,554,11,3,112};
-</span><span class='line'>int compare_scores(const void* score_a, const void* score_b)
-</span><span class='line'>{
-</span><span class='line'>  int a = *(int*)score_a; 
-</span><span class='line'>  int b = *(int*)score_b;
-</span><span class='line'>  return a-b;
-</span><span class='line'>}
-</span><span class='line'>qsort(scores, 7, sizeof(int), compare_scores);</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">int scores[] = {543,323,32,554,11,3,112};
+</span><span class="line">int compare_scores(const void* score_a, const void* score_b)
+</span><span class="line">{
+</span><span class="line">	int a = *(int*)score_a; 
+</span><span class="line">	int b = *(int*)score_b;
+</span><span class="line">	return a-b;
+</span><span class="line">}
+</span><span class="line">qsort(scores, 7, sizeof(int), compare_scores);</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>如果是一个char *p[]数组呢，该如何写compare函数</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int compare_names(const void* a, const void* b){
-</span><span class='line'>  char** sa = (char**)a;
-</span><span class='line'>  char** sb = (char**)b; 
-</span><span class='line'>  return strcmp(*sa, *sb);￼￼￼￼￼￼￼￼
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>函数指针数组</h5>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">int compare_names(const void* a, const void* b){
+</span><span class="line">	char** sa = (char**)a;
+</span><span class="line">	char** sb = (char**)b; 
+</span><span class="line">	return strcmp(*sa, *sb);
+￼￼￼￼￼￼￼￼
+</span><span class="line">}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>#####函数指针数组</p>
 
 <pre><code>//dump,second_change, marriage都是函数
-void (*replies[])(response) = {dump, second_chance, marriage};
+void (*replies[])(response) = {dump, second_chance, marriage}; 判断调用的是否是某个函数
+
+enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+replies[SECOND_CHANCE] == second_chance
 </code></pre>
 
-<p>判断调用的是否是某个函数</p>
+<p>完整的demo</p>
 
-<pre><code>enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
-replies[SECOND_CHANCE] == second_chance完整的demo
-typedef struct {    char *name; enum response_type type; } response;    enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+<pre><code>typedef struct {
+char *name;
+enum response_type type; } response;
+enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
 void (*replies[])(response) = {dump, second_chance, marriage};
 
 int main()
 {
-    response r[] = {            {"Mike", DUMP}, {"Luis", SECOND_CHANCE},            {"Matt", SECOND_CHANCE}, {"William", MARRIAGE}      };
-    int i;
-    for (i = 0; i &lt; 4; i++){
-        (replies[r[i].type])(r[i]);
-    }
-}
-</code></pre>
+	response r[] = {
+		{"Mike", DUMP}, {"Luis", SECOND_CHANCE}, 
+		{"Matt", SECOND_CHANCE}, {"William", MARRIAGE}
+	};
+	int i;
+	for (i = 0; i &lt; 4; i++){
+		(replies[r[i].type])(r[i]);
+	}
+} #####可变参函数 demo1
 
-<h5>可变参函数</h5>
-
-<p>demo1</p>
-
-<pre><code>#include &lt;stdarg.h&gt;
+#include &lt;stdarg.h&gt;
 void print_ints(int args, ....){
-    va_list ap; 
-    va_start(ap, args);
-    int i;
-    for (i = 0; i &lt; args; i++) {            printf("argument: %i\n", va_arg(ap, int));      }
-    va_end(ap);
-}
+	va_list ap; 
+	va_start(ap, args);
+	int i;
+	for (i = 0; i &lt; args; i++) {
+		printf("argument: %i\n", va_arg(ap, int)); 
+	}
+	va_end(ap);
+} 注:va_end,va_start是宏
 </code></pre>
-
-<p>注:va_end,va_start是宏</p>
 
 <p>demo2</p>
 
-<pre><code>enum drink {    MUDSLIDE, FUZZY_NAVEL, MONKEY_GLAND, ZOMBIE };
+<pre><code>enum drink {
+MUDSLIDE, FUZZY_NAVEL, MONKEY_GLAND, ZOMBIE
+};
 printf("Price is %.2f\n", total(3, MONKEY_GLAND, MUDSLIDE, FUZZY_NAVEL));
 double total(int args, ...)
 {
-    double total = 0;       va_list ap;
-    va_start(ap, args);             int i;
-    for(i = 0; i &lt; args; i++) {         enum drink d = va_arg(ap, enum drink);          total = total + price(d);       }       va_end(ap);     return total;
+	double total = 0;
+	va_list ap;
+
+	va_start(ap, args);
+	
+	int i;
+
+	for(i = 0; i &lt; args; i++) {
+		enum drink d = va_arg(ap, enum drink);
+		total = total + price(d); 
+	}
+	va_end(ap);
+	return total;
 }
 </code></pre>
+
 </div>
 
 </article>

@@ -94,171 +94,224 @@
 <p>本章中我们将学习以下几点</p>
 
 <ul>
-<li><p>How to instantiate a basic component<em> How to implement templates</em> How to make references to components<em> How component traversing works</em> How to make references to DOM nodes* How to fire and remove events using event handling### How to instantiate a basic component
-创建一个Sencha Touch view component
-<code>
-var c = Ext.create('Ext.Component', {
-  //key value pairs here, i.e.    html: 'Hello World!'});</code>in Sencha Touch you use a method, Ext.create(), to create a new object instance (in this case, Ext.component). This is because Sencha Touch has a built-in class system and class loader.
-<code>Note</code>:在js中，创建一个对象用new，但在sencha touch中,几乎不用，because the new operator won’t inform the Sencha loader to load the required classes in the background
-A much simpler way to render components to the DOM is what we call object literal notation (or lazy instantiation). You will probably use this more often when building real-world applications:
-<code>
-var c = {   xtype: 'component', html : 'Hello World'}</code>
-什么是xtype?xtype是以下键值对的别名<code>alias: widget.&lt;some-component&gt;</code>,通常你在以下两种情况下用到xtype:</p></li>
-<li><p>When you define your own custom class (a blueprint for objects you create), you set an alias name to this component so you can easily refer to it later.(下一章中我们将学习如何创建自己的类)* To create a component instance in the object literal notation, use the xtype defined in the class blueprint (as above).
-每一个Sencha view component都有一个xtype名字</p></li>
-<li><code>Ext.List</code>对应<code>xtype:'list'</code></li>
-<li><code>Ext.navigation.View</code>对应<code>xtype:'navigationview'</code>
+  <li>How to instantiate a basic component</li>
+  <li>How to implement templates</li>
+  <li>How to make references to components</li>
+  <li>How component traversing works</li>
+  <li>How to make references to DOM nodes</li>
+  <li>How to fire and remove events using event handling</li>
+</ul>
+
+<h3 id="how-to-instantiate-a-basic-component">How to instantiate a basic component</h3>
+
+<p>创建一个Sencha Touch view component</p>
+
+<p>&#8220;`
+var c = Ext.create(‘Ext.Component’, { 
+	//key value pairs here, i.e.
+	html: ‘Hello World!’
+});</p>
+
+<p>&#8220;`
+in Sencha Touch you use a method, Ext.create(), to create a new object instance (in this case, Ext.component). This is because Sencha Touch has a built-in class system and class loader.</p>
+
+<p><code>Note</code>:在js中，创建一个对象用new，但在sencha touch中,几乎不用，because the new operator won’t inform the Sencha loader to load the required classes in the background</p>
+
+<p>A much simpler way to render components to the DOM is what we call object literal notation (or lazy instantiation). You will probably use this more often when building real-world applications:</p>
+
+<p><code>
+var c = {
+	xtype: 'component', html : 'Hello World'
+}
+</code>
+什么是xtype?xtype是以下键值对的别名<code>alias: widget.&lt;some-component&gt;</code>,通常你在以下两种情况下用到xtype:</p>
+
+<ul>
+  <li>When you define your own custom class (a blueprint for objects you create), you set an alias name to this component so you can easily refer to it later.(下一章中我们将学习如何创建自己的类)</li>
+  <li>To create a component instance in the object literal notation, use the xtype defined in the class blueprint (as above).
+每一个Sencha view component都有一个xtype名字</li>
+  <li><code>Ext.List</code>对应<code>xtype:'list'</code></li>
+  <li><code>Ext.navigation.View</code>对应<code>xtype:'navigationview'</code>
 Tip</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>When you use Sencha Architect for building Sencha Touch or Ext JS apps and you are creating an interface, xtype has a different name. You will need to look for the setting useralias. In the code that it generates, Sencha Architect will use alias: widget.&lt;useralias-name&gt;. So, in other words, xtype: &lt;useralias-name&gt; is equivalent to alias: widget.&lt;useralias-name&gt;.</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">When you use Sencha Architect for building Sencha Touch or Ext JS apps and you are creating an interface, xtype has a different name. You will need to look for the setting useralias. In the code that it generates, Sencha Architect will use alias: widget.&lt;useralias-name&gt;. So, in other words, xtype: &lt;useralias-name&gt; is equivalent to alias: widget.&lt;useralias-name&gt;.
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>当我们创建components时(并且你不使用sencha-touch-all.js/sencha- touch-all-debug.js frameworks)，你需要告诉Sencha的Ext.Loader将相应的类载入内存中,Ext.Loader能将所有你指定的类和信赖关系按正确的顺序加载(类似java中的import),当你定义了自己的类并且嵌入了xtypes时，你可以将需要的类放requeires数据中告诉Ext.Loader去加载这些类,当用Ext.create()来创建这些components时,你能通过Ext.require()方法来加载这些类,<code>Ext.require("Ext.List");</code> or <code>requires: ["Ext.List"]</code>
 注意以上的例子中,我们把html的内容写死了,在生产环境中这是非常不合适的,我们常常希望能动态生成内容,我们改用Templates来实现</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.create('Ext.Component', {    tpl: Ext.create('Ext.XTemplate','&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;'),     data: {     name: 'Template',       description: 'This is an example of how to configure a basic template.'     }});</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Ext.create('Ext.Component', {
+	tpl: Ext.create('Ext.XTemplate','&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;'), 
+	data: {
+		name: 'Template',
+		description: 'This is an example of how to configure a basic template.' 
+	}
+});</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>如上所示,Ext.Component允许你使用Ext.Xtemplate来动态生成内容，再来看一个生产环境中的例子</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.onReady(function() { var data = {        name: 'Taxi Amsterdam',     description: 'The only taxi in Amsterdam that does not circle around'   };  Ext.create('Ext.Component', {       tpl: '&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;', data: data,     styleHtmlContent: true,     cls: 'box',     renderTo: Ext.getBody() }); });</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Ext.onReady(function() {
+	var data = {
+		name: 'Taxi Amsterdam',
+		description: 'The only taxi in Amsterdam that does not circle around'
+	};
+	Ext.create('Ext.Component', {
+		tpl: '&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;', data: data,
+		styleHtmlContent: true,
+		cls: 'box',
+		renderTo: Ext.getBody()
+	}); 
+});</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>动态改变数据</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var data = { name: 'Taxi Amsterdam', description: 'The only taxi in Amsterdam that does not circle around.'};var c = null;Ext.require('Ext.Component');Ext.onReady(function() {  c = Ext.create('Ext.Component', {       tpl: '&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;',         data: data,     styleHtmlContent: true,     cls: 'box',
-</span><span class='line'>      renderTo: Ext.getBody() 
-</span><span class='line'>  });
-</span><span class='line'>  data.description = "We like tourists a lot!"; c.setData(data);});</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">var data = {
+	name: 'Taxi Amsterdam',
+	description: 'The only taxi in Amsterdam that does not circle around.'
+};
+var c = null;
+Ext.require('Ext.Component');
 
+Ext.onReady(function() {
+	c = Ext.create('Ext.Component', {
+		tpl: '&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;', 
 
+		data: data,
+		styleHtmlContent: true,
+		cls: 'box',
+</span><span class="line">		renderTo: Ext.getBody() 
+</span><span class="line">	});
+</span><span class="line">	data.description = "We like tourists a lot!"; c.setData(data);
+});</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>以上的tpl还可简化为</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var myTpl = Ext.create('Ext.XTemplate','&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;');
-</span><span class='line'>c = Ext.create('Ext.Component', {     tpl: myTpl,         data: data,     styleHtmlContent: true,     cls: 'box',
-</span><span class='line'>      renderTo: Ext.getBody() 
-</span><span class='line'>  });</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">var myTpl = Ext.create(
+'Ext.XTemplate','&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;');
+</span><span class="line">c = Ext.create('Ext.Component', {
+		tpl: myTpl, 
+		data: data,
+		styleHtmlContent: true,
+		cls: 'box',
+</span><span class="line">		renderTo: Ext.getBody() 
+</span><span class="line">	});</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>在实际生产环境中,我们会把所有的HTML的templates保存到一个custom separate (singleton) class中，而不是让它暴露在全局域中(参见第八章中的<code> Defining Singletons and Static Members</code>):</p>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">//Example  utils/Template.js 
+</span><span class="line">Ext.define('Utils.utils.Template', {
+</span><span class="line">	statics: {
+		MY_TPL: Ext.create('Ext.XTemplate','&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;');
+} });</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>#### 实现更高级的Templates
+如果你不想把数据保存在一个随机的变量中，而是将数据从data store(假设为CabStore)load到template中,如下:</p>
 
-<p>在实际生产环境中,我们会把所有的HTML的templates保存到一个custom separate (singleton) class中，而不是让它暴露在全局域中(参见第八章中的<code>Defining Singletons and Static Members</code>):</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Ext.create('Ext.data.Store', { 
+</span><span class="line">	id:'CabStore',
+	fields: ['name', 'description'], 
+</span><span class="line">
+	data : [
+		{ name: "Taxi Amsterdam", description: "The best taxi service" + "of Amsterdam."},
+		{ name: "Cab &amp; Co", description: "Always fast."} 
+	]
+});
+</span><span class="line">
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//Example  utils/Template.js 
-</span><span class='line'>Ext.define('Utils.utils.Template', {
-</span><span class='line'>  statics: {      MY_TPL: Ext.create('Ext.XTemplate','&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;');} });</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>实现更高级的Templates</h4>
-
-<p>如果你不想把数据保存在一个随机的变量中，而是将数据从data store(假设为CabStore)load到template中,如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.create('Ext.data.Store', { 
-</span><span class='line'>  id:'CabStore',  fields: ['name', 'description'], 
-</span><span class='line'>  data : [        { name: "Taxi Amsterdam", description: "The best taxi service" + "of Amsterdam."},      { name: "Cab & Co", description: "Always fast."}    ]});
-</span><span class='line'>var myTpl = Ext.create('Ext.XTemplate', '&lt;tpl for="."&gt;',    '&lt;div class="row"&gt;',      '&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;',  '&lt;/div&gt;', '&lt;/tpl&gt;');
-</span><span class='line'>
-</span><span class='line'>Ext.create('Ext.DataView', {  itemTpl: myTpl, styleHtmlContent: true, cls: 'box', fullscreen: true,   height: 250});</span></code></pre></td></tr></table></div></figure>
-
+var myTpl = Ext.create('Ext.XTemplate', '&lt;tpl for="."&gt;', 
+	'&lt;div class="row"&gt;',
+		'&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;', 
+	'&lt;/div&gt;',
+	'&lt;/tpl&gt;'
+);
+</span><span class="line">
+</span><span class="line">Ext.create('Ext.DataView', {
+	itemTpl: myTpl,
+	styleHtmlContent: true,
+	cls: 'box',
+	fullscreen: true,
+	height: 250
+});</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p><code>&lt;tpl for="."&gt;</code> looping tags, which loop through the root (.) of all the data records. This <code>&lt;tpl&gt;</code> tag sets the template markup for every row of data.</p>
 
-<p>XTemplates是很强大的，不仅限于以上功能,You can run conditional expressions, basic math functions, built-in variables, custom member functions, and loops into templates.</p>
+<p>XTemplates是很强大的，不仅限于以上功能,You can run conditional expressions, basic math functions, built-in variables, custom member functions, and loops into templates.
+#### 引用Components
+之前我们讨论了如何创建一个component并配合template使用,现在我们看看如何引用component
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class=""><span class="line">ComponentQuery:
+Ext.ComponentQuery.query('selector');</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+//注意,In the component query, you pass in a string with the xtype:</p>
 
-<h4>引用Components</h4>
-
-<p>之前我们讨论了如何创建一个component并配合template使用,现在我们看看如何引用component</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ComponentQuery:Ext.ComponentQuery.query('selector');</span></code></pre></td></tr></table></div></figure>
-
-
-<p>//注意,In the component query, you pass in a string with the xtype:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var cars = Ext.ComponentQuery.query('car');</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">var cars = Ext.ComponentQuery.query('car');</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>或者搜索选择多个components:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var carsAndCabs = Ext.ComponentQuery.query("car, cab");</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">var carsAndCabs = Ext.ComponentQuery.query("car, cab");</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p><code>Tip</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>An alternative way of creating references to components is by using a refs object in the controller.</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">An alternative way of creating references to components is by using a refs object in the controller.</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>It’s also possible to retrieve components with a component query for <code>id</code> or <code>itemId</code>, by passing in the string id name, prefixed with a #. As itemIds are not globally unique, it is a better practice to use them(<code>itemIds</code>) instead of ids.</p>
 
-
-<p>It’s also possible to retrieve components with a component query for <code>id</code> or <code>itemId</code>, by passing in the string id name, prefixed with a #. As itemIds are not globally unique, it is a better practice to use them(<code>itemIds</code>) instead of ids.<code>
-Ext.ComponentQuery.query('#mybutton');</code>
+<p><code>
+Ext.ComponentQuery.query('#mybutton');
+</code>
 You can even make your component query more complex by passing in CSS-like selectors.
-select all panels that have the attribute title=&ldquo;Test&rdquo;:</p>
+select all panels that have the attribute title=”Test”:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.ComponentQuery.query('panel[title="Test"]');</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Ext.ComponentQuery.query('panel[title="Test"]');</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>Or we can select only child elements from a component:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.ComponentQuery.query('formpanel &gt; button');</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Ext.ComponentQuery.query('formpanel &gt; button');</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>#### Traversing Components
+以上最后一个例子就是<code>Traversing Components</code>,To traverse components, you can use the up() and down() methods to retrieve the first parent or first child component:</p>
 
-
-<h4>Traversing Components</h4>
-
-<p>以上最后一个例子就是<code>Traversing Components</code>,To traverse components, you can use the up() and down() methods to retrieve the first parent or first child component:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//get first parentmyComponent.up(el); //get first childmyComponent.down(el);
-</span><span class='line'>
-</span><span class='line'>var form = myButton.up('formpanel');var input = form.down('textfield[name="lastname"]');</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">//get first parent
+myComponent.up(el); //get first child
+myComponent.down(el);
+</span><span class="line">
+</span><span class="line">var form = myButton.up('formpanel');
+var input = form.down('textfield[name="lastname"]');</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>the up() or down() method returns the first parent or child that it finds.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; Ext.ComponentQuery.query('button') 
-</span><span class='line'>[Class, Class]
-</span><span class='line'>
-</span><span class='line'>&gt; Ext.Viewport.down('button')
-</span><span class='line'>Class {onInitializedListeners: Array[0],
-</span><span class='line'>initialConfig: Object, id: "mybutton",
-</span><span class='line'>getId: function, element: Class...}</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Making References to DOM Nodes</h4>
-
-<p>when you are creating custom components and plug-ins yourself, you might need to work with the DOM.</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt; Ext.ComponentQuery.query('button') 
+</span><span class="line">[Class, Class]
+</span><span class="line">
+</span><span class="line">&gt; Ext.Viewport.down('button')
+</span><span class="line">Class {onInitializedListeners: Array[0],
+</span><span class="line">initialConfig: Object, id: "mybutton",
+</span><span class="line">getId: function, element: Class...}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>#### Making References to DOM Nodes
+when you are creating custom components and plug-ins yourself, you might need to work with the DOM.</p>
 
 <p><code>Note</code></p>
 
@@ -267,398 +320,387 @@ select all panels that have the attribute title=&ldquo;Test&rdquo;:</p>
 <p>Sencha提供了三种方式获取DOM</p>
 
 <ul>
-<li>Getting Sencha’s version of a DOM element.</li>
-<li>Getting a collection of multiple direct DOM elements. * Getting the direct DOM node.
+  <li>Getting Sencha’s version of a DOM element.</li>
+  <li>Getting a collection of multiple direct DOM elements. </li>
+  <li>Getting the direct DOM node.
 假设有以下代码</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h2 id="title"&gt;Taxi Amsterdam&lt;/h2&gt; 
-</span><span class='line'>&lt;div id="description"&gt;      &lt;p&gt;Taxi description&lt;/p&gt;     &lt;p&gt;Taxi description2&lt;/p&gt;    &lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>Exg.get()</h5>
-
-<p>Ext.get(el) is the trick you use to retrieve the Ext.dom.Element, which is a kind of wrapper that encapsulates a DOM element, adding simple DOM manipulation facilities and normalizing for browser differences.
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&lt;h2 id="title"&gt;Taxi Amsterdam&lt;/h2&gt; 
+</span><span class="line">&lt;div id="description"&gt;
+		&lt;p&gt;Taxi description&lt;/p&gt;
+		&lt;p&gt;Taxi description2&lt;/p&gt; 
+	&lt;/div&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>##### Exg.get()
+Ext.get(el) is the trick you use to retrieve the Ext.dom.Element, which is a kind of wrapper that encapsulates a DOM element, adding simple DOM manipulation facilities and normalizing for browser differences.
 你可以传入以下三种形式</p>
 
 <ul>
-<li>An ID to the node<em> A DOM node</em> An existing Ext.Element
+  <li>An ID to the node</li>
+  <li>A DOM node</li>
+  <li>An existing Ext.Element
 测试结果</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var title = Ext.get('title'); 
-</span><span class='line'>console.log(title);
-</span><span class='line'>//result
-</span><span class='line'>Class {dom: h2#title, id: "title", self: function, 
-</span><span class='line'>superclass: Object, defaultConfig: emptyFn}</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">var title = Ext.get('title'); 
+</span><span class="line">console.log(title);
+</span><span class="line">//result
+</span><span class="line">Class {dom: h2#title, id: "title", self: function, 
+</span><span class="line">superclass: Object, defaultConfig: emptyFn}</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p><code>Note</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.get() is the shorthand notation for Ext.dom.Element.get().
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>Ext.select()</h5>
-
-<p>选择多个DOM elements,我们可以用Ext.select(selector)
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Ext.get() is the shorthand notation for Ext.dom.Element.get().
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>##### Ext.select()
+选择多个DOM elements,我们可以用Ext.select(selector)
 You can pass in a CSS-like selector (with an xtype, itemId, or CSS class), and it returns an Ext.dom.CompositeElementLite, which is a collection of DOM elements providing methods to filter members or to perform actions upon the whole set.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var pars = Ext.select("p");Class {elements: Array[2], el: Class, self: function, superclass: Object, defaultConfig: emptyFn}</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt; var pars = Ext.select("p");
+Class {elements: Array[2], el: Class, self: function, superclass: Object, defaultConfig: emptyFn}
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>获取第一个DOM Node</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; var firstPar = Ext.select("p").elements[0]; 
-</span><span class='line'>&lt;p&gt;Number one taxi in Amsterdam.&lt;/p&gt;</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">&gt; var firstPar = Ext.select("p").elements[0]; 
+</span><span class="line">&lt;p&gt;Number one taxi in Amsterdam.&lt;/p&gt;</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p><code>Note</code></p>
 
 <p>在JS中,你用以下方法来获取一个tag name的所有DOM</p>
 
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sb">```</span>
-</span><span class='line'><span class="sb">##### Ext.getDom()</span>
-</span><span class='line'><span class="sb">Finally, you can also request the true DOM with Ext JS by using Ext.getDom(el).</span>
-</span><span class='line'><span class="sb">You can pass in the following:</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">* An ID to the node</span>
-</span><span class='line'><span class="sb">* A DOM node</span>
-</span><span class='line'><span class="sb">* An existing Ext.Element</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">```</span>
-</span><span class='line'>  <span class="o">&gt;</span> <span class="n">var</span> <span class="n">title</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">getDom</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">h2</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;title&quot;</span><span class="o">&gt;</span><span class="no">Taxi</span> <span class="no">Amsterdam</span><span class="o">&lt;</span><span class="sr">/h2&gt;</span>
-</span><span class='line'><span class="sr">```</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">既然我们已经知道如何获取DOM elements和Sencha components,我们可以看看如何do something with these references</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">##### Handling Events</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">Event handling is done via the Ext.util.Observable mixin,A mixin is a technique to support (multiple) inheritance.(第四章将有介绍)The Ext.Component class uses the Ext.util.Observable mixin, which means that all components are able to respond to events, because Ext.Component is the base class for every view component in Sencha Touch.</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">有三种类型的events</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">* System events</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr"> Events invoked by the framework — for example, loading data with the load event.</span>
-</span><span class='line'><span class="sr">* Lifecycle events</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr"> Events invoked by the framework lifecycle — for example, painting a view with the painted event.</span>
-</span><span class='line'><span class="sr">* User events</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr"> Events invoked by the user — for example, a tap event.</span>
-</span><span class='line'><span class="sr">本节我们将关注User events</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">###### Firing Events</span>
-</span><span class='line'><span class="sr">在原生的JS代码中，如果你想监听一个tap event</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>function myEventHandler(ev) { //do something}element.addEventListener(&lsquo;touchend&rsquo;, myEventHandler);</p>
-
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">在</span><span class="no">Sencha</span> <span class="no">Touch</span><span class="err">中，你可以按如下方式来定义</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>listeners : {   tap: &lsquo;myEventHandler&rsquo;}</p>
-
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">来看</span><span class="no">Sench</span> <span class="no">Touch</span><span class="err">中的</span><span class="mi">3</span><span class="err">种监听方式</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">*</span> <span class="n">listeners</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">the</span> <span class="n">listeners</span> <span class="n">configuration</span> <span class="n">directly</span> <span class="n">into</span> <span class="n">the</span> <span class="n">component</span> <span class="ss">class</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ext.define(&lsquo;BookTaxiBtn&rsquo;, {</p>
-
-<pre><code>extend: 'Ext.Button', 
-xtype: 'booktaxibtn', 
-config: {       text: 'Book a Taxi - listeners', margin: 5,     listeners: {            tap: 'bookTaxiEventHandler'         },  },  bookTaxiEventHandler: function(b){      console.log('You tapped the ' + b.getText() + 'button');    }});
-</code></pre>
-
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">*</span> <span class="n">handler</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>var callTaxiBtn1 = Ext.create('Ext.Button', { 
-    text: '1: Call a Taxi - handler',       margin: 5,      handler: callTaxiEventHandler   });```
-</code></pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="sb">```</span>
+</span><span class="line"><span class="sb">##### Ext.getDom()</span>
+</span><span class="line"><span class="sb">Finally, you can also request the true DOM with Ext JS by using Ext.getDom(el).</span>
+</span><span class="line"><span class="sb">You can pass in the following:</span>
+</span><span class="line">
+</span><span class="line"><span class="sb">* An ID to the node</span>
+</span><span class="line"><span class="sb">* A DOM node</span>
+</span><span class="line"><span class="sb">* An existing Ext.Element</span>
+</span><span class="line">
+</span><span class="line"><span class="sb">```</span>
+</span><span class="line">	<span class="o">&gt;</span> <span class="n">var</span> <span class="n">title</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">getDom</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">);</span>
+</span><span class="line">	<span class="o">&lt;</span><span class="n">h2</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;title&quot;</span><span class="o">&gt;</span><span class="no">Taxi</span> <span class="no">Amsterdam</span><span class="o">&lt;</span><span class="sr">/h2&gt;</span>
+</span><span class="line"><span class="sr">```</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">既然我们已经知道如何获取DOM elements和Sencha components,我们可以看看如何do something with these references</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">##### Handling Events</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">Event handling is done via the Ext.util.Observable mixin,A mixin is a technique to support (multiple) inheritance.(第四章将有介绍)The Ext.Component class uses the Ext.util.Observable mixin, which means that all components are able to respond to events, because Ext.Component is the base class for every view component in Sencha Touch.</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">有三种类型的events</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">* System events</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">	Events invoked by the framework — for example, loading data with the load event.</span>
+</span><span class="line"><span class="sr">* Lifecycle events</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">	Events invoked by the framework lifecycle — for example, painting a view with the painted event.</span>
+</span><span class="line"><span class="sr">* User events</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">	Events invoked by the user — for example, a tap event.</span>
+</span><span class="line"><span class="sr">本节我们将关注User events</span>
+</span><span class="line">
+</span><span class="line"><span class="sr">###### Firing Events</span>
+</span><span class="line"><span class="sr">在原生的JS代码中，如果你想监听一个tap event</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>function myEventHandler(ev) { //do something
+}
+element.addEventListener(‘touchend’, myEventHandler);
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="err">在</span><span class="no">Sencha</span> <span class="no">Touch</span><span class="err">中，你可以按如下方式来定义</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+listeners : {
+	tap: ‘myEventHandler’
+}
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="err">来看</span><span class="no">Sench</span> <span class="no">Touch</span><span class="err">中的</span><span class="mi">3</span><span class="err">种监听方式</span>
+</span><span class="line">
+</span><span class="line"><span class="o">*</span> <span class="n">listeners</span>
+</span><span class="line">
+</span><span class="line">	<span class="n">the</span> <span class="n">listeners</span> <span class="n">configuration</span> <span class="n">directly</span> <span class="n">into</span> <span class="n">the</span> <span class="n">component</span> <span class="ss">class</span><span class="p">:</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+Ext.define(‘BookTaxiBtn’, { 
+	extend: ‘Ext.Button’, 
+	xtype: ‘booktaxibtn’, 
+	config: {
+		text: ‘Book a Taxi - listeners’, margin: 5,
+		listeners: {
+			tap: ‘bookTaxiEventHandler’ 
+		},
+	},
+	bookTaxiEventHandler: function(b){
+		console.log(‘You tapped the ‘ + b.getText() + ‘button’); 
+	}
+});
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="ruby"><span class="line"><span class="o">*</span> <span class="n">handler</span>
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+	var callTaxiBtn1 = Ext.create(‘Ext.Button’, { 
+		text: ‘1: Call a Taxi - handler’,
+		margin: 5,
+		handler: callTaxiEventHandler
+	});
+&#8220;`</p>
 
 <ul>
-<li>addListener()
-<code>
-var callTaxiBtn2 = Ext.create('Ext.Button', {
-  margin: 5,  text: '2: Call a Taxi - addListener' });
-callTaxiBtn2.addListener('tap', callTaxiEventHandler);</code>
-Here we use the short version of the addListener() method: the on() method. It takesthe event name and the function-to-execute name as arguments:
-<code>
-var callTaxiBtn3 = Ext.create('Ext.Button', {
-  margin: 5,  text: '3: Call a Taxi - on' });callTaxiBtn3.on('tap', callTaxiEventHandler);</code>
-You’ll just need to wrap each button in an Ext.application.launch() method:</li>
+  <li>addListener()</li>
 </ul>
 
+<p>&#8220;`
+var callTaxiBtn2 = Ext.create(‘Ext.Button’, { 
+	margin: 5,
+	text: ‘2: Call a Taxi - addListener’ 
+});</p>
 
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Ext</span><span class="o">.</span><span class="n">application</span><span class="p">({</span>
-</span><span class='line'>  <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Events&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="ss">requires</span><span class="p">:</span> <span class="o">[</span><span class="s1">&#39;BookTaxiBtn&#39;</span><span class="o">]</span><span class="p">,</span>
-</span><span class='line'>      <span class="ss">launch</span><span class="p">:</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>          <span class="n">var</span> <span class="n">callTaxiEventHandler</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>              <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;You tapped the &#39;</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">getText</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;button&#39;</span><span class="p">);</span>
-</span><span class='line'>          <span class="p">};</span>
-</span><span class='line'>          <span class="n">var</span> <span class="n">callTaxiBtn1</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span><span class='line'>              <span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;1: Call a Taxi - handler&#39;</span><span class="p">,</span>
-</span><span class='line'>              <span class="ss">margin</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-</span><span class='line'>              <span class="ss">handler</span><span class="p">:</span> <span class="n">callTaxiEventHandler</span>
-</span><span class='line'>          <span class="p">});</span>
-</span><span class='line'>          <span class="n">var</span> <span class="n">callTaxiBtn2</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span><span class='line'>              <span class="ss">margin</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-</span><span class='line'>              <span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;2: Call a Taxi - addListener&#39;</span>
-</span><span class='line'>          <span class="p">});</span>
-</span><span class='line'>          <span class="n">callTaxiBtn2</span><span class="o">.</span><span class="n">addListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">callTaxiEventHandler</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="n">var</span> <span class="n">callTaxiBtn3</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span><span class='line'>              <span class="ss">margin</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-</span><span class='line'>              <span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;3: Call a Taxi - on&#39;</span>
-</span><span class='line'>          <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>          <span class="n">callTaxiBtn3</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">callTaxiEventHandler</span><span class="p">);</span>
-</span><span class='line'>          <span class="sr">//</span><span class="no">Display</span> <span class="n">the</span> <span class="n">buttons</span><span class="p">,</span> <span class="k">for</span> <span class="n">testing</span> <span class="n">purposes</span>
-</span><span class='line'>          <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Container&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="ss">fullscreen</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
-</span><span class='line'>          <span class="ss">padding</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-</span><span class='line'>          <span class="ss">items</span><span class="p">:</span> <span class="o">[</span>
-</span><span class='line'>              <span class="n">callTaxiBtn1</span><span class="p">,</span>
-</span><span class='line'>              <span class="n">callTaxiBtn2</span><span class="p">,</span>
-</span><span class='line'>              <span class="n">callTaxiBtn3</span><span class="p">,</span>
-</span><span class='line'>              <span class="p">{</span> <span class="ss">xtype</span><span class="p">:</span> <span class="s1">&#39;booktaxibtn&#39;</span><span class="p">}</span>
-</span><span class='line'>          <span class="o">]</span>
-</span><span class='line'>          <span class="p">});</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>callTaxiBtn2.addListener(‘tap’, callTaxiEventHandler);
+&#8220;`
+Here we use the short version of the addListener() method: the on() method. It takes
+the event name and the function-to-execute name as arguments:</p>
 
+<p><code>
+var callTaxiBtn3 = Ext.create('Ext.Button', { 
+	margin: 5,
+	text: '3: Call a Taxi - on' 
+});
+callTaxiBtn3.on('tap', callTaxiEventHandler);
+</code>
+You’ll just need to wrap each button in an Ext.application.launch() method:</p>
 
-<h6>Removing Events</h6>
-
-<p>To remove a listener, you need a reference to its function. In case you want to remove event listeners, it’s a good practice to not write event-handler function bodies inline in the code. You should always assign functions to a variable;otherwise, it will be hard to reference the function to remove(from outside the function body).
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Ext</span><span class="o">.</span><span class="n">application</span><span class="p">({</span>
+</span><span class="line">	<span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Events&#39;</span><span class="p">,</span>
+</span><span class="line">		<span class="ss">requires</span><span class="p">:</span> <span class="o">[</span><span class="s1">&#39;BookTaxiBtn&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class="line">		<span class="ss">launch</span><span class="p">:</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">			<span class="n">var</span> <span class="n">callTaxiEventHandler</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">				<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;You tapped the &#39;</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">getText</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;button&#39;</span><span class="p">);</span>
+</span><span class="line">			<span class="p">};</span>
+</span><span class="line">			<span class="n">var</span> <span class="n">callTaxiBtn1</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class="line">				<span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;1: Call a Taxi - handler&#39;</span><span class="p">,</span>
+</span><span class="line">				<span class="ss">margin</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class="line">				<span class="ss">handler</span><span class="p">:</span> <span class="n">callTaxiEventHandler</span>
+</span><span class="line">			<span class="p">});</span>
+</span><span class="line">			<span class="n">var</span> <span class="n">callTaxiBtn2</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class="line">				<span class="ss">margin</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class="line">				<span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;2: Call a Taxi - addListener&#39;</span>
+</span><span class="line">			<span class="p">});</span>
+</span><span class="line">			<span class="n">callTaxiBtn2</span><span class="o">.</span><span class="n">addListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">callTaxiEventHandler</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">			<span class="n">var</span> <span class="n">callTaxiBtn3</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class="line">				<span class="ss">margin</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class="line">				<span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;3: Call a Taxi - on&#39;</span>
+</span><span class="line">			<span class="p">});</span>
+</span><span class="line">
+</span><span class="line">			<span class="n">callTaxiBtn3</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">callTaxiEventHandler</span><span class="p">);</span>
+</span><span class="line">			<span class="sr">//</span><span class="no">Display</span> <span class="n">the</span> <span class="n">buttons</span><span class="p">,</span> <span class="k">for</span> <span class="n">testing</span> <span class="n">purposes</span>
+</span><span class="line">			<span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Container&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="ss">fullscreen</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class="line">			<span class="ss">padding</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+</span><span class="line">			<span class="ss">items</span><span class="p">:</span> <span class="o">[</span>
+</span><span class="line">				<span class="n">callTaxiBtn1</span><span class="p">,</span>
+</span><span class="line">				<span class="n">callTaxiBtn2</span><span class="p">,</span>
+</span><span class="line">				<span class="n">callTaxiBtn3</span><span class="p">,</span>
+</span><span class="line">				<span class="p">{</span> <span class="ss">xtype</span><span class="p">:</span> <span class="s1">&#39;booktaxibtn&#39;</span><span class="p">}</span>
+</span><span class="line">			<span class="o">]</span>
+</span><span class="line">			<span class="p">});</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>###### Removing Events
+To remove a listener, you need a reference to its function. In case you want to remove event listeners, it’s a good practice to not write event-handler function bodies inline in the code. You should always assign functions to a variable;otherwise, it will be hard to reference the function to remove(from outside the function body).
 原生的JS，可以按以下方式来removeEventListener</p>
 
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">element</span><span class="o">.</span><span class="n">removeEventListener</span><span class="p">(</span><span class="s1">&#39;touchend&#39;</span><span class="p">,</span><span class="n">myEventHandler</span><span class="p">,</span><span class="kp">false</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">element</span><span class="o">.</span><span class="n">removeEventListener</span><span class="p">(</span><span class="s1">&#39;touchend&#39;</span><span class="p">,</span><span class="n">myEventHandler</span><span class="p">,</span><span class="kp">false</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>To remove an event listener, use the removeListener() method, pass in the event name you want to remove</p>
 
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">button</span><span class="o">.</span><span class="n">removeListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">myEventHandler</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">button</span><span class="o">.</span><span class="n">removeListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">myEventHandler</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>以下为完整演示demo</p>
 
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Ext</span><span class="o">.</span><span class="n">application</span><span class="p">({</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Events&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">launch</span><span class="p">:</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>      <span class="n">var</span> <span class="n">callTaxiEventHandler</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>          <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;You tapped the &#39;</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">getText</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;button&#39;</span><span class="p">);</span>
-</span><span class='line'>          <span class="n">this</span><span class="o">.</span><span class="n">removeListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">callTaxiEventHandler</span><span class="p">);</span>
-</span><span class='line'>          <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;From now on, you can not call again.&#39;</span><span class="p">);</span>
-</span><span class='line'>      <span class="p">};</span>
-</span><span class='line'>      <span class="n">var</span> <span class="n">callTaxi</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span><span class='line'>          <span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;Call the Taxi&#39;</span><span class="p">,</span>
-</span><span class='line'>          <span class="ss">margin</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-</span><span class='line'>          <span class="ss">listeners</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>              <span class="ss">tap</span><span class="p">:</span> <span class="n">callTaxiEventHandler</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>      <span class="p">});</span>
-</span><span class='line'>      <span class="sr">//</span><span class="n">just</span> <span class="k">for</span> <span class="n">testing</span> <span class="n">purposes</span>
-</span><span class='line'>      <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Container&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span><span class='line'>          <span class="ss">fullscreen</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
-</span><span class='line'>          <span class="ss">padding</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-</span><span class='line'>          <span class="ss">items</span><span class="p">:</span> <span class="o">[</span><span class="n">callTaxi</span><span class="o">]</span>
-</span><span class='line'>      <span class="p">});</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Ext</span><span class="o">.</span><span class="n">application</span><span class="p">({</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Events&#39;</span><span class="p">,</span>
+</span><span class="line">	<span class="ss">launch</span><span class="p">:</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">		<span class="n">var</span> <span class="n">callTaxiEventHandler</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">			<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;You tapped the &#39;</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">getText</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;button&#39;</span><span class="p">);</span>
+</span><span class="line">			<span class="n">this</span><span class="o">.</span><span class="n">removeListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">callTaxiEventHandler</span><span class="p">);</span>
+</span><span class="line">			<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;From now on, you can not call again.&#39;</span><span class="p">);</span>
+</span><span class="line">		<span class="p">};</span>
+</span><span class="line">		<span class="n">var</span> <span class="n">callTaxi</span> <span class="o">=</span> <span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class="line">			<span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;Call the Taxi&#39;</span><span class="p">,</span>
+</span><span class="line">			<span class="ss">margin</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class="line">			<span class="ss">listeners</span><span class="p">:</span> <span class="p">{</span>
+</span><span class="line">				<span class="ss">tap</span><span class="p">:</span> <span class="n">callTaxiEventHandler</span>
+</span><span class="line">			<span class="p">}</span>
+</span><span class="line">		<span class="p">});</span>
+</span><span class="line">		<span class="sr">//</span><span class="n">just</span> <span class="k">for</span> <span class="n">testing</span> <span class="n">purposes</span>
+</span><span class="line">		<span class="no">Ext</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;Ext.Container&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class="line">			<span class="ss">fullscreen</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class="line">			<span class="ss">padding</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+</span><span class="line">			<span class="ss">items</span><span class="p">:</span> <span class="o">[</span><span class="n">callTaxi</span><span class="o">]</span>
+</span><span class="line">		<span class="p">});</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p><code>Note</code></p>
 
 <p>Just as the on() method is a shorthand version for addListener(), there is a shorthand version for the removeListener() function un(). So, instead of:</p>
 
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">button</span><span class="o">.</span><span class="n">removeListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">myEventHandler</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">button</span><span class="o">.</span><span class="n">removeListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">myEventHandler</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>you can use:</p>
 
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">button</span><span class="o">.</span><span class="n">un</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">myEventHandler</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">button</span><span class="o">.</span><span class="n">un</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="n">myEventHandler</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>###### Firing Custom Events
+监听模式</p>
 
-
-<p></p>
-
-<h6>Firing Custom Events</h6>
-
-<p>监听模式</p>
-
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">listeners</span> <span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>  <span class="ss">tap</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="n">e</span><span class="p">){</span>
-</span><span class='line'>      <span class="n">this</span><span class="o">.</span><span class="n">up</span><span class="p">(</span><span class="s1">&#39;taxiview&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fireEvent</span><span class="p">(</span><span class="s1">&#39;calltaxi&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">listeners</span> <span class="p">:</span> <span class="p">{</span>
+</span><span class="line">	<span class="ss">tap</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="n">e</span><span class="p">){</span>
+</span><span class="line">		<span class="n">this</span><span class="o">.</span><span class="n">up</span><span class="p">(</span><span class="s1">&#39;taxiview&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fireEvent</span><span class="p">(</span><span class="s1">&#39;calltaxi&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>The controller listens to the custom calltaxi event:</p>
 
-<figure class='code'><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Ext</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="s1">&#39;TaxiController&#39;</span><span class="p">,</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kp">extend</span><span class="p">:</span> <span class="s1">&#39;Ext.app.Controller&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">config</span><span class="p">:</span> <span class="p">{</span> <span class="ss">control</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>      <span class="s1">&#39;taxiview&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="ss">calltaxi</span><span class="p">:</span> <span class="s1">&#39;onCallTaxi&#39;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'>  <span class="ss">onCallTaxi</span><span class="p">:</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>      <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Call the Taxi&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>pars = document.getElementsByTagName(&#8216;p&#8217;);</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="no">Ext</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="s1">&#39;TaxiController&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class="line">	<span class="kp">extend</span><span class="p">:</span> <span class="s1">&#39;Ext.app.Controller&#39;</span><span class="p">,</span>
+</span><span class="line">	<span class="ss">config</span><span class="p">:</span> <span class="p">{</span> <span class="ss">control</span><span class="p">:</span> <span class="p">{</span>
+</span><span class="line">		<span class="s1">&#39;taxiview&#39;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class="line">			<span class="ss">calltaxi</span><span class="p">:</span> <span class="s1">&#39;onCallTaxi&#39;</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line">	<span class="p">},</span>
+</span><span class="line">	<span class="ss">onCallTaxi</span><span class="p">:</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">		<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Call the Taxi&quot;</span><span class="p">);</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 </article>

@@ -89,7 +89,7 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Regular Expression</h1>
-	<div class="entry-content" itemprop="articleBody"><p>正则表达式如下</p>
+	<div class="entry-content" itemprop="articleBody"><p>正则表达式如下	</p>
 
 <pre><code>/cat/
 
@@ -98,7 +98,7 @@
 
 <p>正则表达式<code>/.../</code>里的常量和双引号的字符串类似,实际上，你可以在正则里，你也可以用<code>#{...}</code>表达式的替换形式</p>
 
-<h5>Matching Strings with Patterns</h5>
+<h5 id="matching-strings-with-patterns">Matching Strings with Patterns</h5>
 
 <pre><code>/cat/ =~ "dog and cat" # =&gt; 8 
 
@@ -119,74 +119,99 @@
 <p>模式匹配如果失败，会返回nil、，而nil在条件表达式中相当于false，所以可以把正则表达式的匹配结果作为if和while的条件语句</p>
 
 <pre><code>str = "cat and dog"
-    if str =~ /cat/
+
+if str =~ /cat/
+
 puts "There's a cat here somewhere"
+
 end
+
 produces:
+
 There's a cat here somewhere
 </code></pre>
 
-<p>以下的代码打印&#8221;testfile&#8221;文件中有&#8221;on&#8221;字符串的行</p>
+<p>以下的代码打印”testfile”文件中有”on”字符串的行</p>
 
 <pre><code>File.foreach("testfile").with_index do |line, index| 
 
 puts "#{index}: #{line}" if line =~ /on/
-    end
+
+end
+
 produces:
+
 0: This is line one
-3: And so on...你可以用!~来查找`不匹配`的字符串
 
-File.foreach("testfile").with_index do |line, index| 
+3: And so on...
+</code></pre>
 
-    puts "#{index}: #{line}" if line !~ /on/
-        end
+<p>你可以用!~来查找<code>不匹配</code>的字符串</p>
+
+<pre><code>File.foreach("testfile").with_index do |line, index| 
+
+	puts "#{index}: #{line}" if line !~ /on/
+	
+end
+
 produces:
+
 1: This is line two
+
 2: This is line three
 </code></pre>
 
-<h5>Changing Strings with Patterns</h5>
-
+<h5 id="changing-strings-with-patterns">Changing Strings with Patterns</h5>
 <p>sub方法用来查找并替换匹配的字符串</p>
 
 <pre><code>str = "Dog and Cat"
-    new_str = str.sub(/Cat/, "Gerbil")
+
+new_str = str.sub(/Cat/, "Gerbil")
+
 puts "Let's go to the #{new_str} for a pint."
+
 produces:
+
 Let's go to the Dog and Gerbil for a pint.
 </code></pre>
 
 <p>sub只是替换第一个匹配的，要替换全局匹配的，就用gsub</p>
 
 <pre><code>str = "Dog and Cat"
-    new_str1 = str.sub(/a/, "*") 
+
+new_str1 = str.sub(/a/, "*") 
+
 new_str2 = str.gsub(/a/, "*") 
+
 puts "Using sub: #{new_str1}" 
+
 puts "Using gsub: #{new_str2}"
+
 produces:
+
 Using sub: Dog *nd Cat
-Using gsub: Dog *nd C*t 
-</code></pre>
 
-<p>需要注意的是，sub和gsub都返回一个全新的string,不论是否替换！如果替换，也返回原string的一个copy
-如果你想要修改原始的string，你可以用sub!和gsub!的形式</p>
+Using gsub: Dog *nd C*t	 需要注意的是，sub和gsub都返回一个全新的string,不论是否替换！如果替换，也返回原string的一个copy 如果你想要修改原始的string，你可以用sub!和gsub!的形式
 
-<pre><code>str = "now is the time" 
+str = "now is the time" 
 
 str.sub!(/i/, "*") 
 
 str.gsub!(/t/, "T") 
 
 puts str
-    produces:
+
+produces:
+
 now *s The Time
 </code></pre>
 
 <p>不过不像sub和gsub，sub!和gsub!只有在匹配正则表达式时才返回string，如果不匹配，则返回nil，这意味着你可以将它放在条件语句中</p>
 
-<h5>Digging Deeper</h5>
+<h5 id="digging-deeper">Digging Deeper</h5>
 
-<p>未完待续&hellip;.</p>
+<p>未完待续….</p>
+
 </div>
 
 </article>
