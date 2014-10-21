@@ -8,14 +8,14 @@ categories: Sencha Touch
 #### Adding Non-MVC Folders to Your Build Package
 For the FindACab app, I have added the utils folder to the app classpath in ./sencha/sencha.cfg:
 
-```app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils
-```
+	app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils
 
 
 #### Adding Extra Resources to Your Build Package
 In other situations, you might want to include extra resources to your build package — for example, a folder with images or a folder with JSON data. There are two ways to include these in your build. I will explain both. First (the easy way, shown in Example 14-1), you can add the folder to the resources array in the `app.json` file. By default, Sencha Cmd already created a selection.
 
-```//Example 14-1. Additional resources that need to be copied during the build process
+```
+	#Example 14-1. Additional resources that need to be copied during the build process
 
 "resources": [ 
 	"resources/images", 

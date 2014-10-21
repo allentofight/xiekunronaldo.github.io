@@ -1106,8 +1106,7 @@ typeof x === 'undefined'
 ##### Pattern: providing a default value 
 Sometimes there are situations where a value (a parameter, the result of a function, etc.) can be either a nonvalue (undefined, null) or an actual value. If you want to provide a default value for the former case, you can use the Or operator:
 
-```    theValue || defaultValue
-```
+    theValue || defaultValue
 The preceding expression evaluates to theValue if it is truthy and to defaultValue otherwise. The usual caveat applies: defaultValue will also be returned if theValue has a falsy value other than undefined and null. Let’s look at three examples of using that pattern.
 
 * Example 1: a default for a parameter
@@ -1117,8 +1116,7 @@ function saveText(text) {
 This is the most common use of || as a default operator. Consult “Optional Parame‐ ters” on page 173 for more on optional parameters.
 * Example 2: a default for a property
 The object options may or may not have the property title. If it is missing, the value 'Untitled' should be used when setting the title:
-
-```    setTitle(options.title || 'Untitled');```
+    setTitle(options.title || 'Untitled');
 * Example 3: a default for the result of a function
 
 The function countOccurrences counts how often regex matches inside str:
@@ -1129,8 +1127,9 @@ function countOccurrences(regex, str) {	// Omitted: check that /g is set for `r
 #### Numbers
 JavaScript has a single type for all numbers: it treats all of them as floating-point num‐ bers. However, the dot is not displayed if there are no digits after the decimal point:
 
-```> 5.0005
-> Number('\t\v\r12.34\n ')  // ignores leading and trailing whitespace12.34```
+```javascript
+	> 5.000	5
+		> Number('\t\v\r12.34\n ')  // ignores leading and trailing whitespace	12.34```
 ##### parseFloat()
 *  Applying parseFloat() to a nonstring is less efficient, because it coerces its argu‐ ment to a string before parsing it. As a consequence, many values that Number() converts to actual numbers are converted to NaN by parseFloat():
 
