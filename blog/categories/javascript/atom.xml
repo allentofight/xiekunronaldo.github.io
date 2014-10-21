@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Javascript | AllenToFight Blog]]></title>
+  <title><![CDATA[Category: javascript | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T19:57:38+08:00</updated>
+  <updated>2014-10-21T20:22:11+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
