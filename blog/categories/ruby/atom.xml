@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T17:21:35+08:00</updated>
+  <updated>2014-10-21T18:44:02+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -350,7 +350,7 @@ Second hyperlink is
 
 <p>异常的信息被封装进了Exception类的对象或者Exception类的子类对象里,Ruby预定义了exceptions的hierarchy,如下</p>
 
-<p>{% img /images/2014/7/exception_hierarchy.png%}</p>
+<p><img src="/images/2014/7/exception_hierarchy.png"></p>
 
 <p>如果你需要抛出异常,你可以用内置的Exception的类,或者可以自己创建一个，不过请确保你创建的Exception
 子类继承自StandardError或者它的子类,否则默认情况下异常是不会被捕捉的
@@ -785,7 +785,7 @@ false
 <p>以上调用<code>t != "value"</code>时,首先调用t = &ldquo;value&rdquo;,然后再对结果取反
 各操作符的意义如下</p>
 
-<p>{% img /images/2014/7/operator.png%}</p>
+<p><img src="/images/2014/7/operator.png"></p>
 
 <h5>if and unless Expressions</h5>
 

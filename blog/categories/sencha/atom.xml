@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sencha | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/sencha/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T17:21:35+08:00</updated>
+  <updated>2014-10-21T18:44:02+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,40 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Sencha Touch问题汇总]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/10/12/sencha-touchwen-ti-hui-zong/"/>
-    <updated>2014-10-12T09:42:19+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/10/12/sencha-touchwen-ti-hui-zong</id>
-    <content type="html"><![CDATA[<ol>
-<li><p><a href="http://abitofcoding.blogspot.ch/2014/01/ios7-phonegap-layout-fix.html">iOS7 Phonegap / Cordova statusbar fix</a></p></li>
-<li><p>适配retina屏</p></li>
-</ol>
-
-
-<p>```</p>
-
-<pre><code>#yourimage {
-    height: 100px;
-    width: 320px;
-    -webkit-background-size: 320px 100px; // Critical line! 
-    background: url("images/yourimage.png") no-repeat;
-}
-</code></pre>
-
-<p>// This detects the iPhone 4 Retina display</p>
-
-<pre><code>@media only screen and (-webkit-min-device-pixel-ratio: 2) {
-    #yourimage {
-        background: url("images/yourimage@2x.png") no-repeat;
-    }
-}
-</code></pre>
-
-<p>```</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Build]]></title>
@@ -56,14 +22,17 @@
 
 <p>For the FindACab app, I have added the utils folder to the app classpath in ./sencha/sencha.cfg:</p>
 
-<p><code>app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils
-</code></p>
+<pre><code>app.classpath=${app.dir}/app.js,${app.dir}/app,${app.dir}/utils
+</code></pre>
 
 <h4>Adding Extra Resources to Your Build Package</h4>
 
 <p>In other situations, you might want to include extra resources to your build package — for example, a folder with images or a folder with JSON data. There are two ways to include these in your build. I will explain both. First (the easy way, shown in Example 14-1), you can add the folder to the resources array in the <code>app.json</code> file. By default, Sencha Cmd already created a selection.</p>
 
-<p>```//Example 14-1. Additional resources that need to be copied during the build process</p>
+<p>```</p>
+
+<pre><code>#Example 14-1. Additional resources that need to be copied during the build process
+</code></pre>
 
 <p>&ldquo;resources&rdquo;: [</p>
 
@@ -200,7 +169,7 @@ There are some great resources on Sass and CSS at <a href="http://sass-lang.com/
 When you want to implement a messagebox, you will have to require Ext.MessageBox at the top of your view class. You don’t need to instantiate a messagebox (although you could); Ext.Msg is a global shared singleton instance of the Ext.MessageBox class that you can use in most cases:
 The previous code describes the alert() method, which you can visually compare with the standard alert messagebox in JavaScript. See Figure 11-1.</p>
 
-<p>{% img /images/2014/10/figure11-1.png%}</p>
+<p><img src="/images/2014/10/figure11-1.png"></p>
 
 <p>It displays a small window, with a title, a message, and an OK button. In addition to thealert, there are these types of messageboxes:
 * prompt(), shown in Figure 11-2, which is a messagebox with a title, message, a textfield, and Cancel and OK buttons<em> confirm(), shown in Figure 11-3, which is a messagebox with a title, a message, and No and Yes buttons</em> show(), which provides even more options.
@@ -262,7 +231,7 @@ var pirateBox = Ext.Msg.show({
       alert('You pressed the "' + buttonId + '" button.');
   }
 });</code>
-{% img /images/2014/10/figure11-4.png%}</li>
+<img src="/images/2014/10/figure11-4.png"></li>
 </ul>
 
 
@@ -272,7 +241,7 @@ var pirateBox = Ext.Msg.show({
 
 <p>When you want to implement a toolbar (or title bar) view component (Figure 11-5), you will have to add the Ext.Toolbar (or Ext.TitleBar) to the requires at the top of your view class. After that, you can instantiate the component by using the Ext.create(&ldquo;Ext.Toolbar&rdquo;, {}) syntax, or by lazy instantiating (nesting the xtype called toolbar). Using the xtype is the best practice for coding real-world MVC applications.</p>
 
-<p>{% img /images/2014/10/figure11-5.png%}</p>
+<p><img src="/images/2014/10/figure11-5.png"></p>
 
 <p>Implementing a title bar works exactly the same. The only difference is that the class from which you implement the instance is called Ext.TitleBar and the xtype is called titlebar. Although the title bar does not extend from Ext.Toolbar, they have a very similar appearance and setup.</p>
 
@@ -473,6 +442,431 @@ Be aware that the Application Cache can be a pain sometimes for the following re
 <p><code>TIP</code></p>
 
 <p>A manifest file must be served with the <code>MIME-typ</code>e text/cache-manifest. You may need to add this custom file type to your web server or to a .htaccess file: AddType text/cache-manifest .appcache.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Data Stores]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/10/07/data-stores/"/>
+    <updated>2014-10-07T16:16:36+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/10/07/data-stores</id>
+    <content type="html"><![CDATA[<p>A data store is a mechanism to cache your data and is part of the Ext.data package. It is like a bucket full of data records. You can pick (select) a record out of this bucket (the data store) and add or remove records. Stores also provide functions for sorting, filtering, and grouping the model instances. You’ll need to give a model structure to the store with data. You can do this inline by setting the fields and data arrays (hardcoded), but a better MVC approach is to bind a model to the data store.</p>
+
+<p>Sencha Touch has data-aware components — such as <code>lists, dataviews, and charts</code> — that need to be hooked up to a store in order to display data. I will discuss those in<code>Chapter 11.</code>In this chapter, you’ll learn:
+* How to load data in a store<em> How to sort a data store locally How to sort data on a server</em> How to group a data store* How to filter a data store locally
+* How to filter a data store on a server
+* How to save/sync data in a store</p>
+
+<h4>Loading Data in a Store</h4>
+
+<p>For the FindACab app to be able to display the data, the data needs to be contained in the store. By default, when you create a store (and the data is not hardcoded), you will have to load the model data into your store.When autoLoad is not enabled, you have to manually load the store from your code, or from your developer’s console:</p>
+
+<p><code>
+Ext.getStore('MyStore').load(this, records, successful, operation, eOpts);
+</code>
+<code>NOTE</code></p>
+
+<p><code>Ext.getStore("MyStore")</code> is a lookup method; it finds a store (if the store is registered in the Ext.application() or controller) based on the store instance name or storeId through the StoreManager. Really, it’s a short alias for <code>Ext.data.StoreManager.lookup("myStore")</code>;.</p>
+
+<p>We want the FindACab app to retrieve a list of cabs in the area. We already hooked up a proxy to the store, so we can load the data. When you run the Ext.getStore(&ldquo;Cabs&rdquo;).load() event in the console, it will look up the Cabs store through the StoreManager and return a store object with a data array that contains 20 items.</p>
+
+<p>Instead of just loading the store, you can also handle a callback:</p>
+
+<p>```
+Ext.getStore(&lsquo;Cabs&rsquo;).load({</p>
+
+<pre><code>callback: function(records, success, operation) {
+    //callback function here
+    console.log(records);
+},
+scope: this
+</code></pre>
+
+<p>});
+<code>
+The store has a callback function, which in this case logs all records after the store is loaded. You can also set a scope. In this case, when you log console.log(this) in your callback, it won’t log the scope within the callback, but rather the scope of the class where the store load() event is called.`TIP`
+</code>
+There are more events you can listen for in the store; for example, addrecords, beforeload, beforesync, refresh, removerecords, updaterecords, and write. Check the API docs for more details about the different store events.<code>
+Now you will modify the store proxy config. Instead of entering a full proxy URL, you will retrieve the URL, the YELP_API key, and the YELP_TERM from the Utils.Commons static file, so it’s better organized. You can send parameters with the request by using the extraParams object, and you can modify these parameters from elsewhere in your code, as shown in Example 9-1.
+</code>
+Example 9 &ndash; 1.store / Cabs.js
+Ext.define(&lsquo;FindACab.store.Cabs&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.data.Store',
+requires: ['Ext.data.proxy.JsonP'],
+config: {
+    model: 'FindACab.model.Cab',
+    autoLoad: false,
+    proxy: {
+        type: 'jsonp',
+        url: Utils.Commons.YELP_API,
+        noCache: false,
+        extraParams: {
+            term: Utils.Commons.YELP_TERM,
+            ywsid: Utils.Commons.YELP_KEY,
+            location: Utils.Commons.LOCATION
+        },
+        reader: {
+            type: 'json',
+            rootProperty: 'businesses',
+        }
+    },
+}
+</code></pre>
+
+<p>});<code>
+In order to maintain the store callback in the controller, you will create a system event listener to listen to the store load event. For now, this code will only log the results, and show and hide a loading indicator. Example 9-2 shows the new FindACab.controller.CabController.
+</code>
+Example 9-2. controller/CabController.js
+```
+Ext.define(&lsquo;FindACab.controller.CabController&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.app.Controller',
+config: {
+    models: ['Cab'],
+    stores: ['Cabs']
+},
+init: function() {
+    Ext.Viewport.mask({
+        xtype: 'loadmask',
+        message: 'loading...'
+    });
+    Ext.getStore('Cabs').load();
+    Ext.getStore('Cabs').addListener('load',
+        this.onCabsStoreLoad,
+        this);
+},
+onCabsStoreLoad: function(records, success, operation) {
+    console.log(records.getData());
+    Ext.Viewport.unmask();
+}
+</code></pre>
+
+<p>});```</p>
+
+<h4>Sorting a Data Store Locally</h4>
+
+<p>After you retrieve data in your store, you might notice that the store is not sorted. It is possible to sort the records in a data store on the client side. You will use the <code>Ext.data.Store.sort(sorters, [defaultDirection], [where])</code> method, and you can pass in sorters_ object, which specifies the fieldname to sort and the direction, either ASC (ascending, A–Z) and DESC (descending, Z-A).
+Here I construct a sorters array to sort the fieldname property by ASC:
+<code>
+sorters: [{ property: "fieldname", direction: "ASC"}]</code>
+The sorters array or the sort() method on the store sorts the data collection inside thestore by one or more of its properties.
+To programmatically sort a store from elsewhere in your code, you can pass in a singleargument, the fieldname to sort. This will toggle between ascending and descending:
+<code>
+Ext.getStore("Cabs").sort("name");</code>
+Or you can pass in the full sorters configuration:
+```
+Ext.getStore(&ldquo;Cabs&rdquo;).sort({</p>
+
+<pre><code>property: "fieldname",
+direction: "ASC"
+</code></pre>
+
+<p>});<code>Or just the string fieldname and strings "ASC" or "DESC":
+</code>
+Ext.getStore(&ldquo;Cabs&rdquo;).sort(&ldquo;name&rdquo;, &ldquo;DESC&rdquo;);<code>
+In the FindACab app, you will sort the Cabs list on the cab service name in alphabeticalorder. Therefore, the default sorter will be set to name:
+</code>
+sorters: [{</p>
+
+<pre><code>property: "name",
+direction: "ASC"
+</code></pre>
+
+<p>}],
+```
+It is possible to add sorters on top of each other. For example, first sort on the field name and afterward filter on the field distance. You do so by passing an array:</p>
+
+<p>```
+store.sort([{</p>
+
+<pre><code>property: 'name',
+direction: 'ASC'
+</code></pre>
+
+<p>}, {</p>
+
+<pre><code>property: 'distance',
+direction: 'DESC'
+</code></pre>
+
+<p>}]);
+```
+When the sort() method is called again with a new sorter object, any existing sorters will be removed. When the sort() method is called without any arguments, the existing sorters will be reapplied. To keep existing sorters and add new ones, you will need to run the add() method on the sorters object. Here is how you can add sorters to a store:</p>
+
+<p>```
+store.sorters.add(new Ext.util.Sorter({</p>
+
+<pre><code>property: 'phone',
+direction: 'ASC'
+</code></pre>
+
+<p>}));
+store.sort();
+```
+The previous examples make sense when you want to sort on local stores. However, it’s also possible to sort remotely on the server side.</p>
+
+<h4>Sorting Data on a Server</h4>
+
+<p>The data that you retrieve from the server side might be very large. It could be faster to sort it on the server side instead of locally. Luckily, Sencha Touch provides a way to implement server-side paging, called <code>remote sorting</code>. You will use the Ext.data.Store.remoteSort boolean, and you will use the sorters object directly in the store or run the Ext.data.Store.sort(sorters, [defaultDirection], [where]) method where you can pass in a sorters object. (See the previous section on how to sort a store.)</p>
+
+<p>If you want to enable remote sorting, set the following settings in the store class definition:</p>
+
+<ul>
+<li>A pageSize to define the number of records that constitutes a “page.” (Note that the default page size is set to 25.)<em> The boolean remoteSort config in the store class definition to true. (Note that remote sorting is false by default.)</em> The sorters object, as described in the previous section:
+<code>
+pageSize: 30,
+remoteSort: true,
+sorters: [{ property: "fieldname",  direction: "ASC" }]</code>
+Unfortunately, because we do not have control over the Yelp server side, we won’t implement a remote sorter for the FindACab app. However, I do want to share a running example of a remote sorter. In this demo, there is another data store with Car objects that sorts cars by brand in ascending order:
+<code>
+Ext.define('RemoteTest.store.Cars', {
+      extend: 'Ext.data.Store',
+      requires: ['Ext.data.proxy.JsonP'],
+      config: {
+          model: 'RemoteTest.model.Car',
+          autoLoad: true,
+          remoteSort: true, //
+          sorters: [{ //
+              property: "brand",
+              direction: "ASC"
+          }],
+      pageSize: 20, //
+      proxy: { //
+          type: 'jsonp',
+          url: 'http://someurl.com/test.php',
+          reader: { //
+              rootProperty: 'results',
+              totalProperty: 'total',
+              successProperty: 'success'
+          }
+      },
+  }
+});</code>
+<code>WARNING</code></li>
+</ul>
+
+
+<p>The previous store has an autoLoad property. This makes sense for demo purposes, but in a real application, you would probably want to programmatically sort and load the store.</p>
+
+<p>Currently, this Car store doesn’t do much. That’s because there is no server side implemented. This is OK, because the server-side code can be a black box for us. However, let’s assume that <a href="http://">http://</a><someurl>.com/test.php is a working web service that sends Car objects back.
+In the Google Developer network tab, you can see a request is made, which sends the following GET request to your server:</p>
+
+<p><code>
+http://someurl.com/test.php?_dc=1386924081041&amp;page=1&amp;start=0&amp;limit=20 &amp;sort=%5B%7B%22property%22%3A%22brand%22%2C%22direction%22%3A%22ASC%22%7D%5D &amp;callback=Ext.data.JsonP.callback1
+</code>
+Let’s format the query string parameters:</p>
+
+<p><code>
+page:1start:0limit:20 sort:[{"property":"name","direction":"ASC"}]
+</code>
+The limit parameter comes from the store pageSize. The page and start parameters are used for paging. On the server side, you can calculate which set of items you have to send back to the client-side code.</p>
+
+<p>The <a href="http://">http://</a><someurl>.com/test.php web service requires some logic to sort the data (e.g., in a database) and send the correct set of data back.</p>
+
+<p>The server response for sending back Car objects (in PHP) could look like Example 9- 3. The names of the success, total, and results properties should be set in the store’s reader.```
+{</p>
+
+<pre><code>"success": true,
+"total": 500,
+￼￼￼￼￼
+    "results": [{
+            "id": 1,
+            "brand": "BMW",
+            "type": 7
+        }, {
+            "id": 2,
+            "brand": "Mercedes",
+            "type": 5
+        }
+        ... //20 results in total
+]
+</code></pre>
+
+<p>}```</p>
+
+<h4>Grouping a Data Store</h4>
+
+<p>Grouping a data store makes sense when you want to display data into an Ext.List component in Sencha Touch and you want to visually group data. For example, when you have a store with companies, you could, for example, group by “city.” This will list every company per city.
+To enable grouping in a store, implement the groupField and groupDir configurations directly in the store class definition. The groupFields sets the field to group and the groupDir sets the direction (ASC or DESC):</p>
+
+<p><code>groupField: '&lt;model-field-name&gt;', groupDir: 'ASC' //or DESC
+</code>
+To dynamically group a store, you can run the setGrouper() method on a store object:
+```
+Ext.getStore(&lsquo;Cabs&rsquo;).setGrouper({</p>
+
+<pre><code>direction: 'ASC', //or DESC 
+property: '&lt;model-field-name&gt;'
+</code></pre>
+
+<p>});<code>
+You will implement grouping on the Cabs store for the FindACab app list. This time, you will not group on city, because all the data that is in the Cabs store already shares the same city — for example, Amsterdam. Therefore, let’s group on the first alphabetical character of a cab service name. (See Figure 9-1.) You would see a group “A” that lists all names that start with an A, a group “B” that lists all names that start with a B, and so on. It’s the same behavior as when you open the contacts list on an iPhone. Names are grouped, and if you want, you can even display an index bar on the side to quickly browse to the corresponding character.
+<img src="/images/2014/10/figure7-3.png">
+To achieve this, you will need the Ext.data.Store.grouper object, with a custom group function: groupFn(). You can set the grouper object directly in the store class definition, as shown in Example 9-4.
+</code>
+grouper: {</p>
+
+<pre><code>groupFn: function(record) {
+    return record.get('name')[0].toUpperCase();
+}
+</code></pre>
+
+<p>}```
+The groupFn function with the code return record.get(&ldquo;name&rdquo;) [0].toUpperCase(); will group the data in the store on the first (uppercase) character of the name field.</p>
+
+<h4>Filtering a Data Store Locally</h4>
+
+<p>A data store can also filter records. When a filter is applied, the data store will not remove records. The same records are still available in the store, but only the records that match the filter criteria are displayed.</p>
+
+<p>Filters are added as arrays. Here’s how to implement a filter array directly in the store class definition:</p>
+
+<p>```
+filters: [{</p>
+
+<pre><code>property: "fieldname",
+value: "match"
+</code></pre>
+
+<p>}],
+<code>
+You can also filter programmatically. Just run the following method from a store instance:</code>
+Ext.data.Store.filter(filters, [value], [anyMatch], [caseSensitive]);<code>``It’s possible to filter on the first characters of a field or from anywhere (argument: anyMatch), and it’s also possible to filter for case sensitivity (argument:</code>caseSensitive`).</p>
+
+<h4>Custom Filter Functions</h4>
+
+<p>You can also create custom filter functions. To do so, you can set a filterFn in thearray or use the filterBy(fn) method on the store.
+```
+filters: [{</p>
+
+<pre><code>filterFn: function(item) {
+    return item.get("phone").length &gt; 0;
+}
+</code></pre>
+
+<p>}],```</p>
+
+<h4>Stacking Filters</h4>
+
+<p>o add filters on top of each other — for example, to filter on a name with a value of Taxi and filter on a distance of 20 miles — you pass in an array. Here, I stack a couple of filters on top of each other:
+```
+store.filter([{</p>
+
+<pre><code>property: "name",
+value: "Taxi"
+</code></pre>
+
+<p>}, {</p>
+
+<pre><code>property: "distance",
+value: "20"
+</code></pre>
+
+<p>}]);<code>
+`Note`
+Instead of passing an array with filter objects into the filter() method, I could call the filter() method again without the filter objects as arguments. Unlike sorters, filters won’t reset if you call them again. When you want to renew the filter, you have to clear it first:
+</code>
+store.clearFilter();```</p>
+
+<h4>Filtering Data on a Server</h4>
+
+<p>The data that you retrieve from the server side might be very large. It could be faster to filter it on the server side instead of locally. Luckily, Sencha Touch provides a way to implement server-side filtering.
+You will use the remoteFilter boolean and the array with filters. Here’s an example of the store class definition:
+```
+remoteFilter: true,
+filters: [{</p>
+
+<pre><code>property: "fieldname",
+value: "match"
+</code></pre>
+
+<p>}],<code>
+because we do not have server-side control over Yelp.com, we won’t implement a remote filter for the FindACab app. I do want to share an example of a remote filter, however. In this demo, there is another data store with Car objects and with remote filtering enabled. It has a filter set that filters on car brand:
+</code>
+Ext.define(&lsquo;RemoteTest.store.Cars&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.data.Store',
+requires: ['Ext.data.proxy.JsonP'],
+config: {
+    model: 'RemoteTest.model.Car',
+    autoLoad: true,
+    pageSize: 20,
+    remoteFilter: true,
+    filters: [{
+        property: "brand",
+        value: "BMW"
+    }],
+    proxy: {
+        type: 'jsonp',
+        url: 'http://someurl.com/test.php',
+        reader: {
+            rootProperty: 'results',
+            totalProperty: 'total',
+            successProperty: 'success'
+        }
+    },
+}
+</code></pre>
+
+<p>});<code>``
+</code>WARNING`</p>
+
+<p>When the remoteFilter configuration has been set to true, you will have to manually call the load method after every filter you set to retrieve the filtered data from the server.</p>
+
+<p>Let’s assume that <a href="http://">http://</a><someurl>.com/test.php is a working web service that sends
+Car objects back. We’ll filter on a car brand of BMW, 20 per time (page).In the Google Developer Network tab, you can see a request is made that sends thefollowing GET request to your server:
+<code>
+http://someurl.com/test.php?_dc=1387182737587&amp;page=1&amp;start=0&amp;limit=20 &amp;filter=%5B%7B%22property%22%3A%22brand%22%2C%22value%22%3A%22BMW%22%7D%5D &amp;callback=Ext.data.JsonP.callback1</code>
+Let’s format the query string parameters:
+```
+page: 1
+start: 0
+limit: 20
+filter: [{</p>
+
+<pre><code>"property": "brand",
+"value": "BMW"
+</code></pre>
+
+<p>}]```
+As you might have noticed, the implementation and server requests of a remote filter are similar to the implementation and server requests of a remote sorter. The limit parameter comes from the store pageSize. The page and start parameters are used for paging. On the server side, you can calculate which set of items you have to send back to the client-side code.</p>
+
+<p>The <a href="http://">http://</a><someurl>.com/test.php requires some logic to filter their data (e.g., in a database), and send the correct set of data back.</p>
+
+<p>The server response for sending back Car objects (in PHP) could look like Example 9- 6. The names of the success, total, and results properties should be set in the store’s reader.</p>
+
+<p>```
+// Example 9-6. A server response in PHP
+{</p>
+
+<pre><code>"success": true,
+"total": 500,
+"results": [{
+        "id": 1,
+        "brand": "BMW",
+        "type": 7
+    }, {
+        "id": 2,
+        "brand": "BMW",
+        "type": 5
+    }
+    ...
+]
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>Syncing Data in a Store</h4>
+
+<p>To save/synchronize records in a data store with the server, you will have to run the <code>sync()</code> method on the store. It’s also possible to automatically sync the store with the server side. That way, the remote server keeps in close sync with your Sencha Touch app. You can enable this by setting the <code>autoSync</code> property to <code>true</code>.</p>
+
+<p>More likely, you will use the Ext.data.Store.sync() method to synchronize the store with its proxy programmatically:</p>
+
+<p><code>
+store.sync(options);
+</code>
+Before the sync process, Sencha Touch will fire a <code>beforesync</code> system event. When you run the sync() method, all inserts, updates, and deletes are sent as three separate requests, and if you want, you can declare the order in which the three operations should occur. After the sync process, an object is returned with the child objects <code>added, updated, and removed</code>.</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,434 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>The Layout System - AllenToFight Blog</title>
+	<meta name="author" content="AllenToFight">
+
+	
+	<meta name="description" content="The Layout System In Sencha Touch there are two basic building blocks: components and containers.When you instantiate both with no configuration, &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="AllenToFight Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/2014/10/06/the-layout-system/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
+	
+</div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">The Layout System</h1>
+	<div class="entry-content" itemprop="articleBody"><p>In Sencha Touch there are two basic building blocks: <code>components</code> and <code>containers</code>.When you instantiate both with no configuration, they look the same. However, there is one important difference: containers can contain components (or other containers):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var container = Ext.create('Ext.Container', { 
+</span><span class='line'>  items: [{       xtype: 'component',     html: 'Nested component'    }, {        xtype: 'container',         items: [{           xtype: 'component',         html: 'Nested container with component'         }]  }] });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Usually when containers hold other components, you want to think about how to position these multiple components. Maybe you want to position the components on top of each other, or maybe next to each other. In other words, you want to give the container a <code>layout</code>.
+Under the hood, Sencha Touch uses the CSS3 <a href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/">flexbox layout</a>.
+Ext.Component is the base class for any Sencha Touch view component (widget). Ext.Container is the base class for any Sencha Touch component that may visually contain other components. The most commonly used container classes for Sencha Touch are Ext.Panel, Ext.tab.Panel, and Ext.form.Panel
+本章中我们将学习到以下知识点
+* How to implement a horizontal layout * How to implement a vertical layout<em> How to implement a full screen (fit) layout * How to implement a card layout</em> How to implement the default layout (no layout) * How to dock components</p>
+
+<h4>Implementing a Horizontal Layout</h4>
+
+<p>When you want to position components horizontally, use the horizontal box layout. The layout type hbox positions items next to each other.At the top of your container view class, you will require Ext.layout.HBox, so the Ext.Loader knows to load the hbox framework class first. Next, you will create a layout object that sets the type to hbox. Follow up by creating an array with items; this array can contain all the items that need to be positioned next to each other. Here’s the full example:
+&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    requires: ['Ext.layout.HBox'],  layout: {       type: 'hbox',   },  items: [{       xtype: 'component',         html: 'box 1'   },{     xtype: 'component',         html: 'box 2'   }] });```
+</code></pre>
+
+<p>You can set the <code>align</code> config to position items <code>vertically</code> on the screen. The options for the align config are start (top), center (middle), end (bottom), and stretch. The last option stretches a component to give it the full container height. Then there is the <code>pack</code> config — start (left), center (middle), and end (right) — which positions the set of items <code>horizontally</code> on the screen.
+Here are some of the hbox layouts, each of which is followed by its corresponding illustration
+&#8220;`
+layout: {   type: &lsquo;hbox&rsquo;,   align: &lsquo;start&rsquo;, pack: &lsquo;start&rsquo; },items: [{   xtype: &lsquo;component&rsquo;,     html: &lsquo;width: 150&rsquo;,</p>
+
+<pre><code>width: 150},{   xtype: 'component', 
+html: 'width: 150',
+width: 150}]```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-1.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'hbox',   align: 'center',    pack: 'center' 
+</span><span class='line'>},items: [{   xtype: 'component',     html: 'width: 150', width: 150}, {  xtype: 'component', html: 'width: 150', width: 150 }]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-2.png">
+&#8220;`
+layout: {   type: &lsquo;hbox&rsquo;,   align: &lsquo;center&rsquo;,    pack: &lsquo;end&rsquo; },items: [{ xtype: &lsquo;component&rsquo;,</p>
+
+<pre><code>html: 'width: 150',
+width: 150},{   xtype: 'component',     html: 'width: 150',
+width: 150}]```&lt;img src="/images/2014/10/figure5-3.png"&gt;
+</code></pre>
+
+<p>&#8220;`
+layout: {   type: &lsquo;hbox&rsquo;,   align: &lsquo;end&rsquo;,   pack: &lsquo;start&rsquo; },items: [{   xtype: &lsquo;component&rsquo;,</p>
+
+<pre><code>html: 'width: 150',
+width: 150},{   xtype: 'component', html: 'width: 150'  width: 150 }]```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-4.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'hbox',   align: 'stretch',   pack: 'start' },items: [{   xtype: 'component',     html: 'width: 150',
+</span><span class='line'>  width: 150},{   xtype: 'component', html: 'width: 150', width: 150 }]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-5.png"></p>
+
+<p>The preceding examples used a width config for every item. When you want more dynamic sizes, you can use the flex config. Flexing means that you divide the available area based on the flex of each child component. The next example, illustrated in Figure 5-6, shows a horizontal flex layout:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'hbox',},items: [{    xtype: 'component',     flex: 2,    html: 'flex: 2',},{ xtype: 'component',     flex: 1,    html: 'flex: 1',}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-6.png"></p>
+
+<p>Now let’s say you have three items. The first item has flex: 2, the second item has flex:1, and the third item has a fixed pixel width, width: 100px. How will the layout be calculated? First, the 100px will be subtracted from the 100%. The remainder will be divided into two-thirds and one-third .</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {
+</span><span class='line'>  type: 'hbox', 
+</span><span class='line'>},items: [{   xtype: 'component',     flex: 2,    html: 'flex: 2',},{ xtype: 'component',     flex: 1,    html: 'flex: 1',},{ xtype: 'component',     width: 100, html: 'width: 100'}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-7.png"></p>
+
+<h4>Implementing a Vertical Layout</h4>
+
+<p>At the top of your container view class, you will require Ext.layout.VBox, so the Ext.Loader knows to load the vbox framework class first. Next, you will create a layout object that sets the type to vbox.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('MyApp.view.MainInterface', { 
+</span><span class='line'>  extend: 'Ext.Container',    requires: ['Ext.layout.VBox'], 
+</span><span class='line'>  layout: {       type: 'vbox',   },  items: [{       xtype: 'component',         html: 'box 1'   },{     xtype: 'component',         html: 'box 2'   }] });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can set the <code>align</code> config to position items <code>horizontally</code> on the screen. The options for the align property are start (left), center (middle), end (right), or stretch. The last option stretches a component to give it the full container width. Then there is the <code>pack</code> property — start (top), center (middle), and end (bottom) — which positions the set of items <code>vertically</code> on the screen.
+来看几个demo</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'start', pack: 'start' },items: [{   xtype: 'component', 
+</span><span class='line'>  html: 'height: 50',
+</span><span class='line'>  height: 50},{   xtype: 'component',     html: 'height: 50', height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-8.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'center',    pack: 'center' },items: [{  xtype: 'component',     html: 'height: 50', height: 50},{   xtype: 'component',     html: 'height: 50', height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-9.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'center',    pack: 'end' },items: [{ xtype: 'component',     html: 'height: 50', height: 50},{   xtype: 'component',     html: 'height: 50', height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-10.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'end',   pack: 'start' },items: [{   xtype: 'component', 
+</span><span class='line'>  html: 'height: 50',
+</span><span class='line'>  height: 50},{   xtype: 'component',     html: 'height: 50', height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-11.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'stretch',   pack: 'center' },items: [{  xtype: 'component', 
+</span><span class='line'>  html: 'height: 50',
+</span><span class='line'>  height: 50},{   xtype: 'component', 
+</span><span class='line'>  html: 'height: 50',
+</span><span class='line'>  height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-12.png"></p>
+
+<p>If you want to set a fixed height for one of the items, you use the height config. When you want more dynamic sizes, you use the flex config. Flexing means that you divide the available area based on the flex of each child component. The next example, shows a vertical flex layout:
+&#8220;`
+layout: {   type: &lsquo;vbox&rsquo;,},items: [{    xtype: &lsquo;component&rsquo;,</p>
+
+<pre><code>html: 'flex: 1', 
+flex: 1},{  xtype: 'component',     html: 'flex: 3', 
+flex: 3}]```&lt;img src="/images/2014/10/figure5-13.png"&gt;
+</code></pre>
+
+<p>Now let’s say you have three items. The first item has flex: 1, the second item has flex:3, and the third item has a fixed pixel height, height: 50px. How will the layout be calculated? First, the 50px will be subtracted from the 100%. The remainder will be divided into one-quarter and three-quarters:
+&#8220;`
+layout: {   type: &lsquo;vbox&rsquo;,},items: [{    xtype: &lsquo;component&rsquo;,</p>
+
+<pre><code>html: 'flex: 1', 
+flex: 1},{  xtype: 'component',     html: 'flex: 3',    flex: 3},{  xtype: 'component',     html: 'height: 50',     height: 50}]```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-14.png"></p>
+
+<h4>Implementing a Full-Screen (Fit) Layout</h4>
+
+<p>When you want to position a component full screen, you use the fit layout. The layout type fit makes a child item fit to the full size of its parent container.<code>
+layout: 'fit', items: [{    html: 'Item 1' }]</code>At the top of your container view class, you will require Ext.layout.Fit, so the Ext.Loader knows to load the fit framework class first. Next, you will create a layout object that sets the type to fit. Follow up by creating an items array; this array can contain <code>only one</code> item.
+&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    requires: ['Ext.layout.Fit'],   layout: {       type: 'fit', 
+    },  items: [{       xtype: 'component',         html: 'layout: fit' }] });```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-15.png">
+The container has a height and width of 400×400 pixels. The nested item (component) takes the full width and height that has been set in the parent container, so it has the same 400×400 pixel dimension.
+Here’s another example of the same fit layout. The container has a 400×400px dimension, but this time the nested component has a margin of 25px on each side
+<code>
+layout: {   type: 'fit',},items: [{ xtype: 'component',     margin: 25, html: 'layout: fit'}]</code><img src="/images/2014/10/figure5-16.png"></p>
+
+<h4>Implementing a Card Layout</h4>
+
+<p>You can create a more complex layout by using cards. A card layout allows you to fit multiple components in one space, and show <code>only one at a time</code>, just like a stack of cards. To do this, set the layout type to card .At the top of your container view class, you will require Ext.layout.Card, so the Ext.Loader knows to load the card framework class first. Next, you will create a layout object that sets the type to card. Follow up by creating an array with items; this array can contain all the items that need to be positioned as a stack of cards.
+&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    requires: ['Ext.layout.Card'],  layout: {       type: 'card', 
+},  items: [{       xtype: 'component', html: 'card 1'  },{     xtype: 'component', html: 'card 2'  }, {        html: 'card 3'  }]});```&lt;img src="/images/2014/10/figure5-17.png"&gt;
+</code></pre>
+
+<p>This layout has the same visual look as a fit layout; it also takes the size of the container. But there is one important difference with this layout type. When the container contains multiple items, they will be stacked on top of each other, like a deck of cards
+With the method setActiveItem(), you can set the item to be displayed at the top of the cards stack. All the other items won’t be visible. Carousels (a Sencha Touch component for cards that you can slide with your fingers) and tabpanels (a Sencha Touch component for cards that you can activate with tabs) both use a card layout.</p>
+
+<p>A nice extra that comes with the card layout is the ability to add an animation while changing the active slide. You can set an animation object with a type and a direction. The supported types are:</p>
+
+<ul>
+<li>slide (Ext.fx.layout.card.Slide)</li>
+<li>fade (Ext.fx.layout.card.Fade)</li>
+<li>cover (Ext.fx.layout.card.Cover)</li>
+<li>reveal (Ext.fx.layout.card.Reveal)</li>
+<li>pop (Ext.fx.layout.card.Pop)* flip (Ext.fx.layout.card.Flip) * scroll (Ext.fx.layout.card.Scroll) * cube (Ext.fx.layout.card.Cube)</li>
+</ul>
+
+
+<p>Here’s an example of how you can include an animation for a page transition in a card layout. Please note the animation subject:<code>
+layout: {   type: 'card',   animation: {        type: 'slide',      direction: 'left'       }}</code>
+<code>注意</code>
+<code>
+Android 2 supports only scroll and fade; otherwise, it forces the animation to slide.</code></p>
+
+<h4>Implementing the Default Layout</h4>
+
+<p>When you do not want to set a layout or you want to fall back to the default browser behavior, you can use the default/auto layout.When you do not specify the layout object, or you set the layout to auto or default, your design will take the Ext.layout.Default layout
+&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    requires: ['Ext.layout.Default'],   layout: {       type: 'auto', 
+},  items: [{       xtype: 'component',         cls: 'component1',
+    html: 'component 1  },{     xtype: 'component',             cls: 'component2',      html: 'component 2  }] });```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-19.png"></p>
+
+<p>This layout tiles your elements directly beneath each other. It takes the full available width to fill its parent container unless a width is set. If no height is set, it will expand <code>naturally to fit itself or its child items</code>. It’s the same behavior as how a browser positions block-level elements.</p>
+
+<p><code>Tip</code>
+Impressive Webs has a <a href="http://www.impressivewebs.com/difference-block-inline-css/">helpful article</a> about browser block-level elements versus inline-elements.</p>
+
+<p>All other layouts inherit from Ext.layout.Default, and the default layout also supports docking items, which we’ll cover next.</p>
+
+<h4>Docking Components</h4>
+
+<p>With docking, you can set an item to dock left, top, right, or bottom from its container. A good example is a toolbar that is docked to the top of the screen. (Some people call this a sticky header.)&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    items: [{       docked: 'top'       html: 'docked: top', 
+},{     html: ''    }]});```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-19.png"></p>
+
+<p>You must use an <code>HTML5</code> doctype for a docked bottom to work. To do this, simply add the following code to the top of the HTML file: <code>&lt;!doctype html&gt;</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('MyApp.view.MainInterface', { 
+</span><span class='line'>  extend: 'Ext.Container',    items: [{       docked: 'left'      html: 'docked: left',   },{     html: ''    }]});</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-21.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('MyApp.view.MainInterface', {
+</span><span class='line'>  extend: 'Ext.Container', 
+</span><span class='line'>  items: [{       docked: 'right'     html: 'docked: right',  },{     html: ''    }]});</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-22.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('MyApp.view.MainInterface', { 
+</span><span class='line'>  extend: 'Ext.Container',    items: [{       docked: 'bottom'        html: 'docked: bottom',     },{     html: ''    }]});</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Summary</h4>
+
+<p>The best way of creating interfaces is by prototyping the application before you implement it in your app. You could do this with code, as with the code snippets in this chapter, or you could use <a href="http://www.sencha.com/products/architect/">Sencha Architect</a>, Sencha’s visual design tool.</p>
+
+<p>The Sencha layout system supports the following layout types: hbox (horizontal box layout), vbox (vertical box layout), fit (take the size of the container layout), card (stacked layout), and default, the browser’s, block-level layout. All of these types have a set of additional configurations, such as <code>align, pack, and animation</code>.</p>
+
+<p>The <code>Ext.Viewport</code> is an instance created when you use Ext.application(). Ext.Viewport extends from Ext.Container, so it has a layout (which defaults to the card layout). This means you can add items to it at any time, from anywhere in your code. The viewport fullscreen configuration is true by default, so it will take up your whole screen, and thus it matches any device to its screen size.</p>
+
+<p>Imagine you would like the main layout for your tablet to be different from that of your phone. Sencha Touch handles this with <code>device profiles</code>, which create different mobile experiences. With a device profile, you can share code (like layouts and views, but also logics and controllers) between device types, to customize the appearance, behavior, or workflows for each device Device profiles can be generated with Sencha Cmd. These classes will be stored in the app/profile directory. For more information about device profiles, read the <a href="http://docs.sencha.com/touch/2.3.1/#!/guide/profiles">online guide</a>.</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+	
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

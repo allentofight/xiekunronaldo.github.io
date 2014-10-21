@@ -9,7 +9,8 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jun 27th, 2014 C语言 Head First C 第二章学习笔记-内存与指针 问:运算符和函数的区别 答:运算符会被编译器编译成一串指令，而如果调用了函数，则会跳到一块单独的代码块中,也就是说在编译的时候sizeof就被执行了，因为编译器能在编译的时候就知道存储空间的大小了 问: &hellip;">
+	<meta name="description" content="Jul 30th, 2014 Ruby Expressions 显而易见的是我们可以chain statements a = b = c = 0 # =&gt; 0
+[ 3, 1, 7, 0 ].sort.reverse # =&gt; [7, 3, 1, 0] 比如不明显的是， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,169 +106,2328 @@
   
 
 
-<time datetime="2014-06-27T22:01:57+08:00" data-updated="true" itemprop="datePublished">Jun 27<span>th</span>, 2014</time></div>
+<time datetime="2014-07-30T09:14:04+08:00" data-updated="true" itemprop="datePublished">Jul 30<span>th</span>, 2014</time></div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
 
 
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji/" itemprop="url">Head First C 第二章学习笔记-内存与指针</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/30/expressions/" itemprop="url">Expressions</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<h5>问:运算符和函数的区别</h5>
+		<p>显而易见的是我们可以chain statements</p>
 
-<p>答:运算符会被编译器编译成一串指令，而如果调用了函数，则会跳到一块单独的代码块中,也就是说在编译的时候sizeof就被执行了，因为编译器能在编译的时候就知道存储空间的大小了</p>
-
-<h5>问:为何在不同的机器上，指针的大小是不同的?</h5>
-
-<p>答:在32位OS上，一个内存地址以一个32比特的数字来表示，这也是它被称为32位的原因,32bit = 8bytes,则也是为何64位OS用8bytes来存储一个地址的原因</p>
-
-<h5>写一个函数，则函数只打印一个字符串的第7个字符以后的信息</h5>
-
-<pre><code>void skip(char *msg) {      puts( msg + 6 );    } 
+<pre><code>a = b = c = 0 # =&gt; 0
+[ 3, 1, 7, 0 ].sort.reverse # =&gt; [7, 3, 1, 0]
 </code></pre>
 
-<p>以下写法是错误的</p>
+<p>比如不明显的是，在C或Java中的语句在Ruby中通常是expressions,比如if和case语句都返回了最后一个表达式</p>
 
-<pre><code>char food[5];   printf("Enter favorite food: ");    scanf("%s", food);
+<pre><code>song_type = if song.mp3_type == MP3::Jazz
+                if song.written &lt; Date.new(1935, 1, 1)
+                    Song::TradJazz
+                else
+                    Song::Jazz
+                end 
+            else
+                Song::Other
+            end
+rating = case votes_cast
+￼         when 0...10     then Rating::SkipThisOne
+            when 10...50    then Rating::CouldDoBetter 
+            else    Rating::Rave
+         end
 </code></pre>
 
-<p>应改为</p>
+<h5>Operator Expressions</h5>
 
-<pre><code>scanf("%4s", food);
+<p>在Ruby中，许多operations是以方法调用的形式实现的，比如，当你写a*b+c时，实际上你是调用了a的方法<code>*</code>传入参数b,然后a<code>*</code>b的结果返回一个对象，我们再对其执行<code>+</code>的方法,然后将c作为参数传入,实际下相当于以下代码</p>
+
+<pre><code>a, b, c = 1, 2, 3
+a * b + c # =&gt; 5
+ (a.*(b)).+(c) # =&gt; 5
 </code></pre>
 
-<p>否则将导致缓冲区溢出(buffer overflow),或者说栈错误(segmentation fault)</p>
+<p>我们问题可以定义最基本的运算符操作</p>
 
-<h2>fgets()是一种替代方式</h2>
-
-<p>它接受一个char的指针，但不像scanf(),fgets()必须指定一个最大长度</p>
-
-<pre><code>char food[5];   printf("Enter favorite food: ");    fgets(food, sizeof(food), stdin);
+<pre><code>class Fixnum
+alias old_plus + # We can reference the original '+' as 'old_plus'
+def +(other) # Redefine addition of Fixnums. This is a BAD IDEA! 
+old_plus(other).succ
+end end
+1 + 2 # =&gt; 4 a=3
+a+=4 #=&gt;8 
+a + a + a # =&gt; 26    
 </code></pre>
 
-<p><code>注意点</code>:不过需要注意的是sizeof返回 的是一个变量所占据的空间,以上的例子中,food是一个数组变量 ,所以sizeof返回了数组的大小，如果food只是一个指针变量,sizeof将返回一个指针的大小如果你知道你所传的参数是一个数组变量,那用sizeof是ok的，如果你传的是一个指针变量，你需要传入确定的大小,如下</p>
+<h6>&lt;&lt;操作符</h6>
 
-<pre><code>printf("Enter favorite food: "); 
-fgets(food, 5, stdin);
+<pre><code>a = [ 1, 2, 3 ]
+    a&lt;&lt;4 #=&gt;[1,2,3,4]
 </code></pre>
 
-<h2>fgets和scanf的比较</h2>
+<p>我们也可以定义&lt;&lt;操作符方法</p>
+
+<pre><code>class ScoreKeeper 
+    def initialize
+               @total_score = @count = 0
+        end
+        def &lt;&lt;(score)
+                   @total_score += score
+                   @count += 1
+                   self
+        end
+        def average
+            fail "No scores" if @count.zero?
+            Float(@total_score) / @count
+        end 
+end      
+scores = ScoreKeeper.new
+scores &lt;&lt; 10 &lt;&lt; 20 &lt;&lt; 40
+puts "Average = #{scores.average}"
+produces:
+       Average = 23.333333333333332
+</code></pre>
+
+<p>注意&lt;&lt;方法中返回了self，这样它就允许<code>scores &lt;&lt; 10 &lt;&lt; 20 &lt;&lt; 40</code>这样的形式
+<code>[]</code>也能被定义为一个方法调用，你可以这么写</p>
+
+<pre><code>some_obj[1,2,3]
+</code></pre>
+
+<p>我们可以这样定义</p>
+
+<pre><code>class SomeClass
+    def [](p1, p2, p3)
+        # ...
+        end
+end
+</code></pre>
+
+<p>同样地，也可以定义<code>[]=</code>方法  class SomeClass</p>
+
+<pre><code>    def []=(*params)
+        value = params.pop
+        puts "Indexed with #{params.join(', ')}" 
+        puts "value = #{value.inspect}"
+    end
+end
+s = SomeClass.new
+s[1] = 2
+s['cat', 'dog'] = 'enemies'
+produces:
+       Indexed with 1
+       value = 2
+       Indexed with cat, dog
+       value = "enemies"
+</code></pre>
+
+<p>从上面我们可以看到<code>[]</code>里的参数作为params的前n个数，而=右边的值为params的最后一个参数</p>
+
+<h5>各种各样的表达式</h5>
+
+<ul>
+<li>Command Expression
+以&#8220;括起来的字符串或以%x开头的字符串被OS解析为一条bash命令,注意换行符还在
+      <code>date</code> # => &ldquo;Mon May 27 12:30:56 CDT 2013\n&rdquo;
+      <code>ls</code>.split[34] # => &ldquo;newfile&rdquo;
+          %x{echo &ldquo;hello there&rdquo;} # => &ldquo;hello there\n&rdquo;
+              for i in 0..3
+          status = <code>dbmanager status id=#{i}</code> # &hellip;
+      end
+我们可以通过全局变量$?来查看命令的exit status
+
+<h4>重定义`</h4>
+
+以上我们得知&#8220;里的字符串默认被当作命令来执行，实际上，string是被当作参数传给了方法Object#`,如果你想，可以重写它，
+  alias old_backquote <code>
+      def</code>(cmd)
+          result = old_backquote(cmd)
+          if $? != 0
+              puts &ldquo;<strong><em> Command #{cmd} failed: status = #{$?.exitstatus}&rdquo;
+          end     result  end
+  print <code>ls -l /etc/passwd</code>
+  print <code>ls -l /etc/wibble</code>
+  produces:
+     -rw-r&mdash;r&mdash;  1 root  wheel  5086 Jul 20  2011 /etc/passwd
+     ls: /etc/wibble: No such file or directory
+     </em></strong> Command ls -l /etc/wibble failed: status = 1
+
+<h4>赋值</h4>
+
+<p>Ruby有两种形式的赋值，第一种是将对象的引用赋予一个变量或常量
+      instrument = &ldquo;piano&rdquo;
+  MIDDLE_A = 440
+第二种形式涉及到<code>having an object attribute or element reference on the left side.</code>这种形式是很特别的，因为它们通过在左值中调用方法来实现，也就是说你可以重写这些方法
+   class ProjectList
+       def initialize
+          @projects = []
+      end
+      def projects=(list)
+          @projects = list.map(&amp;:upcase) # store list of names in uppercase
+      end
+      def <a href="offset"></a>
+          @projects[offset]
+      end
+  end
+  list = ProjectList.new
+  list.projects = %w{ strip sand prime sand paint sand paint rub paint }
+  list[3] # => &ldquo;SAND&rdquo;
+  list[4] # => &ldquo;PAINT&rdquo;
+来看一段有意思的代码</p>
+
+<p>  class Test
+      def val=(val)
+          @val = val
+          return 99
+      end
+  end</p>
+
+<p>  t = Test.new
+      result = (t.val = 2)
+  result
+以上的result会是什么值?
+在Ruby的过去版本中，赋值方法的返回值<code>总量</code>return的值，而从Ruby1.8开始,返回值总是传入的参数值
+所以以上的result值如果在过去的版本中为99，但在1.8版本后则为2</p></li>
+</ul>
+
+
+<h6>Parallel Assignment</h6>
+
+<pre><code>a,b=1,2 #a=1,b=2 
+
+a,b=b,a #b=2,a=1
+a=1,2,3,4 # a=[1,2,3,4] 
+    b=[1,2,3,4] # b=[1,2,3,4]   
+a,b=1,2,3,4 # a=1, b=2 
+c,=1,2,3,4 # c=1
+</code></pre>
+
+<h5>Splats and Assignment</h5>
+
+<pre><code>a, b, c, d, e = *(1..2), 3, *[4, 5] # a=1, b=2, c=3, d=4, e=5       a,*b=1,2,3 # a=1, b=[2,3] a,*b=1 # a=1, b=[]
+*a,b=1,2,3,4        # a=[1,2,3], b=4
+c,*d,e=1,2,3,4      # c=1, d=[2,3], e=4
+f,*g,h,i,j=1,2,3,4  # f=1, g=[], h=2, i=3, j=4      first, *, last = 1,2,3,4,5,6 # first=1, last=6#####嵌套赋值
+a, (b, c), d = 1,2,3,4          # a=1, b=2, c=nil, d=3
+a, (b, c), d = [1,2,3,4]        # a=1, b=2, c=nil, d=3
+a, (b, c), d = 1,[2,3],4        # a=1, b=2, c=3, d=4
+a, (b, c), d = 1,[2,3,4],5      # a=1, b=2, c=3, d=5
+a, (b,*c), d = 1,[2,3,4],5      # a=1, b=2, c=[3, 4], d=5Ruby中木有++和--运算符
+</code></pre>
+
+<h4>Conditional Execution</h4>
+
+<pre><code>var ||= "default value"
+</code></pre>
+
+<p>相当于</p>
+
+<pre><code>var = "default value" unless var 
+</code></pre>
+
+<h5>defined?</h5>
+
+<pre><code>defined? 1          # =&gt; "expression"
+defined? dummy      # =&gt; nil
+defined? printf     # =&gt; "method"
+defined? String     # =&gt; "contant"
+defined? $_         # =&gt; "global-variable"
+defined? Math::PI # =&gt; "constant"
+defined? a = 1      # =&gt; "assignment"
+defined? 42.abs     # =&gt; "method"
+defined? nil        # =&gt; "nil"
+</code></pre>
+
+<h5>Comparing Objects</h5>
+
+<p>除了boolean运算符，Ruby对象支持用方法==，===，&lt;=>, =~,eql?和equal?来比较,&lt;=>定义在Object类中,但通常被重写来实现类希望的语义,比如Array类重定义了==所以两个array对象只有在它们的元素个数一样，并且相应的元素也相等的情况下才真正的相等
+==和=~都有相应地否定形式,!=和!~,如果调用!=或!~,Ruby首先寻找此类的!=或!~,如果发现就调用它们，如果不发现，就调用==或=~,然后再对结果取反</p>
+
+<pre><code>class T
+    def ==(other)
+            puts "Comparing self == #{other}"
+        other == "value" 
+        end
+end
+t = T.new
+p (t == "value") 
+p (t != "value")
+produces:
+Comparing self == value
+true
+Comparing self == value
+false
+</code></pre>
+
+<p>以上调用<code>t != "value"</code>时,首先调用t = &ldquo;value&rdquo;,然后再对结果取反
+各操作符的意义如下</p>
+
+<p><img src="/images/2014/7/operator.png"></p>
+
+<h5>if and unless Expressions</h5>
+
+<p>if then语句</p>
+
+<pre><code>if artist == "Gillespie" then handle = "Dizzy"
+elsif artist == "Parker" then handle = "Bird"
+else
+handle = "unknown" 
+end
+</code></pre>
+
+<p>关键字<code>then</code>是optional的，如果你想将语句多行排列的话</p>
+
+<pre><code>if artist == "Gillespie" 
+    handle = "Dizzy"
+elsif artist == "Parker" 
+    handle = "Bird"
+else
+handle = "unknown" 
+end
+</code></pre>
+
+<p>不过如果你想将then后对应的语句与if语句放在同一行，then是必不可少的!</p>
+
+<pre><code>if artist == "Gillespie" then handle = "Dizzy" 
+elsif artist == "Parker" then handle = "Bird" 
+else handle = "unknown"
+end
+</code></pre>
+
+<p>与if对应的是unless</p>
+
+<pre><code>unless duration &gt; 180 
+    listen_intently
+end
+</code></pre>
+
+<h5>if and unless Modifiers</h5>
+
+<pre><code>mon, day, year = $1, $2, $3 if date =~ /(\d\d)-(\d\d)-(\d\d)/ 
+puts "a = #{a}" if $DEBUG
+print total unless total.zero?
+File.foreach("/etc/passwd") do |line|
+next if line =~ /^#/ # Skip comments 
+parse(line) unless line =~ /^$/ # Don't parse empty lines
+end
+</code></pre>
+
+<h5>case Expressions</h5>
+
+<ul>
+<li>第一种形式
+      case
+          when song.name == &ldquo;Misty&rdquo;
+          puts &ldquo;Not again!&rdquo;
+          when song.duration > 120
+          puts &ldquo;Too long!&rdquo;
+          when Time.now.hour > 21
+          puts &ldquo;It&rsquo;s too late&rdquo;
+          else
+          song.play
+          end
+
+<ul>
+<li>第二种形式           case command
+  when &ldquo;debug&rdquo;
+    dump_debug_info
+    dump_symbols
+  when /p\s+(\w+)/
+  dump_variable($1)
+  when &ldquo;quit&rdquo;, &ldquo;exit&rdquo;
+  exit
+  else
+  print &ldquo;Illegal command: #{command}&rdquo;
+  end</li>
+</ul>
+</li>
+<li><p>第三种形式
+与then语句结合使用</p>
+
+<pre><code>  kind = case year
+  when 1850..1889 then "Blues"
+  when 1890..1909 then "Ragtime"
+  when 1910..1929 then "New Orleans Jazz" when 1930..1939 then "Swing"
+  else "Jazz"
+  end
+</code></pre>
+
+case的比较是用 <code>===</code>来比较的,所以，只要类为<code>===</code>定义了有意义的语义,此类的对象就能用在case语句中
+需要<code>注意</code>的是,ruby的类是<code>Class</code>类的对象，===已经在Class类中定义了，可以用来测试相应的argument是否是receiver的instance或它的superclasses之一，所以你可以测试对象的类
+  case shape
+  when Square, Rectangle
+  # &hellip;
+  when Circle
+  # &hellip;
+  when Triangle
+  # &hellip;
+  else
+  # &hellip;
+  end
+
+<h4>Loops</h4>
+
+<p>while与until表达的意义相反
+  while line = gets # &hellip;
+  end   <br/>
+  until play_list.duration > 60</p>
+
+<p>  play_list.add(song_list.pop)
+  end
+  a=1
+  a*=2 whilea<100 a # => 128
+  a &ndash;= 10 until a &lt; 100 a # => 98</p></li>
+</ul>
+
+
+<p>range用作条件语句</p>
+
+<pre><code>file = File.open("ordinal") 
+while line = file.gets
+    puts(line) if line =~ /third/ .. line =~ /fifth/ 
+end
+produces:
+third
+fourth
+fifth
+</code></pre>
+
+<p>range中的起始位置也可以是表达式</p>
+
+<pre><code>File.foreach("ordinal") do |line|       if (($. == 1) || line =~ /eig/) .. (($. == 3) || line =~ /nin/)     print line      end 
+end
+produces:
+first
+second
+third
+eighth
+ninth如果你用`begin.....end`block，则不论while的条件语句是什么，都会`至少`执行一次
+print "Hello\n" while false 
+begin
+    print "Goodbye\n" 
+end while false
+produces:
+Goodbye
+</code></pre>
+
+<h4>Iterators</h4>
+
+<pre><code>3.times do
+
+print "Ho! "
+end
+produces:
+Ho! Ho! Ho!
+</code></pre>
+
+<p>upto有使用</p>
+
+<pre><code>0.upto(9) do |x|
+print x, " "
+end
+produces:
+0123456789step
+0.step(12, 3) {|x| print x, " " } 
+produces:
+0 3 6 9 12
+</code></pre>
+
+<p>array的遍历</p>
+
+<pre><code>[ 1, 1, 2, 3, 5 ].each {|val| print val, " " } 
+produces:
+11235
+</code></pre>
+
+<p>each</p>
+
+<pre><code>File.open("ordinal").grep(/d$/) do |line| 
+
+    puts line
+end
+produces:
+second
+third
+</code></pre>
+
+<p>loop的使用</p>
+
+<pre><code>loop do     # block ... end
+</code></pre>
+
+<p>for&hellip;in</p>
+
+<pre><code>for song in playlist
+
+song.play
+end
+</code></pre>
+
+<p>如果按以上这么写，则Ruby会将它翻译成</p>
+
+<pre><code>playlist.each do |song|
+
+    song.play
+end你可以将for....in用在任何定义了each的方法的类上
+for i in File.open("ordinal").find_all {|line| line =~ /d$/} 
+    print i.chomp, " "
+end
+
+class Periods 
+    def each
+    yield "Classical" 
+    yield "Jazz" 
+    yield "Rock"
+    end 
+end
+periods = Periods.new 
+for genre in periods
+print genre, " " end
+produces:
+Classical 
+Jazz 
+Rock
+</code></pre>
+
+<h5>break,redo,next</h5>
+
+<p>break和next后面可以跟一个value</p>
+
+<pre><code>result = while line = gets
+            break(line) if line =~ /answer/
+         end process_answer(result) if result
+</code></pre>
+
+<h4>作用域</h4>
+
+<p>注意以下代码中,a的赋值语句虽然没有执行，但在之后的语句中a仍然可用</p>
+
+<pre><code>a = "never used" if false 
+[99].each do |i|
+    a = i # this sets the variable in the outer scope 
+end
+a # =&gt; 99
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-29T22:17:21+08:00" data-updated="true" itemprop="datePublished">Jul 29<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/29/more-about-methods/" itemprop="url">More About Methods</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h5>定义一个方法</h5>
+
+<p>一个方法用关键字def来定义，方法名应该以一个小写字母或一个下划线开头，紧跟着字母，数字和下划线,方法名也许以一个?,!或=号结尾，一个返回bool值的方法通常以一个?结果</p>
+
+<pre><code>1.even? # =&gt; false 
+
+2.even? # =&gt; true 
+
+1.instance_of?(Fixnum) # =&gt; true
+</code></pre>
+
+<p>危险的方法，或是修改调用者的方法，可以用一个!来结尾,有时这些方法叫做<code>bang methods</code>,比如，类String提供了chop和chop！两种方法，前者返回了一个修改的string，后者则修改了调用此方法的字符串
+能出现在赋值运算符<code>=</code>左边的方法以一个<code>=</code>结尾,如</p>
+
+<pre><code>class BookInStock
+        attr_reader :isbn, :price
+    def initialize(isbn, price) 
+    @isbn = isbn
+    @price = Float(price)
+    end
+    def price=(new_price) 
+    @price = new_price
+    end     # ...   end
+book = BookInStock.new("isbn1", 33.80) 
+book.price = book.price * 0.75
+</code></pre>
+
+<p>有参和无参方法定义如下</p>
+
+<pre><code>def my_new_method(arg1, arg2, arg3) # 3 arguments 
+
+    # Code for the method would go here end
+def my_other_new_method # No arguments 
+    # Code for the method would go here     end
+</code></pre>
+
+<p>可以为参数指定默认值</p>
+
+<pre><code>    def cool_dude(arg1="Miles", arg2="Coltrane", arg3="Roach") 
+    "#{arg1}, #{arg2}, #{arg3}."
+end
+
+cool_dude                           # =&gt; "Miles, Coltrane, Roach."
+            cool_dude("Bart")                   # =&gt; "Bart, Coltrane, Roach."
+cool_dude("Bart", "Elwood")         # =&gt; "Bart, Elwood, Roach."
+cool_dude("Bart", "Elwood", "Linus") # =&gt; "Bart, Coltrane, Linus."
+</code></pre>
+
+<p>后一个参数的默认值也可以指定为与前一个参数相关的表达式</p>
+
+<pre><code>def surround(word, pad_width=word.length/2) 
+    "[" * pad_width + word + "]" * pad_width
+end
+surround("elephant") # =&gt; "[[[[elephant]]]]" 
+surround("fox") # =&gt; "[fox]"
+surround("fox", 10) # =&gt; "[[[[[[[[[[fox]]]]]]]]]]"#####可变参数
+def varargs(arg1, *rest)
+    "arg1=#{arg1}. rest=#{rest.inspect}"
+end
+varargs("one")                  # =&gt; arg1=one.  rest=[]
+varargs("one", "two")           # =&gt; arg1=one.  rest=["two"]
+varargs "one", "two", "three"   # =&gt; arg1=one.  rest=["two", "three"]   
+</code></pre>
+
+<p>有时我们用*来指定不被此类方法但被superclass中的此同名方法调用的参数,注意这种情况下我们直接调用super(无任何参数)，这种特殊的情况下意味着&#8221;在superclass中调用此方法，此所有的参数传到此类super的同名方法&#8221;</p>
+
+<pre><code>class Child &lt; Parent
+def do_something(*not_used)
+    # our processing
+super end
+end
+</code></pre>
+
+<p>你也可以只写一个*</p>
+
+<pre><code>class Child &lt; Parent 
+
+    def do_something(*)
+            # our processing
+            super 
+        end
+end
+</code></pre>
+
+<p>你可以将带*的参数放在方法参数列表的任意位置</p>
+
+<pre><code>def split_apart(first, *splat, last)
+        puts "First: #{first.inspect}, splat: #{splat.inspect}, " +     "last: #{last.inspect}" 
+end
+split_apart(1,2)
+split_apart(1,2,3)
+split_apart(1,2,3,4)
+produces:
+First: 1, splat: [], last: 2
+First: 1, splat: [2], last: 3
+First: 1, splat: [2, 3], last: 4
+你也可以只关心起始的参数，这样，你可以像以下这样定义方法
+def split_apart(first, *, last)
+</code></pre>
+
+<h5>Methods and Blocks</h5>
+
+<p>方法可以用yield来调用与它相关联的block</p>
+
+<pre><code>def double(p1) yield(p1*2)
+end
+double(3) {|val| "I got #{val}" } # =&gt; "I got 6" 
+double("tom") {|val| "Then I got #{val}" } # =&gt; "Then I got tomtom"如果一个方法的最后一个参数以&amp;开头，任何相关的block都能当作参数传入方法并被转化为一个Proc对象
+class TaxCalculator
+    def initialize(name, &amp;block)
+            @name, @block = name, block
+        end
+        def get_tax(amount)
+            "#@name on #{amount} = #{ @block.call(amount) }" 
+        end
+end
+tc = TaxCalculator.new("Sales tax") {|amt| amt * 0.075 } 
+tc.get_tax(100) # =&gt; "Sales tax on 100 = 7.5"
+tc.get_tax(250) # =&gt; "Sales tax on 250 = 18.75"
+</code></pre>
+
+<h5>调用方法</h5>
+
+<pre><code>connection.download_mp3("jitterbug") {|p| show_progress(p) } //对象
+
+File.size("testfile") # =&gt; 66           //类
+
+Math.sin(Math::PI/4) # =&gt; 0.7071067811865475    //Module
+</code></pre>
+
+<p>如果省略了receiver,默认是self</p>
+
+<pre><code>class InvoiceWriter
+        def initialize(order)
+
+        @order = order
+                end
+    def write_on(output)
+        write_header_on(output)
+        write_body_on(output)
+        write_totals_on(output)
+    end
+
+private     def write_header_on(output)
+    # ...
+    end
+    def write_body_on(output)
+    # ...
+    end
+    def write_totals_on(output)
+    # ...
+    end 
+end#####将参数传给方法
+</code></pre>
+
+<p>在不引起歧义的情况下，你可以省略括号，不过通常不推荐这么做</p>
+
+<pre><code># for some suitable value in 
+obj: a = obj.hash # Same as
+a = obj.hash() # this.
+obj.some_method "Arg1", arg2, arg3 # Same thing as //1.8之前
+obj.some_method("Arg1", arg2, arg3) # with parentheses. 如果你将多个参数传给return语句，方法将会以数组的形式返回这些参数
+def meth_three 100.times do |num|
+   square = num*num
+return num, square if square &gt; 1000 end
+end
+meth_three # =&gt; [32, 1024]
+</code></pre>
+
+<p>你可以按以下方式来获取返回的值</p>
+
+<pre><code>num, square = meth_three 
+num # =&gt; 32
+square # =&gt; 1024    
+</code></pre>
+
+<h5>*!在方法调用中展开Collections</h5>
+
+<pre><code>def five(a, b, c, d, e)
+    "I was passed #{a} #{b} #{c} #{d} #{e}"
+end
+five(1,2,3,4,5) #=&gt;"Iwaspassed12345" 
+five(1, 2, 3, *['a', 'b']) # =&gt; "I was passed 1 2 3 a b" 
+five(*['a', 'b'], 1, 2, 3) # =&gt; "I was passed a b 1 2 3" five(*(10..14)) 
+#=&gt;"Iwaspassed1011121314" 
+five(*[1,2], 3, *(4..5)) #=&gt;"Iwaspassed12345"
+</code></pre>
+
+<p>Ruby 1.9中， 带*参数可以出现参数列表中的任意位置</p>
+
+<h5>Block的妙用</h5>
+
+<p>先来看一段代码</p>
+
+<pre><code>print "(t)imes or (p)lus: " operator = gets
+print "number: "
+number = Integer(gets)
+if operator =~ /^t/
+puts((1..10).collect {|n| n*number }.join(", "))
+else
+puts((1..10).collect {|n| n+number }.join(", ")) 
+end
+produces:
+(t)imes or (p)lus: t
+number: 2
+2, 4, 6, 8, 10, 12, 14, 16, 18, 20
+</code></pre>
+
+<p>以上的代码能工作，但是很丑陋，我们注意到if和else的语句几乎一样，可以用block来改进如下</p>
+
+<pre><code>print "(t)imes or (p)lus: " 
+operator = gets
+print "number: "
+number = Integer(gets)
+if operator =~ /^t/
+calc = lambda {|n| n*number }
+else
+  calc = lambda {|n| n+number }
+end
+puts((1..10).collect(&amp;calc).join(", "))
+produces:
+(t)imes or (p)lus: t
+number: 2
+2, 4, 6, 8, 10, 12, 14, 16, 18, 20
+</code></pre>
+
+<p>如果方法的最后一个参数是以&amp;开头的，则Ruby认为它是一个Proc对象，方法将它移除出参数列表，然后将Proc对象转为block，再与方法关联</p>
+
+<h5>Hash and Keyword Arguments</h5>
+
+<p>先来看一段代码</p>
+
+<pre><code>class SongList
+    def search(field, params)
+        # ...
+        end 
+end
+list = SongList.new
+list.search(:titles, { genre: "jazz", duration_less_than: 270 })
+</code></pre>
+
+<p>实际上这种方式不值得推荐，{}很容易让人误认为是一个block，所以Ruby提供了一个捷径，在参数列表中你可以传入key => value这种形式,只要它们跟在正常的参数之后，在任何的*和block参数之前，所有的这些键值对都将被组装成一个hash参数传入方法中,可以略去{}</p>
+
+<pre><code>list.search(:titles, genre: "jazz", duration_less_than: 270)
+</code></pre>
+
+<h5>Keyword Argument Lists</h5>
+
+<p>我们仔细研究一下search方法，它接受一个field的名字和一个options hash,也许我们想要默认的duration为120s，并且加入验证方法-非法的验证不让它通过</p>
+
+<p>Ruby 2.0之前，代码是这么写的</p>
+
+<pre><code>def search(field, options)
+    options = { duration: 120 }.merge(options) 
+    if options.has_key?(:duration)
+        duration = options[:duration]
+        options.delete(:duration)
+    end
+    if options.has_key?(:genre)
+        genre = options[:genre]
+        options.delete(:genre)
+    end
+    fail "Invalid options: #{options.keys.join(', ')}" unless options.empty? 
+    # rest of method
+end 如果是Ruby 2.0，可以简化为以下
+def search(field, genre: nil, duration: 120) 
+    p [field, genre, duration ]
+end search(:title)
+search(:title, duration: 432)
+search(:title, duration: 432, genre: "jazz")
+produces:
+[:title, nil, 120]
+[:title, nil, 432]
+[:title, "jazz", 432]
+</code></pre>
+
+<p>如果传入的是一个非法选项，Ruby将会报错</p>
+
+<pre><code>search(:title, duraton: 432)
+produces:
+//是duration，不是duraton!  prog.rb:5:in `&lt;main&gt;': unknown keyword: duraton (ArgumentError)
+</code></pre>
+
+<p>你也可以将多个hash参数整合为一个hash参数，只要在方法的参数列表里在某参数的前面加<code>两个</code>星号</p>
+
+<pre><code>def search(field, genre: nil, duration: 120, **rest) 
+    p [field, genre, duration, rest ]
+end
+search(:title, duration: 432, stars: 3, genre: "jazz", tempo: "slow") 
+produces:
+[:title, "jazz", 432, {:stars=&gt;3, :tempo=&gt;"slow"}]
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-29T12:59:58+08:00" data-updated="true" itemprop="datePublished">Jul 29<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/29/regular-expression/" itemprop="url">Regular Expression</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>正则表达式如下</p>
+
+<pre><code>/cat/
+
+/123/
+</code></pre>
+
+<p>正则表达式<code>/.../</code>里的常量和双引号的字符串类似,实际上，你可以在正则里，你也可以用<code>#{...}</code>表达式的替换形式</p>
+
+<h5>Matching Strings with Patterns</h5>
+
+<pre><code>/cat/ =~ "dog and cat" # =&gt; 8 
+
+/cat/ =~ "catch" # =&gt; 0 
+
+/cat/ =~ "Cat" # =&gt; nil
+</code></pre>
+
+<p>如果你喜欢也可以把字符串放在前面</p>
+
+<pre><code>"dog and cat" =~ /cat/ # =&gt; 8 
+
+"catch" =~ /cat/ # =&gt; 0 
+
+"Cat" =~ /cat/ # =&gt; nil
+</code></pre>
+
+<p>模式匹配如果失败，会返回nil、，而nil在条件表达式中相当于false，所以可以把正则表达式的匹配结果作为if和while的条件语句</p>
+
+<pre><code>str = "cat and dog"
+    if str =~ /cat/
+puts "There's a cat here somewhere"
+end
+produces:
+There's a cat here somewhere
+</code></pre>
+
+<p>以下的代码打印&#8221;testfile&#8221;文件中有&#8221;on&#8221;字符串的行</p>
+
+<pre><code>File.foreach("testfile").with_index do |line, index| 
+
+puts "#{index}: #{line}" if line =~ /on/
+    end
+produces:
+0: This is line one
+3: And so on...你可以用!~来查找`不匹配`的字符串
+
+File.foreach("testfile").with_index do |line, index| 
+
+    puts "#{index}: #{line}" if line !~ /on/
+        end
+produces:
+1: This is line two
+2: This is line three
+</code></pre>
+
+<h5>Changing Strings with Patterns</h5>
+
+<p>sub方法用来查找并替换匹配的字符串</p>
+
+<pre><code>str = "Dog and Cat"
+    new_str = str.sub(/Cat/, "Gerbil")
+puts "Let's go to the #{new_str} for a pint."
+produces:
+Let's go to the Dog and Gerbil for a pint.
+</code></pre>
+
+<p>sub只是替换第一个匹配的，要替换全局匹配的，就用gsub</p>
+
+<pre><code>str = "Dog and Cat"
+    new_str1 = str.sub(/a/, "*") 
+new_str2 = str.gsub(/a/, "*") 
+puts "Using sub: #{new_str1}" 
+puts "Using gsub: #{new_str2}"
+produces:
+Using sub: Dog *nd Cat
+Using gsub: Dog *nd C*t 
+</code></pre>
+
+<p>需要注意的是，sub和gsub都返回一个全新的string,不论是否替换！如果替换，也返回原string的一个copy
+如果你想要修改原始的string，你可以用sub!和gsub!的形式</p>
+
+<pre><code>str = "now is the time" 
+
+str.sub!(/i/, "*") 
+
+str.gsub!(/t/, "T") 
+
+puts str
+    produces:
+now *s The Time
+</code></pre>
+
+<p>不过不像sub和gsub，sub!和gsub!只有在匹配正则表达式时才返回string，如果不匹配，则返回nil，这意味着你可以将它放在条件语句中</p>
+
+<h5>Digging Deeper</h5>
+
+<p>未完待续&hellip;.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T08:10:44+08:00" data-updated="true" itemprop="datePublished">Jul 28<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/28/standard-types/" itemprop="url">Standard Types</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p> 这一章主要介绍Ruby中的几个标准类型:numbers,strings,ranges,regular expressions</p>
+
+<h4>Numbers</h4>
+
+<p>Integers可以是任何长度(内存有多大，长度就有多大),在一定范围内(通常是pow(-2,30)&hellip;pow(2,30)-1或是pow(-2,62)&hellip;pow(2,62)-1)的Integers是类Fixnum的对象,超出此范围的则是类Bignum的对象,这个转化过程由Ruby自动来处理</p>
+
+<pre><code>num = 10001 4.times do
+    puts "#{num.class}: #{num}" num *= num
+end
+    produces:
+       Fixnum: 10001
+       Fixnum: 100020001
+       Fixnum: 10004000600040001
+       Bignum: 100080028005600700056002800080001
+</code></pre>
+
+<p>我们可以在数字前添加0x,0b等前缀,或是下划线</p>
+
+<pre><code>123456 =&gt; 123456    # Fixnum
+0d123456 =&gt; 123456      # Fixnum
+123_456 =&gt; 123456       # Fixnum - underscore ignored
+-543 =&gt; -543            # Fixnum - negative number
+0xaabb =&gt; 43707         # Fixnum - hexadecimal
+0377 =&gt; 255             # Fixnum - octal
+-0b10_1010 =&gt; -42       # Fixnum - binary (negated)
+123_456_789_123_456_789 =&gt; 123456789123456789 # Bignum
+</code></pre>
+
+<p>Ruby支持rational和complex number,Rational numbers是两个整数的比</p>
+
+<pre><code>Rational(3, 4) * Rational(2, 3) # =&gt; (1/2) Rational("3/4") * Rational("2/3") # =&gt; (1/2)
+Complex(1, 2) * Complex(3, 4) # =&gt; (-5+10i) Complex("1+2i") * Complex("3+4i") # =&gt; (-5+10i)
+</code></pre>
+
+<p>需要注意的是,不像Perl，在表达式计算时，Strings中的数字并不会自动转为数字
+假设有一个文字如下，我们需要计算每行两个数字的和</p>
+
+<pre><code>3   4 
+
+5   6 
+
+7   8
+</code></pre>
+
+<p>以下的代码并不工作</p>
+
+<pre><code>some_file.each do |line| 
+
+v1, v2 = line.split         # split line on spaces
+
+print v1 + v2, " "
+    end
+produces:
+34 56 78
+</code></pre>
+
+<p>应该先把strings转为integers</p>
+
+<pre><code>some_file.each do |line|
+    v1, v2 = line.split
+print Integer(v1) + Integer(v2), " "
+end
+produces:
+7 11 15
+</code></pre>
+
+<h5>How Number interact</h5>
+
+<pre><code>1 + 2                   # =&gt; 3
+1 + 2.0                 # =&gt; 3.0
+1.0+2                   # =&gt; 3.0
+
+1.0 + Complex(1,2)      # =&gt; (2.0+2i)
+1 + Rational(2,3)       # =&gt; (5/3)
+1.0 + Rational(2,3)     # =&gt; 1.6666666666666665
+</code></pre>
+
+<p>如果你需要除法能返回 一个Rational number,则需引入mathn库,这个库能帮我们以最<code>自然</code>的方式展示两数运算的结果</p>
+
+<pre><code>22 / 7 # =&gt; 3
+
+Complex::I * Complex::I # =&gt; (-1+0i)
+require 'mathn' 22 / 7 # =&gt; (22/7) 
+Complex::I * Complex::I # =&gt; -1
+</code></pre>
+
+<h5>Looping Using Numbers</h5>
+
+<pre><code>3.times { print "X " } 
+
+1.upto(5) {|i| print i, " " } 
+
+99.downto(95) {|i| print i, " " } 
+
+50.step(80, 5) {|i| print i, " " }
+
+produces:
+    X X X 1 2 3 4 5 99 98 97 96 95 50 55 60 65 70 75 80
+</code></pre>
+
+<p>同其他迭代器一样，如果其后没有block，则会返回一个Enumerator对象</p>
+
+<pre><code>10.downto(7).with_index {|num, index| puts "#{index}: #{num}"}
+produces:
+   0: 10
+   1: 9
+   2: 8
+   3: 7
+</code></pre>
+
+<h4>Strings</h4>
+
+<p>String有两种组成方式，单引号和双引号组成的string
+单引号</p>
+
+<pre><code> 'escape using "\\"'   # =&gt; escape using "\"
+      'That\'s right'       # =&gt; That's right
+</code></pre>
+
+<p>如果是双引号,你可以用#{expr}来替换strings里的值,如果expr是个全局变量，类变量，或是一个类的实例,花括号可以省略</p>
+
+<pre><code>"Seconds/day: #{24*60*60}" 
+
+"#{'Ho! '*3}Merry Christmas!" "Safe level is #$SAFE"
+    # =&gt; Seconds/day: 86400
+# =&gt; Ho! Ho! Ho! Merry Christmas!
+    # =&gt; Safe level is 0
+</code></pre>
+
+<p>{}里的代码不一定只是一个表达式，也可以由多条语句构成</p>
+
+<pre><code>puts "now is #{ def the(a)
+                 'the ' + a
+                end
+                the('time')
+                } for all bad coders..."
+produces:
+now is the time for all bad coders...
+</code></pre>
+
+<p>你还可以用另外三种方式来构建一个string常量:%q,%Q以及here documents
+你可以把%q看成是单引号,%Q看成是双引号</p>
+
+<pre><code>%q/general single-quoted string/        # =&gt; general single-quoted string
+
+%Q!general double-quoted string!        # =&gt; general double-quoted string
+
+%Q{Seconds/day: #{24*60*60}}            # =&gt; Seconds/day: 86400
+</code></pre>
+
+<p>实际上Q是可有可无的</p>
+
+<pre><code>%!general double-quoted string! # =&gt; general double-quoted string 
+
+%{Seconds/day: #{24*60*60}} # =&gt; Seconds/day: 86400
+</code></pre>
+
+<p>实际上紧跟在q或Q后的是分隔符,分隔符可以由任何<code>nonalphanumeric</code> 或 <code>nonmultibyte</code>字符组成
+最后,我们来看看如何用<code>here document</code>来创建string</p>
+
+<pre><code>string = &lt;&lt;END_OF_STRING
+    The body of the string is the input lines up to     one starting with the same text that followed the '&lt;&lt;'  END_OF_STRING
+</code></pre>
+
+<p>通常terminator从第一行开始，不过，如果你把一个负号放在&lt;&lt;后，你可以对terminator进行缩进，创建的string也会进行缩进</p>
+
+<pre><code>string = &lt;&lt;-END_OF_STRING
+    The body of the string is the input lines up to     one starting with the same text that followed the '&lt;&lt;'  END_OF_STRING
+</code></pre>
+
+<p>你也可以将多个here documents放在同一行上，每一个代表一个单独的string,here document的bodies从source lines中依次获取</p>
+
+<pre><code>print &lt;&lt;-STRING1, &lt;&lt;-STRING2 
+Concat
+STRING1
+      enate
+      STRING2
+produces:
+Concat 
+    enate
+</code></pre>
+
+<p> 注意在此情况下Ruby并不会将enate前的空格给去掉</p>
+
+<h4>Strings and Encodings</h4>
+
+<p>每一个string都有一个对应的encoding,一个string的默认的encoding取决于包含它的源文件的encoding,如果没有指明显式的encoding,一个源文件(和它的string)在Ruby 1.9用的是US-ASCII编码，Ruby 2则是UTF-8</p>
+
+<pre><code>plain_string = "dog"
+    puts RUBY_VERSION
+puts "Encoding of #{plain_string.inspect} is #{plain_string.encoding}"
+
+produces:
+2.0.0
+Encoding of "dog" is UTF-8
+</code></pre>
+
+<p>如果你在文件的开头指明用了哪个encoding,文件中所有的string都 会用此encoding</p>
+
+<pre><code>#encoding: utf-8
+plain_string = "dog"
+puts "Encoding of #{plain_string.inspect} is #{plain_string.encoding}" utf_string = "δog"
+puts "Encoding of #{utf_string.inspect} is #{utf_string.encoding}"
+produces:
+Encoding of "dog" is UTF-8
+Encoding of "δog" is UTF-8
+</code></pre>
+
+<h6>Working with Strings</h6>
+
+<p>假设一个文件有以下格式</p>
+
+<pre><code>/jazz/j00132.mp3  | 3:45 | Fats     Waller     | Ain't Misbehavin'
+/jazz/j00319.mp3  | 2:58 | Louis    Armstrong  | Wonderful World
+/bgrass/bg0732.mp3| 4:09 | Strength in Numbers | Texas Red
+</code></pre>
+
+<p>现在我们要做以下三件事情</p>
 
 <ol>
-<li><p>输入大小限制</p>
+<li>将每一行分解成fields</li>
+<li>将时间从mm:ss转为秒</li>
+<li><p>移除artist中名字中的空格
+先来看看第一步</p>
 
-<ul>
-<li>scanf()能限制输入的大小，只要你记得在输入的字符串格式上加上相应的大小即可,如&#8221;%4s&#8221;</li>
-<li>fgets()有一个强制输入大小的限制</li>
-</ul>
-</li>
-<li><p>输入类型</p>
+<pre><code>  Song = Struct.new(:title, :name, :length)
+  File.open("songdata") do |song_file| songs = []
+  song_file.each do |line|
+  file, length, name, title = line.chomp.split(/\s*\|\s*/) 
 
-<ul>
-<li>scanf()不仅仅能让你输入多种类型，还让你指定比如在相应的输入数据之间用什么数据来分隔,如scanf(&ldquo;%d,%d&rdquo;)表示输入的两个整数之间必须用&#8221;,&ldquo;隔开</li>
-<li>fgets()只允许你输入一个字符串到缓冲区中,其他数据类型都是不允许的</li>
-</ul>
-</li>
-<li><p>字符串中的空格</p>
+  name.squeeze!(" ")      songs &lt;&lt; Song.new(title, name, length)
+  end
+    puts songs[1]
+  end
+  produces:
+  #&lt;struct Song title="Wonderful World", name="Louis Armstrong", length="2:58"&gt;
+</code></pre>
 
-<ul>
-<li>对scanf()来说，如果它用%s来输入一个字符串,如果碰到一个空格时，它将马上终止输入,所以如果你想输入两个单词，要么你调用两次scanf()来输入，要么你用一些古怪的正则表达式来操作</li>
-<li>fgets()无任何问题,每次fgets()都可读入整个string</li>
-</ul>
-</li>
+<p>注意上面的line.chomp,因为每一行都有一个换行符，所以必须把它去掉
+来看下如何处理时间,用split也可以，但我们用更好的方式scan</p>
+
+<pre><code>  Song = Struct.new(:title, :name, :length) 
+
+  File.open("songdata") do |song_file|
+  songs = []
+  song_file.each do |line|
+  file, length, name, title = line.chomp.split(/\s*\|\s*/) 
+  name.squeeze!(" ")
+  mins, secs = length.scan(/\d+/)
+  songs &lt;&lt; Song.new(title, name, mins.to_i*60 + secs.to_i)
+  end
+  puts songs[1]
+  end
+  produces:
+  #&lt;struct Song title="Wonderful World", name="Louis Armstrong", length=178&gt;####Ranges
+</code></pre>
+
+<p>ranges主要用在以下三个方面:sequences, conditions和intervals</p></li>
 </ol>
 
 
-<h2>字符串常量不能被修改</h2>
+<p>1.Ranges as Sequences</p>
 
-<pre><code>char *cards = "JQK"
-cards[0] = 'H'
+<pre><code>1..10
+'a'..'z' 0..."cat".length
 </code></pre>
 
-<p>错误！字符串常量被存储在常量存储区，这个区域是只读的,如果你想要改变一个字符串，copy它，你需要将string拷贝到一个可写的内存区域，这样你就能修改它了,如下</p>
+<p>你可以用to_a将一个range转为一个数组,用to_enum将它转为一个Enumberator</p>
 
-<pre><code>char cards[] = "JQK";
+<pre><code>(1..10).to_a # =&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
+
+
+('bar'..'bat').to_a # =&gt; ["bar", "bas", "bat"]
+enum = ('bar'..'bat').to_enum
+enum.next # =&gt; "bar"
+enum.next # =&gt; "bas"
 </code></pre>
 
-<p>可能你不清楚发生了什么，所有的string都是数组，但在之前的错误代码中，cards仅仅是一个指针，在新代码中，如果你定义了一个叫做cards的数组，然后将一个字符串常量赋值给它，cards数组得到的是一份全新的拷贝，此时&#8221;JQK&#8221;在栈上
-为了避免当cards是指针时修改它产生错误，你应该按哪下方式进行声明</p>
+<p>Ranges有很多方法能让你遍历它们并且用很多方法测试它们</p>
 
-<pre><code>const char *s = "JQK";
+<pre><code>digits = 0..9
+digits.include?(5) # =&gt; true
+digits.max # =&gt; 9
+digits.reject {|i| i &lt; 5 } # =&gt; [5, 6, 7, 8, 9] 
 </code></pre>
 
-<p>这样，如果编译器看到试图修改此string的代码，就会报错</p>
+<p>digits.inject(:+) # => 45
+目前我们已经看到了numbers和strings的ranges，实际上，ranges也可以基于你定义的对象来创建,惟一的要求是对象必须定义succ方法，这个方法返回了序列中的下一个对象，这个对象还必须实现<code>&lt;=&gt;</code>(有时称为<code>spaceship operator</code>),允许对象之间的比较,返回-1,0, 1</p>
 
-<pre><code>s[0] = 'S'      //error: assignment of read-only location
+<pre><code>class PowerOfTwo 
+    attr_reader :value 
+    def initialize(value)
+        @value = value
+    end
+    def &lt;=&gt;(other)
+        @value &lt;=&gt; other.value
+    end
+    def succ
+        PowerOfTwo.new(@value + @value)
+    end
+    def to_s
+    @value.to_s
+    end 
+
+end
+p1 = PowerOfTwo.new(4)
+p2 = PowerOfTwo.new(32)
+puts (p1..p2).to_a
+produces:
+4 
+8 
+16 
+32
 </code></pre>
 
-<h2>cards[]还是cards*</h2>
+<h5>Ranges as Conditions</h5>
 
-<p>如果你看到以下的声明，意味着什么</p>
-
-<pre><code>char cards[]
+<pre><code>while line = gets
+    puts line if line =~ /start/ .. line =~ /end/
+end
 </code></pre>
 
-<p>一切取决于你在哪看到它的，如果是一个正常的声明，那么意味着它是一个数组，必须给它赋值</p>
+<h5>Ranges as Intervals</h5>
 
-<pre><code>int my_function()   {
-    //此时cards是一个数组        char cards[] = "JQK"; ...   }
+<p>可以借此来查看某些值是否在range间,注意必须用<code>===</code></p>
+
+<pre><code>(1..10) === 5 # =&gt; true
+
+(1..10) === 15 # =&gt; false 
+
+(1..10) === 3.14159 # =&gt; true 
+
+('a'..'j') === 'c' # =&gt; true 
+
+('a'..'j') === 'z' # =&gt; false还可用在case中
+car_age = gets.to_f # let's assume it's 9.5 
+case car_age
+when 0...1
+    puts "Mmm.. new car smell" 
+when 1...3
+puts "Nice and new" 
+when 3...10
+    puts "Reliable but slightly dinged" 
+when 10...30
+    puts "Clunker" 
+else
+    puts "Vintage gem" 
+
+end
+produces:
+Reliable but slightly dinged
 </code></pre>
 
-<p>如果cards出现在一个函数的参数中，此时cards表示一个指针</p>
+		
+		
+	</div>
 
-<pre><code>void stack_deck(char cards[])   {       }
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-27T15:03:31+08:00" data-updated="true" itemprop="datePublished">Jul 27<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/27/sharing-functionality-inheritance/" itemprop="url">Sharing Functionality: Inheritance</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h4>继承和消息</h4>
+
+<pre><code>class Parent 
+
+    def say_hello   
+    puts "Hello from #{self}" 
+    end
+end
+p = Parent.new
+p.say_hello
+    class Child &lt; Parent # Subclass the parent...
+
+end 
+c = Child.new
+c.say_hello
+produces:
+Hello from #&lt;Parent:0x007fb87110fd98&gt;
+Hello from #&lt;Child:0x007fb87110fac8&gt;
+</code></pre>
+
+<p>superclass的方法返回了一个类的父类</p>
+
+<pre><code>class Parent
+end
+class Child &lt; Parent
+end
+Child.superclass # =&gt; Parent
+</code></pre>
+
+<p>那么，Parent的superclass是什么</p>
+
+<pre><code>class Parent
+end
+Parent.superclass # =&gt; Object
+</code></pre>
+
+<p>继续探究</p>
+
+<pre><code>Object.superclass # =&gt; BasicObject
+BasicObject.superclass.inspect # =&gt; "nil"
+</code></pre>
+
+<p>我们可以看到在继承体系中BasicObject是root class</p>
+
+<h4>Modules</h4>
+
+<p>Modules提供了一种将方法，类和常量聚合在同一空间名下的方式,Modules提供了两大优势</p>
+
+<ol>
+<li>Modules提供了一个命名空间，并且防止了命名冲突</li>
+<li><p>Modules支持mixin的功能</p>
+
+<pre><code> //trig.rb
+ module Trig
+     PI = 3.141592654 
+
+     def Trig.sin(x)
+     # ..
+     end
+     def Trig.cos(x) 
+
+         # ..
+     end 
+ end
+ //moral.rb
+ module Moral
+     VERY_BAD = 0
+     BAD =1
+     def Moral.sin(badness)
+     # ...
+     end 
+ end
+</code></pre>
+
+<p>来看看如何使用它们</p>
+
+<pre><code>  require_relative 'trig' 
+  require_relative 'moral'
+  y = Trig.sin(Trig::PI/4)
+  wrongdoing = Moral.sin(Moral::VERY_BAD)
+</code></pre>
+
+<h4>Mixins</h4>
+
+<p>Modules还有另外一个很好用的功能，它们可以在很大程序上避免继承的使用,这种方式叫mixin.
+从以上的module的demo中我们可以看到，如果我们定义modules的方法，这些方法前面加了module的名字,如果你想到了类方法，那么你可能会想&#8221;我是否能在module里定义instance方法&#8221;!好问题，一个module不能有instances，因为modules不是类，不过你可以将一个module添加到一个类的定义中，这样，所有的modules的instance方法就同类中的instance方法一样可用了，它们mixed in了，实际上 mixed-in 模块有效地充当了superclass的角色
+来看下demo</p>
+
+<pre><code>  module Debug 
+
+      def who_am_i?
+          "#{self.class.name} (id: #{self.object_id}): #{self.name}"          end
+  end
+  class Phonograph 
+      include Debug 
+      attr_reader :name 
+      def initialize(name)
+
+      @name = name
+  end
+  # ...       end
+  class EightTrack 
+  include Debug 
+      attr_reader :name 
+      def initialize(name)
+      @name = name
+  end
+  # ...
+  end
+  ph = Phonograph.new("West End Blues")
+  et = EightTrack.new("Surrealistic Pillow")
+  ph.who_am_i? # =&gt; "Phonograph (id: 70266478767560): West End Blues" 
+  et.who_am_i? # =&gt; "EightTrack (id: 70266478767520): Surrealistic Pillow"
+</code></pre></li>
+</ol>
+
+
+<p>mixin的真正威力在mixin的代码开始与使用它的类的代码进行交互时才得以体现出现,我们用Ruby的Mixin Comparable来作一个例子,Comparable mixin为类添加了比较方法(&lt;, &lt;=, ==, >=, 和 >)和between?方法，为了让Comparable工作,Comparable假设所有使用它的类定义了操作符<code>&lt;=&gt;</code></p>
+
+<pre><code>class Person
+    include Comparable 
+    attr_reader :name
+        def initialize(name) 
+            @name = name
+        end
+        def to_s
+            "#{@name}" 
+        end
+        def &lt;=&gt;(other)
+            self.name &lt;=&gt; other.name
+        end 
+    end
+p1 = Person.new("Matz") 
+p2 = Person.new("Guido")
+    p3 = Person.new("Larry") # Compare a couple of names
+if p1 &gt; p2
+puts "#{p1.name}'s name &gt; #{p2.name}'s name"
+end
+# Sort an array of Person objects
+puts "Sorted list:" 
+
+puts [ p1, p2, p3].sort
+</code></pre>
+
+<p>produces:</p>
+
+<pre><code>Matz's name &gt; Guido's name
+Sorted list:
+Guido
+Larry
+Matz
+</code></pre>
+
+<h4>Iterators and the Enumerable Module</h4>
+
+<p>Ruby的collections类(Array, Hash等)支持许多针对collections的操作:遍历，排序等，你可能会想:&ldquo;如果我的类也支持这些操作该多好&rdquo;</p>
+
+<p>好消息是，由于mixins和module Enumberable的存在,你的类能支持所有的这些特性，你需要做的只是写一个each的迭代器，依次返回你的collection里的元素，然后include Enumerable,这样你的类就支持map,include?,find_all?这些方法了，如果在你的collection里的对象用<code>&lt;=&gt;</code>来实现了一些有意义的排序相关的方法，你也能使用如min,max,sort等的方法</p>
+
+<h4>Composing Modules</h4>
+
+<p>Enumerable是一个标准的mixin,实现了针对host class中的each相关的许多方法,其中一个是我们之前提到的inject方法，由于要用inject就得include Enumerable，我们能将它用在任何include Enumerable并且实现了each方法的类里
+来看看许多内置类对它的使用</p>
+
+<pre><code>[ 1, 2, 3, 4, 5 ].inject(:+) # =&gt; 15
+( 'a'..'m').inject(:+) # =&gt; "abcdefghijklm"
+</code></pre>
+
+<p>来看看如何定义我们自己的类来使用Enumerable中的inject</p>
+
+<pre><code>//vowel_finder.rb
+class VowelFinder 
+    include Enumerable
+    def initialize(string)
+     @string = string
+    end
+    def each
+        @string.scan(/[aeiou]/) do |vowel| 
+        yield vowel
+        end 
+
+    end
+end vf = VowelFinder.new("the quick brown fox jumped")  vf.inject(:+) # =&gt; "euiooue"
+</code></pre>
+
+<p>我们还能将inject的方法封装在module的方法中，如下</p>
+
+<pre><code>module Summable 
+    def sum         inject(:+)      end end class Array         include Summable    end class Range         include Summable    end
+    require_relative "vowel_finder" 
+class VowelFinder
+  include Summable
+end
+[1,2,3,4,5].sum #=&gt;15 
+
+('a'..'m').sum # =&gt; "abcdefghijklm"
+vf = VowelFinder.new("the quick brown fox jumped") 
+
+vf.sum # =&gt; "euiooue"#### Instance Variables in Mixins
+</code></pre>
+
+<p>从C++转过来的程序员通常会问&#8221;在mixin里的instance variable是如何处理的&#8221;
+在Ruby中instace variables是这么工作的
+以@开头的变量在当前的对象(self)里创建instace variable
+对一个mixin而言,如果你在一个类中include了module,你的类对象将创建module里的instance variable并且可以用attr_reader和friends来定义accessors,比如,以下例子中的Observable module为每一个include它的类都添加了@observer_list的instance variable</p>
+
+<pre><code>//observer_impl.rb
+
+module Observable 
+
+    def observers
+
+        @observer_list ||= []
+    end
+    def add_observer(obj)
+        observers &lt;&lt; obj
+    end
+    def notify_observers
+        observers.each {|o| o.update }
+    end 
+
+end
+</code></pre>
+
+<p>然而这种方式可能会导致一些不可预知的错误,一个mixin的instance variables可能会与inclde它的host class定义的instance variables相冲突,以下的例子显示了一个使用我们的Observer module的类的例子，很不幸的是，它也定义了一个叫做@observer_list的instance variable,在运行时，这个程序可能会导致某些难以调试的错误</p>
+
+<pre><code>require_relative 'observer_impl' 
+class TelescopeScheduler
+    # other classes can register to get notifications # when the schedule changes
+    include Observable
+    def initialize
+    @observer_list = [] # folks with telescope time
+    end
+    def add_viewer(viewer)
+        @observer_list &lt;&lt; viewer
+    end
+    # ...
+end
+</code></pre>
+
+<p>所以，大部分情况下,mixin modules并不直接使用instance variables,它们用accessors来从client对象获取信息,不过如果你需要创建一个有它自己状态的mixin,你需要确保这些instance variables<code>必须</code>要有惟一的名字，或者也可以创建一个module-level的hash，(key用当前对象的ID表示)来存储instance-specific的data</p>
+
+<pre><code>module Test
+    State = {}
+    def state=(value)
+        State[object_id] = value
+    ￼￼end
+
+    def state State[object_id]
+    end 
+end
+class Client 
+    include Test
+end
+c1 = Client.new
+c2 = Client.new 
+c1.state = 'cat' 
+c2.state = 'dog' 
+c1.state # =&gt; "cat" 
+c2.state # =&gt; "dog"
+</code></pre>
+
+<p>使用这种方法的坏处就是，和某个特别的对象关联的数据在此对象被删后并不会马上释放，通常来说，一个需要维护它自己状态的mixin不应该是个mixin，它应该被写成一个类</p>
+
+<h4>Resolving Ambiguous Method Names</h4>
+
+<p>如果多个被include的mixins，此类，此类的父类中有相同的方法该如何处理
+Ruby会首选查看一个对象的类中的方法，然后是被include到mixins,然后是superclass以及其中的mixins,如果一个为类include了多个mixins,最后被include的mixin首先被搜索到</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-26T08:51:21+08:00" data-updated="true" itemprop="datePublished">Jul 26<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/26/rong-qi-kuai-die-dai-qi/" itemprop="url">容器-块-迭代器</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h4>数组</h4>
+
+<p>来看看数组是怎么用的</p>
+
+<pre><code>a = [ 3.14159, "pie", 99 ] 
+a.class # =&gt; Array 
+a.length # =&gt; 3
+a[0] # =&gt; 3.14159
+a[1] # =&gt; "pie"
+a[2] #=&gt;99
+a[3] #=&gt;nil
+b = Array.new 
+b.class # =&gt; Array 
+
+b.length # =&gt; 0 
+b[0] = "second"
+b[1] = "array"
+￼b
+a = [ 1, 3, 5, 7, 9 ]
+a[-1] # =&gt; 9
+a[-2] # =&gt; 7
+a[-99] # =&gt; nil
+a = [ 1, 3, 5, 7, 9 ] 
+a[1,3] #=&gt;[3,5,7] 
+a[3, 1] # =&gt; [7] 
+a[-3,2] #=&gt;[5,7]
+a = [ 1, 3, 5, 7, 9 ] 
+a[1..3] #=&gt;[3,5,7] 
+a[1...3] # =&gt; [3, 5] 
+a[3..3] #=&gt;[7] 
+
+a[-3..-1] # =&gt; [5, 7, 9]
+
+a=[1,3,5,7,9]       #=&gt;[1,3,5,7,9]
+a[1] = 'bat'        #=&gt; [1, "bat", 5, 7, 9]
+a[-3] = 'cat'       #=&gt; [1, "bat", "cat", 7, 9]
+a[3] =[9,8]         #=&gt; [1, "bat", "cat", [9, 8], 9]
+a[6] = 99           #=&gt; [1, "bat", "cat", [9, 8], 9, nil, 99]
+
+a = [ 1, 3, 5, 7, 9 ]       #=&gt;[1,3,5,7,9]
+a[2, 2] = 'cat'             #=&gt; [1, 3, "cat", 9]
+a[2, 0] = 'dog'             #=&gt; [1, 3, "dog", "cat", 9] 
+a[1,1]=[9,8, 7]             #=&gt;[1,9,8,7,"dog","cat",9]
+a[0..3] = []                #=&gt; ["dog", "cat", 9]
+a[5..6] = 99, 98            #=&gt; ["dog", "cat", 9, nil, nil, 99, 98]
+</code></pre>
+
+<p>数组有许多有用的方法，使用它们，你能将数组作为栈(stacks),集和(sets),队列(queues),<a href="http://en.wikipedia.org/wiki/Double-ended_queue">dequeues</a>,先进先出的queues
+比如,push和pop方法从数组的末端添加和删除元素，所以你能将数组作为栈来使用</p>
+
+<pre><code>stack = []
+stack.push "red"
+stack.push "green"
+stack.push "blue"
+stack # =&gt; ["red", "green", "blue"]
+
+stack.pop # =&gt; "blue" 
+stack.pop # =&gt; "green" 
+stack.pop # =&gt; "red" 
+stack #=&gt;[]
+</code></pre>
+
+<p>同样地,unshift和shift从数组的起始位置添加和删除元素,结合shift和push，你能构建一个FIFO的队列</p>
+
+<pre><code>queue = []
+queue.push "red" 
+queue.push "green" 
+queue.shift # =&gt; "red" 
+queue.shift # =&gt; "green"
+</code></pre>
+
+<p>first和last方法返回一个数组的头部和尾部的n个元素</p>
+
+<pre><code>array = [ 1, 2, 3, 4, 5, 6, 7 ] 
+array.first(4) # =&gt; [1, 2, 3, 4] 
+array.last(4) # =&gt; [4, 5, 6, 7]
+</code></pre>
+
+<h4>哈希(字典)同数组一样,哈希也是针对数组引用的以索引查询的集合,不过与数组不同的是，数组的下标只能为整形，而哈希的key则可为symbols,strings,regular expression等</h4>
+
+<pre><code>h = { 'dog' =&gt; 'canine', 'cat' =&gt; 'feline', 'donkey' =&gt; 'asinine' }
+h.length # =&gt; 3
+h['dog'] # =&gt; "canine"
+h['cow'] = 'bovine'
+h[12] = 'dodecine'
+h['cat'] = 99
+h           # =&gt; {"dog"=&gt;"canine", "cat"=&gt;99, "donkey"=&gt;"asinine", "cow"=&gt;"bovine",             # .. 12=&gt;"dodecine"}
+</code></pre>
+
+<p>从Ruby 1.9开始,如果key是symbols,你可以用以下方式创建hash</p>
+
+<pre><code>h = { :dog =&gt; 'canine', :cat =&gt; 'feline', :donkey =&gt; 'asinine' }
+</code></pre>
+
+<p>也可以这么写</p>
+
+<pre><code>h = { dog: 'canine', cat: 'feline', donkey: 'asinine' }####用哈希和数组来完成单词的计数
+</code></pre>
+
+<p>现在我们要完成一个demo,给定一段文字，从中计算出每个单词出现的频率
+我们将问题分成两步</p>
+
+<ol>
+<li><p>将这一段文字作为一个字符串，然后返回此字符串里的单词(保存在数组中)</p>
+
+<pre><code> def words_from_string(string) 
+     string.downcase.scan(/[\w']+/)
+ end
+ p words_from_string("But I didn't inhale, he said (emphatically)")
+ 结果:
+ ["but", "i", "didn't", "inhale", "he", "said", "emphatically"]
+</code></pre></li>
+<li><p>为每一个不同的单词都弄一个计数，这个就用hash来实现</p>
+
+<pre><code>     def count_frequency(word_list) 
+     counts = Hash.new(0)
+     for word in word_list
+         counts[word] += 1
+     end
+     counts
+ end
+ p count_frequency(["sparky", "the", "cat", "sat", "on", "the", "mat"]) 
+ produces:
+ {"sparky"=&gt;1, "the"=&gt;2, "cat"=&gt;1, "sat"=&gt;1, "on"=&gt;1, "mat"=&gt;1}
+</code></pre>
+
+<p>最后，计算好了hash后，我们要打印出来，这里我们打算按字数出现频率的升序顺序来打印</p>
+
+<pre><code>  sorted = counts.sort_by {|word, count| count}
+</code></pre>
+
+<p>综上，我们的程序如下</p>
+
+<pre><code>  require_relative "words_from_string.rb" 
+  require_relative "count_frequency.rb"
+  raw_text = %{The problem breaks down into two parts. First, given some text as a string, return a list of words. That sounds like an array. Then, build a count for each distinct word. That sounds like a use for a hash---we can index it with the word and use the corresponding entry to keep a count.}
+  word_list = words_from_string(raw_text)
+  counts    = count_frequency(word_list)
+  sorted    = counts.sort_by {|word, count| count}
+  top_five  = sorted.last(5)
+</code></pre></li>
+</ol>
+
+
+<p><code>top_five  = sorted.last(5)</code>是一个数组,每一个元素对应着一个key/value的pair,来看看如何遍历它</p>
+
+<pre><code>for i in 0...5 # (this is ugly code--read on 
+    word = top_five[i][0] # for a better version) 
+    count = top_five[i][1]
+puts "#{word}: #{count}"
+end
+produces:
+that:  2
+sounds:  2
+like:  2
+the:  3
+a: 6####单元测试
+</code></pre>
+
+<p>表面上我们对以上的方法进行单元测试
+首先是对<code>words_from_string</code></p>
+
+<pre><code>    require_relative 'words_from_string'
+    require 'test/unit'
+    class TestWordsFromString &lt; Test::Unit::TestCase
+        def test_empty_string
+            assert_equal([], words_from_string("")) assert_equal([], words_from_string(" "))
+        end
+        def test_single_word
+            assert_equal(["cat"], words_from_string("cat")) 
+            assert_equal(["cat"], words_from_string(" cat "))
+        end
+        def test_many_words
+            assert_equal(["the", "cat", "sat", "on", "the", "mat"],
+            words_from_string("the cat sat on the mat")) 
+        end
+
+        def test_ignores_punctuation 
+            assert_equal(["the", "cat's", "mat"],
+            words_from_string("&lt;the!&gt; cat's, -mat-")) 
+
+        end
+    end
+    produces:
+    Run options:
+    # Running tests:
+    ....
+    Finished tests in 0.006458s, 619.3868 tests/s, 929.0802 assertions/s.       4 tests, 6 assertions, 0 failures, 0 errors, 0 skips
+</code></pre>
+
+<p>在测试框架中，所有以test开头的方法都会自动运行我们也能测试计算单词出现次数的方法</p>
+
+<pre><code>    require_relative 'count_frequency' 
+    require 'test/unit'
+    class TestCountFrequency &lt; Test::Unit::TestCase 
+        def test_empty_list
+            assert_equal({}, count_frequency([]))
+        end
+
+            def test_single_word
+            assert_equal({"cat" =&gt; 1}, count_frequency(["cat"])) 
+        end
+        def test_two_different_words
+            assert_equal({"cat" =&gt; 1, "sat" =&gt; 1}, count_frequency(["cat", "sat"]))
+        end
+        def test_two_words_with_adjacent_repeat
+            assert_equal({"cat" =&gt; 2, "sat" =&gt; 1}, count_frequency(["cat", "cat", "sat"])) 
+        end
+        def test_two_words_with_non_adjacent_repeat
+            assert_equal({"cat" =&gt; 2, "sat" =&gt; 1}, count_frequency(["cat", "sat", "cat"]))
+        end 
+    end
+    produces:
+    Run options:
+    # Running tests:
+    .....
+    Finished tests in 0.006327s, 790.2639 tests/s, 790.2639 assertions/s.       5 tests, 5 assertions, 0 failures, 0 errors, 0 skips
+</code></pre>
+
+<h4>块和迭代器</h4>
+
+<p>还记得之前遍历top_five的语句吗,实际上，我们可以按如下方式来遍历数组</p>
+
+<pre><code>top_five.each do |word, count| 
+    puts "#{word}: #{count}"
+end
+</code></pre>
+
+<p>each方法就是一个迭代器-一个不断调用块的方法,实际上相较于以上的方法，很多程序员更愿意写成如下形式</p>
+
+<pre><code>puts top_five.map { |word, count| "#{word}: #{count}" }
+</code></pre>
+
+<p>假设有以下程序</p>
+
+<pre><code>square = Shape.new(sides: 4) # 假设 Shape 类在其他地方定义了 # .. lots of code
+sum = 0
+[1, 2, 3, 4].each do |value| 
+    square = value * value
+    sum += square
+end
+puts sum现在我们调用
+square.draw     //报错
+</code></pre>
+
+<p>因为在block里square的值被改变了</p>
+
+<p>我们可以通过将仅作用域仅在块内部的变量放在块的参数列表后面(通过;来分隔)来避免此类现象的发生,如下</p>
+
+<pre><code>[1, 2, 3, 4].each do |value; square| 
+    square = value * value
+    sum += square
+end
+</code></pre>
+
+<h5>yield的使用</h5>
+
+<pre><code>def fib_up_to(max) 
+
+    i1, i2 = 1, 1 
+
+    while i1 &lt;= max
+    yield i1
+        i1, i2 = i2, i1+i2
+    end 
+end # parallel assignment (i1 = 1 and i2 = 1)
+
+fib_up_to(1000) {|f| print f, " " }
+puts
+produces:
+1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
+</code></pre>
+
+<p>注意以下这行的使用</p>
+
+<pre><code>print f, " "
+</code></pre>
+
+<p>一个块也能返回一个值，块最后一个表达式的值为yield执行后的值
+这就是Array中的find方法工作的原理</p>
+
+<pre><code>class Array 
+
+    def find
+        each do |value|
+            return value if yield(value)
+        end
+    nil
+    end 
+end [1, 3, 5, 7, 9].find {|v| v*v &gt; 30 } # =&gt; 7
+</code></pre>
+
+<p>迭代器collect的使用</p>
+
+<pre><code>["H", "A", "L"].collect {|x| x.succ } # =&gt; ["I", "B", "M"]
+</code></pre>
+
+<p>迭代器并不限于访问array和hash中已存在的元素，如我们之前在Fibonacci中看到的,一个迭代器能返回推导后的值,</p>
+
+<pre><code>    yield i1
+        i1, i2 = i2, i1+i2
+    end 
+</code></pre>
+
+<p> 同样的，这种特性也被Ruby用在输入输出类中,这些类返回了一个迭代器接口，这些接口在I/O流中返回了连续的行(或bytes),如下</p>
+
+<pre><code>f = File.open("testfile") 
+
+f.each do |line|
+    puts "The line is: #{line}" end
+f.close
+
+produces:
+The line is: This is line one
+The line is: This is line two
+The line is: This is line three
+The line is: And so on...
+</code></pre>
+
+<p>有时你想跟踪block被调用了多少次，这时你可以试试with_index方法,此方法一般是跟在一个迭代器(如each之后)</p>
+
+<pre><code>f = File.open("testfile") 
+
+f.each.with_index do |line, index|
+    puts "Line #{index} is: #{line}" 
+
+end
+f.close
+produces:
+Line 0 is: This is line one
+Line 1 is: This is line two
+</code></pre>
+
+<p>再看一个有用的迭代器</p>
+
+<pre><code>[1,3,5,7].inject(0) {|sum, element| sum+element} # =&gt; 16 
+[1,3,5,7].inject(1) {|product, element| product*element} # =&gt; 105
 </code></pre>
 
 <p>等价于</p>
 
-<pre><code>void stack_deck(char *cards) {      }
+<pre><code>[1,3,5,7].inject {|sum, element| sum+element} # =&gt; 16 
+[1,3,5,7].inject {|product, element| product*element} # =&gt; 105
 </code></pre>
 
-<h2>存储区</h2>
+<p>等价于</p>
 
-<p>  <img class="left" src="/images/2014/6/memory_memorizer.png" width="350" height="350" title="'image'" ></p>
+<pre><code>[1,3,5,7].inject(:+) # =&gt; 16 
+[1,3,5,7].inject(:*) # =&gt; 105####Enumberators-外在迭代器
+</code></pre>
 
-<ul>
-<li>栈
-栈用来存储局部变量,每次你调用一个函数，所有此函数的局部变量都创建在栈上，它被称称栈，是因为它像一叠盘子,将你创建一个函数的时候，变量被加到栈中，将你离开一个函数时，这些变量又会变销毁，奇怪的是栈的工作方式，总是从高地址开始，向低地址增长</li>
-<li>堆
-堆主要用在动态内存分配上,创建在堆上的数据在程序运行时即可创建，不过会保持相当长的一段时间，直到你手动释放它</li>
-<li>全局存储区
-一个全局存储区的作用域在所有函数之外，并且对所有函数可见，全局变量在程序首次运行的时候创建，你可以随意改变它们，但却不像&hellip;</li>
-<li>常量存储区
-常量也在用户首次运行的时候创建，但它们只存储在只读的存储区域中,常量就像字符串字面量一样，程序运行的时候你可能需要它们，但你却无法改变它们</li>
-<li>代码存储区
-许多操作系统将代码存储区置于最低的内存地址中,代码存储区是只读的，这里实际上是汇编代码加载的区域</li>
-</ul>
-
-
-<h2>字符串</h2>
-
-<p>使用前#include&lt;string.h>
-提供的函数如下</p>
+<p>尽管以上的迭代器有许多好处,不过如果遇到以下情况，你会发现内部迭代器帮不上什么忙</p>
 
 <ol>
-<li>strchr() : 寻找字符串中某个字符的位置</li>
-<li>strcmp() : 比较两个字符串</li>
-<li>strstr() : 寻找字符串中对应字符串的位置</li>
+<li>如果你要将迭代器当作一个对象时(比如代要将迭代器传给一个方法，这个方法需要访问这个迭代器里的每个元素)</li>
+<li><p>同时访问两个Collections的元素
+幸运的是，Ruby中有一个内置的Enumerator类，实现了外在的迭代器，可以处理以上说的两种情况
+你可以对array或hash来调用to_enum方法来创建一个Enumberator对象</p>
+
+<pre><code>  a = [ 1, 3, "cat" ]
+  h = { dog: "canine", fox: "vulpine" }
+
+  # Create Enumerators
+  enum_a = a.to_enum
+  enum_h = h.to_enum
+  enum_a.next # =&gt; 1
+  enum_h.next # =&gt; [:dog, "canine"] 
+
+  enum_a.next # =&gt; 3
+  enum_h.next # =&gt; [:fox, "vulpine"]
+</code></pre></li>
 </ol>
 
 
-<p>如果找到了，返回被寻找的字符串的位置，如果没有，返回0</p>
+<p>许多内在迭代器方法(产生连接的值传给block，如each) 如果不结合block使用的话将返回一个Enumerator对象</p>
 
-<pre><code>char s0[] = "dysfunctional"; char s1[] = "fun"; if (strstr(s0, s1)) puts("I found the fun in dysfunctional!");
+<pre><code>    a = [ 1, 3, "cat" ]
+    enum_a = a.each # create an Enumerator using an internal iterator
+    enum_a.next # =&gt; 1 enum_a.next # =&gt; 3
 </code></pre>
 
-<ol>
-<li>strcpy() : 拷贝字符串</li>
-<li>strlen() : 求字符串的长度</li>
-<li>strcat() : 连接两个字符串</li>
-</ol>
+<p>Ruby有一个叫做loop的方法，不做任何事情,主要工作就是不断地调用block,通常来说，如果某些条件发生了，block中的代码将跳出循环,但是当你用Enumerator时，loop可以足够聪明地分辨出一个enumerator对象是否遍历了所有的值，如果遍历完了，loop将终止</p>
 
+<pre><code>short_enum = [1, 2, 3].to_enum 
+long_enum = ('a'..'z').to_enum
+loop do
+    puts "#{short_enum.next} - #{long_enum.next}"
+end
+produces:
+1-a 2-b 3-c
+</code></pre>
+
+<h4>Enumerators是对象</h4>
+
+<p>Enumberators将某些可执行的代码(迭代的行为)转化成一个对象，这意味着你可以用enumerator来做一些普通的循环无法轻易做到的事情,比如Enumerable模块定义了一个each_with_index方法，这个方法触发了原先的each方法，同时也返回了一个index</p>
+
+<pre><code>result = []
+[ 'a', 'b', 'c' ].each_with_index {|item, index| result &lt;&lt; [item, index] }  result # =&gt; [["a", 0], ["b", 1], ["c", 2]]
+</code></pre>
+
+<p>如果你想迭代并获取index但又不想用each而想用其他方法来控制迭代又该怎么做呢？比如你想循环string里的每个character,Enumerator派上用场了,如果你不给string的each_char方法一个block,它会返回一个enumerator,然后再调用enumetor的each_with_index方法</p>
+
+<pre><code>result = []
+"cat".each_char.each_with_index {|item, index| result &lt;&lt; [item, index] } 
+
+result # =&gt; [["c", 0], ["a", 1], ["t", 2]]
+</code></pre>
+
+<p>实际上这是一个很普遍的方法，所以Mats给我们提供了一个方法with_index</p>
+
+<pre><code>result = []
+"cat".each_char.with_index {|item, index| result &lt;&lt; [item, index] } 
+
+result # =&gt; [["c", 0], ["a", 1], ["t", 2]]
+</code></pre>
+
+<p>我们也可以显式地创建Enumerator对象，这里我们通过调用string的each_char方法来创建，然后我们对enumerator来调用to_s遍历它</p>
+
+<pre><code>enum = "cat".enum_for(:each_char) enum.to_a # =&gt; ["c", "a", "t"]
+</code></pre>
+
+<p>如果我们用来构建enumerator的方法中有参数，我们可以将它们传入enum_for</p>
+
+<pre><code>enum_in_threes = (1..10).enum_for(:each_slice, 3) 
+enum_in_threes.to_a # =&gt; [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]
+</code></pre>
+
+<p>Enumerator对象也是可enumerable的(也就是说，适应于可enumerable对象的方法也是适用于enumerator的),比如我们可以用Enumerable的first方法</p>
+
+<pre><code>    triangular_numbers = Enumerator.new do |yielder| 
+
+
+        number = 0
+        count = 1
+        loop do
+            number += count
+            count  += 1
+            yielder.yield number
+        end 
+    end
+    p triangular_numbers.first(5)
+    produces:
+    [1, 3, 6, 10, 15]####Enumberators Are Generators and Filters
+</code></pre>
+
+<p>Generators</p>
+
+<pre><code>triangular_numbers = Enumerator.new do |yielder| number = 0
+    count = 1
+            loop do
+                number += count
+                count += 1
+                yielder.yield number
+            end
+
+end
+5.times { print triangular_numbers.next, " " } 
+
+puts
+produces:
+1 3 6 10 15
+</code></pre>
+
+<p>Filters</p>
+
+<pre><code>triangular_numbers = Enumerator.new do |yielder| # ...
+# as before...
+# ...
+end
+def infinite_select(enum, &amp;block) 
+
+Enumerator.new do |yielder|
+enum.each do |value|
+yielder.yield(value) if block.call(value)
+end
+
+end
+end
+p infinite_select(triangular_numbers) {|val| val % 10 == 0}.first(5)
+produces:
+[10, 120, 190, 210, 300]
+</code></pre>
+
+<p>等价于</p>
+
+<pre><code>triangular_numbers = Enumerator.new do |yielder|
+     # ... as before
+end
+class Enumerator
+    def infinite_select(&amp;block)
+        Enumerator.new do |yielder| 
+
+            self.each do |value|
+                    yielder.yield(value) if block.call(value) 
+            end
+        end 
+
+    end
+end
+p triangular_numbers
+   .infinite_select {|val| val % 10 == 0}
+   .infinite_select {|val| val.to_s =~ /3/ }
+   .first(5)
+produces:   [300, 630, 1830, 3160, 3240]####Blocks可以是对象
+</code></pre>
+
+<p>block被转化成了Proc类的对象并将它存储在类的属性中</p>
+
+<pre><code>class ProcExample
+def pass_in_block(&amp;action)
+    @stored_proc = action
+end
+def use_proc(parameter)
+    @stored_proc.call(parameter)
+end 
+
+end
+
+eg = ProcExample.new    eg.pass_in_block { |param| puts "The parameter is #{param}" } 
+eg.use_proc(99)
+</code></pre>
+
+<p>如果一个方法返回了一个block对象又如何调用?</p>
+
+<pre><code>def create_block_object(&amp;block) 
+
+block
+end
+
+bo = create_block_object { |param| puts "You called me with #{param}" } 
+bo.call 99  bo.call "cat"   produces:   You called me with 99   You called me with cat
+</code></pre>
+
+<p>实际上这种方式是很有用的，所以Ruby提供了两个方法将一个block转化为一个对象,lambda和Proc.new都接受了一个block来创建一个Proc类的对象</p>
+
+<pre><code>bo = lambda { |param| puts "You called me with #{param}" } 
+
+bo.call 99  bo.call "cat"
+produces:
+You called me with 99
+You called me with cat
+</code></pre>
+
+<h4>Blocks Can Be Closures</h4>
+
+<pre><code>def n_times(thing) 
+
+    lambda {|n| thing * n }
+
+end
+p1 = n_times(23)
+p1.call(3) # =&gt; 69
+p1.call(4) # =&gt; 92
+p2 = n_times("Hello ")
+p2.call(3) # =&gt; "Hello Hello Hello "
+Blocks and Iterators • 65
+</code></pre>
+
+<p>n_times方法返回了一个Proc对象并且引用了方法的参数，thing,尽管到block被调用时，参数已经超出范围了，参数仍然能被block访问，这叫做closure(上下文的参数在block或Proc的生命周期中仍能被访问)，两看另外一个例子</p>
+
+<pre><code>def power_proc_generator 
+    value = 1       lambda { value += value }   end power_proc = power_proc_generator   puts power_proc.call    puts power_proc.call    puts power_proc.call    produces:   2 4 8
+</code></pre>
+
+<p>我们可以看到vaue值是一直变化的</p>
+
+<h4>另一种创建Proc对象的方式</h4>
+
+<p>之前我们用以下方式来创建Proc</p>
+
+<pre><code>lambda { |params| ... }
+</code></pre>
+
+<p>你也可以用以下方式来创建</p>
+
+<pre><code>-&gt; params { ... }
+
+
+proc1 = -&gt; arg { puts "In proc1 with #{arg}" }
+proc2 = -&gt; arg1, arg2 { puts "In proc2 with #{arg1} and #{arg2}" } 
+
+proc3 = -&gt;(arg1, arg2) { puts "In proc3 with #{arg1} and #{arg2}" }
+proc1.call "ant" 
+
+proc2.call "bee", "cat" 
+
+proc3.call "dog", "elk"
+    produces:
+In proc1 with ant
+In proc2 with bee and cat
+In proc3 with dog and elk
+</code></pre>
+
+<p>比起lambda,&ndash;>的形式看紧凑，特别是当你要传多个Proc对象给一个方法的时候</p>
+
+<pre><code>def my_if(condition, then_clause, else_clause) 
+
+    if condition
+        then_clause.call
+    else
+        else_clause.call
+    end 
+end
+5.times do |val| 
+    my_if val &lt; 2,
+
+          -&gt; { puts "#{val} is small" }, 
+
+          -&gt; { puts "#{val} is big" }
+end
+produces:
+0 is small
+1 is small
+2 is big
+3 is big
+4 is big
+</code></pre>
+
+<h4>Block Parameter Lists</h4>
+
+<pre><code>proc1 = lambda do |a, *b, &amp;block| 
+    puts "a = #{a.inspect}"     
+    puts "b = #{b.inspect}" 
+    block.call  end proc1.call(1, 2, 3, 4) { puts "in block1" } produces:   a=1 b = [2, 3, 4] 
+
+in block1
+</code></pre>
+
+<p>另一种形式</p>
+
+<pre><code>proc2 = -&gt; a, *b, &amp;block do 
+
+    puts "a = #{a.inspect}" 
+
+    puts "b = #{b.inspect}" 
+
+    block.call
+end
+proc2.call(1, 2, 3, 4) { puts "in block2" }
+produces:
+a=1
+b = [2, 3, 4] in block2
+￼
+</code></pre>
 
 		
 		
@@ -290,25 +2450,364 @@ cards[0] = 'H'
   
 
 
-<time datetime="2014-06-27T21:38:47+08:00" data-updated="true" itemprop="datePublished">Jun 27<span>th</span>, 2014</time></div>
+<time datetime="2014-07-23T21:41:14+08:00" data-updated="true" itemprop="datePublished">Jul 23<span>rd</span>, 2014</time></div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/ioskai-fa/'>iOS开发</a>
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
 
 
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/27/runloop/" itemprop="url">Runloop</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/23/lei-dui-xiang-bian-liang/" itemprop="url">类-对象-变量</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>参考</p>
+		<p>假设有以下文件</p>
+
+<pre><code>        //data.csv
+
+        "Date","ISBN","Price"
+        "2013-04-12","978-1-9343561-0-4",39.45
+        "2013-04-13","978-1-9343561-6-6",45.67
+        "2013-04-14","978-1-9343560-7-4",36.95
+</code></pre>
+
+<p>现在我们的任务就是从这个CSV文件中计算出有相同title的书各有多少本，以及书的总价
+我们设计了一个BookInStock的类</p>
+
+<pre><code>class BookInStock
+
+end
+</code></pre>
+
+<p>用new来创建对象</p>
+
+<pre><code>a_book = BookInStock.new
+</code></pre>
+
+<p>以此创建的类无任何信息，我们可以为此类提供一个initialize的方法，此方法能让我们在每个对象都创建好后就设置对象的状态，我们将此状态存储在实例变量中(以@开头),现在我们更新如下</p>
+
+<pre><code>class BookInStock
+    def initialize(isbn, price)
+        @isbn = isbn
+        @price = Float(price)
+    end 
+end
+</code></pre>
+
+<p>initialize是一个特别的方法，当你调用BookInStore.new去创建一个对象的时候,Ruby分配了一些内存给此未初始化的对象，然后调用了initialize的方法，传递了任何传递给new方法的参数，这样就给了你一次设置对象状态的机会</p>
+
+<pre><code>    b1 = BookInStock.new("isbn1", 3) 
+p b1
+
+produces:
+    #&lt;BookInStock:0x007fac4910f3e0 @isbn="isbn1", @price=3.0&gt;
+</code></pre>
+
+<p>p方法能打印出一个对象的内部表示形式(如@isbn, @price)而puts方法只是简单地将字符串输出到标准输出上，当你将一个对象传给puts时，由于puts不知道如何处理，所以它作了一个简单地处理:对象类的名字+:+对象的内存地址,我们可以改变puts的这种输出形式，只要重写to_s即可</p>
+
+<pre><code>class BookInStock
+    def initialize(isbn, price)
+            @isbn = isbn
+            @price = Float(price)
+    end
+        def to_s
+    "ISBN: #{@isbn}, price: #{@price}" 
+    end
+end
+        b1 = BookInStock.new("isbn1", 3)
+puts b1
+</code></pre>
+
+<p>结果  ISBN: isbn1, price: 3.0</p>
+
+<h5>对象和属性</h5>
+
+<p>以上的@isbn, @price不能访问，无任何意义，可以为它添加get方法</p>
+
+<pre><code>class BookInStock
+    def initialize(isbn, price)
+        @isbn = isbn
+        @price = Float(price)
+    end
+    def isbn
+        @isbn
+    end
+
+    def price 
+        @price
+    end
+# ..
+end
+book = BookInStock.new("isbn1", 12.34) 
+
+puts "ISBN = #{book.isbn}"
+puts "Price = #{book.price}"
+</code></pre>
+
+<p>结果</p>
+
+<pre><code>    ISBN   = isbn1
+Price  = 12.34
+</code></pre>
+
+<p>由于get方法的使用是如此频繁,Ruby提供了一个简便的方法，attr_reader能为你创建这些属性的get方法</p>
+
+<pre><code>class BookInStock   
+  attr_reader :isbn, :price
+    def initialize(isbn, price) 
+        @isbn = isbn
+        @price = Float(price)
+    end     # ..    end book = BookInStock.new("isbn1", 12.34) 
+
+puts "ISBN = #{book.isbn}"
+    puts "Price = #{book.price}"
+</code></pre>
+
+<p>结果: ISBN   = isbn1  Price  = 12.34对应,attr_reader后面跟的是symbols
+这里通常有一个误解，特别是那些学过Java和C#的人,他们认为attr_reader在某种程序上声明了实例变量，实际上是没有的，它只是生成了访问方法，但无声明任何变量，这些变量只有在你使用它们的时候才出现，Ruby是完全让实例变量与访问方法解藕的</p>
+
+<h4>可写属性</h4>
+
+<p>以上我们只是设置了只读方法,现在我看看如何设置可写方法</p>
+
+<pre><code>class BookInStock
+    attr_writer :isbn, :price
+    def initialize(isbn, price) 
+
+        @isbn = isbn
+        @price = Float(price)
+    end
+    def price=(new_price) 
+        @price = new_price
+    end
+# ...
+end
+
+book = BookInStock.new("isbn1", 33.80) 
+puts "ISBN = #{book.isbn}"
+puts "Price = #{book.price}" 
+book.price = book.price * 0.75
+puts "New price = #{book.price}"
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code>ISBN      = isbn1
+Price     = 33.8
+New price = 25.349999999999998
+</code></pre>
+
+<p>同样的,Ruby也提供了一个创建属性设置方法的捷径，如果你想有一个只写不可读的方法，可以使用attr_writer,不过这种情况极其罕见，如果你想为某个属性设置可读可写的方法，你可以用attr_accessor</p>
+
+<pre><code>    class BookInStock 
+    attr_reader :isbn 
+    attr_accessor :price
+    def initialize(isbn, price) 
+        @isbn = isbn
+        @price = Float(price)
+    end
+# ...   end
+book = BookInStock.new("isbn1", 33.80) 
+puts "ISBN = #{book.isbn}"
+puts "Price = #{book.price}" 
+book.price = book.price * 0.75
+puts "New price = #{book.price}"
+结果: ISBN      = isbn1
+Price     = 33.8
+New price = 25.349999999999998
+</code></pre>
+
+<h4>虚属性</h4>
+
+<pre><code>class BookInStock 
+
+    attr_reader :isbn
+    attr_accessor :price
+    def initialize(isbn, price) 
+
+        @isbn = isbn
+        @price = Float(price)
+    end
+    def price_in_cents 
+        Integer(price*100 + 0.5)
+    end
+# ...
+end
+</code></pre>
+
+<p>我们看看以下会输出什么</p>
+
+<pre><code>puts "Price in cents = #{book.price_in_cents}"
+</code></pre>
+
+<p>结果</p>
+
+<pre><code>rice in cents = 3380
+</code></pre>
+
+<p><code>book.price_in_cents</code>表示的就是虚属性，由于<code>price_in_cents</code>不对应任何对象的属性，但我们却提供了访问方法，依然可以通过.的形式访问它,同样的，我们也可以提供一个它的写方法</p>
+
+<pre><code>def price_in_cents=(cents) 
+
+    @price = cents / 100.0  end
+
+book = BookInStock.new("isbn1", 33.80)
+puts "Price = #{book.price}"
+puts "Price in cents = #{book.price_in_cents}" 
+
+
+book.price_in_cents = 1234
+puts "Price = #{book.price}"
+puts "Price in cents = #{book.price_in_cents}"
+produces:
+Price          = 33.8
+Price in cents = 3380
+Price          = 12.34
+Price in cents = 1234
+</code></pre>
+
+<h4>类与其他类的协同工作</h4>
+
+<p>已知BookInStock定义如上,现在不少csv文件，我们需要将csv文件的每一行转为一个BookInStock,并将每一个BookInStock保存到一个数组中，然后计算所有书的总价,所计算的几个csv文件我们通过命令行传入,现在我们将这个程序分成三个rb文件来操作(假设这三个文件在同一目录下)</p>
+
+<ol>
+<li><p>book_in_stock.rb</p>
+
+<pre><code> class BookInStock 
+
+     attr_reader :isbn, :price
+     def initialize(isbn, price) 
+         @isbn = isbn
+         @price = Float(price)
+     end 
+ end
+</code></pre></li>
+</ol>
+
+
+<p>2.csv_reader.rb
+此文件有两个外部信赖，它需要标准的CSV的库，也需要存储在book_in_stock.rb中的BookInStock的类,我们用require来加载Ruby的CSV库，用require_relative来加载book_in_stock文件</p>
+
+<pre><code>require 'csv'
+require_relative 'book_in_stock'
+
+class CsvReader 
+
+    def initialize
+        @books_in_stock = []
+    end
+    def read_in_csv_data(csv_file_name) 
+        CSV.foreach(csv_file_name, headers: true) do |row|
+            @books_in_stock &lt;&lt; BookInStock.new(row["ISBN"], row["Price"]) 
+        end
+    end 
+end
+</code></pre>
+
+<p>3.stock_stats.rb
+这是我们的主程序</p>
+
+<pre><code>require_relative 'csv_reader'   reader = CsvReader.new
+ARGV.each do |csv_file_name|        STDERR.puts "Processing #{csv_file_name}" 
+    reader.read_in_csv_data(csv_file_name)  end
+￼￼￼puts "Total value = #{reader.total_value_in_stock}"
+</code></pre>
+
+<p>运行程序如下</p>
+
+<pre><code>$ ruby stock_stats.rb data.csv
+Processing data.csv
+Total value = 122.07000000000001
+</code></pre>
+
+<h5>访问控制</h5>
+
+<p>Ruby给你三种访问控制权限</p>
 
 <ul>
-<li><p><a href="http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4">http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4</a></p></li>
-<li><p><a href="http://blog.csdn.net/devday/article/details/6928432?reload">http://blog.csdn.net/devday/article/details/6928432?reload</a></p></li>
+<li>Public</li>
+<li>Protected</li>
+<li>Private
+三种访问控制权限与其他语言的一样，不过有一点与其他面向对象的语言很不一样，那就是，Ruby中的访问控制是程序运行后才被确定的，是动态的，而不是静态的，只有当代码执行了访问受限的代码才能知道是否有访问不合法的错误发生
+
+<h6>如何指定访问控制</h6>
+
+<p>有以下两种方法</p>
+
+<pre><code>  class MyClass
+
+      def method1     # 默认是 'public'
+
+      #...
+
+      end
+
+  protected
+
+      def method2
+
+      #....
+
+      end
+
+  private 
+
+      def method3
+
+      #...
+
+      end
+
+  end
+</code></pre></li>
 </ul>
 
+
+<p>或</p>
+
+<pre><code>    class MyClass 
+
+        def method1 
+
+        end         def method2             end
+# ... and so on       public    :method1, :method4        protected :method2          private   :method3    end
+</code></pre>
+
+<h4>变量</h4>
+
+<pre><code>    person = "Tim"
+    puts "The object in 'person' is a #{person.class}" 
+    puts "The object has an id of #{person.object_id}" 
+    puts "and a value of '#{person}'"
+    produces:
+       The object in 'person' is a String
+       The object has an id of 70230663692980
+       and a value of 'Tim'
+</code></pre>
+
+<p>那么，变量是否是一个对象呢，答案是否定的，一个变量只是一个对象的引用,来看以下例子，一目了然</p>
+
+<pre><code>    person1 = "Tim"
+
+    person2 = person1 
+
+    person1[0] = 'J'
+    puts "person1 is #{person1}" 
+    puts "person2 is #{person2}"        produces:                      person1 is Jim              person2 is Jim
+</code></pre>
+
+<p>你可以用String的
+dup方法来创建一个全新的对象</p>
+
+<pre><code>    person1 = "Tim"     person2 = person1.dup person1[0] = "J"      puts "person1 is #{person1}" puts "person2 is #{person2}"       produces:       person1 is Jim      person2 is Tim我们也可以冻结一个对象来避免对它作出修改
+    person1 = "Tim"
+    person2 = person1
+    person1.freeze # prevent modifications to the object person2[0] = "J"
+    produces:
+            from prog.rb:4:in `&lt;main&gt;'
+    prog.rb:4:in `[]=': can't modify frozen String (RuntimeError)
+</code></pre>
 
 		
 		
@@ -331,506 +2830,720 @@ cards[0] = 'H'
   
 
 
-<time datetime="2014-06-25T21:39:33+08:00" data-updated="true" itemprop="datePublished">Jun 25<span>th</span>, 2014</time></div>
+<time datetime="2014-07-23T20:11:08+08:00" data-updated="true" itemprop="datePublished">Jul 23<span>rd</span>, 2014</time></div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
 
 
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-%5B%3F%5D-ge-wen-ti/" itemprop="url">C指针所引发的一个问题</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/23/ruby-new/" itemprop="url">Ruby-new</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<pre><code>void fortune_cookie(char msg[]) {
-     printf("Message reads: %s\n", msg);
-     printf("msg occupies %i bytes\n", sizeof(msg)); 
-} 
+		<h4>Ruby中一切皆对象</h4>
 
-int main () {
-    char msg[] = "Turtles!";
-    fortune_cookie(msg);
-    return 0;
+<p>创建对象，假设有一个Song的类，按如下方式创建实例</p>
+
+<pre><code>song1 = Song.new("Ruby Tuesday")
+song2 = Song.new("Enveloped in Python")
+</code></pre>
+
+<p>如何理解一切皆对象，看以下demo</p>
+
+<pre><code>puts "gin joint".length 
+puts "Rick".index("c") 
+puts 42.even?           //42是否是偶数
+puts sam.play(song)
+</code></pre>
+
+<p>在java中，如果要算一个值的绝对值，可按如下方式</p>
+
+<pre><code>num = Math.abs(num)
+</code></pre>
+
+<p>但在Ruby中，由于一切皆对象，可按如下方式</p>
+
+<pre><code>um = -1234          # =&gt; -1234 
+positive = num.abs  # =&gt; 1234
+</code></pre>
+
+<p>同样的规则适用于所有的Ruby对象，在C中，你可以写strlen(name)，但在ruby中，你可以写name.length,无比轻松</p>
+
+<h5>Ruby中的方法</h5>
+
+<p>形式如下</p>
+
+<pre><code>def say_goodnight(name)
+    result = "Good night, " + name
+    return result
+end
+
+    # Time for bed...
+puts say_goodnight("John-Boy") 
+puts say_goodnight("Mary-Ellen")
+</code></pre>
+
+<p>无需分号表示每个语句的结尾，只要你把每一条语句都放在一单独的行上    puts say_goodnight(&ldquo;Mary-Ellen&rdquo;)
+相当于</p>
+
+<pre><code>puts(say_goodnight("Mary-Ellen"))
+</code></pre>
+
+<h5>字符串</h5>
+
+<p>创建字符串有两种方法，一种是单引号括起来的，一种是双引号括起来的,双引号括起来的字符串，ruby需要做更多的工作，首先，ruby会寻找以反斜杠开头的序列，并将它替换为一个二进制的值,如&#8221;\n&#8221;,另外，双引号形式的字符串还需要做的将#{expression}序列替换成expression的值,我们能用它来替换之前我们写的程序</p>
+
+<pre><code>def say_goodnight(name)
+    result = "Good night, #{name}" 
+    return result
+end
+puts say_goodnight('Pa') 
+produces:   Good night, Pa
+</code></pre>
+
+<p>任意的复杂的表达式都能放在#{&hellip;}里，如下</p>
+
+<pre><code>def say_goodnight(name)
+    result = "Good night, #{name.capitalize}" 
+    return result
+end
+puts say_goodnight('uncle') 
+produces:
+Good night, Uncle
+</code></pre>
+
+<p>我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句</p>
+
+<pre><code>    def say_goodnight(name)
+    "Good night, #{name.capitalize}"
+end
+puts say_goodnight('ma') 
+produces:
+Good night, Ma
+</code></pre>
+
+<h4>Ruby的名字</h4>
+
+<p>ruby的命名遵循以下惯例,第一个名字的首字符表示这个名字的使用场合</p>
+
+<ul>
+<li>局部变量，方法参数，方法名都 以一个小写字母或下划线开头</li>
+<li>全局变量以一个$符开头，对象实例变量以@开头</li>
+<li>类变量以两个@@开头</li>
+<li><p>类名，模块名，常量必须以大写字母开头
+使用的demo如下</p>
+
+<pre><code>  Local Variable:     name fish_and_chips x_axis thx1138 _x _26
+  Instance Variable:  @name @point_1 @X @_ @plan9
+  Class Variable:     @@total @@symtab @@N @@x_pos @@SINGLE
+  Global Variable:   $debug $CUSTOMER $_ $plan9 $Global
+  Class Name:         String ActiveRecord MyClass     Constant Name:      FEET_PER_MILE DEBUG
+</code></pre>
+
+<h4>数组和哈希字典</h4>
+
+<p>数组</p>
+
+<pre><code>  a = [ 1, 'cat', 3.14 ] # array with three elements 
+  puts "The first element is #{a[0]}"
+  # set the third element
+  a[2] = nil
+  puts "The array is now #{a.inspect}"
+  produces:
+  The first element is 1
+  The array is now [1, "cat", nil]
+</code></pre>
+
+<p>简便地创建数组的方法</p>
+
+<pre><code>  a = %w{ ant bee cat dog elk } 
+  a[0] # =&gt; "ant"
+  a[3] # =&gt; "dog"
+</code></pre>
+
+<p>哈希字典</p>
+
+<pre><code>  inst_section = {
+  'cello' =&gt; 'string', 
+  'clarinet' =&gt; 'woodwind', 
+  'drum' =&gt; 'percussion', 
+  'oboe' =&gt; 'woodwind', 
+  'trumpet' =&gt; 'brass', 
+  'violin' =&gt; 'string'    }
+</code></pre>
+
+<p><code>=&gt;</code>符号的左为key，右为value
+在控制台上我们用p而不是puts，因为p可以更显式地打印nil值</p>
+
+<pre><code>  p inst_section['oboe']
+  p inst_section['cello']
+  p inst_section['bassoon']
+</code></pre></li>
+</ul>
+
+
+<p>produces:</p>
+
+<pre><code>    "woodwind"
+    "string"
+    nil
+</code></pre>
+
+<p>默认情况下hash的key如果对应的value不存在，则value的值为nil，我们可以改变这个默认傎</p>
+
+<pre><code>histogram = Hash.new(0)
+histogram['ruby'] # =&gt; 0
+histogram['ruby'] = histogram['ruby'] + 1 
+histogram['ruby'] # =&gt; 1
+</code></pre>
+
+<h4>符号(Symbols)</h4>
+
+<p>通常在编程的时候，你需要为某些重要的东西指定一个名字，比如，你也许想要用名字来指示指南针的方向，所以，你可以像以下这么写</p>
+
+<pre><code>NORTH = 1 
+EAST =2 
+SOUTH = 3 
+WEST =4
+</code></pre>
+
+<p>定义好之后，你就可以用这些名字而不是数字了</p>
+
+<pre><code>walk(NORTH)
+look(EAST)
+</code></pre>
+
+<p>然而，很多时候，这些名字对应的数值是不相关的(只要它们是唯一的)你所要做的只是区分这四个方向而已
+Ruby提供了一个很简单的替代方案:符号(Symbols).Symbols只是常量名字，不过你无需定义它，并且它们也保证是唯一的，一个符号常量以:开头，紧跟着字符串
+walk(:north)
+look(:east)
+无须为一个symbol赋任何值,Ruby已经为你考虑好了.Ruby保证不管符号出现在你，一个特定和符号总量有相同的值，因此，你可以按如下方式使用symbol</p>
+
+<pre><code>def walk(direction)
+    if direction == :north
+    # ...
+    end
+ end
+</code></pre>
+
+<p>symbols通常被用来当作hash的key，我们可以将我们之前写的hash写为以下形式</p>
+
+<pre><code>    inst_section = {
+    :cello =&gt; 'string', 
+    :clarinet =&gt; 'woodwind', 
+    :drum =&gt; 'percussion', 
+    :oboe =&gt; 'woodwind', 
+    :trumpet =&gt; 'brass', 
+    :violin =&gt; 'string'
 }
 </code></pre>
 
-<p>运行以上代码会输出什么,有人说是</p>
+<p>事实上，symbols是如此频繁地被当作hash的键，ruby提供了一个更简洁的语法，你可以用name:value的形式来创建hash，如果key是symbols的话</p>
 
-<pre><code>Message reads Turtles!
-msg occupies 9 bytes("Turtles!"的8个字节再加代表字符串结尾的\0这个字节，所以是9个字节)
+<pre><code>inst_section = {
+    cello: 'string', 
+    clarinet: 'woodwind', 
+    drum: 'percussion', 
+    oboe: 'woodwind', 
+    trumpet: 'brass', 
+    violin: 'string'
+}
+puts "An oboe is a #{inst_section[:oboe]} instrument"
+produces:
+An oboe is a woodwind instrument
 </code></pre>
 
-<p>如果你这么想，那就错了,实际的结果是</p>
+<h4>条件语句</h4>
 
-<pre><code>Message reads Turtles!
-msg occupies 4 (or 8) bytes
+<p>if语句</p>
+
+<pre><code>today = Time.now
+if today.saturday?
+    puts "Do chores around the house"
+elsif today.sunday?
+     puts "Relax"
+else
+     puts "Go to work" 
+end
 </code></pre>
 
-<p>解释如下</p>
+<p>produces:</p>
 
-<h2>数组变量就像指针一样</h2>
-
-<p>是的，只是像，而不等于指针</p>
-
-<p>当你创建了一个数组,数组变量其实可以被当作指向数组首元素地址的指针,当写了如下代码时</p>
-
-<pre><code>char quote[] = "Cookies make you fat";
+<pre><code>Go to work
 </code></pre>
 
-<p>实际上quote代表的是string中的首字符的地址，即字符&#8217;C&#8217;对应的地址</p>
+<p>较短的if语句也可以这么写</p>
 
-<pre><code>printf("The quote string is stored at: %p\n", quote);
+<pre><code>puts "Danger, Will Robinson" if radiation &gt; 3000
 </code></pre>
 
-<p>以上将打印一个16进制的地址,尽管quote是一个数组，但是你可以把&#8221;quote&#8221;当成一个指针变量，因为它本身就是代表首字符串中的首字符的地址.</p>
+<p>while语句</p>
 
-<p>所以当调用</p>
-
-<pre><code>fortune_cookie(msg);
+<pre><code>while weight &lt; 100 and num_pallets &lt;= 5
+         pallet  = next_pallet()
+         weight += pallet.weight
+         num_pallets += 1
+end
 </code></pre>
 
-<p>时，其实我们给fortune_cookie函数传的是一个指针,它返回的是指向一个字符串的指针的大小，在32位上操作系统，一个指针占了4个字节的空间，而在64位上，一个指针则占据了8个字节,故有以上结果</p>
+<p>较短的while语句也可以这么写</p>
 
-<h2>数组变量不是指针</h2>
-
-<p>尽管在调用函数时，数组参数是可以被当作指针传递，但实际上仍有一些不同，考虑以下情况</p>
-
-<pre><code>char s[] = "How big is it?"; 
-char *t = s;
+<pre><code>    square = 4
+    square = square*square while square &lt; 1000
 </code></pre>
+
+<p>ruby中的许多语句返回一个值，这意味着你可以用它们作为条件判断，比如,内核方法gets从标准输入流中返回下一行或者当到达文件的末尾时会返回nil，由于Ruby有条件语句中将nil视为假的，你可以用以下代码来处理文件对应的行</p>
+
+<pre><code>while line = gets 
+    puts line.downcase
+end
+</code></pre>
+
+<h4>正则表达式</h4>
+
+<pre><code>/\d\d:\d\d:\d\d/    # a time such as 12:34:56
+/Perl.*Python/      # Perl, zero or more other chars, then Python
+/Perl Python/       # Perl, a space, and Python
+/Perl *Python/     # Perl, zero or more spaces, and Python
+/Perl +Python/     # Perl, one or more spaces, and Python
+/Perl\s+Python/   # Perl, whitespace characters, then Python
+/Ruby (Perl|Python)/ # Ruby, a space, and either Perl or Python
+</code></pre>
+
+<p>结果if语句使用</p>
+
+<pre><code>line = gets
+if line =~ /Perl|Python/
+    puts "Scripting language mentioned: #{line}" 
+end
+</code></pre>
+
+<p>正则表达式的替代方法</p>
+
+<pre><code>line = gets
+newline = line.sub(/Perl/, 'Ruby') # replace first 'Perl' with 'Ruby'   newerline =     newline.gsub(/Python/, 'Ruby') # replace every 'Python' with 'Ruby'
+</code></pre>
+
+<h4>Blocks和迭代器</h4>
+
+<p>我们首先看看代码块(code blocks),code blocks是一串代码，你能将它与方法调用结合起来,就当它们是参数一样,这是难以置信的强大特性
+你用代码块来实现回调(但比java中的匿名内部类简单),把它们像C中的函数指针那样来传递(比C函数指针更简单)，或者实现迭代器的功能
+代码块的形式如下</p>
+
+<pre><code>{ puts "Hello" }
+</code></pre>
+
+<p>或</p>
+
+<pre><code>do
+  club.enroll(person)
+  person.socialize
+end
+</code></pre>
+
+<p>&ldquo;{}&#8221;block主要用在单行中,&#8221;do&hellip;.end&#8221;主要用在多行中
+你可以将block放在一个调用方法的尾部</p>
+
+<pre><code>greet { puts "Hi" } //greet是方法
+</code></pre>
+
+<p>如果方法有参数，则将block放在这些参数的最后</p>
+
+<pre><code>verbose_greet("Dave", "loyal customer") { puts "Hi" }
+</code></pre>
+
+<p>方法可以用Ruby提供的yield来调用block多次</p>
+
+<pre><code>def call_block
+
+    puts "Start of method" 
+    yield
+    yield
+    puts "End of method"
+end
+
+    call_block { puts "In the block" }
+</code></pre>
+
+<p>打印结果</p>
+
+<pre><code>    Start of method
+    In the block
+    In the block
+    End of method
+</code></pre>
+
+<p>调用yield的时候可以带参数,这些参数将被传到block中去，在block中，你将这些被接收的参数用|params&hellip;|的形式列出来,如下</p>
+
+<pre><code>def who_says_what yield("Dave", "hello") 
+    yield("Andy", "goodbye")
+
+end
+who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
+</code></pre>
+
+<p>打印结果</p>
+
+<pre><code>Dave says hello Andy says goodbye
+</code></pre>
+
+<p>Code blocks广泛用在ruby的库中用来实现迭代器</p>
+
+<pre><code>    animals = %w( ant bee cat dog ) # create an array
+animals.each {|animal| puts animal }    # iterate over the contents
+</code></pre>
+
+<p>produces:</p>
+
+<pre><code>ant
+bee
+cat
+dog
+</code></pre>
+
+<p>再来看几个例子</p>
+
+<pre><code>    [ 'cat', 'dog', 'horse' ].each {|name| print name, " " } 
+5.times { print "*" }
+3.upto(6) {|i| print i }
+('a'..'e').each {|char| print char }
+puts
+</code></pre>
+
+<p>produces:</p>
+
+<pre><code>cat dog horse *****3456abcde####读写
+
+printf("Number: %5.2f,\nString: %s\n", 1.23, "hello")
+</code></pre>
+
+<p>produces:    Number:  1.23,    String: hello有很多方法可以将输入读入程序中，最常见的gets方法，它返回标准输入流的下一行</p>
+
+<pre><code>line = gets print line
+</code></pre>
+
+<h4>命令行参数</h4>
+
+<p>当你从命令行运行一个Ruby程序时，你能传送一些参数给它，你能用两种不同的参数来访问这些参数
+首先，ARGV就是这些参数组成的数组，假设有一个叫cmd_line.rb的程序如下</p>
+
+<pre><code>puts "You gave #{ARGV.size} arguments" 
+p ARGV
+</code></pre>
+
+<p>当我们向此程序传入这些参数时，我们参看到输出结果</p>
+
+<pre><code>$ ruby cmd_line.rb ant bee cat dog 
+You gave 4 arguments
+["ant", "bee", "cat", "dog"]
+</code></pre>
+
+<p>通常，传入的参数是你要处理的文件的名字，这种情况下，你应该用第二种技巧,<code>ARGF</code>,它是一种特别的I/O对象，代表了通过命令行传入的文件名的所有内容, 我们之后再学习它</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-21T22:23:15+08:00" data-updated="true" itemprop="datePublished">Jul 21<span>st</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/21/chu-shi-ruby/" itemprop="url">初识Ruby</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>在终端中输入irb与ruby交互</p>
+
+<pre><code>    2.1.2 :002 &gt; def sum(n1, n2)
+    2.1.2 :003?&gt;   n1+n2
+    2.1.2 :004?&gt;   end
+     =&gt; :sum
+    2.1.2 :005 &gt; sum(3, 4)
+     =&gt; 7
+</code></pre>
+
+<p>通常我们将ruby程序写在文件里，假设现在有一个myprog.rb的程序如下</p>
+
+<pre><code>    gettingstarted/myprog.rb        puts "Hello, Ruby Programmer"       puts "It is now #{Time.now}"
+</code></pre>
+
+<p>现在我们可以敲入以下命令来运行程序</p>
+
+<pre><code>    $ ruby myprog.rb        Hello, Ruby Programmer)     It is noew 2014-07-21 22:27:47 +0800
+</code></pre>
+
+<p>在Unix中，我们可以在程序的第一行添加&#8221;shebang&#8221;的符号，如下</p>
+
+<pre><code>    #! /usr/bin/ruby
+    puts "Hello, Ruby Programmer" 
+    puts "It is now #{Time.now}"
+</code></pre>
+
+<p>如果你用<code>chmod+x myprog.rb</code>命令让此文件成为可执行程序，Unix能让你将此文件作为一个程序来运行</p>
+
+<pre><code>    $ ./myprog.rb       Hello, Ruby Programmer      It is now 2013-05-27 12:30:36 -0500####Ruby文档:RDoc和ri
+</code></pre>
+
+<p>Ruby库越来越大，已经不可能将有关它们的文档写进一本书中了，ruby的标准库有9000多个！幸运的是，一种为这些方法(类，模块)提供文档的方法是存在的，许多在它们内部写文档的方法是采用一个RDoc的工具
+如果一个源文件用RDoc来文档注释，那么它的文档是可以被提取出来并被转化成HTML和ri的形式的
+ri是一个浏览本地RDoc的，命令行浏览器，许多ruby的发行版现在用ri程序来安装文档资源
+要发现针对某个类的文档，我们可以在命令行敲入<code>ri ClassName</code>的形式来查看,如以下</p>
+
+<pre><code>$ ri GC
+----------------------------------------------------------------------------------- 
+The GC module provides an interface to Ruby's garbage collection mechanism. Some of the underlying  methods are also available via the ObjectSpace module.           You may obtain information about the operation of the GC through GC::Profiler.    -----------------------------------------------------------------------------------    Class methods:      count, disable, enable, malloc_allocated_size, malloc_allocations,      start, stat, stress, stress=    Instance methods:      garbage_collect
+</code></pre>
+
+<p>查看某个指定类的方法</p>
+
+<pre><code>ri GC::enable
+--------------------------------------------------------------- GC::enable GC.enable =&gt; true or false   --------------------------------------------------------------------------- Enables garbage collection, returning true if garbage collection was    disabled.   GC.disable  GC.enable   GC.enable   #=&gt; false   #=&gt; true    #=&gt; false   
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-16T21:54:55+08:00" data-updated="true" itemprop="datePublished">Jul 16<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/16/head-first-cdi-ba-zhang-jing-tai-ku-he-dong-tai-ku/" itemprop="url">Head First C第八章-静态库和动态库</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>这一章中，我们将学习如何创建自己的动态库，并在多个程序中用到同样的代码
+来看下以下代码
+加密代码</p>
+
+<pre><code>//encyrpt.h
+void encrypt(char *message)
+
+//encrypt.c
+#include "encrypt.h"    void encrypt(char *message) {       while (*message) {          *message = *message ^ 31; message++;        }    }
+</code></pre>
+
+<p>校验代码</p>
+
+<pre><code>//checksum.h
+int checksum(char *message);
+
+//checksum.c
+#include "checksum.h"   int checksum(char *message) {       int c = 0;      while (*message) {      c += c ^ (int)(*message);       message++; }        return c; 
+}
+</code></pre>
+
+<p>加密和校验两段代码构成了我们接下来将要进行的密码库的基础
+假设我们已经将以上的代码编译成了目标代码</p>
+
+<pre><code>gcc -c encrypt.c -o encrypt.o
+gcc -c checksum.c -o checksum.o
+</code></pre>
+
+<p>现在我们写一段测试程序</p>
+
+<pre><code>#include &lt;stdio.h&gt; 
+#include &lt;encrypt.h&gt; 
+#include &lt;checksum.h&gt;   int main() {        char s[] = "Speak friend and enter"; encrypt(s);        printf("Encrypted to '%s'\n", s); printf("Checksum is %i\n", checksum(s)); encrypt(s);      printf("Decrypted back to '%s'\n", s); printf("Checksum is %i\n", checksum(s));     return 0;   }
+</code></pre>
+
+<p>当我们编译时，会出现以下错误</p>
+
+<pre><code>gcc test_code.c encrypt.o checksum.o -o test_code 
+test_code.c:2:21: error: encrypt.h: No such file or directory 
+test_code.c:3:22: error: checksum.h: No such file or directory
+</code></pre>
+
+<p>错误在以下两行</p>
+
+<pre><code>#include &lt;encrypt.h&gt; 
+#include &lt;checksum.h&gt;
+</code></pre>
+
+<p>尖括号将在标准头文件目录中寻找，在Mac或Linux系统中，编译器在以下目录中寻找这些文件</p>
+
+<pre><code>/user/local/include     //此目录下通常存放一些第三方库
+/user/include           //此目录通常存放一些操作系统相关的头文件
+</code></pre>
+
+<h4>该如何共享代码</h4>
+
+<p>有时你想写一些代码用在很多程序中，无论它们是在不同的文件夹下，还是在整个电脑中，你该如何做呢?
+一般来说我们想在多个程序中共享两种文件,头文件(.h)和目标文件(.o),让我们看看如何操作</p>
+
+<h5>共享.h头文件,有以下几种文件</h5>
 
 <ol>
-<li>sizeof(数组) 是一个数组的大小.
- sizeof(s) = 15   sizeof(t) = 4 或 8</li>
-<li>数组的地址
- &amp;s = s     &amp;t != t
-如果你写&amp;s,表示数组s的地址是什么,数组s的地址就是s,&amp;t表示t变量的地址，显然不等于t(表示s的地址)</li>
-<li><p>一个数组变量不能指向任何地方
- 如果你创建了一个指针，机器将会为之分配4或8个字节来存储它,但如果你创建了一个数组，机器将为此<code>数组</code>分配空间，而不分为此<code>数组变量</code>分配<strong>任何</strong>的空间,数组变量仅代表数组的首地址</p>
+<li><p>将它们存储在标准目录中
+如果你将你的头文件拷贝到标准目标如/usr/local/include中，你可以用尖括号来引用它们</p>
 
-<p> 由于数组变量没有任何的存储空间，所以它不能指向任何地方,当程序编译时，所以的数组变量都被数组的地址替换了，所以数组变量并不存在最后的可执行文件中，这也就是为什么数组变量不能指向任何其他地方的原因</p></li>
+<pre><code>  #include&lt;encrypt.h&gt;
+</code></pre></li>
+<li><p>在include中写下此文件所在的完整路径
+假设你的文件存储在/my_header_files目录下,你可以按以下方式来引用代码</p>
+
+<pre><code>  #include "/my_header_files/encrypt.h"
+</code></pre></li>
+<li><p>你可以告诉编译器去哪来搜寻它们
+用gcc编译时加上-I选项</p>
+
+<pre><code>  gcc -I /my_header_files test_code.c ... -o test_code
+</code></pre>
+
+-I选项告诉gcc编译器在/my_header_files这个目录下你能找到所需要的头文件，<code>注意</code>，gcc仍将在标准目录中寻找头文件，但是<code>首先</code>它将在-I选项对应的目录中寻找此文件
+
+<h5>通过写完整路径的方式来共享.o目标文件</h5>
+
+<pre><code>  gcc -I/my_header_files test_code.c /my_object_files/encrypt.o /my_object_files/checksum.o -o test_code
+</code></pre>
+
+/my_object_files目录就像是存储目标文件的中枢,用目标文件的完整路径意味着你不需要为每一个程序拷贝一份单独的目标文件
+如果只有一两个需要共享的目标文件还好，如果有许多目标文件呢，不是要在所有的目标文件前都加上它们的完整路径了?
+<code>解决方法</code>:你可以将许多目标文件打包成一个.a文件,这样你一次就能告诉编译器所有目标文件的所在了(都在.a文件里)
+
+<h6>让我们看下如何打包</h6>
+
+<p>我们用过.zip和.tar文件，这些文件包含了多个文件,.a文件与此类似，一个文件包含了多个.o文件
+打开命令行，切换到库目录下，比如/usr/lib里。在此目录上，你将看到许多.a文件,有一个nm的命令可以用来查看.a文件里有哪些.o文件
+<img src="/images/2014/7/libl.png">
+<img src="/images/2014/7/nm.png">
+在我们用.a文件编译程序之前,先看看如何将encrypt.o和checksum.o文件存储到一个.a文件里吧
+用ar命令来创建一个.a文件</p>
+
+<pre><code>  ar -rcs libhfsecurity.a encrypt.o checksum.o
+</code></pre>
+
+<p>rcs三个选项的解释如下
+-r表示如果(.a)文件已经存在,文件将被更新
+-c表示.a创建成功与否都无任何反馈信息
+-s告诉ar在文件的开头创建一个索引
+注意到了吗，所有的.a文件都有lib<something>.a形式的命名,名字以lib开头，因为它们是静态库，我们将很快学习到什么是静态库</p></li>
 </ol>
 
 
-<h2>指针退化(Pointer decay)</h2>
-
-<p>由于数组变量和指针变量有些区别，当你把数组赋给指针时需要特别小心，如果你将一个数组赋给一个指针变量，此时的指针变量将只包含数组的地址,没法知道数组的大小，所以一些信息丢失了，这种丢失信息的情况就叫做指针退化</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-24T07:58:39+08:00" data-updated="true" itemprop="datePublished">Jun 24<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/bian-cheng-yu-yan/'>编程语言</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/24/c-plus-plus-and-objective-c/" itemprop="url">C++ &amp; Objective C</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>译自<a href="http://paralaxer.com/cpp-vs-objective-c/">C++ vs Objective C</a></p>
-
-<h2>C++ 是一辆手动档汽车</h2>
-
-<p>如果说object C是一辆自动档汽车，那么C++就是一辆手动档的汽车</p>
-
-<p>也许有人会说自动档汽车更好，因为它更容易操纵，不过,用自动档的人可能会在经过一条石子路时因没有将离和器置空档的经验而无法让车停下来</p>
-
-<p>C的运行速度更快，也能对它进行更多的掌控，然而相应得，它对程序员的技能提出了更高的要求</p>
-
-<p>比如，C++在解引用指针前不检查指针(是否为空或有效)来节省时间，这提升了你游戏的运行速度,给了你更多的掌控，同时它也使得你必须在debug模式下使用用assert</p>
-
-<h2>发送消息给空对象</h2>
-
-<p>我们来看一下ObjC和C++的一个最根本的区别之一</p>
-
-<p>用Object C,你能安全地发送信息给nil对象(付出的代价是程序的执行时间会慢一点)</p>
-
-<pre><code>// in Objective C
-Node* node = nil;
-
-// this will not crash, it will just do nothing
-[node setPosition:Point(10,10)];
-</code></pre>
-
-<p>在C++中，如果你解引用一个空指针，将会产生一个运行时错误</p>
-
-<pre><code>// in C++
-Node* node = nullptr; // nullptr introduced in C++11
-
-// this will crash
-node-&gt;setPosition(Point(10,10));
-
-// using a safeguard, this will not crash
-if(node)
-   node-&gt;setPosition(Point(10,10));
-
-// using an assertion will trigger a debuggable error
-assert(node);
-node-&gt;setPosition(Point(10,10));
-</code></pre>
-
-<p>在底层，Objc实际上实现了一个空对象，对任何发送给它的消息，它都返回0，这种实现方式让编程更安全，也更简单，不过，这么做也会导致一些bug难以察觉</p>
-
-<p>C++在解引用前不会检查一个指针是否为空,如上所示,如果node为null,C++会用null去执行setPosition函数,如果通过一个null指针去访问它的成员变量,你的程序将会崩溃</p>
-
-<p>一种解决方法是用<a href="http://www.cplusplus.com/reference/cassert/assert/">断言</a>,它仅在非发布模式下起作用,如果传给断言的表达式为假，程序终止，如果此时有个调试器，程序终止时将停在断言失败的那一行，这样，你就能看到哪一行代码出问题了</p>
-
-<pre><code>Node* node = nullptr;
-
-// this will pause execution when debugging
-assert(node);
-</code></pre>
-
-<p>由于断言通常被定义为宏,用它的一个好处是在发布模式下(或者其他任何定义了NDEBUG的模式中)，此断言宏不做任何事情,本质上,编译器不会为它产生任何二进制的代码，这样，在debug模式时，你就可以放心地用它,同时,也保证了发布模式下的程序运行速度(由于针对assert的二进制代码被忽略掉了)</p>
-
-<h2>可读性</h2>
-
-<p>我们来看看两者的另一个基本的区别,Object C生来就比C++有更好的可读性,因为方法的参数名称也集成到了方法名中</p>
-
-<pre><code>// Objective C
-[layer addChild:sprite z:1];
-
-// C++
-layer-&gt;addChild(sprite, 1);
-</code></pre>
-
-<p>你能看到两者在可读性上的差别吗?</p>
-
-<p>Objective C有更好的可读性因为addChild方法中的第二个参数清楚地显示了z参数,在C++中,没人知道1代表什么</p>
-
-<p>如今,像Xcode之类IDE提供了自动补全的功能，这也减轻了你写代码的负担，当你敲addChild时，IDE们会自动为你显示参数类型和名字,这样IDE就为你清楚地显示了相应的参数是什么(类型和名字),不过如果你好久没碰你的项目了，然后回头看addChild方法的时候，你就会感到困惑，不明白第二个参数代表什么意思</p>
-
-<p>用一些名字定义良好的变量，你可以让C++代码更具有可读性</p>
-
-<pre><code>int z = 1;
-layer-&gt;addChild(sprite, z);
-</code></pre>
-
-<h2>速度和可移植性</h2>
-
-<p>我们已经讨论了C++为何比Objective C更快,那么可移植性呢,这才是C++闪光的地方</p>
-
-<p>C++比OC更具有可移植性,它可以在多个平台上(如Windows,Mac, Linux,iOS,Android等平台上)被原生的编译集成</p>
-
-<p>说到Android,如果你升级NDK的GCC编译器，技术上是可以编译OC的,但要注意，你需要所有的Foundation 类</p>
-
-<p>还记得 NSObject, NSString, NSArray否？它们在Mac上完美的实现了，而在Windows上则没有,所有这些都必须用一种跨平台的方式重新实现</p>
-
-<p>幸运的是,有一些像<a href="http://www.cocotron.org">Cocotron</a>这样的项目致力于此,然而如果到一些android相关的具体问题上,比如输入和声音,你仍然需要一个跨平台的库, 这些库实现了相应平台的细节，所以你就不需要做了.</p>
-
-<p>这就是为什么C++和Cocos2dX 如此cool的原因,cocos2dx处理了平台相关的问题,并且用C++来实现它们</p>
-
-<p>除了速度，可移植性和可读性，我们来看看更具体的区别,比如oc的dClass和id类型</p>
-
-<h2>Class和id类型</h2>
-
-<p>OC有一个叫Class类型的实现,它允许你获得对象的类并且将你存储在一个变量中.</p>
-
-<p>C++并没有相应的Class类型的实现方式，但它有一个叫做运行时类型信息(RTTI)的东西,可以粗略地将一个指针转换为一个字符串,这个字符串包含有一个以<a href="http://www.cplusplus.com/reference/typeinfo/type_info/">typeid</a>表示的对象类,不过,由于各个平台的转换结果不同,这种解决方式似乎并不可靠</p>
-
-<p>OC的Class类型使得从字符串创建类可以变得相当优雅，考虑以下情况</p>
-
-<pre><code>// Objective C
-NSString* string = @"Hammer";
-Class class = NSClassFromString(string);
-id object = [[class alloc] init];
-
-// C++
-Tool* tool = nullptr;
-std::string string = "Hammer";
-if( string == "Hammer" )
-   tool = new Hammer;
-</code></pre>
-
-<p>以上显示了OC的类类型的优雅以及在C++中相应的可能的解决方式</p>
-
-<p>你可以看到以上代码中我们用了ObjC的id类型,它本质上是一个指向对象类型的指针,大致相当于C++中的void*,但仍有不用两者的许多理由</p>
-
-<h2>惰性</h2>
-
-<p>假设有一个叫做Parent的父类,有一个继续它的Child子类，同时有一个叫做goToSleep的方法</p>
-
-<p>在C++中,如果你在Child中重新定义了Child的接口，你就不得不在Child的接口中(头文件中)重新定义goToSleep这个方法，但在OC中，你无需这么做，只要在@implementation中实现它即可</p>
-
-<pre><code>/ Objective C
-@interface Parent : NSObject
-   -(void) goToSleep;
-@end
-
-@interface Child : Parent
-   // woo! don't have to redefine goToSleep
-@end
-
-@implementation Parent
-   -(void) goToSleep {}
-@end
-
-@implementation Child
-   -(void) goToSleep {}
-@end
-
-// C++
-class Parent
-{
-   public:
-      virtual void goToSleep();
-};
-
-class Child : public Parent
-{
-   public:
-      // goToSleep has to be redefined
-      // if it is to be overridden
-      virtual void goToSleep();
-};
-
-void Parent::goToSleep() {}
-
-void Child::goToSleep() {}
-</code></pre>
-
-<p>C++之所以迫使程序员重新定义被重写的函数的原因是因为这么做可以让编译器的工作变得更加容易，编辑器无需因为一些神秘的方法去检查类的继承关系</p>
-
-<h2>虚函数</h2>
-
-<p>在以上的例子中,我们看到了C++中virtual关键字的使用,当virtual被用在函数时，位于继承层次中最低的那个类有最高的优先级调用此函数(比如以上例子中，Child的goToSleep先被调用)</p>
-
-<p>在OC中,所以的方法本质上是虚函数,这让编程变得简单，不过相应的，这么做也导致了<a href="http://stackoverflow.com/questions/4882105/c-polymorphism-inheritance-question-redefinition-of-base-functions-vs-virtual/4882155#4882155">性能的下降</a></p>
-
-<p>另外，如前所述，C++相当于手动档汽车,你可以根据需要指定或不指定函数为virtual</p>
-
-<h2>栈</h2>
-
-<p>在OC中，你只能在堆上分配对象
-在C++中，你可以在栈上分配对象，有栈上创建对象比在堆上创建快，同时也保证了，对象超出相应的作用范围时析构函数能被调用,即便在已经抛出异常的情况下</p>
-
-<p>举个例子</p>
-
-<pre><code>// Objective C
-// 仅分配在堆上
-Tool* tool = [[Tool alloc] init];
-
-// C++
-//我们采用了快速的，可信任的栈分配
-Tool tool;
-</code></pre>
-
-<h2>运算符重载</h2>
-
-<p>在C++中，你可以重载运算符,比如，如果你写了一个Vector对象,你可以重载&#8221;+&ldquo;符号,这样Vector的对象就能进行相加的运算了</p>
-
-<pre><code>// C++
-class Vector
-{
-   const Vector operator+(const Vector&amp; v) const
-   {
-      return Vector(x + v.x, y + v.y, z + v.z);
-   }
-}
-
-// this '+' calls the overloaded operator+
-// isn't it nice?
-Vector v1,v2,v3;
-v3 = v1 + v2;
-</code></pre>
-
-<p>而在OC中，则不能重载运行符，不过你可以在方法命名上动些脑筋</p>
-
-<pre><code>// Objective C
-v3 = [v1 addVector:v2];
-</code></pre>
-
-<p>不过，这样一来，OC在处理一些事情时便显得有些哆嗦了，如下</p>
-
-<pre><code>// Objective C
-NSString* a = @"something";
-NSString* b = @"else";
-if( [a isEqualToString:b] )
-   [self doSomething];
-
-// C++
-string a = "something";
-string b = "else";
-if( a == b )
-   doSomething();
-</code></pre>
-
-<h2>私有性</h2>
-
-<p>OC在技术上是没有私有方法的，不过我们可以在.m文件中定义一个空的类别，并在此空的类别中定义此方法(来模拟私有方法),达种方法是很优雅的,因为这样一来私有方法就无需在公共接口中声明了(因此由于头文件的变化，你的代码将会重新进行索引和编译)</p>
-
-<pre><code>// 在OC的头文件中 (.h)
-@interface Something : NSObject
-   // See? No private method
-@end
-
-// 在实现文件中 (.m)
-// 用一个类别来扩展接口
-// (空类别代表私有的一些属性)
-@interface Something () // a blank category
-   -(void) privateMethod;
-@end
-</code></pre>
-
-<p>在C++中，有公有和私有的概念，不过私有的属性或方法必须在公有接口另声明</p>
-
-<p>如果你确实不想在公有接口中声明私有的方法，你可以采用在.m文件中声明静态函数的形式来避免它(这和之前提到的OC的空类别有点类似)</p>
-
-<h2>类扩展</h2>
-
-<p>如上例所示，OC可以用一个类别来扩展一个类</p>
-
-<p>类别是很优雅的，因为一个类可以在任何地方被扩展,如在.h和.m文件中，或是其他地方</p>
-
-<p>技术上C++是不能扩展一个类的，不过它有<a href="http://www.cprogramming.com/tutorial/multiple_inheritance.html">多继承</a></p>
-
-<h2>默认参数</h2>
-
-<p>C++还有一个很cool的地方:默认参数.函数中的参数可以有一个默认值,这样我们可以选择在调用函数时是否给此参数传值</p>
-
-<pre><code>// C++
-class Something
-{
-   void doSomething(int i, float f = 0.0f) {}
-};
-
-Something s;
-
-// can be called with or without the f parameter
-s.doSomething(5);
-s.doSomething(5, 1.0f);
-</code></pre>
-
-<p>OC则没有默认参数，不过它可以采用定义多个方法的形式来实现</p>
-
-<pre><code>// Objective C
-@interface Something : NSObject
-   -(void) doSomething:(int)i;
-   -(void) doSomething:(int)i withF:(float)f;
-@end
-
-@implementation Something
-   -(void) doSomething:(int)i
-   {
-      [self doSomething:i withF:0.0f];
-   }
-
-   -(void) doSomething:(int)i withF:(float)f
-   {
-      // do something with i and f...
-   }
-@end
-
-Something* s = [[Something alloc] init];
-
-// either method can be called, however
-// two separate methods have been implemented
-[s doSomething:5];
-[s doSomething:5 withF:1.0f];
-</code></pre>
-
-<h2>结论:混合使用C++和OC</h2>
-
-<p>以上就是C++和OC的主要区别
-需要记住两者总是可以共存的，实际上你可以采用<a href="http://en.wikipedia.org/wiki/Objective-C#Objective-C.2B.2B">Objecttive C++</a>的使用来让两者共存</p>
-
-<p>你可以将.m文件改为.mm文件，这样编辑器就知道是用Object C++了，从而可以使用Object C,C++或者两者混用</p>
-
-<pre><code>// In the file AppDelegate.mm
-@implementation AppDelegate
-   -(void) applicationDidFinishLaunching:(NSNotification*)aNotification
-   {
-      // Do some Objective C stuff
-      window = [[Window alloc] initWithContentRect:...];
-
-      // Now switch to C++ and launch Cocos2dx
-      Application::getInstance()-&gt;run();
-   }
-@end
-</code></pre>
-
-<p>如以上例子所见,Objective C++是很常见的,它对于在同一个方法中响应iOS和Mac的通知并启动Cocos2d-x是必须的</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-25T21:35:14+08:00" data-updated="true" itemprop="datePublished">Nov 25<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/bo-ke/'>博客</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/25/bu-shu-octopresscheng-gong/" itemprop="url">部署octopress成功</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>今天经过一番探索,按船哥的<a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">博文指引</a>，查阅了一些资料后，终于成功的部署了octopress博客系统，成功地写出了博客，用得主题是很流行的<a href="https://github.com/shashankmehta/greyshade">greyshade</a>主题,整理一下需要注意的几个问题</p>
-
-<ol>
-<li>侧栏social links支持众多社交网站,但不支持微博,可以点<a href="http://www.imallen.com/blog/2013/05/12/add-support-for-weibo-and-dribbble-to-greyshade.html">这里</a>查看解决方法</li>
-<li><p>写博客时用到的命令rake new_post[&ldquo;title&rdquo;]，在zsh下无效，会出现<code>zsh: no matches found</code>的错误，原因：zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, or ‘?’符号，则将其识别为查找文件名的通配符</p>
+<p>创建好了标准库文件后，该如何使用呢</p>
 
 <ul>
-<li><p>快速解决：用引号括起来$ rake &ldquo;new_post[arch-linux-reinstall-glibc.markdown]&rdquo;</p></li>
-<li><p>彻底解决：取消zsh的通配(GLOB), 在.zshrc中加入alias rake=&ldquo;noglob rake&#8221;点</p>
+<li><p>将它放到一个标准目录如/user/local/lib里
+一些码农在确认.a文件能工作后喜欢将.a文件放在一标准库里，在Linux和Mac里/usr/local/lib目录是一个很好的选择，因为这个目录就是专门用来放置你自己的库文件的</p></li>
+<li><p>将.a文件放到你自己喜欢放置的库文件目录下,如/my_lib中
+既然库创建好了，那我们来看看怎么利用这些库来编译用到这些库的程序</p></li>
+<li>如果你将.a文件放到标准库目录中,你可以按以下方式来编译代码
+<img src="/images/2014/7/nm.png"></li>
+<li><p>如果你是将.a文件放在你自己的库文件目录下，可按以下方式来编译代码</p>
 
-<p>  参考<a href="http://fancyoung.com/blog/use-octopress-new-post-function-with-zsh/">这里</a></p></li>
+<pre><code> gcc test_code.c -L/my_lib -lhfsecurity -o test_code
+</code></pre>
+
+<p>-L选项告诉编译器去哪个目录寻找库文件</p></li>
 </ul>
-</li>
-<li>安装多说评论系统,请点击<a href="http://beyondvincent.com/blog/2013/07/27/107-hello-page-of-github/">这里</a>，需要注意的是,在文章的C步中,船哥有个地方笔误了,请将<code>post/duoshuo1.html</code>改为<code>post/duoshuo.html</code></li>
-</ol>
 
 
-<p>参考</p>
+<p>现在有一个搞安全的哥们在用最新的加密库编译一个银行相关的程序时遇到了一点麻烦，他把源码和 ecnrypt，checksum 的源码放在了同一个目录下，他想要在同一个目录下创建一个libhfsecurity.a库并用它去编译程序，你能帮助它修改它的makefile文件吗
+这个程序叫band_vault，它用了以下的include语句</p>
+
+<pre><code>#include&lt;encrypt.h&gt;
+#include&lt;checksum.h&gt;
+</code></pre>
+
+<p>由于用到了尖括号，编译器需要使用用-I选项告知头文件在哪
+makefile文件如下
+<img src="/images/2014/7/bank_vault_makefile.png"><br/>
+-L选项必须出现在源文件后面才行
+从.a文件中提取中某个目标文件</p>
+
+<pre><code>ar -x libhfsecurity.a encrypt.o
+</code></pre>
+
+<p>再来看一个例子</p>
+
+<pre><code>//hfcal.c
+#include &lt;stdio.h&gt; 
+#include &lt;hfcal.h&gt;
+
+void display_calories(float weight, float distance, float coeff) {      printf("Weight: %3.2f lbs\n", weight);      printf("Distance: %3.2f miles\n", distance);        printf("Calories burned: %4.2f cal\n", coeff * weight * distance);  }
+
+//elliptical.c
+#include &lt;stdio.h&gt;
+#include &lt;hfcal.h&gt;  int main() {        display_calories(115.2, 11.3, 0.79);        return 0;   }
+</code></pre>
+
+<p>下面我们来看看如何编译代码</p>
 
 <ol>
-<li><a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">利用Octopress搭建一个Github博客</a></li>
-<li><a href="http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/">Clone Your Octopress to Blog From Two Places</a></li>
+<li><p>首先，创建hfcal.o文件,hfcal.h头文件存储在./includes</p>
+
+<pre><code> gcc -I./includes -c hfcal.c -o hfcal.o
+</code></pre>
+
+<p>-c选项表示只是创建目标文件，不链接</p></li>
+<li><p>创建elliptical.o文件</p>
+
+<pre><code> gcc -I./includes -c elliptical.c -o elliptical.o
+</code></pre>
+
+<p>同样的，你需要告诉编译器头文件在./includes下的</p></li>
+<li><p>你需要从hfcal.o中创建一个.a文件，并将它存储在./libs中</p>
+
+<pre><code> ar -rcs ./libs/libhfcal.a hfcal.o
+</code></pre></li>
 </ol>
 
+
+<p>被打包的libhfcal.a文件将被放在./libs目录下</p>
+
+<ol>
+<li><p>最后，用elliptical.o和libhfcal.a创建elliptical可执行文件</p>
+
+<pre><code> gcc elliptical.o -L./libs -lhfcal -o elliptical
+</code></pre></li>
+</ol>
+
+
+<p>现在你能执行elliptical可执行文件了</p>
+
+<pre><code>&gt; ./elliptical  Weight: 115.20 lbs  Distance: 11.30 miles   Calories burned: 1028.39 cal    &gt;
+</code></pre>
 
 		
 		
@@ -843,6 +3556,8 @@ Something* s = [[Something alloc] init];
     
         <a href="/blog/page/2/" class="prev">Prev</a>
     
+    
+        <a href="/blog/page/4/" class="next">Next</a>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>

@@ -1,0 +1,421 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>The Class System - AllenToFight Blog</title>
+	<meta name="author" content="AllenToFight">
+
+	
+	<meta name="description" content="The Class System The Class System 上一章，我们学习了如何从已知的component classes中创建components并引用它们,我们其实也可以通过extending Sencha Touch的base classes来定义我们自己custom &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="AllenToFight Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/2014/10/05/the-class-system/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
+	
+</div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">The Class System</h1>
+	<div class="entry-content" itemprop="articleBody"><h1>The Class System</h1>
+
+<p>上一章，我们学习了如何从已知的component classes中创建components并引用它们,我们其实也可以通过extending Sencha Touch的base classes来定义我们自己<code>custom component classes</code>,接下来我们将学习如何创建一个component并且定义我们自己的类,本章中，我们将学习到以下知识点</p>
+
+<ul>
+<li>How to define your own custom class<em> How to define getters and setters</em> How to define singletons and static members How inheritance works (extending)* How multiple inheritance works (mixins)
+
+<h4>定义我们自己的类let’s discuss how the Sencha class system works and how to define your own blueprints to define a class.</h4>
+
+<p>Let’s make a blueprint containing a variable, myVar, and a method, myMethod. Using Ext.define():
+<code>
+Ext.define('AppName.packagename.ClassName', {
+  //class configuration object    myVar: 1,   myMethod: function(name){       //console.log("Log: " + name);  } },function(){ //optional callback used for logging});</code>
+It’s important to know that components in the Sencha framework are, in fact, classes.To create a class definition, you will use the Ext.define method.
+In general, the string class name consists of the following parts:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>AppName.packagename.ClassName</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For example, the following class maps to the file app/view/ListView.js:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('MyDemoApp.view.ListView', { 
+</span><span class='line'>  //class configuration object
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the preceding code, note the following:</p>
+
+<ul>
+<li>The app name, MyDemoApp, maps to the app folder in your project root and should be written in the upper CamelCase notation (wherein each word begins with a capital letter).<em> The package name, view, maps to the package folder in the app folder; package names are always written in lowercase.</em> The class name, ListView, should also be written in the upper CamelCase notation. The class name should contain the same name as the JavaScript filename (ListView.js); therefore, it’s not possible to put multiple Sencha Touch classes in a single JavaScript file.
+The second argument takes a class configuration object. This is where you can set properties and methods.
+<code>
+Ext.application({
+  name: 'DemoApp',    launch: function() {    /* Start class definition code: */  //Create a class definition Ext.define('DemoApp.view.DemoComponent', { //   //      extend: 'Ext.Component', config: {      html: 'Hello World' // }    }, function() {     console.log("class is created"); // }); //Create a class instance
+  Ext.create('DemoApp.view.DemoComponent', { //       fullscreen: true    }); } });</code>
+
+<h4>Defining Getters and Setters</h4>
+
+<p>the Sencha class system can automatically create accessors and mutators (known as magic methods) for you.
+It is very easy to create getter and setter methods to access or mutate a class property; they will be automatically generated for you. That is why some people call them magic.
+To autocreate magic getter and setter methods, set a property in the class config:
+<code>
+config: {   myProperty: "some value"}</code>The config object autocreates the getter and setter methods as follows:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>getMyProperty: function(){   return this.myProperty; //returns "some value"}
+</span><span class='line'>setMyProperty: function(x){   this.myProperty = x; }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Besides getter and setter methods, it also automatically creates apply and update methods. These methods are handy to change the process, before and after you set a value:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>applyMyProperty: function(x){    //runs before this.myProperty changes. //for example validation}updateMyProperty: function(x){  //runs after this.myProperty was changed.}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>来看一个例子，在configs里定义了一个Cab类，注意getDriver(), setDriver(), applyDriver(), and updateDriver() 是自动产生的.为了在值生产前作一些校验，你需要重写 applyDriver() 方法; 为了在改变driver后再作一些操作，你需要重写updateDriver()方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('VehicleApp.vehicle.Cab', { // The default config config: {       driver: 'John Doe',         driver2: {          firstName: 'John',          lastName: 'Doe'         }   },  constructor: function(config) {      this.initConfig(config);   },  applyDriver: function(newVal){ 
+</span><span class='line'>      if(newVal === 'The Pope') {         console.log(newVal + " is an invalid taxi driver.");            return;         }       return newVal;  },  updateDriver: function(newVal, oldVal){     console.log('The owner has been changed from ' + oldVal + ' to ' + newVal); } });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Because the previous code example does not extend from a Sencha component, I had to initialize the config settings in my constructor:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>constructor: function(config) { 
+</span><span class='line'>  this.initConfig(config);}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The config object sets some default values. When you are not extending from an Ext.Component, you have to call the initConfig(config) method once by yourself,(e.g., in the base class), which will initialize the configuration for the class that was passed in while creating the objects.
+After you instantiate the class, you have access to the getters and setters in the prototype. They have been magically generated:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var taxi = Ext.create("VehicleApp.vehicle.Cab", { 
+</span><span class='line'>  driver: "John Doe"});alert(taxi.getDriver()); //alerts 'John Doe';taxi.setDriver('The Pope');alert(taxi.getDriver()); //alerts 'John Doe' because 'The Pope' is invalid.//changes the driver from 'John Doe' to 'Lee Boonstra'taxi.setDriver('Lee Boonstra'); 
+</span><span class='line'>alert(taxi.getDriver());</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can even use magic getter and setter methods to access complex objects. For example, let’s change the code in Example 4-2 and define a config with a complex object:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>config: { 
+</span><span class='line'>  driver: {       firstName: "John",
+</span><span class='line'>      lastName: "Doe" 
+</span><span class='line'>  }}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I can get access to its properties with the line <code>taxi.getDriver().firstName</code>.
+The config object in a class definition is very useful for class instances. Sometimes you don’t want to instantiate a class; for example, you may just want to run some default common utility functions. Singletons and static members would do the trick. We’ll discuss them in the next section.</p>
+
+<h4>Defining Singletons and Static Members</h4>
+
+<p>It is pretty simple to define a class as a singleton — just set the config singleton to true:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('Utils.common.Functions', { 
+</span><span class='line'>  singleton: true,    //key value pairs here});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A singleton class definition can’t create objects (technically it can’t create more than one object, because the singleton itself gets instantiated once), but you can get access to all the methods and properties in the class itself. This is very handy for when you want to get access to generic functions or properties used as constants:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('Utils.common.Logger', { 
+</span><span class='line'>  singleton: true,    version: "1.02",    log: function(msg) {        console.log(msg);   }});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can call the log() function by invoking <code>Utils.common.Logger.log()</code> directly from the class.
+Singletons also can contain config objects, and therefore generate magic getters and setters from properties. For example:
+&#8220;`
+Ext.define(&lsquo;Utils.common.Version&rsquo;, {</p>
+
+<pre><code>singleton: true,    config: {       version: "1.03",    } });```
+</code></pre>
+
+<p>The previous code will generate a getter: getVersion(). Now, from anywhere in my application I can get access to this property with
+<code>
+Utils.common.Version.getVersion()</code>
+A nice alternative for singletons are classes with a statics object defined. To set up a class with a statics object, you only need to define a statics object with key/value pairs.(Note that you can’t set a config object within a statics object)
+Here we define statics with the VehicleApp.utils.Commons class:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('VehicleApp.utils.Commons', { 
+</span><span class='line'>  statics: {      YELP_API: 'http://api.yelp.com/business_review_search?',        YELP_KEY: 'ftPpQUCgfSA3yV98-uJn9g',     YELP_TERM: 'Taxi',      LOCATION: 'Amsterdam NL',       getUrl: function() {            return this.YELP_API + "term=" + this.YELP_TERM +               "&ywsid=" + this.YELP_KEY               + "&location=" + this.LOCATION;     },  }});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can create objects of a class that has statics defined, but these objects cannot get access to its properties and methods without invoking it from the class itself with the dot notation. In other words, requesting properties and methods from an instance via this will not work, but calling the full namespace (i.e., VehicleApp.utils.Commons.LOCATION) will:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var mySettings = Ext.create('VehicleApp.utils.Commons');//It is possible to create an instance of a class with static members: console.log(mySettings);//But getting access to a static member from an object fails: mySettings.getUrl();//Uncaught TypeError: Object [object Object] has no method 'getUrl'</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Inherit from a Single Class</h4>
+
+<p>To create single class inheritance, you extend from a parent class by setting the extend config:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('AppName.packagename.ClassName', { 
+</span><span class='line'>  extend: 'AppName.packagename.SomeClassName'});
+</span><span class='line'>// Example 4-3. Define a parent class
+</span><span class='line'>Ext.define('VehicleApp.vehicle.Vehicle', { 
+</span><span class='line'>  unit: "mph",    drive: function(speed) {        console.log(this.$className + ": Vrrroom: " + speed + " " + this.unit); } });
+</span><span class='line'>// Example 4-4. Define a child class and implement inheritance
+</span><span class='line'>Ext.define('VehicleApp.vehicle.Car', { 
+</span><span class='line'>  extend: 'VehicleApp.vehicle.Vehicle', drive: function(speed) {      console.log(this.$className + ": Vrrroom, vrrroom: " + speed + this.unit);  }});
+</span><span class='line'>
+</span><span class='line'>var vehicle = Ext.create("VehicleApp.vehicle.Vehicle");vehicle.drive(40); //alerts "Vrrroom: 40 mph" 
+</span><span class='line'>var car = Ext.create("VehicleApp.vehicle.Car");car.drive(60); //alerts "Vrrroom, vrrroom: 60 mph"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As with any object-oriented language, if you need to do further initializations upon creation, you code a constructor. It makes sense to code an initConfig(config) method in a constructor.</p>
+
+<p>The <code>initConfig(config)</code> method initializes the configuration for this particular class. Whether you initialize default config values or pass in config values as an argument while creating an object, this method will override and merge them all together and create an instance with these default settings.When you are inheriting from other classes, you don’t need to rewrite the initConfig method. It’s inherited, so the functionality is already there, but it does need to exist. Typically, the best place to include it would be in your base class.</p>
+
+<p>Another powerful method is <code>callParent([arguments])</code>. It also makes sense to write this call in the constructor, although you don’t have to. You can run this from any other method, as shown in Example 4-6, which I will discuss shortly.It’s important to have this call in your <code>custom classes</code>, because you always want to initialize the config settings from every parent.
+You are free to call the parent from whatever method you are in. This can be handy for overriding functionality.In Example 4-6, I want to override the drive() function that is inherited from the Vehicle class in order to customize it specifically for a <code>Motor</code> class</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Example 4-6. Class inheritance
+</span><span class='line'>Ext.define('VehicleApp.vehicle.Motor', {  extend: 'VehicleApp.vehicle.Vehicle',   config: {       nrOfWheels: 2 //    },  constructor: function (config) {        this.initConfig(config); // },  drive: function(speed) { //     if(this.getNrOfWheels() &lt; 3) { //        console.log(this.$className +           ": Vrrroom, vrrroom on " + this.getNrOfWheels() + " wheels.");      } else {            this.callParent([60]); //       }   }});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意以上的constructor部分，最后把这部分放到base class( 即Vehicle.js),放这里只做demo之用
+I can run this code by creating an instance of the Motor class.<code>
+var motor = Ext.create('VehicleApp.vehicle.Motor', {
+//nrOfWheels: 4}); motor.drive();</code>
+Constructors aren’t used with components. If you subclass Ext.Component, you probably won’t use a constructor. Instead, components are initialized in a method named <code>initialize()</code>.
+Inheritance is a very powerful concept. What about multiple inheritance?</p>
+
+<h4>Inherit from Multiple Classes</h4>
+
+<p>You might want a class to inherit features from more than one superclass. When you want to implement multiple inheritance of classes, you need <code>mixins</code>,A mixin object does exactly what the name implies: it mixes in functionality.“Take a little bit of this, use a little bit of that&hellip;” For example, take a method of class X, take a method of class Y, implement it in class Z.
+Let’s say we have two vehicle classes, a normal car and a monster 4-wheeler. Both vehicles can inherit the methods to brake and to drive. Only the monster 4-wheeler can also jump, however; the normal car can’t.
+<img src="/images/2014/10/multi-inherit.png">
+Now, let’s define three classes, each with its own functionality to share drive(), brake(), and jump(). Later you will define two vehicle classes that inherit from these classes and mix in those methods.
+&#8220;`
+// Example 4-7. Define classes with the methods you will mix in</p>
+
+<p>Ext.define(&lsquo;VehicleApp.mixins.Drive&rsquo;, {</p>
+
+<pre><code>drive: function(){ //the method to share    console.log(this.$className + ": Vrrrrooom"); }}); 
+</code></pre>
+
+<p>Ext.define(&lsquo;VehicleApp.mixins.Brake&rsquo;, { brake: function(){      console.log(this.$className + &ldquo;: Eeeeekk&rdquo;); }
+});
+Ext.define(&lsquo;VehicleApp.mixins.Jump&rsquo;, {  jump: function(){       console.log(this.$className + &ldquo;: Bump&rdquo;);    }    });    <code>
+Finally, you can define the two Vehicle classes with the mixin implementations. Again, these are just normal class definitions, but with a mixins object. You can list all the mixins underneath one another
+</code>
+// Example 4-8. Define a Car class with mixin implementations
+Ext.define(&lsquo;VehicleApp.vehicle.Car&rsquo;, {</p>
+
+<pre><code>mixins: {       canBrake: 'VehicleApp.mixins.Brake',        canDrive: 'VehicleApp.mixins.Drive'         }});
+</code></pre>
+
+<p>// Example 4-9. Define a FourWheeler class with mixin implementations
+Ext.define(&lsquo;VehicleApp.vehicle.FourWheeler&rsquo;, {</p>
+
+<pre><code>mixins: {       canBrake: 'VehicleApp.mixins.Brake',        canDrive: 'VehicleApp.mixins.Drive',        canJump: 'VehicleApp.mixins.Jump'   } 
+</code></pre>
+
+<p>});<code>With the implementation of Examples 4-8 and 4-9, the drive() and brake() methods are available to the Car class, and the drive(), brake(), and jump() methods are available to the FourWheeler class.
+</code>
+var mercedes = Ext.create(&lsquo;VehicleApp.vehicle.Car&rsquo;);var honda = Ext.create(&lsquo;VehicleApp.vehicle.FourWheeler&rsquo;);mercedes.drive(); mercedes.brake();honda.drive(); honda.jump(); honda.brake();<code>``
+The mixin identifier</code>canBrake` matches the prototype, and therefore you can run the brake() method on the FourWheeler and Car classes.</p>
+
+<h4>Summary</h4>
+
+<p>Vanilla JavaScript by its nature has no class system, as JavaScript is a prototype-based language. To mimic the ideas of object-oriented programming, you can write your JavaScript functions in an object-oriented way:&#8220;`
+function Cab(driver, passenger) {</p>
+
+<pre><code>this.driver = driver; 
+this.passenger = passenger;}```
+</code></pre>
+
+<p>To create an instance of this Cab class, you can create a new object with the new operator:
+<code>
+var mercedes = new Cab('John Doe', 'The president');</code>
+Sencha Touch has a built-in class system that ships with inheritance, magic methods, and singleton strategies. Example 4-10 is the Sencha version of the previous Cab class.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//Example 4-10. app/view/Cab.js
+</span><span class='line'>Ext.define('TaxiApp.view.Cab', { 
+</span><span class='line'>  extend: 'Ext.Component', 
+</span><span class='line'>  config: {       driver: '',     passenger: ''   }});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To create an instance of this Sencha Cab class, you can create a new object, but without the new operator:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var mercedes = Ext.create('TaxiApp.view.Cab', { 
+</span><span class='line'>  driver: 'John Doe', passenger: 'The president'});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下一章我们将学习<code>how to create layouts for your Sencha applications and components.</code></p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+	
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,1723 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>AllenToFight Blog</title>
+	<meta name="author" content="AllenToFight">
+
+	
+	<meta name="description" content="Jul 15th, 2014 Head First C第七章笔记-高级函数 导读:这一章我们将学习函数的一些高级特性,如 将函数作为一个参数进行传递
+用比较函数进行排序
+用可变参数的函数让你的代码变得更加灵活 函数指针 int (*warp_fn)(int); 将函数指针当作参数传递给函数 1 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="AllenToFight Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/page/4/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
+	
+</div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-15T22:11:00+08:00" data-updated="true" itemprop="datePublished">Jul 15<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/15/head-first-cdi-qi-zhang-bi-ji-gao-ji-han-shu/" itemprop="url">Head First C第七章笔记-高级函数</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>导读:这一章我们将学习函数的一些高级特性,如</p>
+
+<ol>
+<li>将函数作为一个参数进行传递</li>
+<li>用比较函数进行排序</li>
+<li>用可变参数的函数让你的代码变得更加灵活</li>
+</ol>
+
+
+<h5>函数指针</h5>
+
+<pre><code>int (*warp_fn)(int);
+</code></pre>
+
+<p>将函数指针当作参数传递给函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void find(int (*mactch)(char *)){
+</span><span class='line'>  if (match(ADS[i])){
+</span><span class='line'>      //char *ADS[] = {"one", "two"};
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>用函数指针来排序</h5>
+
+<p>C标准库里有一个排序指针如下</p>
+
+<p><img src="/images/2014/7/qsort.png"></p>
+
+<p>假设你有以下整形数组，你想按升序排序，该如何写排序函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int scores[] = {543,323,32,554,11,3,112};
+</span><span class='line'>int compare_scores(const void* score_a, const void* score_b)
+</span><span class='line'>{
+</span><span class='line'>  int a = *(int*)score_a; 
+</span><span class='line'>  int b = *(int*)score_b;
+</span><span class='line'>  return a-b;
+</span><span class='line'>}
+</span><span class='line'>qsort(scores, 7, sizeof(int), compare_scores);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是一个char *p[]数组呢，该如何写compare函数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int compare_names(const void* a, const void* b){
+</span><span class='line'>  char** sa = (char**)a;
+</span><span class='line'>  char** sb = (char**)b; 
+</span><span class='line'>  return strcmp(*sa, *sb);￼￼￼￼￼￼￼￼
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>函数指针数组</h5>
+
+<pre><code>//dump,second_change, marriage都是函数
+void (*replies[])(response) = {dump, second_chance, marriage};
+</code></pre>
+
+<p>判断调用的是否是某个函数</p>
+
+<pre><code>enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+replies[SECOND_CHANCE] == second_chance完整的demo
+typedef struct {    char *name; enum response_type type; } response;    enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+void (*replies[])(response) = {dump, second_chance, marriage};
+
+int main()
+{
+    response r[] = {            {"Mike", DUMP}, {"Luis", SECOND_CHANCE},            {"Matt", SECOND_CHANCE}, {"William", MARRIAGE}      };
+    int i;
+    for (i = 0; i &lt; 4; i++){
+        (replies[r[i].type])(r[i]);
+    }
+}
+</code></pre>
+
+<h5>可变参函数</h5>
+
+<p>demo1</p>
+
+<pre><code>#include &lt;stdarg.h&gt;
+void print_ints(int args, ....){
+    va_list ap; 
+    va_start(ap, args);
+    int i;
+    for (i = 0; i &lt; args; i++) {            printf("argument: %i\n", va_arg(ap, int));      }
+    va_end(ap);
+}
+</code></pre>
+
+<p>注:va_end,va_start是宏</p>
+
+<p>demo2</p>
+
+<pre><code>enum drink {    MUDSLIDE, FUZZY_NAVEL, MONKEY_GLAND, ZOMBIE };
+printf("Price is %.2f\n", total(3, MONKEY_GLAND, MUDSLIDE, FUZZY_NAVEL));
+double total(int args, ...)
+{
+    double total = 0;       va_list ap;
+    va_start(ap, args);             int i;
+    for(i = 0; i &lt; args; i++) {         enum drink d = va_arg(ap, enum drink);          total = total + price(d);       }       va_end(ap);     return total;
+}
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-13T11:19:10+08:00" data-updated="true" itemprop="datePublished">Jul 13<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/13/head-first-cdi-liu-zhang-shu-ju-jie-gou-he-dong-tai-nei-cun/" itemprop="url">Head First C第六章-数据结构和动态内存</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>这一章中我们将学习到如何用结构体指针来将自定义的数据类型连接成一个更大更复杂的数据结构，我们通过创建链表来了解结构体指针的用处，也将学习到如何在堆上分配内存，并在你用完之后释放它，我们也将学习到valgrind的使用</p>
+
+<h4>在堆上分配内存以及释放内存</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef struct island{ 
+</span><span class='line'>  char *name;
+</span><span class='line'>  char *opens;
+</span><span class='line'>  char *closes;
+</span><span class='line'>  island *next;   } island;
+</span><span class='line'>
+</span><span class='line'>#include&lt;stdlib.h&gt;
+</span><span class='line'>island *p = malloc(sizeof(island))
+</span><span class='line'>free(p);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以下函数有何问题</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>island* create(char *name) {
+</span><span class='line'>      island *i = malloc(sizeof(island)); 
+</span><span class='line'>      i-&gt;name = name;
+</span><span class='line'>      i-&gt;opens = "09:00";
+</span><span class='line'>      i-&gt;closes = "17:00";
+</span><span class='line'>      i-&gt;next = NULL;
+</span><span class='line'>      return i; 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当在程序里调用如下代码时</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>char name[80];fgets(name, 80, stdin);island *p_island0 = create(name); 
+</span><span class='line'>fgets(name, 80, stdin);island *p_island1 = create(name);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>p_island0和p_island1的name是一样的！！！原来是create函数传入的只是name的地址，两者的地址是一样的，你必须用strdup函数copy字符串,故以上create函数的代码中的</p>
+
+<pre><code>i-&gt;name = name;
+</code></pre>
+
+<p>可改为</p>
+
+<pre><code>i-&gt;name = strdup(name);
+</code></pre>
+
+<p>不过要记得用strdup()拷贝字符串，最后需要用free()将此拷贝字符串release掉</p>
+
+<h3>valgrind可用来检测内存泄漏</h3>
+
+<p>valgrind能模拟在堆上分配的数据，它通过创建模拟的malloc()版本来工作，当你的程序想要分配一些堆上的内存时，valgrind将截获你对malloc()和free()的调用并运行它自己的模拟版本的malloc()和free(),valgrind版本的malloc()将记录调用它的那些代码以及它所分配的那部分内存,当你的程序终止时,valgrind将会报告任何堆上还存在的数据并且告诉你这些数据由哪些代码调用产生的</p>
+
+<h4>准备:添加debug信息</h4>
+
+<p>用valgrind运行之前你不需要对你的代码作任何操作，你甚至不需要重新编译代码，但是为了更好地利用valgrind，代需要确保你的可执行代码包含debug信息，debug信息是在编译代码后嵌入到可执行文件里的额外数据，比如代码对应的行数，如果debug信息存在了，valgrind将能给你许多内存泄漏的具体信息
+测试所用程序<a href="https://gist.github.com/xiekunRonaldo/cdde073cac5636270322">spies</a>
+用valgrind结合&mdash;leak-check=full选项进行以下测试</p>
+
+<p><img src="/images/2014/7/valgrind1.png"></p>
+
+<p>从上图可以看出，当SPIES退出后，堆上已无对象，再运行一遍试试看，然后告诉程序有一个Hayden Fantucci的嫌疑人会怎样</p>
+
+<p><img src="/images/2014/7/valgrind2.png"></p>
+
+<p>这次,valgrind发现了内存泄漏,从上图可看出，在程序结束时，堆上有19个字节的空间未释放,valgrind告诉你以下信息</p>
+
+<ol>
+<li>19个字节的内存分配了但未释放</li>
+<li>分配了11次的内存空间，但只释放了10次</li>
+<li>这几行给了我们什么线索</li>
+<li>为什么是19个字节？说明了什么?
+从以个信息可得,&ldquo;Loretta Barnsworth&#8221;占了19个字节,strdup导致了内存泄漏！</li>
+<li>valgrind是如何截获对malloc()和free()的调用的
+答:malloc()和free() 实际上是标准库函数，不过valgrind包含一个它自己的malloc()和free()版本的标准库函数，当你用valgrind来运行程序时，你的程序将用valgrind的malloc()和free()函数，而非C的标准库函数</li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-13T09:22:09+08:00" data-updated="true" itemprop="datePublished">Jul 13<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/13/head-first-cdi-wu-zhang-xue-xi-bi-ji/" itemprop="url">Head First C第五章学习笔记</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h4>Union的初始化</h4>
+
+<ol>
+<li><p>用.来初始化</p>
+
+<pre><code> typedef union { 
+     short count;
+     float weight;
+     float volume;       } quantity;
+ //By name       quantity q = {.weight=1.5};
+ //By dot notation
+ quantity q;
+ q.volume = 3.7;
+</code></pre></li>
+<li><p>struct也可以按名字(Designated initializer)来进行初始化
+         typedef struct {            const char *color;          int gears;          int height;     } bike;     bike b = {.height=17, .gears=21};</p></li>
+</ol>
+
+
+<p>union可以用在struct中</p>
+
+<pre><code>typedef struct {        const char *name;       const char *country;        quantity amount;    } fruit_order;
+</code></pre>
+
+<p>你可以通过.或->来访问成员值</p>
+
+<pre><code>fruit_order apples = {"apples", "England", .amount.weight=4.2};
+</code></pre>
+
+<p>假设有一下定义</p>
+
+<pre><code>typedef union { 
+    float lemon;
+    int lime_pieces;    } lemon_lime;
+typedef struct {        float tequila;      float cointreau;        lemon_lime citrus;  } margarita;
+</code></pre>
+
+<p>则以下定义是错误的</p>
+
+<pre><code>margarita m;    m = {2.0, 1.0, {0.5}};  //编译器会认为是数组
+</code></pre>
+
+<p>以下定义才是对的</p>
+
+<pre><code>margarita m = {2.0, 1.0, {0.5}};
+</code></pre>
+
+<p>在一个union里，可能会有很多可能的值，但一旦被赋值，你没法知道它存储的值的类型
+我们可能为某些字段设定了值却访问了另一个字段，这可能出现大问题,假设有以下程序</p>
+
+<pre><code>#include &lt;stdio.h&gt; 
+typedef union { 
+  float weight;   int count;    } cupcake;
+    int main() {        cupcake order = {2};        printf("Cupcakes quantity: %i\n", order.count);     return 0;   }
+</code></pre>
+
+<p>运行程序将会出现以下结果</p>
+
+<pre><code>gcc badunion.c -o badunion &amp;&amp; ./badunion 
+Cupcakes quantity: 1073741824可以用enum来避免此类问题
+</code></pre>
+
+<h4>Bitfiled</h4>
+
+<p>bitfield能让你指定struct里的field能有几位，你可以按如下方式定义struct</p>
+
+<pre><code>typedef struct {
+    unsigned int low_pass_vcf:1;
+    unsigned int filter_coupler:1;  } synth;
+</code></pre>
+
+<p>用bitfield，你能让每个field都只占一位
+如果你有一连串的bitfields,计算机能将它们排列压缩以节省空间，所以如果你有8个1位的bitfields，电脑将会把它们存储到一个字节里
+bitfield的不仅可以节省空间，也可以读写某些二进制文件</p>
+
+<ul>
+<li>bitfield应该被声明为unsigned int</li>
+</ul>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-01T19:23:15+08:00" data-updated="true" itemprop="datePublished">Jul 1<span>st</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/01/head-first-cdi-si-zhang-xue-xi-bi-ji/" itemprop="url">Head First C第四章学习笔记</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><code>#include &lt;limits.h&gt;</code>此头文件包含一些整型如int和char的值,可打印整型的最大最小值,如</p>
+
+<pre><code>printf("The value of INT_MAX is %i\n", INT_MAX); 
+printf("The value of INT_MIN is %i\n", INT_MIN);
+</code></pre>
+
+<p><code>#include &lt;float.h&gt;</code>此头文件包含一些浮点型如float和double的值,可打印浮点的最大最小值,如</p>
+
+<pre><code>printf("The value of FLT_MAX is %f\n", FLT_MAX);
+printf("The value of FLT_MIN is %.50f\n", FLT_MIN);
+</code></pre>
+
+<p>如果你想知道char,short,double或long的具体细节呢,没问题，只要将INT和FLT替换成CHAR,DBL,SHRT,LNG即可
+不过你会发现在不同的机器上，这些值都是不一样的，因为C在不同的OS和处理器上用了不同的数据类型，这么做允许它最大限度地利用了硬件的特性,那么C是如何做的呢
+当C被发明时，许多机器是8位的，现在，许多机器是32位或64位的，由于C并不指定数据类型的确切大小，这样，它有很好的移植性，随着越来越多的机器被发明出来，C将能够有限地利用它们</p>
+
+<p><code>这里我们说的8位和64位是什么意思</code>
+一台计算机的位大小实际上表示多种情况，比如它的CPU指令的大小或者CPU一次能从内存中读取的数据大小，位大小是一台计算机能处理地最优大小
+<code>那么这和ints或doubles的大小有何关系呢</code>
+如果一台计算机能最优地处理32位的数，那么基本的数据类型，如int也会被设置成32位
+<code>floats和doubles是如何存储的</code>
+<a href="http://tinyurl.com/6defkv6">http://tinyurl.com/6defkv6</a>
+一段代码引发的思考
+<img src="/images/2014/7/errorcode.png"></p>
+
+<p>运行以上代码</p>
+
+<p><img src="/images/2014/7/errorcommandline.png"></p>
+
+<p><code>error: conflicting types for 'add_with_tax'</code>此话何解</p>
+
+<p><code>当编译器看到以下的代码时会发生什么</code></p>
+
+<pre><code>printf("Total so far: %.2f\n", add_with_tax(val));
+</code></pre>
+
+<p>编译器将看到一个对不认识的函数的调用，它并不抱怨，编译器会猜想它会在源文件的随后部分发现更多此函数的信息，不幸的是，这就是问题所在,编译器会想，这个函数我从来没见过，但我要先记录它以便在源文件的后半部分对它进行处理
+<code>问题是编译需要知道此函数的返回类型</code>当然，编译器此时并不知道函数的返回类型，所以它就作 了一个假设，编译器假设此函数返回int值
+<code>但当编译器到达此函数的定义时，它将返回一个“conflicting types for ‘add_with_tax’”错误</code>
+这是因为编译器认为它看到了两个同名函数，一个是实际存在文件中的函数，一个则是编译器假设的，返回int型的函数
+<code>那么如何解决此问题呢，你可能会认为，把函数放在调用代码的前面按正确地顺序书写不就ok了吗</code>
+这么做确实可以解决问题，但<code>修改函数的顺序是件很痛苦的事</code>,假设有以下情况，你添加了一个很棒的新函数</p>
+
+<pre><code>int do_whatever(){...}  float do_something_fantastic(int awesome_level) {...} int do_stuff() {  do_something_fantastic(11); }
+</code></pre>
+
+<p>此时你改变注意想在do_whatever调用do_something_fantastic函数呢，那你不得不将do_something_fantastic函数移do_whatever前面,很麻烦，更麻烦的是，有些递归函数将在它被定义前调用自己,如</p>
+
+<pre><code>float ping(){
+    pong();
+}
+float pong(){
+    ping();
+}
+</code></pre>
+
+<p>如果你有两个相互调用的函数，其中一个必然会在它定义之前被调用，这样必然性错误，解决方法是
+<code>将声明和定义分隔开来</code>,将声明放在头文件(.h)将定义放在实现文件(.c)
+<code>要点</code>
+* 从以上可得知实际上你无须为返回值为int函数声明
+将多个源文件编译成一个可执行程序</p>
+
+<pre><code>gcc message_hider.c encrypt.c -o message_hider
+</code></pre>
+
+<p><code>编译</code>   gcc -c *.c</p>
+
+<p><code>链接</code>   gcc *.o -o launch</p>
+
+<p>问题是如果有非常多的源文件，当你修改一个，你需要把所有的这些源文件全都编译一遍，要浪费很多时间!那如何解决呢</p>
+
+<h4>make工具</h4>
+
+<p>make是一种能自动编译你的源文件的一种工具
+<img src="/images/2014/7/theater.png">
+如上所未，你如何断定thruster.o文件需要重新编译呢，看时间戳，如果thruster.o文件早于thruster.c,thruster.o就需要重新创建了，相当简单的规则，不是吗，既然明白了规则，我们就可以用make工具自动进行此过程，make将会比较源文件和目标文件的时间戳，如果某些目标文件的时间戳早于源文件，则它将对这些源文件重新编译，但在此之前，你需要告诉make这个工具一些信息，包括文件的信赖关系等，你需要确切地告诉它你想要如何编译代码</p>
+
+<h4>make需要知道哪些东西</h4>
+
+<p>如果你想将thruster.c编辑成一个叫thruster.o的目标文件,依赖文件和配方分别是什么,thruster.o是目标文件,因为这是你想要生成的文件，thruster.c就是信赖文件，因为它是编译所需的转化为thruster.o的源文件，那么配方是什么呢，是将thruster.c转化为thruster.o的编译器命令</p>
+
+<pre><code>gcc -c thruster.c
+</code></pre>
+
+<p>明白了吗？如果你告诉make工具相应的信赖文件和配方,你就能让make工具知道何时它需要重新编译成thruster.o了
+但你可以更进一步，一旦你编译了thruster.o的目标文件，你就将用它创建launch程序了，也就是说，launch文件也可以被设置成一个目标，因为它是你要产生的文件，launch的依赖文件是所有的.o的目标文件，配方是以下命令</p>
+
+<pre><code>gcc *.o -o launch
+</code></pre>
+
+<p>一旦make知道了所有的依赖文件和规则，你所要做的就是告诉它去创建launch文件了
+<img src="/images/2014/7/make.png"></p>
+
+<p>以下是make文件的内容
+<img src="/images/2014/7/makefile.png"></p>
+
+<p>最后输入以下命令
+<img src="/images/2014/7/makelaunch.png">
+你能看到make能够执行创建launch程序所需的命令，那么我们看看如果你改变了thruster.c文件然后重新执行make命令会发生什么
+<img src="/images/2014/7/remake.png">
+我们可以看到，它只编译thruster.o了，然后重新链接</p>
+
+<pre><code>注:由于make文件调用OS底层的操作系统，有时同一个make文件并不适用在不同的OS上
+</code></pre>
+
+<p>除了编译代码，make也可用作command-line installer,或源码管理工具，实际上，有命令行上你几乎可以把make用在任何你想执行的任务上</p>
+
+<p>如果你觉得make还不够自动化，你可以试试<a href="http://www.gnu.org/software/autoconf/">autoconf</a>用来产生make文件</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-29T18:44:13+08:00" data-updated="true" itemprop="datePublished">Jun 29<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/29/head-first-c-di-san-zhang-xue-xi-bi-ji-chuang-jian-%5B%3F%5D-xie-xiao-gong-ju/" itemprop="url">Head First C 第三章学习笔记-创建小工具</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>要点</h3>
+
+<p>Linux/Unix系统有很多小工具,这些小工具执行一些特定的任务，比如读写文件，过滤数据等，这些工具都只负责处理自己的事情，各司其职，无需顾虑其他的工具所做的事，这样做的好处可以如果你需要处理一个比较复杂的任务，你可以将它分割成各个小任务，每个小任务由相应的工具完成，就有效地做到了解耦,同时这么做也使得每个小程序更容易调试</p>
+
+<p>此章介绍我们将学习如何了解命令行参数，处理流信息，重定向，并快速地将各个工具组合起来</p>
+
+<p>本章我们主要以将以下数据格式</p>
+
+<pre><code>42.363327,-71.097588,Speed = 23 
+42.363255,-71.096710,Speed = 17
+</code></pre>
+
+<p>转换成以下的JSON形式进行讨论分析</p>
+
+<pre><code>[{latitude: 42.363400, longitude: -71.098465, info: 'Speed = 21'},
+ {latitude: 42.363327, longitude: -71.097588, info: 'Speed = 23'}, 
+ {latitude: 42.363255, longitude: -71.096710, info: 'Speed = 17'},  ...]
+</code></pre>
+
+<p>以下程序(geo2json)能从命令行中读取以逗号分隔的行，并将它以JSON的形式展示出来</p>
+
+<pre><code>//geo2json
+#include &lt;stdio.h&gt;  int main() {        float latitude;     float longitude;        char info[80]; intstarted= 0 ￼ ￼ ;      puts("data=[");         while (scanf("%f,%f,%79[^\n]", &amp;latitude, &amp;longitude, info) == 3) {         if (started)                printf(",\n");          else                started= 1 ;
+        if ((latitude &lt; -90.0) || (latitude &gt; 90.0)) {              printf(“Invalid latitude: %f\n”, latitude);             return 2;
+        }           if ((longitude &lt; -180.0) || (longitude &gt; 180.0)) {              printf(“Invalid longitude: %f\n”, longitude);               return 2;           }           printf("{latitude: %f, longitude: %f, info: '%s'}", latitude , longitude , info );      }       puts("\n]");        return 0;   }
+</code></pre>
+
+<p>scanf()会返回输入的参数个数</p>
+
+<pre><code>while (scanf("%f,%f,%79[^\n]", , , ) == 3)
+</code></pre>
+
+<ul>
+<li>注意以上的[^\n]表示第三个输入参数的内容为除换行以外的字符串</li>
+</ul>
+
+
+<p>以上程序让你在键盘上输入GPS数据，将将它们在JSON的形式输出到屏幕上,问题是输入和输出混起来了，如果有许多的数据，你肯定不想在键盘上手动输入，你肯定希望能用一个小工具(geo2json)将大量的数据通过读取文件来获取.</p>
+
+<p>在以上的程序中，你用scanf()和printf()来从键盘中读取数据并将它显示到显示器上，但实际上它们并不直接和键盘和显示器交互，它们用了标准输入(Standard Input)和标准输出(Standard Output)来和相应的输入输出设备交互,输入输出在程序运行的时候由操作系统创建</p>
+
+<p>操作系统决定了数据如何进出标准输入输出的，如果你从终端运行一个程序，操作系统将把所有的按键信息发送给标准输入，如果操作系统从标准输出中获取数据，默认情况下它将把数据输入出显示器上
+scanf()和printf()两个函数并不关心数据来自哪里，去向何方，它们从标准输入和标准输出中读写数据
+可能你会问，为何这两个函数不直接和键盘，屏幕交互，难道不是更简单吗</p>
+
+<p>程序系统用标准输入和标准输出的形式与程序进行交互有一个很好的理由:
+你可以重定向标准输入和标准输出到其他地方，比如文件</p>
+
+<p>你可以用&#8221;&lt;&ldquo;来重定向标准输入:</p>
+
+<pre><code>./geo2json &lt; gpsdata.csv
+</code></pre>
+
+<p>&ldquo;&lt;&#8221;告诉操作系统程序的标准输入应与gpsdata.csv文件连接，而非键盘，所以你可以通过文件向程序传送数据</p>
+
+<p>你也可以用&#8221;>&ldquo;来重定向标准输出</p>
+
+<pre><code>./geo2json &lt; gpsdata.csv &gt; output.json
+</code></pre>
+
+<p>将你执行以上命令，你将发现在屏幕上没有任何数据，因为结果已经输出到output.json这个文件去了</p>
+
+<p>以上的程序(geo2json)虽然加了错误判断，但如果有非法数据，在最后的输出文件中，一样会有非法数据
+如果发生错误，如何发现错误码(以上为2)</p>
+
+<pre><code>echo $?
+</code></pre>
+
+<p>如果数据错误了，能有专门针对这些错误的输出该多好!
+标准错误(Stand Error)应运而生!它就是专门针对错误信息的输出，默认情况下，标准错误与屏幕相连,以下是默认状态下的三种标准对应设备的图</p>
+
+<p> <img src="/images/2014/6/standardIOE.png"></p>
+
+<p> 也就是说如果重定向了标准出入和标准输出，标准错误仍将发送数据到屏幕上</p>
+
+<p> <img src="/images/2014/6/standardIOE2.png"></p>
+
+<h3>fprintf()输出到一个数据流中(标准输出或标准错误)</h3>
+
+<p>我们已经知道print()将数据输出到标准输出中，实际上print()只是fprintf()的一个特例而已
+当你调用</p>
+
+<pre><code>printf("I like Turtles!");
+</code></pre>
+
+<p>时，实际上它调用的是</p>
+
+<pre><code>fprintf(stdout, "I like Turtles!");
+</code></pre>
+
+<p>以上清楚地显示了字符串&#8221;I like Turtles&#8221;输出到stdout,你可以告诉fprintf()发送数据到stdout或stderr
+既然知道了fprintf()的用法，我们就可以修改geo2json了
+ <img src="/images/2014/7/updategeo2json.png">
+这样错误信息就与标准错误而不是标准输出关联了,重新运行代码，你将看到尽管标准输出重定向到了output.json文件，错误信息仍然打印到屏幕上，这是因为标准错误信息默认就是打印到屏幕上</p>
+
+<p> <img src="/images/2014/7/stderroutput.png"></p>
+
+<p>标准错误的创建其实就是为了将错误信息和正常的输出区分开来，不过要记得，标准错误和标准输出都是输出流，你可以随心所欲地用按自己的想法利用它们</p>
+
+<h4>要点</h4>
+
+<ul>
+<li>printf()默认发送数据到标准输出</li>
+<li>标准输出默认输出数据到屏幕上</li>
+<li>在命令行中你可以用&#8217;>&lsquo;来重定向标准输出,用&#8217;2>&#8217;来重定向标准错</li>
+</ul>
+
+
+<p>在以上处理经纬度数据的程序中，如果你想得到一定范围内的数据，如下图
+<img src="/images/2014/7/range.png"></p>
+
+<p>为了不改变geo2json这个工具，你可以另外创建一个工具(称它为bermude吧)来过滤不在以上范围的数据</p>
+
+<pre><code>//bermude
+#include &lt;stdio.h&gt;  int main()
+{
+    float latitude;     float longitude;        char info[80];      while (scanf("%f,%f,%79[^\n]", &amp;latitude, &amp;longitude , info ￼) == 3)
+    if (( ￼ ￼ latitude ￼ &gt; ￼ ￼ 26 ￼ ) ￼ ￼ &amp;&amp; ￼ ( ￼ ￼ latitude ￼ &lt; ￼ ￼ 34 ￼ ))     ￼￼￼￼￼￼￼if (( longitude &gt; -76 ) &amp;&amp; ( longitude &lt; -64 )) 
+        printf("%f,%f,%s\n", latitude , longitude , info );     ￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼return 0;
+}   
+</code></pre>
+
+<p>这样，你可以通过管道&#8217;|&lsquo;将&#8221;bermude&#8221;的输出连接到geo2json的标准输入上，进而得到相应的结果</p>
+
+<p><img src="/images/2014/7/pipe.png"></p>
+
+<p>操作系统将处理管道工作的细节，你需要做的只是运行一下以下的命令</p>
+
+<pre><code>bermuda | geo2json
+</code></pre>
+
+<p>操作系统将同时运行两个程序，完整的命令操作如下</p>
+
+<pre><code>(./bermuda | ./geo2json) &lt; spooky.csv &gt; output.json
+</code></pre>
+
+<p>通过管道将两个程序联合起来一起运行，你可以把两个程序当作一个进行看待，这样，你就能像之前那样重定向标准输出和标准输出了，注意括号是必要的！，这样保证了文件的内容将传到bermuda程序的标准输入中
+思考：如果多个程序通过管道连接起来，此时我用&#8221;>&ldquo;和&rdquo;&lt;&ldquo;来重定向标准输入和标准输出，哪一个程序将让它们的输入输出重定向
+答:&rdquo;&lt;&ldquo;将把文件的内容传到管道中的第一个程序中,&rdquo;>&ldquo;将从管道中的最后一个程序中获取标准输出</p>
+
+<h4>如果你想将输出传到多个文件中去呢?</h4>
+
+<p>我们已经知道如何用重定向从一个文件中读取数据和写入数据到一个文件中去了，那如果程序想做一些更复杂的，比如发送数据到多个文件中去该如何操作呢？
+假设你需要另外一个工具，这个工具将从一个文件中读取一系列的数据，并将数据分割到多个文件中去
+<img src="/images/2014/7/threefiles.png">
+问题是什么？你最多只能重定向到两个文件中，分别从标准输出和标准错误中重定向，那第三个文件该怎么办呢?</p>
+
+<h4>用FILE</h4>
+
+<p>每一个数据流由一个指向文件的指针表示，你可以用fopen()来创建一个数据流</p>
+
+<pre><code>FILE *in_file = fopen("input.txt", "r");
+</code></pre>
+
+<p>以上创建了一个数据流，从一个文件中读取数据</p>
+
+<pre><code>ILE *out_file = fopen("output.txt", "w");以上创建的一个数据流，将写入数据到文件中
+</code></pre>
+
+<p>一旦你创建了一个数据流，你可以用fprintf()将输出的数据指向此文件中</p>
+
+<pre><code>fprintf(out_file, "Don't wear %s with %s", "red", "green");
+</code></pre>
+
+<p>那如果想从文件中读取数据呢，用fscanf()</p>
+
+<pre><code>fscanf(in_file, "%79[^\n]\n", sentence);
+</code></pre>
+
+<p>最后，当你处理完了以上针对文件的数据流操作，你需要关闭它，实际上当程序结束的时候所有的数据流都会自动关闭，不过在不需要它们时手动关闭数据流总量一个好习惯
+回到以上的问题，现在我们能把数据输出到3个文件中去了，示例如下</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+int main() {        char line[80];      FILE *in = fopen("spooky.csv","r");     FILE *file1 = fopen("ufos.csv", “w”);
+    FILE *file2 = fopen("disappearances.csv","w");
+    FILE *file3 = fopen("others.csv","w");  
+    while(fscanf(in,"%79[^\n]\n", line) == 1){
+        if (strstr(line, "UFO"))                fprintf (file1, "%s\n", line);          else if (strstr(line, "Disappearance")) 
+            fprintf (file2, "%s\n", line);          else fprintf (file3, "%s\n", line);     }
+    fclose (file1);         fclose (file2);     fclose (file3);     return 0;
+}   
+</code></pre>
+
+<p> 程序正常运行了，当你编译并执行以下命令
+<img src="/images/2014/7/threefilesok.png"></p>
+
+<p>程序正常运行，并将结果输出到3个文件中
+问题是如果你想数据输出到不同的文件(而不是指定的文件)，又该如何操作呢，每次用户都需要重新编译程序吗</p>
+
+<h4>main()函数的参数</h4>
+
+<p>实际上，任何你写的程序都需要给用户改变程序工作方式的灵活性，如果是一个GUI程序，你需要提供它的偏好设置，如果是一个命令行程序，就像我们的categorize工具，它需要提供给用户传送命令行参数的能力
+<img src="/images/2014/7/commandlineparam.png">
+那么，如何从程序中读取命令行参数呢，目前为止，你用的是main()函数，没有包含任何参数，实际上，你还可以用上main()函数的第二个版本</p>
+
+<pre><code>int main(int argc, char *argv[])
+{
+    ......Do stuff
+}
+</code></pre>
+
+<p>以上的main()函数把命令行的参数当作一个字符串数组，实际上，由于C没有内置的字符串类型，它将用一个指针数组来指向这些命令行参数
+<img src="/images/2014/7/argv.png"></p>
+
+<p>像C数组一样,你也需要知道一个数组的长度，argc就表示此长度
+命令行参数给了你程序很大的灵活性，确实需要仔细考虑下在程序运行时该让用户传哪些参数，它将让你的程序更有价值
+以下是使用命令行参数的完整示例</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt; int main(int argc, char *argv[]) {      char line[80];
+    if (argc != 6) {
+        fprintf(stderr, "You need to give 6 arguments\n");
+        return 1;
+    }
+
+    FILE *in = fopen("spooky.csv", "r");
+
+    FILE *file1 = fopen(argv[2], "w");
+
+    FILE *file2 = fopen(argv[4], "w");
+
+    FILE *file3 = fopen(argv[5], "w");
+
+    while (fscanf(in, "%79[^\n]\n", line) == 1) {
+        if (strstr(line, argv[1]))
+            fprintf(file1, "%s\n", line);
+        else if (strstr(line, argv[3]))
+            fprintf(file2, "%s\n", line);
+        else 
+            fprintf(file3, "%s\n", line);
+    }
+
+    fclose(file1);
+    fclose(file2);
+    fclose(file3); 
+    return 0;
+}
+</code></pre>
+
+<p>运行以上程序，你首选需要以下格式的<code>spooky.csv</code>文件</p>
+
+<pre><code>30.685163,-68.137207,Type=Yeti 28.304380,-74.575195,Type=UFO    29.132971,-71.136475,Type=Ship 28.343065,-62.753906,Type=Elvis  27.868217,-68.005371,Type=Goatsucker 30.496017,-73.333740,Type=Disappearance    26.224447,-71.477051,Type=UFO 29.401320,-66.027832,Type=Ship    37.879536,-69.477539,Type=Elvis
+</code></pre>
+
+<p>这样，在命令行中输出以下格式运行程序</p>
+
+<pre><code>categorize UFO aliens.csv Elvis elvises.csv the_rest.csv
+</code></pre>
+
+<p>当程序运行后，产生了以下三个文件
+<img src="/images/2014/7/3outputfiles.png">
+尽管在以上的程序中我们打开关闭程序没有出现错误，在实际操作中是很可能犯错的，幸运的是，如果在打开数据流发生了错误,fopen()将返回0，因此，以上的程序中，你应该将以下的程序</p>
+
+<pre><code>FILE *in = fopen("i_dont_exist.txt", "r");改为
+FILE *in;   if (!(in = fopen("dont_exist.txt", "r"))) {     fprintf(stderr, "Can't open the file.\n");      return 1;   }
+</code></pre>
+
+<p>很可能你写的程序需要一些选项，如果你创建了一个聊天程序，它需要一些偏好设置，如果你写了一个命令行工具，你可能需要提供类似以下的命令行的一些选项</p>
+
+<pre><code>ps -ae
+tail -f logfile.out
+</code></pre>
+
+<p>有一个叫做getopt()的库函数能让你更好地处理命令行选项,每次你调用它，它将返回下一个在命令行中的命令行选项
+假设你有一个函数，能提供多个命令行选项</p>
+
+<pre><code>rocket_to -e 4 -a Brasilia Tokyo London这个函数将需要两个个选项，其中一个选项需要提供一个值，另一个仅仅表示此选项是否开关,你可以在一个循环中调用getopt()来处理这些选项，如下
+</code></pre>
+
+<p><img src="/images/2014/7/getopt.png">
+在循环中，你用switch来处理每一个合法的选项,字符串&#8221;ae:&ldquo;告知getopt()函数a和e是合法的选项，紧跟在e之后的冒号表示-e后面需要一个的值，getopt()将用optarg变量表示这个值当循环结束，你让argv和argc变量跳过所有的选项，此时它们表示跟随这些选项之后的命令行参数，这样，argv数组表示如下</p>
+
+<p><img src="/images/2014/7/skipargv.png">我们也可以将两个选项结合起来
+如用-td而不是-t -d
+默认情况下，如果程序在命令行中看到以&#8221;&ndash;&ldquo;开头的命令行，程序将会把它当作命令行选项，如果要避免此种情况，可以在&rdquo;&ndash;&ldquo;前加&mdash;,这样，在&rdquo;&mdash;&ldquo;之后的参数就被当作普通的参数了</p>
+
+<pre><code>set_temperature -c -- -4
+</code></pre>
+
+<p>以上的命令行中，-4就被当作普通的参数而非命令行选项</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-27T22:01:57+08:00" data-updated="true" itemprop="datePublished">Jun 27<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/27/head-first-c-di-er-zhang-xue-xi-bi-ji/" itemprop="url">Head First C 第二章学习笔记-内存与指针</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h5>问:运算符和函数的区别</h5>
+
+<p>答:运算符会被编译器编译成一串指令，而如果调用了函数，则会跳到一块单独的代码块中,也就是说在编译的时候sizeof就被执行了，因为编译器能在编译的时候就知道存储空间的大小了</p>
+
+<h5>问:为何在不同的机器上，指针的大小是不同的?</h5>
+
+<p>答:在32位OS上，一个内存地址以一个32比特的数字来表示，这也是它被称为32位的原因,32bit = 8bytes,则也是为何64位OS用8bytes来存储一个地址的原因</p>
+
+<h5>写一个函数，则函数只打印一个字符串的第7个字符以后的信息</h5>
+
+<pre><code>void skip(char *msg) {      puts( msg + 6 );    } 
+</code></pre>
+
+<p>以下写法是错误的</p>
+
+<pre><code>char food[5];   printf("Enter favorite food: ");    scanf("%s", food);
+</code></pre>
+
+<p>应改为</p>
+
+<pre><code>scanf("%4s", food);
+</code></pre>
+
+<p>否则将导致缓冲区溢出(buffer overflow),或者说栈错误(segmentation fault)</p>
+
+<h2>fgets()是一种替代方式</h2>
+
+<p>它接受一个char的指针，但不像scanf(),fgets()必须指定一个最大长度</p>
+
+<pre><code>char food[5];   printf("Enter favorite food: ");    fgets(food, sizeof(food), stdin);
+</code></pre>
+
+<p><code>注意点</code>:不过需要注意的是sizeof返回 的是一个变量所占据的空间,以上的例子中,food是一个数组变量 ,所以sizeof返回了数组的大小，如果food只是一个指针变量,sizeof将返回一个指针的大小如果你知道你所传的参数是一个数组变量,那用sizeof是ok的，如果你传的是一个指针变量，你需要传入确定的大小,如下</p>
+
+<pre><code>printf("Enter favorite food: "); 
+fgets(food, 5, stdin);
+</code></pre>
+
+<h2>fgets和scanf的比较</h2>
+
+<ol>
+<li><p>输入大小限制</p>
+
+<ul>
+<li>scanf()能限制输入的大小，只要你记得在输入的字符串格式上加上相应的大小即可,如&#8221;%4s&#8221;</li>
+<li>fgets()有一个强制输入大小的限制</li>
+</ul>
+</li>
+<li><p>输入类型</p>
+
+<ul>
+<li>scanf()不仅仅能让你输入多种类型，还让你指定比如在相应的输入数据之间用什么数据来分隔,如scanf(&ldquo;%d,%d&rdquo;)表示输入的两个整数之间必须用&#8221;,&ldquo;隔开</li>
+<li>fgets()只允许你输入一个字符串到缓冲区中,其他数据类型都是不允许的</li>
+</ul>
+</li>
+<li><p>字符串中的空格</p>
+
+<ul>
+<li>对scanf()来说，如果它用%s来输入一个字符串,如果碰到一个空格时，它将马上终止输入,所以如果你想输入两个单词，要么你调用两次scanf()来输入，要么你用一些古怪的正则表达式来操作</li>
+<li>fgets()无任何问题,每次fgets()都可读入整个string</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>字符串常量不能被修改</h2>
+
+<pre><code>char *cards = "JQK"
+cards[0] = 'H'
+</code></pre>
+
+<p>错误！字符串常量被存储在常量存储区，这个区域是只读的,如果你想要改变一个字符串，copy它，你需要将string拷贝到一个可写的内存区域，这样你就能修改它了,如下</p>
+
+<pre><code>char cards[] = "JQK";
+</code></pre>
+
+<p>可能你不清楚发生了什么，所有的string都是数组，但在之前的错误代码中，cards仅仅是一个指针，在新代码中，如果你定义了一个叫做cards的数组，然后将一个字符串常量赋值给它，cards数组得到的是一份全新的拷贝，此时&#8221;JQK&#8221;在栈上
+为了避免当cards是指针时修改它产生错误，你应该按哪下方式进行声明</p>
+
+<pre><code>const char *s = "JQK";
+</code></pre>
+
+<p>这样，如果编译器看到试图修改此string的代码，就会报错</p>
+
+<pre><code>s[0] = 'S'      //error: assignment of read-only location
+</code></pre>
+
+<h2>cards[]还是cards*</h2>
+
+<p>如果你看到以下的声明，意味着什么</p>
+
+<pre><code>char cards[]
+</code></pre>
+
+<p>一切取决于你在哪看到它的，如果是一个正常的声明，那么意味着它是一个数组，必须给它赋值</p>
+
+<pre><code>int my_function()   {
+    //此时cards是一个数组        char cards[] = "JQK"; ...   }
+</code></pre>
+
+<p>如果cards出现在一个函数的参数中，此时cards表示一个指针</p>
+
+<pre><code>void stack_deck(char cards[])   {       }
+</code></pre>
+
+<p>等价于</p>
+
+<pre><code>void stack_deck(char *cards) {      }
+</code></pre>
+
+<h2>存储区</h2>
+
+<p>  <img class="left" src="/images/2014/6/memory_memorizer.png" width="350" height="350" title="'image'" ></p>
+
+<ul>
+<li>栈
+栈用来存储局部变量,每次你调用一个函数，所有此函数的局部变量都创建在栈上，它被称称栈，是因为它像一叠盘子,将你创建一个函数的时候，变量被加到栈中，将你离开一个函数时，这些变量又会变销毁，奇怪的是栈的工作方式，总是从高地址开始，向低地址增长</li>
+<li>堆
+堆主要用在动态内存分配上,创建在堆上的数据在程序运行时即可创建，不过会保持相当长的一段时间，直到你手动释放它</li>
+<li>全局存储区
+一个全局存储区的作用域在所有函数之外，并且对所有函数可见，全局变量在程序首次运行的时候创建，你可以随意改变它们，但却不像&hellip;</li>
+<li>常量存储区
+常量也在用户首次运行的时候创建，但它们只存储在只读的存储区域中,常量就像字符串字面量一样，程序运行的时候你可能需要它们，但你却无法改变它们</li>
+<li>代码存储区
+许多操作系统将代码存储区置于最低的内存地址中,代码存储区是只读的，这里实际上是汇编代码加载的区域</li>
+</ul>
+
+
+<h2>字符串</h2>
+
+<p>使用前#include&lt;string.h>
+提供的函数如下</p>
+
+<ol>
+<li>strchr() : 寻找字符串中某个字符的位置</li>
+<li>strcmp() : 比较两个字符串</li>
+<li>strstr() : 寻找字符串中对应字符串的位置</li>
+</ol>
+
+
+<p>如果找到了，返回被寻找的字符串的位置，如果没有，返回0</p>
+
+<pre><code>char s0[] = "dysfunctional"; char s1[] = "fun"; if (strstr(s0, s1)) puts("I found the fun in dysfunctional!");
+</code></pre>
+
+<ol>
+<li>strcpy() : 拷贝字符串</li>
+<li>strlen() : 求字符串的长度</li>
+<li>strcat() : 连接两个字符串</li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-27T21:38:47+08:00" data-updated="true" itemprop="datePublished">Jun 27<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ioskai-fa/'>iOS开发</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/27/runloop/" itemprop="url">Runloop</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>参考</p>
+
+<ul>
+<li><p><a href="http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4">http://lianxu.me/2012/11/10-cocoa-objc-newbie-problems/#4</a></p></li>
+<li><p><a href="http://blog.csdn.net/devday/article/details/6928432?reload">http://blog.csdn.net/devday/article/details/6928432?reload</a></p></li>
+</ul>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-25T21:39:33+08:00" data-updated="true" itemprop="datePublished">Jun 25<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-%5B%3F%5D-ge-wen-ti/" itemprop="url">C指针所引发的一个问题</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<pre><code>void fortune_cookie(char msg[]) {
+     printf("Message reads: %s\n", msg);
+     printf("msg occupies %i bytes\n", sizeof(msg)); 
+} 
+
+int main () {
+    char msg[] = "Turtles!";
+    fortune_cookie(msg);
+    return 0;
+}
+</code></pre>
+
+<p>运行以上代码会输出什么,有人说是</p>
+
+<pre><code>Message reads Turtles!
+msg occupies 9 bytes("Turtles!"的8个字节再加代表字符串结尾的\0这个字节，所以是9个字节)
+</code></pre>
+
+<p>如果你这么想，那就错了,实际的结果是</p>
+
+<pre><code>Message reads Turtles!
+msg occupies 4 (or 8) bytes
+</code></pre>
+
+<p>解释如下</p>
+
+<h2>数组变量就像指针一样</h2>
+
+<p>是的，只是像，而不等于指针</p>
+
+<p>当你创建了一个数组,数组变量其实可以被当作指向数组首元素地址的指针,当写了如下代码时</p>
+
+<pre><code>char quote[] = "Cookies make you fat";
+</code></pre>
+
+<p>实际上quote代表的是string中的首字符的地址，即字符&#8217;C&#8217;对应的地址</p>
+
+<pre><code>printf("The quote string is stored at: %p\n", quote);
+</code></pre>
+
+<p>以上将打印一个16进制的地址,尽管quote是一个数组，但是你可以把&#8221;quote&#8221;当成一个指针变量，因为它本身就是代表首字符串中的首字符的地址.</p>
+
+<p>所以当调用</p>
+
+<pre><code>fortune_cookie(msg);
+</code></pre>
+
+<p>时，其实我们给fortune_cookie函数传的是一个指针,它返回的是指向一个字符串的指针的大小，在32位上操作系统，一个指针占了4个字节的空间，而在64位上，一个指针则占据了8个字节,故有以上结果</p>
+
+<h2>数组变量不是指针</h2>
+
+<p>尽管在调用函数时，数组参数是可以被当作指针传递，但实际上仍有一些不同，考虑以下情况</p>
+
+<pre><code>char s[] = "How big is it?"; 
+char *t = s;
+</code></pre>
+
+<ol>
+<li>sizeof(数组) 是一个数组的大小.
+ sizeof(s) = 15   sizeof(t) = 4 或 8</li>
+<li>数组的地址
+ &amp;s = s     &amp;t != t
+如果你写&amp;s,表示数组s的地址是什么,数组s的地址就是s,&amp;t表示t变量的地址，显然不等于t(表示s的地址)</li>
+<li><p>一个数组变量不能指向任何地方
+ 如果你创建了一个指针，机器将会为之分配4或8个字节来存储它,但如果你创建了一个数组，机器将为此<code>数组</code>分配空间，而不分为此<code>数组变量</code>分配<strong>任何</strong>的空间,数组变量仅代表数组的首地址</p>
+
+<p> 由于数组变量没有任何的存储空间，所以它不能指向任何地方,当程序编译时，所以的数组变量都被数组的地址替换了，所以数组变量并不存在最后的可执行文件中，这也就是为什么数组变量不能指向任何其他地方的原因</p></li>
+</ol>
+
+
+<h2>指针退化(Pointer decay)</h2>
+
+<p>由于数组变量和指针变量有些区别，当你把数组赋给指针时需要特别小心，如果你将一个数组赋给一个指针变量，此时的指针变量将只包含数组的地址,没法知道数组的大小，所以一些信息丢失了，这种丢失信息的情况就叫做指针退化</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-24T07:58:39+08:00" data-updated="true" itemprop="datePublished">Jun 24<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/bian-cheng-yu-yan/'>编程语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/24/c-plus-plus-and-objective-c/" itemprop="url">C++ &amp; Objective C</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>译自<a href="http://paralaxer.com/cpp-vs-objective-c/">C++ vs Objective C</a></p>
+
+<h2>C++ 是一辆手动档汽车</h2>
+
+<p>如果说object C是一辆自动档汽车，那么C++就是一辆手动档的汽车</p>
+
+<p>也许有人会说自动档汽车更好，因为它更容易操纵，不过,用自动档的人可能会在经过一条石子路时因没有将离和器置空档的经验而无法让车停下来</p>
+
+<p>C的运行速度更快，也能对它进行更多的掌控，然而相应得，它对程序员的技能提出了更高的要求</p>
+
+<p>比如，C++在解引用指针前不检查指针(是否为空或有效)来节省时间，这提升了你游戏的运行速度,给了你更多的掌控，同时它也使得你必须在debug模式下使用用assert</p>
+
+<h2>发送消息给空对象</h2>
+
+<p>我们来看一下ObjC和C++的一个最根本的区别之一</p>
+
+<p>用Object C,你能安全地发送信息给nil对象(付出的代价是程序的执行时间会慢一点)</p>
+
+<pre><code>// in Objective C
+Node* node = nil;
+
+// this will not crash, it will just do nothing
+[node setPosition:Point(10,10)];
+</code></pre>
+
+<p>在C++中，如果你解引用一个空指针，将会产生一个运行时错误</p>
+
+<pre><code>// in C++
+Node* node = nullptr; // nullptr introduced in C++11
+
+// this will crash
+node-&gt;setPosition(Point(10,10));
+
+// using a safeguard, this will not crash
+if(node)
+   node-&gt;setPosition(Point(10,10));
+
+// using an assertion will trigger a debuggable error
+assert(node);
+node-&gt;setPosition(Point(10,10));
+</code></pre>
+
+<p>在底层，Objc实际上实现了一个空对象，对任何发送给它的消息，它都返回0，这种实现方式让编程更安全，也更简单，不过，这么做也会导致一些bug难以察觉</p>
+
+<p>C++在解引用前不会检查一个指针是否为空,如上所示,如果node为null,C++会用null去执行setPosition函数,如果通过一个null指针去访问它的成员变量,你的程序将会崩溃</p>
+
+<p>一种解决方法是用<a href="http://www.cplusplus.com/reference/cassert/assert/">断言</a>,它仅在非发布模式下起作用,如果传给断言的表达式为假，程序终止，如果此时有个调试器，程序终止时将停在断言失败的那一行，这样，你就能看到哪一行代码出问题了</p>
+
+<pre><code>Node* node = nullptr;
+
+// this will pause execution when debugging
+assert(node);
+</code></pre>
+
+<p>由于断言通常被定义为宏,用它的一个好处是在发布模式下(或者其他任何定义了NDEBUG的模式中)，此断言宏不做任何事情,本质上,编译器不会为它产生任何二进制的代码，这样，在debug模式时，你就可以放心地用它,同时,也保证了发布模式下的程序运行速度(由于针对assert的二进制代码被忽略掉了)</p>
+
+<h2>可读性</h2>
+
+<p>我们来看看两者的另一个基本的区别,Object C生来就比C++有更好的可读性,因为方法的参数名称也集成到了方法名中</p>
+
+<pre><code>// Objective C
+[layer addChild:sprite z:1];
+
+// C++
+layer-&gt;addChild(sprite, 1);
+</code></pre>
+
+<p>你能看到两者在可读性上的差别吗?</p>
+
+<p>Objective C有更好的可读性因为addChild方法中的第二个参数清楚地显示了z参数,在C++中,没人知道1代表什么</p>
+
+<p>如今,像Xcode之类IDE提供了自动补全的功能，这也减轻了你写代码的负担，当你敲addChild时，IDE们会自动为你显示参数类型和名字,这样IDE就为你清楚地显示了相应的参数是什么(类型和名字),不过如果你好久没碰你的项目了，然后回头看addChild方法的时候，你就会感到困惑，不明白第二个参数代表什么意思</p>
+
+<p>用一些名字定义良好的变量，你可以让C++代码更具有可读性</p>
+
+<pre><code>int z = 1;
+layer-&gt;addChild(sprite, z);
+</code></pre>
+
+<h2>速度和可移植性</h2>
+
+<p>我们已经讨论了C++为何比Objective C更快,那么可移植性呢,这才是C++闪光的地方</p>
+
+<p>C++比OC更具有可移植性,它可以在多个平台上(如Windows,Mac, Linux,iOS,Android等平台上)被原生的编译集成</p>
+
+<p>说到Android,如果你升级NDK的GCC编译器，技术上是可以编译OC的,但要注意，你需要所有的Foundation 类</p>
+
+<p>还记得 NSObject, NSString, NSArray否？它们在Mac上完美的实现了，而在Windows上则没有,所有这些都必须用一种跨平台的方式重新实现</p>
+
+<p>幸运的是,有一些像<a href="http://www.cocotron.org">Cocotron</a>这样的项目致力于此,然而如果到一些android相关的具体问题上,比如输入和声音,你仍然需要一个跨平台的库, 这些库实现了相应平台的细节，所以你就不需要做了.</p>
+
+<p>这就是为什么C++和Cocos2dX 如此cool的原因,cocos2dx处理了平台相关的问题,并且用C++来实现它们</p>
+
+<p>除了速度，可移植性和可读性，我们来看看更具体的区别,比如oc的dClass和id类型</p>
+
+<h2>Class和id类型</h2>
+
+<p>OC有一个叫Class类型的实现,它允许你获得对象的类并且将你存储在一个变量中.</p>
+
+<p>C++并没有相应的Class类型的实现方式，但它有一个叫做运行时类型信息(RTTI)的东西,可以粗略地将一个指针转换为一个字符串,这个字符串包含有一个以<a href="http://www.cplusplus.com/reference/typeinfo/type_info/">typeid</a>表示的对象类,不过,由于各个平台的转换结果不同,这种解决方式似乎并不可靠</p>
+
+<p>OC的Class类型使得从字符串创建类可以变得相当优雅，考虑以下情况</p>
+
+<pre><code>// Objective C
+NSString* string = @"Hammer";
+Class class = NSClassFromString(string);
+id object = [[class alloc] init];
+
+// C++
+Tool* tool = nullptr;
+std::string string = "Hammer";
+if( string == "Hammer" )
+   tool = new Hammer;
+</code></pre>
+
+<p>以上显示了OC的类类型的优雅以及在C++中相应的可能的解决方式</p>
+
+<p>你可以看到以上代码中我们用了ObjC的id类型,它本质上是一个指向对象类型的指针,大致相当于C++中的void*,但仍有不用两者的许多理由</p>
+
+<h2>惰性</h2>
+
+<p>假设有一个叫做Parent的父类,有一个继续它的Child子类，同时有一个叫做goToSleep的方法</p>
+
+<p>在C++中,如果你在Child中重新定义了Child的接口，你就不得不在Child的接口中(头文件中)重新定义goToSleep这个方法，但在OC中，你无需这么做，只要在@implementation中实现它即可</p>
+
+<pre><code>/ Objective C
+@interface Parent : NSObject
+   -(void) goToSleep;
+@end
+
+@interface Child : Parent
+   // woo! don't have to redefine goToSleep
+@end
+
+@implementation Parent
+   -(void) goToSleep {}
+@end
+
+@implementation Child
+   -(void) goToSleep {}
+@end
+
+// C++
+class Parent
+{
+   public:
+      virtual void goToSleep();
+};
+
+class Child : public Parent
+{
+   public:
+      // goToSleep has to be redefined
+      // if it is to be overridden
+      virtual void goToSleep();
+};
+
+void Parent::goToSleep() {}
+
+void Child::goToSleep() {}
+</code></pre>
+
+<p>C++之所以迫使程序员重新定义被重写的函数的原因是因为这么做可以让编译器的工作变得更加容易，编辑器无需因为一些神秘的方法去检查类的继承关系</p>
+
+<h2>虚函数</h2>
+
+<p>在以上的例子中,我们看到了C++中virtual关键字的使用,当virtual被用在函数时，位于继承层次中最低的那个类有最高的优先级调用此函数(比如以上例子中，Child的goToSleep先被调用)</p>
+
+<p>在OC中,所以的方法本质上是虚函数,这让编程变得简单，不过相应的，这么做也导致了<a href="http://stackoverflow.com/questions/4882105/c-polymorphism-inheritance-question-redefinition-of-base-functions-vs-virtual/4882155#4882155">性能的下降</a></p>
+
+<p>另外，如前所述，C++相当于手动档汽车,你可以根据需要指定或不指定函数为virtual</p>
+
+<h2>栈</h2>
+
+<p>在OC中，你只能在堆上分配对象
+在C++中，你可以在栈上分配对象，有栈上创建对象比在堆上创建快，同时也保证了，对象超出相应的作用范围时析构函数能被调用,即便在已经抛出异常的情况下</p>
+
+<p>举个例子</p>
+
+<pre><code>// Objective C
+// 仅分配在堆上
+Tool* tool = [[Tool alloc] init];
+
+// C++
+//我们采用了快速的，可信任的栈分配
+Tool tool;
+</code></pre>
+
+<h2>运算符重载</h2>
+
+<p>在C++中，你可以重载运算符,比如，如果你写了一个Vector对象,你可以重载&#8221;+&ldquo;符号,这样Vector的对象就能进行相加的运算了</p>
+
+<pre><code>// C++
+class Vector
+{
+   const Vector operator+(const Vector&amp; v) const
+   {
+      return Vector(x + v.x, y + v.y, z + v.z);
+   }
+}
+
+// this '+' calls the overloaded operator+
+// isn't it nice?
+Vector v1,v2,v3;
+v3 = v1 + v2;
+</code></pre>
+
+<p>而在OC中，则不能重载运行符，不过你可以在方法命名上动些脑筋</p>
+
+<pre><code>// Objective C
+v3 = [v1 addVector:v2];
+</code></pre>
+
+<p>不过，这样一来，OC在处理一些事情时便显得有些哆嗦了，如下</p>
+
+<pre><code>// Objective C
+NSString* a = @"something";
+NSString* b = @"else";
+if( [a isEqualToString:b] )
+   [self doSomething];
+
+// C++
+string a = "something";
+string b = "else";
+if( a == b )
+   doSomething();
+</code></pre>
+
+<h2>私有性</h2>
+
+<p>OC在技术上是没有私有方法的，不过我们可以在.m文件中定义一个空的类别，并在此空的类别中定义此方法(来模拟私有方法),达种方法是很优雅的,因为这样一来私有方法就无需在公共接口中声明了(因此由于头文件的变化，你的代码将会重新进行索引和编译)</p>
+
+<pre><code>// 在OC的头文件中 (.h)
+@interface Something : NSObject
+   // See? No private method
+@end
+
+// 在实现文件中 (.m)
+// 用一个类别来扩展接口
+// (空类别代表私有的一些属性)
+@interface Something () // a blank category
+   -(void) privateMethod;
+@end
+</code></pre>
+
+<p>在C++中，有公有和私有的概念，不过私有的属性或方法必须在公有接口另声明</p>
+
+<p>如果你确实不想在公有接口中声明私有的方法，你可以采用在.m文件中声明静态函数的形式来避免它(这和之前提到的OC的空类别有点类似)</p>
+
+<h2>类扩展</h2>
+
+<p>如上例所示，OC可以用一个类别来扩展一个类</p>
+
+<p>类别是很优雅的，因为一个类可以在任何地方被扩展,如在.h和.m文件中，或是其他地方</p>
+
+<p>技术上C++是不能扩展一个类的，不过它有<a href="http://www.cprogramming.com/tutorial/multiple_inheritance.html">多继承</a></p>
+
+<h2>默认参数</h2>
+
+<p>C++还有一个很cool的地方:默认参数.函数中的参数可以有一个默认值,这样我们可以选择在调用函数时是否给此参数传值</p>
+
+<pre><code>// C++
+class Something
+{
+   void doSomething(int i, float f = 0.0f) {}
+};
+
+Something s;
+
+// can be called with or without the f parameter
+s.doSomething(5);
+s.doSomething(5, 1.0f);
+</code></pre>
+
+<p>OC则没有默认参数，不过它可以采用定义多个方法的形式来实现</p>
+
+<pre><code>// Objective C
+@interface Something : NSObject
+   -(void) doSomething:(int)i;
+   -(void) doSomething:(int)i withF:(float)f;
+@end
+
+@implementation Something
+   -(void) doSomething:(int)i
+   {
+      [self doSomething:i withF:0.0f];
+   }
+
+   -(void) doSomething:(int)i withF:(float)f
+   {
+      // do something with i and f...
+   }
+@end
+
+Something* s = [[Something alloc] init];
+
+// either method can be called, however
+// two separate methods have been implemented
+[s doSomething:5];
+[s doSomething:5 withF:1.0f];
+</code></pre>
+
+<h2>结论:混合使用C++和OC</h2>
+
+<p>以上就是C++和OC的主要区别
+需要记住两者总是可以共存的，实际上你可以采用<a href="http://en.wikipedia.org/wiki/Objective-C#Objective-C.2B.2B">Objecttive C++</a>的使用来让两者共存</p>
+
+<p>你可以将.m文件改为.mm文件，这样编辑器就知道是用Object C++了，从而可以使用Object C,C++或者两者混用</p>
+
+<pre><code>// In the file AppDelegate.mm
+@implementation AppDelegate
+   -(void) applicationDidFinishLaunching:(NSNotification*)aNotification
+   {
+      // Do some Objective C stuff
+      window = [[Window alloc] initWithContentRect:...];
+
+      // Now switch to C++ and launch Cocos2dx
+      Application::getInstance()-&gt;run();
+   }
+@end
+</code></pre>
+
+<p>如以上例子所见,Objective C++是很常见的,它对于在同一个方法中响应iOS和Mac的通知并启动Cocos2d-x是必须的</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-25T21:35:14+08:00" data-updated="true" itemprop="datePublished">Nov 25<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/bo-ke/'>博客</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/25/bu-shu-octopresscheng-gong/" itemprop="url">部署octopress成功</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>今天经过一番探索,按船哥的<a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">博文指引</a>，查阅了一些资料后，终于成功的部署了octopress博客系统，成功地写出了博客，用得主题是很流行的<a href="https://github.com/shashankmehta/greyshade">greyshade</a>主题,整理一下需要注意的几个问题</p>
+
+<ol>
+<li>侧栏social links支持众多社交网站,但不支持微博,可以点<a href="http://www.imallen.com/blog/2013/05/12/add-support-for-weibo-and-dribbble-to-greyshade.html">这里</a>查看解决方法</li>
+<li><p>写博客时用到的命令rake new_post[&ldquo;title&rdquo;]，在zsh下无效，会出现<code>zsh: no matches found</code>的错误，原因：zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, or ‘?’符号，则将其识别为查找文件名的通配符</p>
+
+<ul>
+<li><p>快速解决：用引号括起来$ rake &ldquo;new_post[arch-linux-reinstall-glibc.markdown]&rdquo;</p></li>
+<li><p>彻底解决：取消zsh的通配(GLOB), 在.zshrc中加入alias rake=&ldquo;noglob rake&#8221;点</p>
+
+<p>  参考<a href="http://fancyoung.com/blog/use-octopress-new-post-function-with-zsh/">这里</a></p></li>
+</ul>
+</li>
+<li>安装多说评论系统,请点击<a href="http://beyondvincent.com/blog/2013/07/27/107-hello-page-of-github/">这里</a>，需要注意的是,在文章的C步中,船哥有个地方笔误了,请将<code>post/duoshuo1.html</code>改为<code>post/duoshuo.html</code></li>
+</ol>
+
+
+<p>参考</p>
+
+<ol>
+<li><a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">利用Octopress搭建一个Github博客</a></li>
+<li><a href="http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/">Clone Your Octopress to Blog From Two Places</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+        <a href="/blog/page/3/" class="prev">Prev</a>
+    
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+	
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

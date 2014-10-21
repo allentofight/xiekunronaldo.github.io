@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T17:21:35+08:00</updated>
+  <updated>2014-10-21T18:44:02+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -1504,32 +1504,26 @@ typeof x === 'undefined'
 <h4>Manually Converting to Boolean</h4>
 
 <p>Manually Converting to Boolean</p></li>
-<li>Boolean(value) (Invoked as a function, not as a constructor)value ? true : false* !!value * A single “not” converts to negated boolean; use twice for the nonnegated conversion.
-I prefer Boolean(), because it is more descriptive.
+<li><p>Boolean(value) (Invoked as a function, not as a constructor)value ? true : false* !!value * A single “not” converts to negated boolean; use twice for the nonnegated conversion.
+I prefer Boolean(), because it is more descriptive.</p>
 
 <h5>Pattern: providing a default value</h5>
 
-<p>Sometimes there are situations where a value (a parameter, the result of a function, etc.) can be either a nonvalue (undefined, null) or an actual value. If you want to provide a default value for the former case, you can use the Or operator:</p></li>
-</ol>
+<p>Sometimes there are situations where a value (a parameter, the result of a function, etc.) can be either a nonvalue (undefined, null) or an actual value. If you want to provide a default value for the former case, you can use the Or operator:</p>
 
-
-<p><code>   theValue || defaultValue
-</code>
-The preceding expression evaluates to theValue if it is truthy and to defaultValue otherwise. The usual caveat applies: defaultValue will also be returned if theValue has a falsy value other than undefined and null. Let’s look at three examples of using that pattern.</p>
-
-<ul>
-<li>Example 1: a default for a parameter
+<p>  theValue || defaultValue
+The preceding expression evaluates to theValue if it is truthy and to defaultValue otherwise. The usual caveat applies: defaultValue will also be returned if theValue has a falsy value other than undefined and null. Let’s look at three examples of using that pattern.</p></li>
+<li><p>Example 1: a default for a parameter
 The parameter text of the function saveText() is optional and should be the empty string if it has been omitted:<code>
 function saveText(text) {
   text = text || ''; ...}</code>
-This is the most common use of || as a default operator. Consult “Optional Parame‐ ters” on page 173 for more on optional parameters.</li>
+This is the most common use of || as a default operator. Consult “Optional Parame‐ ters” on page 173 for more on optional parameters.</p></li>
 <li>Example 2: a default for a property
-The object options may or may not have the property title. If it is missing, the value &lsquo;Untitled&rsquo; should be used when setting the title:</li>
-</ul>
+The object options may or may not have the property title. If it is missing, the value &lsquo;Untitled&rsquo; should be used when setting the title:
+  setTitle(options.title || &lsquo;Untitled&rsquo;);</li>
+<li>Example 3: a default for the result of a function</li>
+</ol>
 
-
-<p><code>   setTitle(options.title || 'Untitled');</code>
-* Example 3: a default for the result of a function</p>
 
 <p>The function countOccurrences counts how often regex matches inside str:</p>
 
@@ -1541,16 +1535,18 @@ function countOccurrences(regex, str) { // Omitted: check that /g is set for `re
 
 <p>JavaScript has a single type for all numbers: it treats all of them as floating-point num‐ bers. However, the dot is not displayed if there are no digits after the decimal point:</p>
 
-<p>```> 5.0005</p>
+<p>```javascript</p>
 
-<blockquote><p>Number(&lsquo;\t\v\r12.34\n &rsquo;)  // ignores leading and trailing whitespace12.34```</p>
+<pre><code>&gt; 5.000 5
+    &gt; Number('\t\v\r12.34\n ')  // ignores leading and trailing whitespace  12.34```
+</code></pre>
 
 <h5>parseFloat()</h5>
 
 <ul>
 <li>Applying parseFloat() to a nonstring is less efficient, because it coerces its argu‐ ment to a string before parsing it. As a consequence, many values that Number() converts to actual numbers are converted to NaN by parseFloat():</li>
 </ul>
-</blockquote>
+
 
 <p>```</p>
 

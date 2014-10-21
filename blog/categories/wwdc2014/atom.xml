@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Wwdc2014 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/wwdc2014/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T17:21:35+08:00</updated>
+  <updated>2014-10-21T18:44:02+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -20,7 +20,7 @@
     <id>http://xiekunRonaldo.github.io/blog/2014/08/03/whats-new-in-xcode6</id>
     <content type="html"><![CDATA[<p>Storyboard中能实时看到Custom Fonts</p>
 
-<p>{% img /images/2014/8/customfont.png%}</p>
+<p><img src="/images/2014/8/customfont.png"></p>
 
 <p>swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import modules,
 创建.swift文件时，默认创建了.h头文件，所以如果在.m文件中引用swift文件中的类，可以用import .swift对应的头文件来引用

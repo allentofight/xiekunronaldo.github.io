@@ -1,0 +1,439 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Head First Html5 - AllenToFight Blog</title>
+	<meta name="author" content="AllenToFight">
+
+	
+	<meta name="description" content="Head First Html5 JS 对象的操作 如何创建一个对象 1
+2
+3
+4
+5
+6
+var fido = { name: "Fido", weight: 40, breed: "Mixed", loves = ["walks", "fetching balls"]
+} 获取对象的属性 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="AllenToFight Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/2014/09/22/head-first-html5/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
+	
+</div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Head First Html5</h1>
+	<div class="entry-content" itemprop="articleBody"><h4>JS</h4>
+
+<p>对象的操作</p>
+
+<ul>
+<li>如何创建一个对象</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var fido = {
+</span><span class='line'>  name: "Fido",
+</span><span class='line'>  weight: 40,
+</span><span class='line'>  breed: "Mixed",
+</span><span class='line'>  loves = ["walks", "fetching balls"]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>获取对象的属性</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fido.weight 或者 fido["weight"]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>改变一个属性的值</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fido.weight = 27;
+</span><span class='line'>fido.loves.push("chewing bones");</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>遍历一个对象的属性</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var prop;
+</span><span class='line'>for (prop in fido) {
+</span><span class='line'>  alert("Fido has a "+prop+" property ");
+</span><span class='line'>  if (prop == "name") {
+</span><span class='line'>      alert("This is "+ fido[prop]);
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要注意的是遍历时对象属性的顺序是任意的</p>
+
+<ul>
+<li>遍历对象的数组</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var likes = fido.loves;
+</span><span class='line'>var likesString = "Fido likes";
+</span><span class='line'>
+</span><span class='line'>for (var i = 0; i &lt; likes.length; i++) {
+</span><span class='line'>  likesString += " "+ likes[i];
+</span><span class='line'>}
+</span><span class='line'>alert(likesString);</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>可以任意添加或删除属性
+添加属性</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fido.age = 5;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>删除属性</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>delete fido.age;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>对象也能有方法(函数)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var fido = {
+</span><span class='line'>  name: "Fido",
+</span><span class='line'>  weight: 40,
+</span><span class='line'>  breed: "Mixed",
+</span><span class='line'>  loves = ["walks", "fetching balls"]
+</span><span class='line'>  bar: func() {
+</span><span class='line'>      alert("Woof woof!");
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以像以下这样调用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fido.bark();</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>注意</code>如果在函数中引用了对象的属性，属性前必需加this</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var movie1 = {   title: "Plan 9 from Outer Space",   genre: "Cult Classic",  rating: 5,  showtimes: ["3:00pm", "7:00pm", "11:00pm"], getNextShowing: function() {        var now = new Date().getTime();     for (var i = 0; i &lt; this.showtimes.length; i++) {            var showtime = getTimeFromString(this.showtimes[i]); 
+</span><span class='line'>                      if ((showtime - now) &gt; 0) {              return "Next showing of " + this.title + " is " + this.showtimes[i];            } 
+</span><span class='line'>      }       return null;    }};</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>构造器</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function Dog(name, breed, weight) { 
+</span><span class='line'>  this.name = name;   this.breed = breed;     this.weight = weight;   this.bark = function() {        if (this.weight &gt; 25) {          alert(this.name + " says Woof!");       } else {            alert(this.name + " says Yip!");        } 
+</span><span class='line'>  };}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用构造器创建对象</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var fido = new Dog("Fido", "Mixed", 38);</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>element object
+标签p对应的对象的属性和方法</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>innerHTML
+</span><span class='line'>childElementCount
+</span><span class='line'>firstChild
+</span><span class='line'>
+</span><span class='line'>appendChild
+</span><span class='line'>insertBefore
+</span><span class='line'>setAttribute
+</span><span class='line'>getAttribute
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Geolocation</h3>
+
+<p>To test your geolocation code on a mobile device, you’re going to want a server.
+Unless you have a means of loading yourHTML, JavaScript and CSS files directly onto your mobile device, the easiest way to test them is to place them on a server,  and access them there.we encourage you to follow along with the code on your desktop, and once you have it working there, then test on your mobile device using the server</p>
+
+<ul>
+<li>Some devices may support the other coordinates properties: altitude, altitudeAccuracy, heading, and speed.</li>
+</ul>
+
+
+<h3>CSS</h3>
+
+<ol>
+<li><p>display: inline 和 display: inline-block的<a href="http://stackoverflow.com/questions/8969381/what-is-the-difference-between-display-inline-and-display-inline-block">区别</a></p></li>
+<li><p>CSS Links</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* unvisited link */
+</span><span class='line'>a:link {
+</span><span class='line'>    color: #FF0000;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/* visited link */
+</span><span class='line'>a:visited {
+</span><span class='line'>    color: #00FF00;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/* mouse over link */
+</span><span class='line'>a:hover {
+</span><span class='line'>    color: #FF00FF;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/* selected link */
+</span><span class='line'>a:active {
+</span><span class='line'>    color: #0000FF;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是需要注意</p>
+
+<ul>
+<li>a:hover MUST come after a:link and a:visited</li>
+<li><p>a:active MUST come after a:hover</p></li>
+<li><p><a href="http://960development.com/understand-css-margins-collapsing/">margin Collapse</a></p></li>
+</ul>
+
+
+<h3>HTML</h3>
+
+<p>block element: <code>&lt;h1&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;table&gt;</code>前后会留间隙</p>
+
+<p><code>div</code>block container</p>
+
+<p>inline element: <code>&lt;b&gt;, &lt;td&gt;, &lt;a&gt;, &lt;img&gt;</code></p>
+
+<h3>工具</h3>
+
+<ul>
+<li><p>Modernizr</p>
+
+<p>  detect support</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (Modernizr.geolocation) { 
+</span><span class='line'>  console.log("You have geo!");   }   if (Modernizr.localstorage) {       console.log("You have web storage!"); } if (Modernizr.video) {      console.log("You have video!"); }</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+	
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>
