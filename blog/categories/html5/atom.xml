@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Html5 | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/html5/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T21:25:42+08:00</updated>
+  <updated>2014-12-07T21:27:10+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SafariWebContent 笔记]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/10/25/safariwebcontent-bi-ji/"/>
+    <updated>2014-10-25T17:20:09+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/10/25/safariwebcontent-bi-ji</id>
+    <content type="html"><![CDATA[<p>我们将学习到以下内容</p>
+
+<ul>
+<li>确保软件与Safari兼容</li>
+<li>提升Safari的用户体验，尤其是在移动设备上</li>
+<li>将涉及到audio和video时，有效地利用动态改变的网络带宽</li>
+</ul>
+
+
+<h4>Making it Work</h4>
+
+<p>Safari 支持的的音频格式AAC, MP3, AIFF,和WAVE,支持用H.264压缩编码的视频(通常是MP4).移动设备对mp4的支持没有PC端来得给力</p>
+
+<p>PC的Safari支持插件.iOS的不支持,为让你的手机能正常访问网页,最好不要信赖插件来展示内容</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Head First Html5]]></title>

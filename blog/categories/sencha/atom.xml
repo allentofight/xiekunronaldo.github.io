@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sencha | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/sencha/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T21:25:42+08:00</updated>
+  <updated>2014-12-07T21:27:10+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -43,7 +43,20 @@
 }
 </code></pre>
 
-<p>```</p>
+<p><code>``
+3.创建实例的方式有两种</code>Ext.create()`和new,不过建议用Ext.create，这样可以用到动态加载的好处</p>
+
+<p>4.NestedList的方法中判断是哪一个record(用tpl)</p>
+
+<p>```javascript</p>
+
+<p>getItemTextTpl: function(record) {</p>
+
+<pre><code>return '&lt;tpl if="text==\'Fruit\'"&gt;{text}&lt;/tpl&gt;{' + this.getDisplayField() + '}';
+</code></pre>
+
+<p>}
+```</p>
 ]]></content>
   </entry>
   

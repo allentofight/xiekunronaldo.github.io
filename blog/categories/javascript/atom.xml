@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T21:25:42+08:00</updated>
+  <updated>2014-12-07T21:27:10+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -39,7 +39,7 @@ A major difference between the two is how they are compared; each object has a u
 <li>Booleans: true, false * Numbers: 1736, 1.351 * Strings: &lsquo;abc&rsquo;, &ldquo;abc&rdquo; * Two “nonvalues”: undefined, null
 Primitives have the following characteristics:</li>
 <li><p>Compared by value
-```</p>
+```javascript</p>
 
 <blockquote><p>3 === 3true> &lsquo;abc&rsquo; === &lsquo;abc'true```</p></blockquote></li>
 <li><p>Always immutable</p>
@@ -48,7 +48,7 @@ Primitives have the following characteristics:</li>
 </ul>
 
 
-<p>```</p>
+<p>```javascript</p>
 
 <pre><code> &gt; var str = 'abc';     &gt; str.length = 1; // try to change property `length`     &gt; str.length // ⇒ no effect 3     &gt; str.foo = 3; // try to create property `foo`  &gt;str.foo // ⇒ no effect, unknown property undefined
 </code></pre>
@@ -64,17 +64,17 @@ Primitives have the following characteristics:</li>
 </ul>
 
 
-<p><code>
+<p><code>javascript
  {            firstName: 'Jane',            lastName: 'Doe'}
 </code>
 * Arrays</p>
 
-<p><code>
+<p><code>javascript
 [ 'apple', 'banana', 'cherry' ]
 </code>
 * Regular expressions</p>
 
-<p><code>
+<p><code>javascript
 /^a+b+$/
 </code>
 Objects have the following characteristics:</p>
@@ -85,7 +85,7 @@ Identities are compared; every value has its own identity:</li>
 </ul>
 
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>{} === {}  // two different empty objectsfalse
 var obj1 = {};
@@ -96,7 +96,7 @@ true
 * Mutable by default
 You can normally freely change, add, and remove properties</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var obj = {};> obj.foo = 123; // add property <code>foo</code> > obj.foo123
 ```</p>
@@ -110,7 +110,7 @@ You can normally freely change, add, and remove properties</p></blockquote>
 </ul>
 
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var foo;
 foo
@@ -118,14 +118,14 @@ undefined
 ```
 Missing parameters are undefined:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>function f(x) { return x }
 f()undefined
 ```
 If you read a nonexistent property, you get undefined:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var obj = {}; // empty object
 obj.fooundefined
@@ -138,7 +138,7 @@ obj.fooundefined
 
 <h4>Checking for undefined or null</h4>
 
-<p>```
+<p>```javascript
 if (x === undefined || x === null) {</p>
 
 <pre><code>...}
@@ -147,7 +147,7 @@ if (x === undefined || x === null) {</p>
 <p>```
 You can also exploit the fact that both undefined and null are considered false:</p>
 
-<p>```
+<p>```javascript
 if (!x) {</p>
 
 <pre><code>...}
@@ -164,7 +164,7 @@ if (!x) {</p>
 
 <p>typeof looks like this:</p>
 
-<p>```
+<p>```javascript
 typeof value</p>
 
 <blockquote><p>typeof true'boolean'> typeof &lsquo;abc&rsquo;&lsquo;string&rsquo;> typeof {} // empty object literal'object'> typeof [] // empty array literal'object'
@@ -220,12 +220,12 @@ typeof null returning &lsquo;object&rsquo; is a bug that can’t be fixed, becau
 
 <p>instanceof looks like this:</p>
 
-<p><code>
+<p><code>javascript
 value instanceof Constr
 </code>
 It returns true if value is an object that has been created by the constructor Constr</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var b = new Bar(); // object created by constructor Bar > b instanceof Bartrue> {} instanceof Objecttrue> [] instanceof Arraytrue> [] instanceof Object  // Array is a subconstructor of Objecttrue> undefined instanceof Objectfalse> null instanceof Objectfalse
 ```</p>
@@ -243,7 +243,7 @@ Boolean(), called as a function, converts its parameter to a boolean. You can us
 </ul>
 
 
-<p><code>
+<p><code>javascript
 Boolean(undefined)false&gt; Boolean(0)false&gt; Boolean(3)true&gt; Boolean({}) // empty objecttrue&gt; Boolean([]) // empty arraytrue
 </code></p>
 
@@ -251,23 +251,24 @@ Boolean(undefined)false&gt; Boolean(0)false&gt; Boolean(3)true&gt; Boolean({}) /
 
 <p>All numbers in JavaScript are floating-point:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>1 === 1.0true
 ```
 Special numbers include the following:</p></blockquote>
 
 <ul>
-<li>NaN (“not a number”)
-<code>
-An error value:        &gt; Number('xyz')  // 'xyz' can’t be converted to a number      NaN
-</code></li>
-<li>Infinity
-Also mostly an error value:</li>
+<li>NaN (“not a number”)</li>
 </ul>
 
 
-<p>```</p>
+<p><code>javascript
+ An error value:        &gt; Number('xyz')  // 'xyz' can’t be converted to a number      NaN
+</code>
+* Infinity
+Also mostly an error value:</p>
+
+<p>```javascript</p>
 
 <blockquote><p>3/ 0Infinity> Math.pow(2, 1024)  // number too largeInfinity
 ```</p>
@@ -276,7 +277,7 @@ Also mostly an error value:</li>
 
 <p>Single characters are accessed via square brackets:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var str = &lsquo;abc&rsquo;;
 str[1]&lsquo;b&rsquo;
@@ -284,7 +285,7 @@ str[1]&lsquo;b&rsquo;
 
 <h5>String Methods</h5></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>&lsquo;abc&rsquo;.slice(1)  // copy a substring'bc'> &lsquo;abc&rsquo;.slice(1, 2)&lsquo;b&rsquo;
 ```</p>
@@ -293,7 +294,7 @@ str[1]&lsquo;b&rsquo;
 
 <p>Function declarations are hoisted—moved in their entirety to the beginning of the cur‐ rent scope. That allows you to refer to functions that are declared later:</p></blockquote>
 
-<p>```
+<p>```javascript
 function foo() {    bar(); // OK, bar is hoisted</p>
 
 <pre><code>function bar() {        ...     }}
@@ -302,7 +303,7 @@ function foo() {    bar(); // OK, bar is hoisted</p>
 <p>```
 Note that while var declarations are also hoisted (see “Variables Are Hoisted” on page 23), assignments performed by them are not:</p>
 
-<p><code>
+<p><code>javascript
 function foo() {    bar(); // Not OK, bar is still undefined    var bar = function () { // ...  }; }
 </code></p>
 
@@ -310,7 +311,7 @@ function foo() {    bar(); // Not OK, bar is still undefined    var bar = functi
 
 <p>Let’s use the following function to explore how too many or too few parameters are handled in JavaScript</p>
 
-<p>```
+<p>```javascript
 function f(x, y) {</p>
 
 <pre><code>console.log(x, y);  return toArray(arguments);}
@@ -319,13 +320,13 @@ function f(x, y) {</p>
 <p>```
 Additional parameters will be ignored (except by arguments):</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>f(&lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;)ab[ &lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo; ]
 ```
 Missing parameters will get the value undefined:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>f(&lsquo;a&rsquo;)a undefined[ &lsquo;a&rsquo; ]> f()undefined undefined []
 ```</p>
@@ -334,7 +335,7 @@ Missing parameters will get the value undefined:</p></blockquote>
 
 <p>The following is a common pattern for assigning default values to parameters:</p></blockquote>
 
-<p><code>
+<p><code>javascript
 function pair(x, y) {   x = x || 0; // (1)  y = y || 0; return [ x, y ];}
 </code></p>
 
@@ -342,7 +343,7 @@ function pair(x, y) {   x = x || 0; // (1)  y = y || 0; return [ x, y ];}
 
 <p>If you want to enforce an arity (a specific number of parameters), you can check arguments.length:</p>
 
-<p><code>
+<p><code>javascript
 function pair(x, y) {if (arguments.length !== 2) {  throw new Error('Need exactly 2 arguments'); }  ... }
 </code></p>
 
@@ -350,7 +351,7 @@ function pair(x, y) {if (arguments.length !== 2) {  throw new Error('Need exactl
 
 <p>arguments is not an array, it is only array-like (see “Array-Like Objects and Generic Methods” on page 262). It has a property length, and you can access its elements via indices in square brackets. You cannot, however, remove elements or invoke any of the array methods on it. Thus, you sometimes need to convert arguments to an array</p>
 
-<p>```
+<p>```javascript
 function toArray(arrayLikeObject) { return Array.prototype.slice.call(arrayLikeObject);}
 ````</p>
 
@@ -358,7 +359,7 @@ function toArray(arrayLikeObject) { return Array.prototype.slice.call(arrayLikeO
 
 <p>The most common way to handle exceptions (see Chapter 14) is as follows:</p>
 
-<p>```
+<p>```javascript
 function getPerson(id) {</p>
 
 <pre><code>if (id &lt; 0) {
@@ -383,15 +384,16 @@ function getPersons(ids) {
 
 <p><code>
 The try clause surrounds critical code, and the catch clause is executed if an exception is thrown inside the try clause. Using the preceding code:
-</code></p>
+</code>javascript</p>
 
 <blockquote><p>getPersons([2, -5, 137])    [Error: ID must not be negative: -5]    [ { id: 2 }, { id: 137 } ]```</p>
 
 <h4>Strict Mode</h4>
 
-<p>Strict mode (see <code>Strict Mode</code> on page 62) enables more warnings and makes JavaScript a cleaner language (nonstrict mode is sometimes called <code>sloppy mode</code>). To switch it on, type the following line first in a JavaScript file or a <code>&lt;script&gt;</code> tag:<code>
+<p>Strict mode (see <code>Strict Mode</code> on page 62) enables more warnings and makes JavaScript a cleaner language (nonstrict mode is sometimes called <code>sloppy mode</code>). To switch it on, type the following line first in a JavaScript file or a <code>&lt;script&gt;</code> tag:
+<code>javascript
 'use strict';</code>You can also enable strict mode per function:
-```
+```javascript
 function functionInStrictMode() {</p>
 
 <pre><code>'use strict';}```
@@ -400,7 +402,7 @@ function functionInStrictMode() {</p>
 <h4>Variables Are Function-Scoped</h4>
 
 <p>The scope of a variable is always the complete function (as opposed to the current block). For example:
-```
+```javascript
 function foo() {</p>
 
 <pre><code>var x = -512;
@@ -416,7 +418,7 @@ We can see that the variable tmp is not restricted to the block starting in line
 <h4>Variables Are Hoisted</h4>
 
 <p>Each variable declaration is <code>hoisted</code>: the declaration is moved to the <code>beginning</code> of the function, but assignments that it makes stay put. As an example, consider the variable declaration in line (1) in the following function:
-```
+```javascript
 function foo() {</p>
 
 <pre><code>console.log(tmp); // undefined 
@@ -427,7 +429,7 @@ if (false) {
 
 <p>}<code>
 Internally, the preceding function is executed like this:
-</code>
+</code>javascript
 function foo() {</p>
 
 <pre><code>var tmp; // hoisted declaration 
@@ -443,7 +445,7 @@ if (false) {
 
 <p>Each function stays connected to the variables of the functions that surround it, even after it leaves the scope in which it was created. For example:</p></blockquote>
 
-<p>```
+<p>```javascript
 function createIncrementor(start) {</p>
 
 <pre><code>return function() { // (1)
@@ -463,7 +465,7 @@ A closure is a function plus the connection to the variables of its surrounding 
 
 <p>Sometimes you want to introduce a new variable scope—for example, to prevent a vari‐able from becoming global. In JavaScript, you can’t use a block to do so; you must use a function. But there is a pattern for using a function in a block-like manner. It is called IIFE (immediately invoked function expression, pronounced “iffy”):</p>
 
-<p><code>
+<p><code>javascript
 (function () { // open IIFEvar tmp = ...; // not a global variable}()); // close IIFE
 </code>
 An IIFE is a function expression that is called <code>immediately</code> after you define it. Inside the function, a new scope exists, preventing tmp from becoming global</p>
@@ -472,7 +474,7 @@ An IIFE is a function expression that is called <code>immediately</code> after y
 
 <p>Closures keep their connections to outer variables, which is sometimes not what you want:</p>
 
-<p>```
+<p>```javascript
 var result = [];
 for (var i = 0; i &lt; 5; i++) {</p>
 
@@ -487,7 +489,7 @@ console.log(result<a href="">3</a>); // 5 (not 3)
 ```
 The value returned in line (1) is always the current value of i, not the value it had when the function was created. After the loop is finished, i has the value 5, which is why all functions in the array return that value. If you want the function in line (1) to receive a snapshot of the current value of i, you can use an IIFE:</p>
 
-<p>```
+<p>```javascript
 for (var i = 0; i &lt; 5; i++) {</p>
 
 <pre><code>(function() {
@@ -508,8 +510,9 @@ for (var i = 0; i &lt; 5; i++) {</p>
 </ul>
 
 
-<p>In JavaScript, you can directly create plain objects, via object literals:
-```
+<p>In JavaScript, you can directly create plain objects, via object literals:</p>
+
+<p>```javascript
 &lsquo;use strict&rsquo;;
 var jane = {</p>
 
@@ -523,19 +526,19 @@ describe: function() {
 ```
 The in operator checks whether a property exists:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>&lsquo;newProperty&rsquo; in janetrue> &lsquo;foo&rsquo; in janefalse
 ```
 If you read a property that does not exist, you get the value undefined. Hence, the previous two checks could also be performed like this:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>jane.newProperty !== undefinedtrue> jane.foo !== undefinedfalse
 ```
 The delete operator removes a property:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>delete jane.newPropertytrue
 ```</p>
@@ -544,14 +547,14 @@ The delete operator removes a property:</p></blockquote>
 
 <p>A property key can be any string. So far, we have seen property keys in object literals and after the dot operator. However, you can use them that way <code>only if</code> they are <code>identifiers</code> (see “Identifiers and Variable Names” on page 6). If you want to use other strings as keys, you have to quote them in an object literal and use square brackets to get and set the property:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var obj = { &lsquo;not an identifier&rsquo;: 123 };
 obj[&lsquo;not an identifier&rsquo;]123> obj[&lsquo;not an identifier&rsquo;] = 456;
 ```
 Square brackets also allow you to compute the key of a property:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var obj = { hello: &lsquo;world&rsquo; };> var x = &lsquo;hello&rsquo;;> obj[x]&lsquo;world&rsquo;> obj[&lsquo;hel&rsquo;+&lsquo;lo&rsquo;]&lsquo;world&rsquo;
 ```</p>
@@ -561,7 +564,7 @@ Square brackets also allow you to compute the key of a property:</p></blockquote
 <p>If you extract a method, it loses its connection with the object. On its own, the function is not a method anymore, and this has the value undefined (in strict mode).
 As an example, let’s go back to the earlier object jane:</p></blockquote>
 
-<p>```
+<p>```javascript
 &lsquo;use strict&rsquo;;
 var jane = {</p>
 
@@ -575,13 +578,13 @@ describe: function() {
 ```
 We want to extract the method describe from jane, put it into a variable func, and call it. However, that doesn’t work:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var func = jane.describe;> func()TypeError: Cannot read property &lsquo;name&rsquo; of undefined
 ```
 The solution is to use the method bind() that all functions have. It creates a new function whose this always has the given value:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var func2 = jane.describe.bind(jane);
 func2()&lsquo;Person named Jane&rsquo;
@@ -591,7 +594,7 @@ func2()&lsquo;Person named Jane&rsquo;
 
 <p>Every function has its own special variable this. This is inconvenient if you nest a function inside a method, because you can’t access the method’s this from the function. The following is an example where we call forEach with a function to iterate over an array:</p></blockquote>
 
-<p>```
+<p>```javascript
 var jane = {</p>
 
 <pre><code>name: 'Jane',
@@ -609,7 +612,7 @@ logHiToFriends: function() {
 ```
 Calling logHiToFriends produces an error:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>jane.logHiToFriends()TypeError: Cannot read property &lsquo;name&rsquo; of undefined
 ```
@@ -620,7 +623,7 @@ Let’s look at two ways of fixing this.</p></blockquote>
 </ul>
 
 
-<p>```
+<p>```javascript
 logHiToFriends: function() {</p>
 
 <pre><code>'use strict';
@@ -631,9 +634,9 @@ this.friends.forEach(function(friend) {
 </code></pre>
 
 <p>}
-<code>
+<code>javascript
 * forEach has a second parameter that allows you to provide a value for this:
-</code>
+</code>javascript
 logHiToFriends: function() {</p>
 
 <pre><code>'use strict';
@@ -652,7 +655,7 @@ this.friends.forEach(function(friend, this) {
 
 <p>Constructors are thus a rough analog to classes in other languages. By convention, the names of constructors start with <code>capital letters</code>. For example:</p>
 
-<p>```
+<p>```javascript
 // Set up instance data
 function Point(x, y) {</p>
 
@@ -669,7 +672,7 @@ Point.prototype.dist = function() {</p>
 
 <p>};
 ```
-We can see that a constructor has two parts. First, the function Point sets up the instance data. Second, the property Point.prototype contains an object with the methods. The former data is specific to each instance, while the latter data is shared among all instances.````</p>
+We can see that a constructor has two parts. First, the function Point sets up the instance data. Second, the property Point.prototype contains an object with the methods. The former data is specific to each instance, while the latter data is shared among all instances.````javascript</p>
 
 <blockquote><p>var p = new Point(3, 5);
 p.x3> p.dist()
@@ -679,7 +682,7 @@ p.x3> p.dist()
 
 <p>The length property indicates how many elements an array has. You can use it to append elements and to remove elements:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var arr = [&lsquo;a&rsquo;, &lsquo;b&rsquo;];
 arr.length
@@ -695,14 +698,14 @@ arr
 <code>``
 The</code>in` operator works for arrays, too:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var arr = [ &lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo; ];> 1 in arr // is there an element at index 1?
 true> 5 in arr // is there an element at index 5? false
 ```
 Note that arrays are objects and can thus have object properties:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var arr = [];
 arr.foo = 123;
@@ -711,7 +714,7 @@ arr.foo123
 
 <h5>Array Methods</h5></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var arr = [ &lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo; ];
 arr.push(&lsquo;x&rsquo;)  // append an element
@@ -721,26 +724,26 @@ arr.shift()  // remove first element'a'> arr[ &lsquo;b&rsquo;, &lsquo;c&rsquo; ]
 
 <h5>Iterating over Arrays</h5></blockquote>
 
-<p><code>
+<p><code>javascript
 [ 'a', 'b', 'c' ].forEach(function (elem, index) { // (1)            console.log(index + '. ' + elem);        });
 </code>
 map creates a new array by applying a function to each element of an existing array:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>[1,2,3].map(function (x) { return x*x })[ 1, 4, 9 ]
 ```</p>
 
 <h4>Regular Expressions</h4></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>/^a+b+$/.test(&lsquo;aaab&rsquo;)true> /^a+b+$/.test(&lsquo;aaa&rsquo;)false
 ```</p>
 
 <h5>Method exec(): Match and Capture Groups</h5></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>/a(b+)a/.exec(&lsquo;<em>abbba_aba</em>&rsquo;)
 [ &lsquo;abbba&rsquo;, &lsquo;bbb&rsquo; ]
@@ -749,7 +752,7 @@ The returned array contains the complete match at index 0, the capture of the fi
 
 <h5>Method replace(): Search and Replace</h5>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>&lsquo;<a> <bbb>&rsquo;.replace(/&lt;(.*?)>/g, &lsquo;[$1]&rsquo;)&lsquo;[a] [bbb]&rsquo;
 ```</p>
@@ -758,7 +761,7 @@ The returned array contains the complete match at index 0, the capture of the fi
 
 <p>eval parses its argument in statement context. You have to put parentheses around an object literal if you want eval to return an object:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>eval(&lsquo;{ foo: 123 }&rsquo;)123> eval(&lsquo;({ foo: 123 })&rsquo;){ foo: 123 }
 ```</p>
@@ -768,13 +771,13 @@ The returned array contains the complete match at index 0, the capture of the fi
 <p>The following code is an <code>immediately invoked function expression</code> (IIFE), a function whose body is executed right away
 If you omit the parentheses, you get a syntax error, because JavaScript sees a function declaration, which can’t be anonymous:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>function () { return &lsquo;abc&rsquo; }()SyntaxError: function statement requires a name
 ```
 If you add a name, you also get a syntax error, because function declarations can’t be immediately invoked:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>function foo() { return &lsquo;abc&rsquo; }()SyntaxError: Unexpected token )
 ```</p>
@@ -783,7 +786,7 @@ If you add a name, you also get a syntax error, because function declarations ca
 
 <p>With method invocations, it is important to distinguish between the floating-point dot and the method invocation dot. Thus, you cannot write 1.toString(); you must use one of the following alternatives:</p></blockquote>
 
-<p><code>
+<p><code>javascript
 1..toString()1 .toString() // space before dot
 (1).toString()1.0.toString()
 </code></p>
@@ -796,28 +799,34 @@ If you add a name, you also get a syntax error, because function declarations ca
 
 <p>  Functions must be declared at the top level of a scope</p>
 
-<p>  In strict mode, all functions must be declared at the top level of a scope (global scope or directly inside a function</p>
-
-<p>  <code>
-  function strictFunc() {
-  'use strict'; {
-      // SyntaxError:
-      function nested() {}
-  }
-}
- </code>
-If you want to work around this limitation, you can create a function inside a block via a variable declaration and a function expression:
-<code>
-function strictFunc() {
-  'use strict';
-  {
-      // OK:
-      var nested = function() {};
-  }
-}</code></p></li>
-<li>The arguments objects has fewer properties</li>
+<p>  In strict mode, all functions must be declared at the top level of a scope (global scope or directly inside a function</p></li>
 </ul>
 
+
+<p>```javascript</p>
+
+<pre><code>function strictFunc() {
+'use strict'; {
+    // SyntaxError:
+    function nested() {}
+}
+</code></pre>
+
+<p>}
+<code>
+If you want to work around this limitation, you can create a function inside a block via a variable declaration and a function expression:
+</code>javascript
+function strictFunc() {</p>
+
+<pre><code>'use strict'; 
+{
+    // OK:
+    var nested = function() {};
+}
+</code></pre>
+
+<p>}```
+* The arguments objects has fewer properties</p>
 
 <p>The arguments object is simpler in strict mode: the properties arguments.callee and arguments.caller have been eliminated, you can’t assign to the variable arguments, and arguments does not track changes to parameters (if a parameter changes, the cor‐ responding array element does not change with it).</p>
 
@@ -828,12 +837,12 @@ function strictFunc() {
 
 <p>In sloppy mode, the value of this in nonmethod functions is the global object (window in browsers;</p>
 
-<p><code>
+<p><code>javascript
 function sloppyFunc() { console.log(this === window); // true}
 </code>
 In strict mode, it is undefined:</p>
 
-<p>```
+<p>```javascript
 function strictFunc() {</p>
 
 <pre><code>'use strict';   console.log(this === undefined); // true }
@@ -842,7 +851,7 @@ function strictFunc() {</p>
 <p>```
 This is useful for constructors. For example, the following constructor, Point, is in strict mode:</p>
 
-<p>```
+<p>```javascript
 function Point(x, y) {</p>
 
 <pre><code>'use strict';
@@ -854,7 +863,7 @@ this.y = y;
 ```
 Due to strict mode, you get a warning when you accidentally forget new and call it as a function:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var pt = Point(3, 1);TypeError: Cannot set property &lsquo;x&rsquo; of undefined
 ```</p>
@@ -862,7 +871,7 @@ Due to strict mode, you get a warning when you accidentally forget new and call 
 <h5>Setting and Deleting Immutable Properties Fails with an Exception in Strict Mode</h5>
 
 <p>Illegal manipulations of properties throw exceptions in strict mode. For example, at‐ tempting to set the value of a read-only property throws an exception, as does attempting to delete a nonconfigurable property
-```var str = &lsquo;abc&rsquo;;</p></blockquote>
+```javascriptvar str = &lsquo;abc&rsquo;;</p></blockquote>
 
 <p>function sloppyFunc() {</p>
 
@@ -883,11 +892,11 @@ str.length = 7; // TypeError: Cannot assign to // read-only property 'length'
 <h5>Unqualified Identifiers Can’t Be Deleted in Strict Mode</h5>
 
 <p>In sloppy mode, you can delete a global variable foo like this:
-<code>
+<code>javascript
 delete foo</code>
 In strict mode, you get a syntax error whenever you try to delete unqualified identifiers. You can still delete global variables like this:</p>
 
-<p><code>
+<p><code>javascript
 delete window.foo; // browsersdelete global.foo; // Node.jsdelete this.foo; // everywhere (in global scope)
 </code></p>
 
@@ -905,13 +914,13 @@ delete window.foo; // browsersdelete global.foo; // Node.jsdelete this.foo; // e
 </ul>
 
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>010 === 8true
 ```
 In strict mode, you get a syntax error if you use this kind of literal:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>function f() { &lsquo;use strict&rsquo;; return 010 }SyntaxError: Octal literals are not allowed in strict mode.
 ```</p>
@@ -922,7 +931,7 @@ In strict mode, you get a syntax error if you use this kind of literal:</p></blo
 
 <p>In JavaScript, the main way of dealing with a value whose type doesn’t fit is to coerce it to the correct type. Coercion means implicit type conversion. Most operands coerce:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>&lsquo;3&rsquo; * &lsquo;4'12
 ```</p>
@@ -931,7 +940,7 @@ In strict mode, you get a syntax error if you use this kind of literal:</p></blo
 
 <p>In contrast, all primitive values encoding the same value are considered the same:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var prim1 = 123;
 var prim2 = 123;
@@ -945,7 +954,7 @@ prim1 === prim2 true
 </ul>
 </blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>3 === 3true> &lsquo;abc&rsquo; === &lsquo;abc'true
 ```
@@ -953,7 +962,7 @@ prim1 === prim2 true
 
 <p>Properties can’t be changed, added, or removed:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var str = &lsquo;abc&rsquo;;> str.length = 1; // try to change property <code>length</code>> str.length // ⇒ no effect 3> str.foo = 3; // try to create property <code>foo</code>
 str.foo // ⇒ no effect, unknown property undefined
@@ -969,7 +978,7 @@ str.foo // ⇒ no effect, unknown property undefined
 </ul>
 
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var obj = {};> obj.foo = 123; // add property <code>foo</code> > obj.foo123
 ```</p>
@@ -984,7 +993,7 @@ str.foo // ⇒ no effect, unknown property undefined
 
 <p>undefined and null are the only values for which any kind of property access results in an exception:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>function returnFoo(x) { return x.foo }
 returnFoo(true)undefined> returnFoo(0)undefined</p>
@@ -1010,28 +1019,28 @@ returnFoo(true)undefined> returnFoo(0)undefined</p>
 </ul>
 
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var foo;
 foo undefined
 ```
 * Missing parameters are undefined:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>function f(x) { return x }
 f()undefined
 ```
 * If you read a nonexistent property, you get undefined:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var obj = {}; // empty object
 obj.fooundefined
 ```
 And functions implicitly return undefined if nothing has been explicitly returned:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>function f() {}
 f()undefined</p>
@@ -1047,12 +1056,12 @@ g()undefined
 </ul>
 
 
-<p><code>
+<p><code>javascript
 Object.getPrototypeOf(Object.prototype)null
 </code>
 * null is returned byRegExp.prototype.exec()if there was no match for the regular expression in the string:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>/x/.exec(&lsquo;aaa&rsquo;)null
 ```</p>
@@ -1063,7 +1072,7 @@ Object.getPrototypeOf(Object.prototype)null
 
 <p>You check for null via strict equality:</p>
 
-<p><code>
+<p><code>javascript
 if (x === null) ...
 </code></p>
 
@@ -1071,7 +1080,7 @@ if (x === null) ...
 
 <p>Strict equality (===) is the canonical way of checking for undefined:</p>
 
-<p><code>
+<p><code>javascript
 if (x === undefined) ...
 </code></p>
 
@@ -1079,7 +1088,7 @@ if (x === undefined) ...
 
 <p>Most functions allow you to indicate a missing value via either undefined or null. One way of checking for both of them is via an explicit comparison:</p>
 
-<p>```
+<p>```javascript
 // Does x have a value?if (x !== undefined &amp;&amp; x !== null) {     &hellip;}    // Is x a non-value?if (x === undefined || x === null) {</p>
 
 <pre><code>...}
@@ -1088,7 +1097,7 @@ if (x === undefined) ...
 <p>```
 Another way is to exploit the fact that both undefined and null are considered false</p>
 
-<p><code>
+<p><code>javascript
 // Does x have a value (is it truthy)?if (x) { ...}// Is x falsy?if (!x) { ...}
 </code>
 false, 0, NaN, and &lsquo;&rsquo; are <code>also</code> considered false.</p>
@@ -1102,25 +1111,25 @@ false, 0, NaN, and &lsquo;&rsquo; are <code>also</code> considered false.</p>
 
 <p>Shadow the global undefined (which may have the wrong value):</p>
 
-<p><code>
+<p><code>javascript
 (function (undefined) { if (x === undefined) ... // safe now}()); // don’t hand in a parameter
 ````
 In the preceding code, undefined is guaranteed to have the right value, because itis a parameter whose value has not been provided by the function call.
 * Technique 2
 Compare with void 0, which is always (the correct) undefined
-</code>
+</code>javascript
 if (x === void 0) // always safe```</p>
 
 <h4>Wrapper Objects for Primitives</h4>
 
 <p>The three primitive types boolean, number, and string have corresponding constructors: Boolean, Number, String. Their instances (so-called wrapper objects) contain (wrap) primitive values. The constructors can be used in two ways:
 * Asconstructors,theycreateobjectsthatarelargelyincompatiblewiththeprimitive values that they wrap:
-```</p>
+```javascript</p>
 
 <blockquote><p>typeof new String(&lsquo;abc&rsquo;)&lsquo;object&rsquo;> new String(&lsquo;abc&rsquo;) === &lsquo;abc'false```
 * As functions,they convert values to the corresponding primitive types(see“Functions for Converting to Boolean, Number, String, and Object” on page 78). This is the recommended method of conversion:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>String(123)&lsquo;123&rsquo;
 ```
@@ -1130,13 +1139,13 @@ It’s considered a best practice to avoid wrapper objects. You normal‐ ly don
 
 <p>Primitive values such as &lsquo;abc&rsquo; are fundamentally different from wrapper instances such as new String(&lsquo;abc&rsquo;):</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>typeof &lsquo;abc&rsquo;  // a primitive value'string'> typeof new String(&lsquo;abc&rsquo;)  // an object'object'> &lsquo;abc&rsquo; instanceof String  // never true for primitivesfalse> &lsquo;abc&rsquo; === new String(&lsquo;abc&rsquo;)false
 ```
 Wrapper instances are objects, and there is no way of comparing objects in JavaScript, not even via lenient equals == (see “Equality Operators: === Versus ==” on page 83):</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var a = new String(&lsquo;abc&rsquo;);
 var b = new String(&lsquo;abc&rsquo;);
@@ -1149,20 +1158,20 @@ a == bfalse
 
 <p>Wrap a primitive by invoking a wrapper constructor:</p>
 
-<p><code>
+<p><code>javascript
 new Boolean(true)
 new Number(123)
 new String('abc')
 </code>
 Unwrap a primitive by invoking the method <code>valueOf()</code>.</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>new Boolean(true).valueOf()true> new Number(123).valueOf()123> new String(&lsquo;abc&rsquo;).valueOf()&lsquo;abc&rsquo;
 ```
 Converting wrapper objects to primitives properly extracts numbers and strings, but not booleans:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>Boolean(new Boolean(false))  // does not unwraptrue> Number(new Number(123))  // unwraps123> String(new String(&lsquo;abc&rsquo;))  // unwraps'abc'
 ```</p>
@@ -1171,14 +1180,14 @@ Converting wrapper objects to primitives properly extracts numbers and strings, 
 
 <p>Primitives don’t have their own methods and borrow them from wrappers:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>&lsquo;abc&rsquo;.charAt === String.prototype.charAt
 true
 <code>``
 Sloppy mode and strict mode handle this borrowing differently. In sloppy mode, prim‐ itives are</code>converted to wrappers` on the fly:</p></blockquote>
 
-<p>```
+<p>```javascript
 String.prototype.sloppyMethod = function () {</p>
 
 <pre><code>console.log(typeof this); // object 
@@ -1188,7 +1197,7 @@ console.log(this instanceof String); // true};''.sloppyMethod(); // call the abo
 <p>```
 In strict mode, methods from the wrapper prototype are used transparently:</p>
 
-<p>```
+<p>```javascript
 String.prototype.strictMethod = function () {</p>
 
 <pre><code>'use strict';   console.log(typeof this); // string console.log(this instanceof String); // false };    ''.strictMethod(); // call the above method
@@ -1198,21 +1207,21 @@ String.prototype.strictMethod = function () {</p>
 
 <h4>Type Coercion</h4>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>&lsquo;3&rsquo; * &lsquo;4'12
 <code>
-As another example, if one of the operands is a string, the plus operator (+) converts the other one to a string:</code>
+As another example, if one of the operands is a string, the plus operator (+) converts the other one to a string:</code>javascript
 3 + &rsquo; times'&lsquo;3 times&rsquo;```</p>
 
 <h5>Type Coercion Can Hide Bugs</h5></blockquote>
 
-<p><code>
+<p><code>javascript
 var formData = { width: '100' };// You think formData.width is a number // and get unexpected resultsvar w = formData.width;var outer = w + 20;// You expect outer to be 120, but it’s not console.log(outer === 120); // false console.log(outer === '10020'); // true
 </code>
 In cases such as the preceding one, you should convert to the appropriate type early on:</p>
 
-<p><code>
+<p><code>javascript
 var w = Number(formData.width);
 </code></p>
 
@@ -1230,14 +1239,14 @@ Converts a value to a boolean. The following values are converted to false; they
 
 <p>*　Number()</p>
 
-<p><code>
+<p><code>javascript
 • undefined becomes NaN.• null becomes 0.• false becomes 0, true becomes 1.• Strings are parsed.
 • Objects are first converted to primitives (discussed shortly), which are then converted to numbers.
 </code>
 * String()
 Converts a value to a string. It has the obvious results for all primitives. For example:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>String(null)&lsquo;null&rsquo;> String(123.45)&lsquo;123.45&rsquo;> String(false)&lsquo;false&rsquo;
 ```
@@ -1246,7 +1255,7 @@ Objects are first converted to primitives (discussed shortly), which are then co
 <p>*　Object()
 Converts objects to themselves, undefined and null to empty objects, and primi‐ tives to wrapped primitives. For example:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>var obj = { foo: 123 };
 Object(obj) === obj true> Object(undefined){}> Object(&lsquo;abc&rsquo;) instanceof Stringtrue
@@ -1258,7 +1267,7 @@ Object(obj) === obj true> Object(undefined){}> Object(&lsquo;abc&rsquo;) instanc
 
 <p>The ECMAScript specification has an internal function, ToPrimitive() (which is not accessible from JavaScript), that performs this conversion. Understanding ToPrimi tive() enables you to configure how objects are converted to numbers and strings. It has the following signature:</p>
 
-<p>```</p>
+<p>```javascript</p>
 
 <pre><code>ToPrimitive(input, PreferredType?)
 </code></pre>
@@ -1278,17 +1287,17 @@ If PreferredType is String, steps 2 and 3 are swapped. The PreferredType can als
 <h5>Examples: ToPrimitive() in action</h5>
 
 The default implementation of valueOf() returns this, while the default implementa‐ tion of toString() returns type information:
-```
+```javascript
 
 <blockquote><p>var empty = {};> empty.valueOf() === empty
 true> empty.toString()&lsquo;[object Object]&rsquo;<code>
 Therefore, Number() skips valueOf() and converts the result of toString() to a num‐ ber; that is, it converts '[object Object]' to NaN:
-</code>
+</code>javascript
 Number({})NaN<code>
-The following object customizes valueOf(), which influences Number(), but doesn’t change anything for String():</code>
+The following object customizes valueOf(), which influences Number(), but doesn’t change anything for String():</code>javascript
 var n = { valueOf: function () { return 123 } }; > Number(n)123> String(n)&lsquo;[object Object]&rsquo;<code>
 The following object customizes toString(). Because the result can be converted to a number, Number() can return a number:
-</code>
+</code>javascript
 var s = { toString: function () { return &lsquo;7&rsquo;; } };
 String(s)&lsquo;7&rsquo;> Number(s)7```</p>
 
@@ -1298,7 +1307,7 @@ String(s)&lsquo;7&rsquo;> Number(s)7```</p>
 </ol>
 
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>[1, 2] + [3]&lsquo;1,23&rsquo;> String([1, 2])&lsquo;1,2&rsquo;> String([3])&lsquo;3&rsquo;
 ```</p>
@@ -1316,11 +1325,11 @@ String(s)&lsquo;7&rsquo;> Number(s)7```</p>
 <h4>Strict Equality (===, !==)</h4>
 
 <p>Values with different types are never strictly equal. If both values have the same type, then the following assertions hold:<em> undefined === undefined</em> null === null* Two numbers:
-<code>
+<code>javascript
 x === x // unless x is NaN+0 === -0NaN !== NaN // read explanation that follows</code>
 * Two booleans, two strings: obvious results
 * Two objects (including arrays and functions): x === y if and only if x and y are the <code>same</code> object; that is, if you want to compare different objects, you have to implement your own comparison algorithm:
-```</p>
+```javascript</p>
 
 <blockquote><p>var b = {}, c = {};
 b === cfalse> b === btrue```
@@ -1329,7 +1338,7 @@ b === cfalse> b === btrue```
 <h4>Pitfall: NaN</h4>
 
 <p>The special number value NaN (see “NaN” on page 106) is not equal to itself:
-<code>
+<code>javascript
 NaN === NaNfalse</code>
 Thus, you need to use other means to check for it, which are described in “Pitfall: checking whether a value is NaN” on page 107.</p>
 
@@ -1342,26 +1351,32 @@ Thus, you need to use other means to check for it, which are described in “Pit
 <p>Otherwise, if the operands are:</p>
 
 <ol>
-<li><p>undefined and null, then they are considered leniently equal:</p>
+<li>undefined and null, then they are considered leniently equal:</li>
+</ol>
 
-<p> ```</p>
 
-<blockquote><p>undefined == null    true
- ```</p></blockquote></li>
-<li><p>A string and a number, then convert the string to a number and compare both operands via strict equality.</p></li>
+<p>```javascript</p>
+
+<pre><code>&gt; undefined == null true
+</code></pre>
+
+<p>```</p>
+
+<ol>
+<li>A string and a number, then convert the string to a number and compare both operands via strict equality.</li>
 <li>A boolean and a nonboolean, then convert the boolean to a number and compare leniently (again).</li>
 <li>An object and a number or a string, then try to convert the object to a primitive (via the algorithm described in “Algorithm: ToPrimitive()—Converting a Value to a Primitive” on page 79) and compare leniently (again).
 
 <h4>Pitfall: lenient equality is different from conversion to boolean</h4>
 
-```
+```javascript
 
 <blockquote><p>2 == truefalse> 2 == falsefalse> 1 == truetrue> 0 == falsetrue// 2 === 1// 2 === 0// 1 === 1// 0 === 0```
 Similarly, while the empty string is equal to false, not all nonempty strings are equal to true:</p></blockquote></li>
 </ol>
 
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>&lsquo;&rsquo; == falsetrue> &lsquo;1&rsquo; == truetrue> &lsquo;2&rsquo; == truefalse// 0 === 0// 1 === 1// 2 === 1> &lsquo;abc&rsquo; == true  // NaN === 1false
 ```</p>
@@ -1370,7 +1385,7 @@ Similarly, while the empty string is equal to false, not all nonempty strings ar
 
 <p>Some of the leniency can be useful, depending on what you want:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>&lsquo;abc&rsquo; == new String(&lsquo;abc&rsquo;)  // &lsquo;abc&rsquo; == &lsquo;abc'true> '123&rsquo; == 123  // 123 === 123true
 <code>
@@ -1381,11 +1396,11 @@ Other cases are problematic, due to how JavaScript converts strings to numbers (
 <h4>Pitfall: lenient equality and objects</h4>
 
 <p>If you compare an object to a nonobject, it is converted to a primitive, which leads to strange results:
-<code>
+<code>javascript
 {} == '[object Object]'true&gt; ['123'] == 123true&gt; [] == 0true</code>
 However, two objects are only equal if they are they same object. That means that you can’t really compare two wrapper objects:</p></blockquote>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>new Boolean(true) === new Boolean(true)false> new Number(123) === new Number(123)false> new String(&lsquo;abc&rsquo;) == new String(&lsquo;abc&rsquo;)false
 ```</p>
@@ -1398,12 +1413,12 @@ The following comparison ensures that x is neither undefined nor null:</li>
 </ul>
 
 
-<p><code>
+<p><code>javascript
 if (x != null) ...
 </code>
 replace the above with</p>
 
-<p><code>
+<p><code>javascript
 if (x) ...
 </code>
 If you want to be more precise, you should perform an explicit check for both values:</p>
@@ -1416,13 +1431,13 @@ If you are not sure whether a value x is a number or a number-as-a-string, you c
 <code>
 if (x == 123) ...</code>
 The preceding checks whether x is either 123 or &lsquo;123&rsquo;. Again, this is very compact, andagain, it is better to be explicit:
-<code>
+<code>javascript
 if (Number(x) === 123) ...</code></p>
 
 <h4>Use case: comparing wrapper instances with primitives</h4>
 
 <p>Lenient equals lets you compare primitives with wrapped primitives:
-```</p>
+```javascript</p>
 
 <blockquote><p>&lsquo;abc&rsquo; == new String(&lsquo;abc&rsquo;)true```
 There are three reasons against this approach. First, lenient equality does not work between wrapped primitives:</p></blockquote>
@@ -1433,7 +1448,7 @@ There are three reasons against this approach. First, lenient equality does not 
 ```
 Second, you should avoid wrappers anyway. Third, if you do use them, it is better to be explicit:</p></blockquote>
 
-<p><code>
+<p><code>javascript
 if (wrapped.valueOf() === 'abc') ...
 </code></p>
 
@@ -1454,7 +1469,7 @@ In some situations, it is important to return undefined as opposed to the result
 </ul>
 
 
-<p><code>
+<p><code>javascript
 javascript:void window.open("http://example.com/")
 </code>
 * Prefixing an IIFE
@@ -1472,7 +1487,7 @@ An IIFE must be parsed as an expression. One of several ways to ensure that is b
 
 <h5>typeof: Categorizing Primitives</h5>
 
-<p>```</p>
+<p>```javascript</p>
 
 <blockquote><p>typeof undefined'undefined'> typeof &lsquo;abc&rsquo;&lsquo;string&rsquo;> typeof {}&lsquo;object&rsquo;> typeof []&lsquo;object&rsquo;
 ```</p>
@@ -1481,7 +1496,7 @@ An IIFE must be parsed as an expression. One of several ways to ensure that is b
 
 <p>Unfortunately,typeof nullis'object'.Thisisconsideredabug(nullisnotamember of the internal type Object), but it can’t be fixed, because doing so would break existing code. You thus have to be wary of null</p></blockquote>
 
-<p>```
+<p>```javascript
 function isObject(value) {</p>
 
 <pre><code>return (value !== null  &amp;&amp; (typeof value === 'object'   || typeof value === 'function'));}
@@ -1492,7 +1507,7 @@ function isObject(value) {</p>
 
 <h4>Checking whether a variable exists</h4></blockquote>
 
-<p><code>
+<p><code>javascript
 typeof x === 'undefined'
 </code></p>
 
@@ -1825,6 +1840,543 @@ If the number is greater than or equal to 1021, then this method works the same 
 <blockquote><p>1234567890123456789012..toString()&lsquo;1.2345678901234568e+21&rsquo;> 1234567890123456789012..toExponential(20)&lsquo;1.23456789012345677414e+21&rsquo;
 1234..toString()&lsquo;1234&rsquo;> 1234..toExponential(5)&lsquo;1.23400e+3&rsquo;> 1234..toExponential()&lsquo;1.234e+3&rsquo;
 0.003.toString()&lsquo;0.003&rsquo;> 0.003.toExponential(4)&lsquo;3.0000e-3&rsquo;> 0.003.toExponential()&lsquo;3e-3&rsquo;
+```</p></blockquote>
+
+<h3>String</h3>
+
+<h4>Escaping in String Literals</h4>
+
+<ul>
+<li>Line continuations</li>
+</ul>
+
+
+<p><code>javascript
+var str = 'written \over \multiple \lines';console.log(str === 'written over multiple lines'); // true
+</code>
+* Character escape sequences</p>
+
+<pre><code>1. Control characters: \b is a backspace, \f is a form feed, \n is a line feed (new‐line), \r is a carriage return, \t is a horizontal tab, and \v is a vertical tab.
+2. Escapedcharactersthatrepresentthemselves:\'isasinglequote,\"isadouble quote,and\\isabackslash.Allcharactersexceptb f n r t v x uanddecimal digits represent themselves, too. Here are two examples:
+
+```javascript
+    &gt; '\"'      '"'     &gt; '\q'      'q'
+```
+</code></pre>
+
+<ul>
+<li>NUL character (This character is represented by \0.)</li>
+<li><p>Hexadecimal escape sequences
+  \xHH (HH are two hexadecimal digits) specifies a character via an ASCII code. For example:</p>
+
+<p>  <code>javascript
+      &gt; '\x4D'        'M'
+ </code></p></li>
+</ul>
+
+
+<h4>Manually Converting to String</h4>
+
+<p>`&ldquo;javascript
+String(value) (Invoked as a function, not as a constructor)
+&rdquo;+valuevalue.toString() (Does not work for undefined and null!)</p>
+
+<blockquote><p>String(false)&lsquo;false&rsquo;> String(7.35)&lsquo;7.35&rsquo;> String({ first: &lsquo;John&rsquo;, last: &lsquo;Doe&rsquo; })&lsquo;[object Object]&rsquo;> String([ &lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo; ])&lsquo;a,b,c&rsquo;
+```
+Note that for displaying data, JSON.stringify() (“JSON.stringify(value, replacer?, space?)” on page 337) often works better than the canonical conversion to string:</p></blockquote>
+
+<p>```</p>
+
+<blockquote><p>console.log(JSON.stringify({ first: &lsquo;John&rsquo;, last: &lsquo;Doe&rsquo; })){&ldquo;first&rdquo;:&ldquo;John&rdquo;,&ldquo;last&rdquo;:&ldquo;Doe&rdquo;}> console.log(JSON.stringify([ &lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo; ]))[&ldquo;a&rdquo;,&ldquo;b&rdquo;,&ldquo;c&rdquo;]
+```</p>
+
+<h4>Pitfall: conversion is not invertible</h4>
+
+<p>Given how often JavaScript automatically converts, it is a shame that the conversion isn’t always invertible, especially with regard to booleans:</p></blockquote>
+
+<p>```javascript</p>
+
+<blockquote><p>String(false)&lsquo;false&rsquo;> Boolean(&lsquo;false&rsquo;)true
+```</p>
+
+<h4>Concatenation: Joining an Array of String Fragments</h4></blockquote>
+
+<p>```javascript</p>
+
+<blockquote><p>var arr = [];> arr.push(&lsquo;Say hello &rsquo;);> arr.push(7);> arr.push(&lsquo; times fast&rsquo;);
+arr.join(&lsquo;&rsquo;)&lsquo;Say hello 7 times fast&rsquo;
+```</p>
+
+<h4>String Constructor Method</h4></blockquote>
+
+<p>```javascript</p>
+
+<blockquote><p>String.fromCharCode(97, 98, 99)&lsquo;abc&rsquo;> String.fromCharCode.apply(null, [97, 98, 99])&lsquo;abc&rsquo;
+```</p>
+
+<h4>String Prototype Methods</h4></blockquote>
+
+<p>```javascript</p>
+
+<blockquote><p>&lsquo;abc&rsquo;.split(&lsquo;&rsquo;).map(function (x) { return x.charCodeAt(0) })[ 97, 98, 99 ]
+&lsquo;abc&rsquo;.slice(2)&lsquo;c&rsquo;
+&lsquo;abc&rsquo;.slice(1, 2)&lsquo;b&rsquo;</p>
+
+<p>&lsquo;abc&rsquo;.slice(-2)&lsquo;bc&rsquo;</p>
+
+<p>&lsquo;a,  b,c, d&rsquo;.split(&lsquo;,&rsquo;)  // string[ &lsquo;a&rsquo;, &lsquo;  b&rsquo;, &lsquo;c&rsquo;, &lsquo; d&rsquo; ]> &lsquo;a,  b,c, d&rsquo;.split(/,/)  // simple regular expression[ &lsquo;a&rsquo;, &lsquo;  b&rsquo;, &lsquo;c&rsquo;, &lsquo; d&rsquo; ]> &lsquo;a,  b,c, d&rsquo;.split(/, <em>/)   // more complex regular expression[ &lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;, &rsquo;d' ]> &lsquo;a,  b,c, d&rsquo;.split(/, </em>/, 2)  // setting a limit[ &lsquo;a&rsquo;, &lsquo;b&rsquo; ]        > &lsquo;test&rsquo;.split()  // no separator provided[ &lsquo;test&rsquo; ]
+// If there is a group, then the matches are also returned as array elements:
+&lsquo;a,  b  ,  &rsquo;.split(/(,)/)[ &lsquo;a&rsquo;, &lsquo;,&rsquo;, &lsquo;  b  &rsquo;, &lsquo;,&rsquo;, &lsquo;  &rsquo; ]> &lsquo;a,  b  ,  &rsquo;.split(/ <em>(,) </em>/)[ &lsquo;a&rsquo;, &lsquo;,&rsquo;, &lsquo;b&rsquo;, &lsquo;,&rsquo;, &lsquo;&rsquo; ]
+&lsquo;abc&rsquo;.split(&lsquo;&rsquo;)[ &lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo; ]
+```</p>
+
+<h5>Transform</h5>
+
+<ol>
+<li>String.prototype.trim() Removes all whitespace from the beginning and the end of the string:</li>
+</ol>
+</blockquote>
+
+<p>```javascript</p>
+
+<blockquote><p>&lsquo;\r\nabc \t&rsquo;.trim()&lsquo;abc&rsquo;
+```</p></blockquote>
+
+<ol>
+<li>String.prototype.concat(str1?, str2?, &hellip;)</li>
+</ol>
+
+
+<p>```javascript</p>
+
+<blockquote><p>&lsquo;hello&rsquo;.concat(&lsquo; &rsquo;, &lsquo;world&rsquo;, &lsquo;!&rsquo;)&lsquo;hello world!&rsquo;
+```</p>
+
+<h4>Pitfall: Losing this When Extracting a Method</h4></blockquote>
+
+<p>```javascript
+var counter = {</p>
+
+<pre><code>count: 0,
+inc: function() {
+    this.count++;
+}
+</code></pre>
+
+<p>}</p>
+
+<blockquote><p>var func = counter.inc;> func()> counter.count // didn’t work 0
+<code>
+Here’s the explanation: we have called the value of counter.inc as a function. Hence, this is the global object and we have performed window.count++. window.count does not exist and is undefined. Applying the ++ operator to it sets it to NaN:</code>
+count  // global variableNaN<code>``
+</code>How to get a warning`
+If method inc() is in strict mode, you get a warning:</p></blockquote>
+
+<p>```</p>
+
+<blockquote><p>counter.inc = function () { &lsquo;use strict&rsquo;; this.count++ };
+var func2 = counter.inc;> func2()TypeError: Cannot read property &lsquo;count&rsquo; of undefined
+```</p>
+
+<h5>How to properly extract a method</h5>
+
+<p>Thanks to bind(), we can make sure that inc doesn’t lose the connection with counter:</p></blockquote>
+
+<p>```</p>
+
+<blockquote><p>var func3 = counter.inc.bind(counter);
+func3()> counter.count // it worked!1
+<code>``
+</code>Warning`</p></blockquote>
+
+<p>Each call to bind() creates a new function. That has consequences when you’re registering and unregistering callbacks (e.g., for event handling). You need to store the value you registered somewhere and use it for unregistering, too.</p>
+
+<h4>Pitfall: Functions Inside Methods Shadow this</h4>
+
+<p>```javascript
+var obj = {</p>
+
+<pre><code>name: 'Jane',
+friends: ['Tarzan', 'Cheeta'],
+loop: function() {
+    'use strict';
+    this.friends.forEach(
+        function(friend) { // (1)
+            console.log(this.name + ' knows ' + friend); // (2) }
+        );
+    }
+};
+</code></pre>
+
+<p>}
+```
+Obviously, this fails, because the function at (1) has its own this, which is undefined here:</p>
+
+<p>```javascript</p>
+
+<blockquote><p>obj.loop();    TypeError: Cannot read property &lsquo;name&rsquo; of undefined
+```
+There are three ways to work around this problem.</p></blockquote>
+
+<ul>
+<li>Workaround 1: that = this</li>
+</ul>
+
+
+<p>```javascript
+loop: function() {</p>
+
+<pre><code>'use strict';
+var that = this;
+this.friends.forEach(function(friend) {
+    console.log(that.name + ' knows ' + friend);
+});
+</code></pre>
+
+<p>}
+```
+Here’s the interaction:</p>
+
+<p>```javascript</p>
+
+<blockquote><p>obj.loop();    Jane knows Tarzan    Jane knows Cheeta
+```</p></blockquote>
+
+<ul>
+<li>Workaround 2: bind()
+We can use bind() to give the callback a fixed value for this—namely, the method’s this (line (1)):<code>javascript
+loop: function() {
+  'use strict';
+  this.friends.forEach(function(friend) {
+      console.log(this.name + ' knows ' + friend);
+  }.bind(this)); // (1) }</code></li>
+<li>Workaround 3: a thisValue for forEach()
+A workaround that is specific to forEach() (see “Examination Methods” on page 291) is to provide a second parameter after the callback that becomes the this of the callback:</li>
+</ul>
+
+
+<p>```javascript
+loop: function() {</p>
+
+<pre><code>'use strict';
+this.friends.forEach(function(friend) {
+    console.log(this.name + ' knows ' + friend);
+}, this);
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>Layer 2: The Prototype Relationship Between Objects</h4>
+
+<p><img src="/images/2014/10/Figure17-1.png"></p>
+
+<p>To see how prototype-based (or prototypal) inheritance works, let’s look at an example(with invented syntax for specifying the [[Prototype]] property):
+```javascript
+var proto = {</p>
+
+<pre><code>describe: function() {
+    return 'name: ' + this.name;
+}
+</code></pre>
+
+<p>};
+var obj = {</p>
+
+<pre><code>[
+    [Prototype]
+]: proto,
+name: 'obj'
+</code></pre>
+
+<p>};```
+The object obj inherits the property describe from proto. It also has a so-called own (noninherited, direct) property, name.</p>
+
+<p><code>Inheritance</code></p>
+
+<p>obj inherits the property describe; you can access it as if the object itself had that property:</p>
+
+<p>```javascript</p>
+
+<blockquote><p>obj.describe[Function]
+<code>
+Whenever you access a property via obj, JavaScript starts the search for it in that object and continues with its prototype, the prototype’s prototype, and so on. That’s why we can access proto.describe via obj.describe. The prototype chain behaves as if it were a single object. That illusion is maintained when you call a method: the value of this is always the object where the search for the method began, not where the method was found. That allows the method to access all of the properties of the prototype chain. For example:
+</code>javascript
+obj.describe()&lsquo;name: obj&rsquo;<code>
+* Overriding
+</code>javascript
+obj.describe = function () { return &lsquo;overridden&rsquo; };
+obj.describe()&lsquo;overridden&rsquo;```
+* Sharing Data Between Objects via a Prototype</p></blockquote>
+
+<p>The objects jane and tarzan both contain the same method, describe(). That is something that we would like to avoid by using sharing:</p>
+
+<p>```javascript
+var jane = {</p>
+
+<pre><code>name: 'Jane',
+describe: function() {
+    return 'Person named ' + this.name;
+}
+</code></pre>
+
+<p>};
+var tarzan = {</p>
+
+<pre><code>name: 'Tarzan',
+describe: function() {
+    return 'Person named ' + this.name;
+}
+</code></pre>
+
+<p>};
+<code>
+The following code creates objects jane and tarzan that share the prototype Person Proto:
+</code>javascript
+var PersonProto = {</p>
+
+<pre><code>describe: function() {
+    return 'Person named ' + this.name;
+}
+</code></pre>
+
+<p>};
+var jane = {</p>
+
+<pre><code>[
+    [Prototype]
+]: PersonProto,
+name: 'Jane'
+</code></pre>
+
+<p>};
+var tarzan = {</p>
+
+<pre><code>[
+    [Prototype]
+]: PersonProto,
+name: 'Tarzan'
+</code></pre>
+
+<p>};```
+And here is the interaction:</p>
+
+<p>```javascript</p>
+
+<blockquote><p>jane.describe()Person named Jane> tarzan.describe()Person named Tarzan
+```</p>
+
+<h4>Getting and Setting the Prototype</h4>
+
+<p>So far, we have pretended that you can access the internal property [[Prototype]] from JavaScript. But the language does not let you do that. Instead, there are functions for reading the prototype and for creating a new object with a given prototype.</p></blockquote>
+
+<ul>
+<li>Creating a new object with a given prototype
+This invocation:</li>
+</ul>
+
+
+<p>```javascript</p>
+
+<pre><code>Object.create(proto, propDescObj?)
+</code></pre>
+
+<p>```
+creates an object whose prototype is proto. Optionally, properties can be added via descriptors (which are explained in “Property Descriptors” on page 223). In the following example, object jane gets the prototype PersonProto and a mutable property name whose value is &lsquo;Jane&rsquo; (as specified via a property descriptor):</p>
+
+<p>```javascript
+var PersonProto = {</p>
+
+<pre><code>describe: function() {
+    return 'Person named ' + this.name;
+}
+</code></pre>
+
+<p>};
+var jane = Object.create(PersonProto, {</p>
+
+<pre><code>name: {
+    value: 'Jane',
+    writable: true
+}
+</code></pre>
+
+<p>});
+```
+Here is the interaction:</p>
+
+<p>```</p>
+
+<blockquote><p>jane.describe()&lsquo;Person named Jane&rsquo;
+<code>
+But you frequently just create an empty object and then manually add properties, be‐ cause descriptors are verbose:
+</code>javascript
+var jane = Object.create(PersonProto);
+jane.value = &lsquo;Jane&rsquo;;<code>
+* Reading the prototype of an object
+This method call:
+</code>javascript   Object.getPrototypeOf(obj)```
+returns the prototype of obj. Continuing the preceding example:</p></blockquote>
+
+<p>```javascript</p>
+
+<blockquote><p>Object.getPrototypeOf(jane) === PersonPrototrue
+```
+* Checking whether one object a prototype of another one
+This syntax:</p></blockquote>
+
+<p>```</p>
+
+<pre><code>Object.prototype.isPrototypeOf(obj)
+</code></pre>
+
+<p>```
+checks whether the receiver of the method is a (direct or indirect) prototype of obj. In other words: are the receiver and obj in the same prototype chain, and does obj come before the receiver? For example:</p>
+
+<p>```javascript</p>
+
+<blockquote><p>var A = {};> var B = Object.create(A);
+var C = Object.create(B);
+A.isPrototypeOf&copy;true> C.isPrototypeOf(A)false
+```
+* Finding the object where a property is defined
+The following function iterates over the property chain of an object obj. It returns the first object that has an own property with the key propKey, or null if there is no such object:</p></blockquote>
+
+<p>```javascript
+function getDefiningObject(obj, propKey) {</p>
+
+<pre><code>obj = Object(obj); // make sure it’s an object
+while (obj &amp;&amp; !{}.hasOwnProperty.call(obj, propKey)) {
+    obj = Object.getPrototypeOf(obj);
+    // obj is null if we have reached the end
+}
+return obj;
+</code></pre>
+
+<p>}
+```
+* The Special Property <strong>proto</strong>
+Some JavaScript engines have a special property for getting and setting the prototype of an object: <strong>proto</strong>. It brings direct access to [[Prototype]] to the language:</p>
+
+<p>```javascript</p>
+
+<blockquote><p>var obj = {};> obj.<strong>proto</strong> === Object.prototypetrue> obj.<strong>proto</strong> = Array.prototype> Object.getPrototypeOf(obj) === Array.prototype true
+```</p></blockquote>
+
+<p><strong>proto</strong> is not part of the ECMAScript 5 standard,However, more and more engines are adding support for <strong>proto</strong> and it will be part of ECMAScript 6.The following expression checks whether an engine supports <strong>proto</strong> as a special property:</p>
+
+<p><code>javascript
+Object.getPrototypeOf({ __proto__: null }) === null
+</code></p>
+
+<h4>Setting and Deleting Affects Only Own Properties</h4>
+
+<ul>
+<li>Setting a property</li>
+</ul>
+
+
+<p>```javascript
+var proto = { foo: &lsquo;a&rsquo; };var obj = Object.create(proto);</p>
+
+<blockquote><p>obj.foo'a'> obj.hasOwnProperty(&lsquo;foo&rsquo;)false
+```
+Setting foo has the desired result:</p></blockquote>
+
+<p>```javascript</p>
+
+<blockquote><p>obj.foo = &lsquo;b&rsquo;;
+obj.foo'b'
+```
+However, we have created an own property and not changed proto.foo:</p></blockquote>
+
+<p>```javascript</p>
+
+<blockquote><p>obj.hasOwnProperty(&lsquo;foo&rsquo;)true> proto.foo'a'
+```
+* Deleting an inherited property</p></blockquote>
+
+<p>You can only delete own properties. Let’s again set up an object, obj, with a prototype, proto:</p>
+
+<p>```javascript</p>
+
+<pre><code>var proto = { foo: 'a' };   var obj = Object.create(proto);
+</code></pre>
+
+<p>```
+Deleting the inherited property foo has no effect:</p>
+
+<p>```</p>
+
+<blockquote><p>delete obj.footrue> obj.foo'a'
+```</p></blockquote>
+
+<ul>
+<li>Changing properties anywhere in the prototype chain</li>
+</ul>
+
+
+<p>If you want to change an inherited property, you first have to find the object that owns it (see “Finding the object where a property is defined” on page 215) and then perform the change on that object. For example, let’s delete the property foo from the previous example:</p>
+
+<p>```</p>
+
+<blockquote><p>delete getDefiningObject(obj, &lsquo;foo&rsquo;).foo;true> obj.fooundefined
+```</p>
+
+<h4>Accessors (Getters and Setters)</h4>
+
+<ul>
+<li>Defining Accessors via an Object Literal</li>
+</ul>
+</blockquote>
+
+<p>The following example uses an object literal to define a setter and a getter for property foo:</p>
+
+<p>```javascript
+var obj = {</p>
+
+<pre><code>get foo() {
+    return 'getter';
+},
+set foo(value) {
+    console.log('setter: ' + value);
+}
+</code></pre>
+
+<p>};
+```
+Here’s the interaction:</p>
+
+<p>```</p>
+
+<blockquote><p>obj.foo = &lsquo;bla&rsquo;;setter: bla> obj.foo'getter'
+```</p>
+
+<h4>Defining Accessors via Property Descriptors</h4></blockquote>
+
+<p>```javascript
+var obj = Object.create(</p>
+
+<pre><code>Object.prototype, { // object with property descriptors
+    foo: { // property descriptor get: function () {
+        return 'getter';
+    },
+    set: function(value) {
+        console.log('setter: ' + value);
+    }
+}
+</code></pre>
+
+<p>});
+```</p>
+
+<h4>Accessors and Inheritance</h4>
+
+<p>Getters and setters are inherited from prototypes:</p>
+
+<p>```javascript</p>
+
+<blockquote><p>var proto = { get foo() { return &lsquo;hello&rsquo; } };> var obj = Object.create(proto);> obj.foo'hello'
 ```</p></blockquote>
 ]]></content>
   </entry>

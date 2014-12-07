@@ -1,0 +1,280 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>NodeJS技巧 - AllenToFight Blog</title>
+	<meta name="author" content="AllenToFight">
+
+	
+	<meta name="description" content="NodeJS技巧 用Curl测试NodeJS
+Node启动后,可以用curl -i http://localhost:8080来测试返回结果,-i表示打印出header和返回结果,假设我们要运行的程序如下 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+var http = &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="AllenToFight Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://xiekunRonaldo.github.io/blog/2014/10/26/nodejsji-qiao/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src="http://www.gravatar.com/avatar/27a0140c11f18fab9bf284743d2b2b4c?s=160" alt="Profile Picture" style="width: 160px;" />
+	
+</div>
+<hgroup>
+  <h1><a href="/">AllenToFight Blog</a></h1>
+  
+    <h2>Life To Code.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="weibo" href="http://www.weibo.com/1876496750" title="Weibo">Facebook</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">NodeJS技巧</h1>
+	<div class="entry-content" itemprop="articleBody"><ol>
+<li>用Curl测试NodeJS
+Node启动后,可以用<code>curl -i http://localhost:8080</code>来测试返回结果,<code>-i</code>表示打印出header和返回结果,假设我们要运行的程序如下</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">process_request</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">body</span> <span class="o">=</span> <span class="s1">&#39;Thanks for calling!\n&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">content_length</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s1">&#39;Content-Length&#39;</span><span class="o">:</span> <span class="nx">content_length</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">process_request</span><span class="p">);</span>
+</span><span class='line'><span class="nx">s</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用curl后返回的结果为</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span> <span class="mi">200</span> <span class="nx">OK</span>
+</span><span class='line'><span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span><span class="o">:</span> <span class="mi">20</span>
+</span><span class='line'><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">text</span><span class="o">/</span><span class="nx">plain</span>
+</span><span class='line'><span class="nb">Date</span><span class="o">:</span> <span class="nx">Tue</span><span class="p">,</span> <span class="mi">15</span> <span class="nx">Feb</span> <span class="mi">2013</span> <span class="mi">03</span><span class="o">:</span><span class="mi">05</span><span class="o">:</span><span class="mi">08</span> <span class="nx">GMT</span>
+</span><span class='line'><span class="nx">Connection</span><span class="o">:</span> <span class="nx">keep</span><span class="o">-</span><span class="nx">alive</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Thanks</span> <span class="k">for</span> <span class="nx">calling</span><span class="o">!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意到以上的keep-alive,表示在同一次网络链接上允许有多个request</p>
+
+<ol>
+<li>Node的调试
+在node后加上<code>debug</code>即可</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">node</span> <span class="nx">debug</span> <span class="nx">debugging</span><span class="p">.</span><span class="nx">js</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Node debugger的几个键命令</p>
+
+<ul>
+<li><code>cont</code>—Continue running.<em> <code>next</code>—Step over the next statement.</em> <code>step</code>—Step into the next statement (if possible; otherwise, just step over).<em> <code>out</code>—Step out of the current executing function.</em> <code>backtrace</code>—Show me the current call execution frame or call stack.<em> <code>repl</code>—Start the Node REPL to allow you to view variable values and execute code.</em> <code>watch(expr)</code>—Add the given expression to the watch list, which is shown whenever you step or move through anything in the debugger.* <code>list(n)</code>—List the n lines of source code before and after the currently stopped line in the debugger.
+用<a href="https://github.com/node-inspector/node-inspector">node-inspector</a>
+3.删除Array的元素
+注意 <code>delete arr[0]</code>只是将arr的首个元素替换为undefine，实际并未真正删除,若要真正删除可用<code>arr.splice(index, length)</code></li>
+<li>将匿名函数赋给变量后,由于匿名函数没有名字，不好调试，可以改成以下形式
+&#8220;`javascript
+var x = function bad_apple() {
+ throw new Error(&ldquo;whoopsie&rdquo;);}
+
+<blockquote><p>x();Error: whoopsieat bad_apple (repl:2:7)at repl:1:1at REPLServer.self.eval (repl.js:109:21)
+at rli.on.self.bufferedCmd (repl.js:258:20)&#8220;`</p></blockquote></li>
+<li>有时会碰到req.session保存的变量不起作用的情况,按以下方式解决</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">cookieParser</span><span class="p">(</span><span class="s2">&quot;kitten on  keyboard&quot;</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// app.use(express.cookieSession({</span>
+</span><span class='line'><span class="c1">//     secret: &quot;FLUFFY BUNNIES&quot;,</span>
+</span><span class='line'><span class="c1">//     maxAge: 86400000</span>
+</span><span class='line'><span class="c1">// }));</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// app.use(express.session());</span>
+</span><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">session</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">secret</span><span class="o">:</span> <span class="s1">&#39;1234567890QWERTY&#39;</span>
+</span><span class='line'><span class="p">}));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>注意</code>,要注释掉<code>express.cookieParser</code></p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"allentofight"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END --></div>
+  </section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - AllenToFight -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+	
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

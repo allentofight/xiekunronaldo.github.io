@@ -9,7 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Oct 5th, 2014 Sencha, Touch The Class System The Class System 上一章，我们学习了如何从已知的component classes中创建components并引用它们,我们其实也可以通过extending Sencha &hellip;">
+	<meta name="description" content="Oct 7th, 2014 Sencha, Touch Data Models Every field can be given a data type,When no datatype is specified, the datatype will be set to auto, which &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,692 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-07T08:49:56+08:00" data-updated="true" itemprop="datePublished">Oct 7<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/sencha/'>Sencha</a>, <a class='category' href='/blog/categories/touch/'>Touch</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/10/07/data-models/" itemprop="url">Data Models</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Every field can be given a data type,When no datatype is specified, the datatype will be set to auto, which means there is no datatype conversion at all. This might be a solution for complex datatypes such as objects.
+Models may contain (optional) validations and associations (relations to other models). Both models and stores can have a proxy to send and retrieve data in JSON, XML, or JavaScript array notation.
+本章，我们将学习以下知识点
+* How to validate a model* How to save a model to the server
+* How to implement a model association</p>
+
+<h4>Validating a Model</h4>
+
+<p>In the model config object, you can set a validations array. This array contains validation objects:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>validations: [
+</span><span class='line'>  {type:'presence', field: 'age'},
+</span><span class='line'>  {type:'length', field:'name', min: 2},
+</span><span class='line'>  {type:'inclusion', field:'gender', list:['Male', 'Female']},
+</span><span class='line'>  {type:'exclusion, field:'username', list:['Admin', 'Operator']},
+</span><span class='line'>  {'format', field:'username', matcher: /([a-z]+)[0-9]{2,3}/}
+</span><span class='line'>]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, there are different validation types. For example, you can validate fields on presence (if the data exists), on length (if a string has a min or max length of characters), inclusion (if the data string exists in a given list array), exclusion (if the data string does not exist in a given list array), and on format (if the data matches a regular expression, matcher).</p>
+
+<p>Let’s test this. Open the FindACab app in your modern browser. In your debug console, you can enter the code for creating a new model instance:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var setting = Ext.create('FindACab.model.Setting', { city: "Amsterdam"});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can validate your record with the following command in your console:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>setting.validate();</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Saving a Model to the Server</h4>
+
+<p>We will use a simple Car model that looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('SaveTest.model.Car', {
+</span><span class='line'>  extend: 'Ext.data.Model',
+</span><span class='line'>
+</span><span class='line'>  config: {
+</span><span class='line'>      fields: [
+</span><span class='line'>          { name: 'id', type: 'int'},
+</span><span class='line'>          { name: 'brand'},
+</span><span class='line'>      ],
+</span><span class='line'>      proxy: {
+</span><span class='line'>            type: 'rest',
+</span><span class='line'>            //url : '/cars',
+</span><span class='line'>          format: 'php', 
+</span><span class='line'>          api: {
+</span><span class='line'>              create: 'cars/addcar',
+</span><span class='line'>              update: 'cars/editcar',
+</span><span class='line'>              read: 'cars/loadcar',
+</span><span class='line'>              destroy: 'cars/deletecar'
+</span><span class='line'>          }   
+</span><span class='line'>        }
+</span><span class='line'>  }
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来做一些测试</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var car = Ext.create('SaveTest.model.Car', {
+</span><span class='line'>    brand: 'Mercedes'
+</span><span class='line'>});
+</span><span class='line'>
+</span><span class='line'>//save = POST method
+</span><span class='line'>car.save({
+</span><span class='line'>    success: function() {
+</span><span class='line'>        console.log('The car record is saved');
+</span><span class='line'>    },
+</span><span class='line'>    failure: function(){
+</span><span class='line'>        console.log('The car record could not be saved.');
+</span><span class='line'>    }
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once you’ve created a record, you can save it to the server side with record.save():</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>car.save({</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to load data from the server side via the model, you can use record.load(id, callback). When there is no store available, the trick is to first request the model via the ModelManager:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.ModelManager.getModel('SaveTest.model.Car').load(1, { 
+</span><span class='line'>  success: function(car) {        console.log("Load Car: " + car.getId()); }, failure: function(){        console.log("The car could not be loaded"); } });</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Note</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>When you set the proxy type to ajax instead of rest, you can still use readable URLs. The only
+</span><span class='line'>difference is the HTTP method. Adding, editing, and removing records will be an HTTP POST call.Loading records will be an HTTP GET call.</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Cross-Domain Restrictions</h4>
+
+<p>The record.save() method (as well as the Ext.Ajax and form.submit() methods) transmit through the <code>XMLHttpRequest()</code> object, and therefore you might face security restrictions when posting to a different domain. These are known as <code>cross-domain restrictions</code>.</p>
+
+<p>However, there is a way to save and post data to another server. It requires setting up special HTTP headers (<code>Access-Control-Allow headers</code>) on the web server. This technique is called <code>CORS</code> (cross-origin resource sharing), and it enables you to override the default restrictions that prevent a web server from making AJAX request to other domains. For more information, see Chapter 8 and the AJAX sections of this book, or check out the HTML5 Rocks website.</p>
+
+<p>Models can also have relationships with other models. For example, a User model can have a relationship with multiple Order models, and one Order model can have just one relationship with one payment method.</p>
+
+<h4>Implementing a Model Association</h4>
+
+<p>Models can have relationships with one or more other models. The following model associations can request data through each other:</p>
+
+<ul>
+<li>Ext.data.association.HasOne</li>
+<li>Ext.data.association.HasMany</li>
+<li><p>Ext.data.association.BelongsTo
+You can create two or more models and connect these to each other with the hasMany, hasOne, and belongsTo configs:<code>
+Ext.define('TaxiService', {
+  extend: 'Ext.data.Model',   config: {       fields: ['id', 'name'],         hasMany : {         model: 'Car', name: 'cars' }    }
+});
+Ext.define('Car', { extend: 'Ext.data.Model',   config: {       fields: ['id', 'brand'] } });</code>
+When you want to use associations, you have to add these to the requires array at the top of your model class:<code>
+requires: [
+  'Ext.data.association.HasOne',
+  'Ext.data.association.BelongsTo',
+  'Ext.data.association.HasMany']</code><img src="/images/2014/10/figure7-3.png">
+When you want to display the different brands of Cars per TaxiService, you could express the relationships between both models. One TaxiService may contain many different types of Car records. You can define this relationship by specifying the hasMany property into the TaxiService model, so later you can request Car information via the TaxiService model.
+You will need a foreignKey on the owner model that links to the associated model. By default, it takes the lowercase name of the owner model plus _id. For example, the TaxiService model would create taxiservice_id as the foreign key.
+<img src="/images/2014/10/figure7-4.png">
+&#8220;`
+//Example 7-2
+Ext.define(&lsquo;AssociationsTest.model.TaxiService&rsquo;, {
+  extend: &lsquo;Ext.data.Model&rsquo;,</p>
+
+<p>  requires: [&lsquo;Ext.data.association.HasMany&rsquo;],</p>
+
+<p>  config: {
+      fields: [&lsquo;id&rsquo;, &lsquo;name&rsquo;],
+      hasMany  : { //<1>
+          model: &lsquo;AssociationsTest.model.Car&rsquo;, //<2>
+          name: &lsquo;cars&rsquo;, //<3>
+          foreignKey: &lsquo;taxiservice_id&rsquo; //<4>
+      }
+  }
+});<code>
+As with every relationship, their connection can be confirmed; the Car model answers its relationship by confirming it belongsTo the TaxiService model. This belongsTo association allows me to request the TaxiService information via the Car model.
+</code>//Example 7-3. model/Car.js
+Ext.define(&lsquo;AssociationsTest.model.Car&rsquo;, {
+  extend: &lsquo;Ext.data.Model&rsquo;,
+  requires: [&lsquo;Ext.data.association.BelongsTo&rsquo;],
+  config: {
+      fields: [{
+          name: &lsquo;id&rsquo;, //<1>
+          type: &lsquo;int&rsquo;
+      }, {
+          name: &lsquo;brand&rsquo;
+      }, {
+          name: &lsquo;taxiservice_id&rsquo;,
+          type: &lsquo;int&rsquo; //<2>
+      }],
+      belongsTo: {
+          model: &lsquo;AssociationsTest.model.TaxiService&rsquo;
+      }
+  }
+});
+<code>``
+And now comes the fancy stuff: requesting all the records that have a relationship through the parent model. As covered in Chapter 6, many records are saved in a store — the set of all records together. When specifying the hasMany association, you will point to the relating hasMany model and set a name (cars). The association will dynamically create a</code>virtual store<code>and the name that is set in the association will become the store name. You can call this store by running the</code>cars()<code>method on the TaxiService model. Remember, creating a store will not autoload the data, so you will need to</code>load()` the virtual store manually.
+Let’s take a look at the next code snippets. First, create two TaxiService records, each of which will contain Car records. A TaxiService model has a hasMany relationship with the Car model:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var taxiAmsterdam = Ext.create('AssociationsTest.model.TaxiService', { 
+</span><span class='line'>  id: 1,  name: 'Taxi Amsterdam' 
+</span><span class='line'>});var yellowCab = Ext.create('AssociationsTest.model.TaxiService', {     id: 2,  name: 'Yellow Cab' 
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Car records know that they belong to the TaxiService parent model (see previous code) because of the <code>belongsTo</code> relation (in Example 7-3). It has a property, <code>model</code>, that points (belongs) to the <code>TaxiService</code> model. The TaxiService model has a hasMany relationship to the Car model and it has a property: foreignKey (again, see Example 7- 2).</p>
+
+<p>Now let’s create some Car records:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var bmw = Ext.create('AssociationsTest.model.Car', { 
+</span><span class='line'>  id: 1,  brand: 'BMW' 
+</span><span class='line'>});
+</span><span class='line'>var mercedes = Ext.create('AssociationsTest.model.Car', {     id: 2,  brand: 'Mercedes' 
+</span><span class='line'>});
+</span><span class='line'>var vw = Ext.create('AssociationsTest.model.Car', {   id: 3,  brand: 'Volkswagen' 
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To get access to all the Car records from the TaxiService record, you can call the cars() method to create a virtual store:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var taxiAmsterdamStore = taxiAmsterdam.cars(); 
+</span><span class='line'>var yellowCabStore = yellowCab.cars();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The add() and sync() lines in the next piece of code just add the particular Car records to each TaxiService store. You will read more about stores in the next two chapters:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//add new cars to the StoretaxiAmsterdamStore.add(mercedes); taxiAmsterdamStore.add(vw);
+</span><span class='line'>taxiAmsterdamStore.sync(); 
+</span><span class='line'>
+</span><span class='line'>yellowCabStore.add(bmw); 
+</span><span class='line'>yellowCabStore.sync();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To request the TaxiService data from a Car record (and to test the belongsTo relation), you can use the autogenerated getter getTaxiService(). Now, let’s request the TaxiService data for the first record in the taxiAmsterdamStore:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>console.log(taxiAmsterdam.cars().first().getTaxiService());</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Remote Associations</h4>
+
+<p>You can also request Car records from the server side. To do so, you would need to add a remote proxy to the Car model:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>proxy: { type: 'ajax',   reader: {   rootProperty: 'cars'    },  url: 'app/data.php' 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After you add the records and sync the taxiAmsterdamStore and yellowCabStore, this proxy will <code>POST</code> the messages shown in Examples 7-4 and 7-5 to <code>app/data.json</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example 7-4. taxiAmsterdam{cars: [{id:1, brand:BMW, taxiservice_id:1}, {id:2, brand:BMW, taxiservice_id:1}]} 
+</span><span class='line'>Example 7-5. yellowCab{cars: [{id:1, brand:BMW, taxiservice_id:2}]}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>On your server side, you could code a script that takes these objects and adds them to adatabase.
+When you want to load data from the remote, you can run the following command:
+&#8220;`
+taxiAmsterdamStore.load(function(records){</p>
+
+<pre><code>console.log(records);});```
+</code></pre>
+
+<p>Here, you are loading data into the taxiAmsterdamStore, which has a model with associations hooked up. Therefore, it will fire a GET request, with the following parameters:<code>
+filter:[{"property":"taxiservice_id", "value": 1}]````TIP`
+</code>
+When the remote store is loaded, the store is automatically filtered so that only records with a matching foreign key are included in the resulting child store. You can override this by specifying the filterProperty.&#8220;`
+On your server side, you could code a script that filters for the taxiservice_id with the value set to 1. The data returned for this request from the server might look like the following example, which is written in PHP:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;? php
+</span><span class='line'>//Return response as JavaScript header('Content-Type: application/javascript'); echo '{
+</span><span class='line'>"cars": [{
+</span><span class='line'>    "id": 1,
+</span><span class='line'>    "brand": "BMW",
+</span><span class='line'>    "taxiservice_id": 1
+</span><span class='line'>}, {
+</span><span class='line'>    "id": 2,
+</span><span class='line'>    "brand": "Mercedes",
+</span><span class='line'>    "taxiservice_id": 1
+</span><span class='line'>}]
+</span><span class='line'>}'; 
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The FindACab app will not display the different brands of cars, which is why you won’t implement any model associations. That is because you will use the Yelp API to provide data about taxi businesses. It will not supply information about car brands like the previous examples did.</p>
+
+<p><code>TIP</code></p>
+
+<p>If you want to read more about associations, check out <a href="http://appointsolutions.com/2012/07/using-model-associations-in-sencha-touch-2-and-ext-js-4/">Rob Boerman’s great tutorial</a> and<a href="http://miamicoder.com/2012/sencha-touch-2-models-hasmany-associations-php-example/">MiamiCoder’s tutorial</a>with PHP server-side code</p>
+
+<h4>Summary</h4>
+
+<p>The Sencha data package contains the three key classes <code>Ext.data.Model</code>, <code>Ext.data.Record</code>, and <code>Ext.data.Store</code>.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-06T09:55:37+08:00" data-updated="true" itemprop="datePublished">Oct 6<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/sencha/'>Sencha</a>, <a class='category' href='/blog/categories/touch/'>Touch</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/10/06/the-layout-system/" itemprop="url">The Layout System</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>In Sencha Touch there are two basic building blocks: <code>components</code> and <code>containers</code>.When you instantiate both with no configuration, they look the same. However, there is one important difference: containers can contain components (or other containers):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var container = Ext.create('Ext.Container', { 
+</span><span class='line'>  items: [{       xtype: 'component',     html: 'Nested component'    }, {        xtype: 'container',         items: [{           xtype: 'component',         html: 'Nested container with component'         }]  }] });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Usually when containers hold other components, you want to think about how to position these multiple components. Maybe you want to position the components on top of each other, or maybe next to each other. In other words, you want to give the container a <code>layout</code>.
+Under the hood, Sencha Touch uses the CSS3 <a href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/">flexbox layout</a>.
+Ext.Component is the base class for any Sencha Touch view component (widget). Ext.Container is the base class for any Sencha Touch component that may visually contain other components. The most commonly used container classes for Sencha Touch are Ext.Panel, Ext.tab.Panel, and Ext.form.Panel
+本章中我们将学习到以下知识点
+* How to implement a horizontal layout * How to implement a vertical layout<em> How to implement a full screen (fit) layout * How to implement a card layout</em> How to implement the default layout (no layout) * How to dock components</p>
+
+<h4>Implementing a Horizontal Layout</h4>
+
+<p>When you want to position components horizontally, use the horizontal box layout. The layout type hbox positions items next to each other.At the top of your container view class, you will require Ext.layout.HBox, so the Ext.Loader knows to load the hbox framework class first. Next, you will create a layout object that sets the type to hbox. Follow up by creating an array with items; this array can contain all the items that need to be positioned next to each other. Here’s the full example:
+&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    requires: ['Ext.layout.HBox'],  layout: {       type: 'hbox',   },  items: [{       xtype: 'component',         html: 'box 1'   },{     xtype: 'component',         html: 'box 2'   }] });```
+</code></pre>
+
+<p>You can set the <code>align</code> config to position items <code>vertically</code> on the screen. The options for the align config are start (top), center (middle), end (bottom), and stretch. The last option stretches a component to give it the full container height. Then there is the <code>pack</code> config — start (left), center (middle), and end (right) — which positions the set of items <code>horizontally</code> on the screen.
+Here are some of the hbox layouts, each of which is followed by its corresponding illustration
+&#8220;`
+layout: {   type: &lsquo;hbox&rsquo;,   align: &lsquo;start&rsquo;, pack: &lsquo;start&rsquo; },items: [{   xtype: &lsquo;component&rsquo;,     html: &lsquo;width: 150&rsquo;,</p>
+
+<pre><code>width: 150},{   xtype: 'component', 
+html: 'width: 150',
+width: 150}]```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-1.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'hbox',   align: 'center',    pack: 'center' 
+</span><span class='line'>},items: [{   xtype: 'component',     html: 'width: 150', width: 150}, {  xtype: 'component', html: 'width: 150', width: 150 }]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-2.png">
+&#8220;`
+layout: {   type: &lsquo;hbox&rsquo;,   align: &lsquo;center&rsquo;,    pack: &lsquo;end&rsquo; },items: [{ xtype: &lsquo;component&rsquo;,</p>
+
+<pre><code>html: 'width: 150',
+width: 150},{   xtype: 'component',     html: 'width: 150',
+width: 150}]```&lt;img src="/images/2014/10/figure5-3.png"&gt;
+</code></pre>
+
+<p>&#8220;`
+layout: {   type: &lsquo;hbox&rsquo;,   align: &lsquo;end&rsquo;,   pack: &lsquo;start&rsquo; },items: [{   xtype: &lsquo;component&rsquo;,</p>
+
+<pre><code>html: 'width: 150',
+width: 150},{   xtype: 'component', html: 'width: 150'  width: 150 }]```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-4.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'hbox',   align: 'stretch',   pack: 'start' },items: [{   xtype: 'component',     html: 'width: 150',
+</span><span class='line'>  width: 150},{   xtype: 'component', html: 'width: 150', width: 150 }]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-5.png"></p>
+
+<p>The preceding examples used a width config for every item. When you want more dynamic sizes, you can use the flex config. Flexing means that you divide the available area based on the flex of each child component. The next example, illustrated in Figure 5-6, shows a horizontal flex layout:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'hbox',},items: [{    xtype: 'component',     flex: 2,    html: 'flex: 2',},{ xtype: 'component',     flex: 1,    html: 'flex: 1',}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-6.png"></p>
+
+<p>Now let’s say you have three items. The first item has flex: 2, the second item has flex:1, and the third item has a fixed pixel width, width: 100px. How will the layout be calculated? First, the 100px will be subtracted from the 100%. The remainder will be divided into two-thirds and one-third .</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {
+</span><span class='line'>  type: 'hbox', 
+</span><span class='line'>},items: [{   xtype: 'component',     flex: 2,    html: 'flex: 2',},{ xtype: 'component',     flex: 1,    html: 'flex: 1',},{ xtype: 'component',     width: 100, html: 'width: 100'}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-7.png"></p>
+
+<h4>Implementing a Vertical Layout</h4>
+
+<p>At the top of your container view class, you will require Ext.layout.VBox, so the Ext.Loader knows to load the vbox framework class first. Next, you will create a layout object that sets the type to vbox.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('MyApp.view.MainInterface', { 
+</span><span class='line'>  extend: 'Ext.Container',    requires: ['Ext.layout.VBox'], 
+</span><span class='line'>  layout: {       type: 'vbox',   },  items: [{       xtype: 'component',         html: 'box 1'   },{     xtype: 'component',         html: 'box 2'   }] });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can set the <code>align</code> config to position items <code>horizontally</code> on the screen. The options for the align property are start (left), center (middle), end (right), or stretch. The last option stretches a component to give it the full container width. Then there is the <code>pack</code> property — start (top), center (middle), and end (bottom) — which positions the set of items <code>vertically</code> on the screen.
+来看几个demo</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'start', pack: 'start' },items: [{   xtype: 'component', 
+</span><span class='line'>  html: 'height: 50',
+</span><span class='line'>  height: 50},{   xtype: 'component',     html: 'height: 50', height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-8.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'center',    pack: 'center' },items: [{  xtype: 'component',     html: 'height: 50', height: 50},{   xtype: 'component',     html: 'height: 50', height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-9.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'center',    pack: 'end' },items: [{ xtype: 'component',     html: 'height: 50', height: 50},{   xtype: 'component',     html: 'height: 50', height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-10.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'end',   pack: 'start' },items: [{   xtype: 'component', 
+</span><span class='line'>  html: 'height: 50',
+</span><span class='line'>  height: 50},{   xtype: 'component',     html: 'height: 50', height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-11.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>layout: {    type: 'vbox',   align: 'stretch',   pack: 'center' },items: [{  xtype: 'component', 
+</span><span class='line'>  html: 'height: 50',
+</span><span class='line'>  height: 50},{   xtype: 'component', 
+</span><span class='line'>  html: 'height: 50',
+</span><span class='line'>  height: 50}]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-12.png"></p>
+
+<p>If you want to set a fixed height for one of the items, you use the height config. When you want more dynamic sizes, you use the flex config. Flexing means that you divide the available area based on the flex of each child component. The next example, shows a vertical flex layout:
+&#8220;`
+layout: {   type: &lsquo;vbox&rsquo;,},items: [{    xtype: &lsquo;component&rsquo;,</p>
+
+<pre><code>html: 'flex: 1', 
+flex: 1},{  xtype: 'component',     html: 'flex: 3', 
+flex: 3}]```&lt;img src="/images/2014/10/figure5-13.png"&gt;
+</code></pre>
+
+<p>Now let’s say you have three items. The first item has flex: 1, the second item has flex:3, and the third item has a fixed pixel height, height: 50px. How will the layout be calculated? First, the 50px will be subtracted from the 100%. The remainder will be divided into one-quarter and three-quarters:
+&#8220;`
+layout: {   type: &lsquo;vbox&rsquo;,},items: [{    xtype: &lsquo;component&rsquo;,</p>
+
+<pre><code>html: 'flex: 1', 
+flex: 1},{  xtype: 'component',     html: 'flex: 3',    flex: 3},{  xtype: 'component',     html: 'height: 50',     height: 50}]```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-14.png"></p>
+
+<h4>Implementing a Full-Screen (Fit) Layout</h4>
+
+<p>When you want to position a component full screen, you use the fit layout. The layout type fit makes a child item fit to the full size of its parent container.<code>
+layout: 'fit', items: [{    html: 'Item 1' }]</code>At the top of your container view class, you will require Ext.layout.Fit, so the Ext.Loader knows to load the fit framework class first. Next, you will create a layout object that sets the type to fit. Follow up by creating an items array; this array can contain <code>only one</code> item.
+&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    requires: ['Ext.layout.Fit'],   layout: {       type: 'fit', 
+    },  items: [{       xtype: 'component',         html: 'layout: fit' }] });```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-15.png">
+The container has a height and width of 400×400 pixels. The nested item (component) takes the full width and height that has been set in the parent container, so it has the same 400×400 pixel dimension.
+Here’s another example of the same fit layout. The container has a 400×400px dimension, but this time the nested component has a margin of 25px on each side
+<code>
+layout: {   type: 'fit',},items: [{ xtype: 'component',     margin: 25, html: 'layout: fit'}]</code><img src="/images/2014/10/figure5-16.png"></p>
+
+<h4>Implementing a Card Layout</h4>
+
+<p>You can create a more complex layout by using cards. A card layout allows you to fit multiple components in one space, and show <code>only one at a time</code>, just like a stack of cards. To do this, set the layout type to card .At the top of your container view class, you will require Ext.layout.Card, so the Ext.Loader knows to load the card framework class first. Next, you will create a layout object that sets the type to card. Follow up by creating an array with items; this array can contain all the items that need to be positioned as a stack of cards.
+&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    requires: ['Ext.layout.Card'],  layout: {       type: 'card', 
+},  items: [{       xtype: 'component', html: 'card 1'  },{     xtype: 'component', html: 'card 2'  }, {        html: 'card 3'  }]});```&lt;img src="/images/2014/10/figure5-17.png"&gt;
+</code></pre>
+
+<p>This layout has the same visual look as a fit layout; it also takes the size of the container. But there is one important difference with this layout type. When the container contains multiple items, they will be stacked on top of each other, like a deck of cards
+With the method setActiveItem(), you can set the item to be displayed at the top of the cards stack. All the other items won’t be visible. Carousels (a Sencha Touch component for cards that you can slide with your fingers) and tabpanels (a Sencha Touch component for cards that you can activate with tabs) both use a card layout.</p>
+
+<p>A nice extra that comes with the card layout is the ability to add an animation while changing the active slide. You can set an animation object with a type and a direction. The supported types are:</p>
+
+<ul>
+<li>slide (Ext.fx.layout.card.Slide)</li>
+<li>fade (Ext.fx.layout.card.Fade)</li>
+<li>cover (Ext.fx.layout.card.Cover)</li>
+<li>reveal (Ext.fx.layout.card.Reveal)</li>
+<li>pop (Ext.fx.layout.card.Pop)* flip (Ext.fx.layout.card.Flip) * scroll (Ext.fx.layout.card.Scroll) * cube (Ext.fx.layout.card.Cube)</li>
+</ul>
+
+
+<p>Here’s an example of how you can include an animation for a page transition in a card layout. Please note the animation subject:<code>
+layout: {   type: 'card',   animation: {        type: 'slide',      direction: 'left'       }}</code>
+<code>注意</code>
+<code>
+Android 2 supports only scroll and fade; otherwise, it forces the animation to slide.</code></p>
+
+<h4>Implementing the Default Layout</h4>
+
+<p>When you do not want to set a layout or you want to fall back to the default browser behavior, you can use the default/auto layout.When you do not specify the layout object, or you set the layout to auto or default, your design will take the Ext.layout.Default layout
+&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    requires: ['Ext.layout.Default'],   layout: {       type: 'auto', 
+},  items: [{       xtype: 'component',         cls: 'component1',
+    html: 'component 1  },{     xtype: 'component',             cls: 'component2',      html: 'component 2  }] });```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-19.png"></p>
+
+<p>This layout tiles your elements directly beneath each other. It takes the full available width to fill its parent container unless a width is set. If no height is set, it will expand <code>naturally to fit itself or its child items</code>. It’s the same behavior as how a browser positions block-level elements.</p>
+
+<p><code>Tip</code>
+Impressive Webs has a <a href="http://www.impressivewebs.com/difference-block-inline-css/">helpful article</a> about browser block-level elements versus inline-elements.</p>
+
+<p>All other layouts inherit from Ext.layout.Default, and the default layout also supports docking items, which we’ll cover next.</p>
+
+<h4>Docking Components</h4>
+
+<p>With docking, you can set an item to dock left, top, right, or bottom from its container. A good example is a toolbar that is docked to the top of the screen. (Some people call this a sticky header.)&#8220;`
+Ext.define(&lsquo;MyApp.view.MainInterface&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.Container',    items: [{       docked: 'top'       html: 'docked: top', 
+},{     html: ''    }]});```
+</code></pre>
+
+<p><img src="/images/2014/10/figure5-19.png"></p>
+
+<p>You must use an <code>HTML5</code> doctype for a docked bottom to work. To do this, simply add the following code to the top of the HTML file: <code>&lt;!doctype html&gt;</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('MyApp.view.MainInterface', { 
+</span><span class='line'>  extend: 'Ext.Container',    items: [{       docked: 'left'      html: 'docked: left',   },{     html: ''    }]});</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-21.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('MyApp.view.MainInterface', {
+</span><span class='line'>  extend: 'Ext.Container', 
+</span><span class='line'>  items: [{       docked: 'right'     html: 'docked: right',  },{     html: ''    }]});</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/2014/10/figure5-22.png"></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define('MyApp.view.MainInterface', { 
+</span><span class='line'>  extend: 'Ext.Container',    items: [{       docked: 'bottom'        html: 'docked: bottom',     },{     html: ''    }]});</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Summary</h4>
+
+<p>The best way of creating interfaces is by prototyping the application before you implement it in your app. You could do this with code, as with the code snippets in this chapter, or you could use <a href="http://www.sencha.com/products/architect/">Sencha Architect</a>, Sencha’s visual design tool.</p>
+
+<p>The Sencha layout system supports the following layout types: hbox (horizontal box layout), vbox (vertical box layout), fit (take the size of the container layout), card (stacked layout), and default, the browser’s, block-level layout. All of these types have a set of additional configurations, such as <code>align, pack, and animation</code>.</p>
+
+<p>The <code>Ext.Viewport</code> is an instance created when you use Ext.application(). Ext.Viewport extends from Ext.Container, so it has a layout (which defaults to the card layout). This means you can add items to it at any time, from anywhere in your code. The viewport fullscreen configuration is true by default, so it will take up your whole screen, and thus it matches any device to its screen size.</p>
+
+<p>Imagine you would like the main layout for your tablet to be different from that of your phone. Sencha Touch handles this with <code>device profiles</code>, which create different mobile experiences. With a device profile, you can share code (like layouts and views, but also logics and controllers) between device types, to customize the appearance, behavior, or workflows for each device Device profiles can be generated with Sencha Cmd. These classes will be stored in the app/profile directory. For more information about device profiles, read the <a href="http://docs.sencha.com/touch/2.3.1/#!/guide/profiles">online guide</a>.</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -12080,386 +12766,6 @@ There are two <code>type-casting</code> patterns, the is pattern and the as patt
 
 <p>*Size Class
 Size classes have vertical and horizontal dimensions called &ldquo;regular&rdquo; and &ldquo;compact&rdquo;. The iPad in both portrait and landscape defaults to the regular size class in both horizontal and vertical directions. The iPhone in portrait defaults to compact size class for horizontal and regular size class for vertical. The iPhone in landscape defaults to compact size class for both horizontal and vertical.</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-30T15:42:25+08:00" data-updated="true" itemprop="datePublished">Jul 30<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/30/fibers-threads-processes/" itemprop="url">Fibers Threads Processes</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Ruby gives you two basic ways to organize your program so that you can run different parts of it apparently “at the same time.” Fibers let you suspend execution of one part of your program and run some other part. For more decoupled execution, you can split up cooper- ating tasks within the program, using multiple threads, or you can split up tasks between different programs, using multiple processes. Let’s look at each in turn.####Fibers
-Ruby 1.9引入了fibers的概念,尽管名字意味着某种轻量级的线程，实际上，fibers仅仅是一种非常简单的coroutine机制，它能让你写一些看起来用了线程的程序，实际上没有引发任何线程中内在的复杂机制
-计算一个文件中单词的出现次数，不用fibers版本</p>
-
-<pre><code>counts = Hash.new(0) 
-File.foreach("testfile") do |line|
-    line.scan(/\w+/) do |word| 
-    word = word.downcase 
-    counts[word] += 1
-    end 
-end
-counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
-produces:
-and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1这段代码非常的ugly,它混合了查找word和计算word两种逻辑,来看看用Fiber的方法
-words = Fiber.new do 
-    File.foreach("testfile") do |line|          line.scan(/\w+/) do |word| 
-        Fiber.yield word.downcase
-        end 
-    end     nil ￼end
-counts = Hash.new(0)
-while word = words.resume 
-    counts[word] += 1
-end
-counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
-produces:
-and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
-</code></pre>
-
-<p>再来看一个demo</p>
-
-<pre><code>twos = Fiber.new do 
-    num = 2     loop do         Fiber.yield(num) unless num % 3 == 0 
-        num += 2
-        end 
-    end 10.times { print twos.resume, " " } 
-produces:
-2 4 8 10 14 16 20 22 26 28
-</code></pre>
-
-<p>以上也可以用之前提到的lazy Enumberators中实现由于fibers也是对象，你可以将它们存储在变量中，并且fibers只能在创建它们的线程中resume
-fibers can yield control only back to the code that resumed them,不过Ruby提供了两种标准库来拓展这种行为fiber库和continuation库</p>
-
-<h4>多线程</h4>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-30T14:27:07+08:00" data-updated="true" itemprop="datePublished">Jul 30<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/30/basic-input-and-output/" itemprop="url">Basic Input and Output</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>两个I/O routines
-第一个是基本的交互界面</p>
-
-<pre><code>print "Enter your name: " 
-
-name = gets
-</code></pre>
-
-<p>一系列I/O相关的方法在Kernel module里实现gets, open, print, printf, putc, puts, readline, readlines, 和 test,这些方法通常都与标准输入，标准输出有关
-第二个则是与IO对象交互
-IO类，有两个子类File和BasicSocket</p>
-
-<h5>开头文件</h5>
-
-<pre><code>file = File.new("testfile", "r") 
-# ... process the file 
-file.close
-</code></pre>
-
-<p>File与Block</p>
-
-<pre><code>File.open("testfile", "r") do |file| 
-    # ... process the file
-end # &lt;- file automatically closed here与exception结合
-class File
-    def File.open(*args)
-        result = f = File.new(*args) 
-            if block_given?
-                begin
-                    result = yield f
-                ensure
-                    f.close
-                end 
-            end
-            result
-            end 
-end
-</code></pre>
-
-<h5>读写文件</h5>
-
-<p>来看一段copy.rb代码</p>
-
-<pre><code>while line = gets 
-
-    puts line
-end
-</code></pre>
-
-<p>如果运行程序木有命令行参数，则与console交互</p>
-
-<pre><code>$ ruby copy.rb 
-
-These are lines 
-
-These are lines 
-
-that I am typing 
-
-that I am typing 
-
-^D
-</code></pre>
-
-<p>如果带文件名，则与文件交互</p>
-
-<pre><code>$ ruby copy.rb testfile 
-
-This is line one
-This is line two
-This is line three
-And so on...
-</code></pre>
-
-<p>我们可以用File类来读写文件</p>
-
-<pre><code>File.open("testfile") do |file| 
-    while line = file.gets          puts line       end 
-end
-    produces:
-This is line one
-This is line two
-This is line three
-And so on...
-</code></pre>
-
-<h5>Iterators for Reading</h5>
-
-<p>你可以用各种iterators与IO流交互
-O#each_byte invokes a block with the next 8-bit byte from the IO object,chr则将integer转化为ASCII字符</p>
-
-<pre><code>File.open("testfile") do |file| 
-    file.each_byte.with_index do |ch, index|
-        print "#{ch.chr}:#{ch} "
-        break if index &gt; 10 
-    end
-end
-produces:
-T:84 h:104 i:105 s:115  :32 i:105 s:115  :32 l:108 i:105 n:110 e:101
-</code></pre>
-
-<p>IO#each_line</p>
-
-<pre><code>File.open("testfile") do |file|
-    file.each_line {|line| puts "Got #{line.dump}" }
-end
-produces:
-Got "This is line one\n"
-Got "This is line two\n"
-Got "This is line three\n"
-Got "And so on...\n"
-</code></pre>
-
-<p>你也可以将一串字符传给each_line来作为一个line separator,默认是\n</p>
-
-<pre><code>File.open("testfile") do |file|
-    file.each_line("e") {|line| puts "Got #{ line.dump }" }
-end
-produces:
-Got "This is line"
-Got " one"
-Got "\nThis is line"
-Got " two\nThis is line"
-Got " thre"
-Got "e"
-Got "\nAnd so on...\n"
-</code></pre>
-
-<p>combine iterator和autoclosing block,我们得到了IO.foreach,这个方法打开文件，调用iterator一次一行，然后自动关闭文件</p>
-
-<pre><code>IO.foreach("testfile") {|line| puts line }将整个文件文件的内容保存在一个string或每行保存在一个数组里
-//保存在string中
-# read into string
-str = IO.read("testfile")
-str.length # =&gt; 66
-str[0, 30] # =&gt; "This is line one\nThis is line "
-
-//保存在array中
-
-# read into an array    arr = IO.readlines("testfile") 
-arr.length # =&gt; 4
-arr[0] # =&gt; "This is line one\n"
-</code></pre>
-
-<h4>写入文件</h4>
-
-<pre><code># Note the "w", which opens the file for writing
-File.open("output.txt", "w") do |file| 
-file.puts "Hello"
-file.puts "1 + 2 = #{1+2}"
-end
-# Now read the file in and print its contents to STDOUT
-puts File.read("output.txt")
-produces:
-Hello 1+2=3
-</code></pre>
-
-<p>如果将二进制数据转为string,有以下三种方法</p>
-
-<pre><code>str1 = "\001\002\003" # =&gt; "\u0001\u0002\u0003" 
-
-str2 = ""
-str2 &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3 # =&gt; "\u0001\u0002\u0003" 
-[ 1, 2, 3 ].pack("c*") # =&gt; "\x01\x02\x03"
-</code></pre>
-
-<p>你也可以用&lt;&lt;将对象添加到输出流中</p>
-
-<pre><code>endl = "\n"
-STDOUT &lt;&lt; 99 &lt;&lt; " red balloons" &lt;&lt; endl
-produces:
-99 red balloons 
-</code></pre>
-
-<p>&lt;&lt;方法在打印前将用to_s将它的参数转为string</p>
-
-<h5>Doing I/O with StringsStringIO对象，它们操作起来就像I/O对象，但它们只是读写strings，而不是files</h5>
-
-<pre><code>require 'stringio'
-ip = StringIO.new("now is\nthe time\nto learn\nRuby!")
-op = StringIO.new("", "w")
-ip.each_line do |line| 
-    op.puts line.reverse
-end
-op.string # =&gt; "\nsi won\n\nemit eht\n\nnrael ot\n!ybuR\n"
-</code></pre>
-
-<h4>Talking to Networkds</h4>
-
-<p>socekt库封装了TCP,UDP,SOCKS和Unix domainsockes require &lsquo;socket&rsquo;    client = TCPSocket.open(&lsquo;127.0.0.1&rsquo;, &lsquo;www&rsquo;)</p>
-
-<pre><code>client.send("OPTIONS /~dave/ HTTP/1.0\n\n", 0) 
-puts client.readlines
-client.close
-produces:
-# 0 means standard packet
-HTTP/1.1 200 OK
-Date: Mon, 27 May 2013 17:31:00 GMT
-Server: Apache/2.2.22 (Unix) DAV/2 PHP/5.3.15 with Suhosin-Patch mod_ssl/2.2.22
-OpenSSL/0.9.8r
-Allow: GET,HEAD,POST,OPTIONS
-Content-Length: 0
-Connection: close
-Content-Type: text/html
-</code></pre>
-
-<p>在高层,lib/net library modules提供了对通信协议的许多支持(FTP, HTTP, POP, SMTP, and telnet)</p>
-
-<pre><code>//以下只是一部分代码
-require 'net/http'
-http = Net::HTTP.new('pragprog.com', 80)
-response = http.get('/book/ruby3/programming-ruby-1-9')
-if response.message == "OK"
-puts response.body.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
-end
-produces:
-       http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
-       http://pragprog.com/assets/drm-
-       free80-9120ffac998173dc0ba7e5875d082f18.png
-       http://imagery.pragprog.com/products/99/ruby3_xlargecover.jpg?
-       1349967653open-url库中的Object#open方法能识别文件中的http://和ftp://URLs,也能自动处理重定向 
-require 'open-uri'
-open('http://pragprog.com') do |f|
-puts f.read.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
-end
-produces:
-       http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
-       http://pragprog.com/assets/drm-free80-9120ffac998173dc0ba7e5875d082f18.png
-       http://imagery.pragprog.com/products/353/jvrails2_xlargebeta.jpg?1368826914
-</code></pre>
-
-<h4>Parsing HTML</h4>
-
-<pre><code>require 'open-uri'
-page = open('http://pragprog.com/titles/ruby3/programming-ruby-1-9').read 
-if page =~ %r{&lt;title&gt;(.*?)&lt;/title&gt;}m
-    puts "Title is #{$1.inspect}" 
-end
-produces:
-       Title is "The Pragmatic Bookshelf | Programming Ruby 1.9"
-</code></pre>
-
-<p>但用此法不太妥当，可能title和尖括号间多个个空格如何是好，可以用第三方库Nokogiri</p>
-
-<pre><code>require 'open-uri' 
-require 'nokogiri'
-doc = Nokogiri::HTML(open("http://pragprog.com/"))
-puts "Page title is " + doc.xpath("//title").inner_html
-# Output the first paragraph in the div with an id="copyright" 
-# (nokogiri supports both xpath and css-like selectors)
-puts doc.css('div#copyright p')
-# Output the second hyperlink in the site-links div using xpath and css
-puts "\nSecond hyperlink is"
-puts doc.xpath('id("site-links")//a[2]') puts doc.css('#site-links a:nth-of-type(2)')
-produces:
-Page title is The Pragmatic Bookshelf
-&lt;p&gt;
-    The &lt;em&gt;Pragmatic BookshelfTM&lt;/em&gt; is an imprint of
-        &lt;a href="http://pragprog.com/"&gt;The Pragmatic Programmers, LLC&lt;/a&gt;.
-    &lt;br&gt;
-    Copyright © 1999–2013 The Pragmatic Programmers, LLC.
-    All Rights Reserved.
-&lt;/p&gt;
-Second hyperlink is
-&lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
-&lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
-</code></pre>
-
-<p>Nokogiri can also update and create HTML and XML.</p>
 
 		
 		

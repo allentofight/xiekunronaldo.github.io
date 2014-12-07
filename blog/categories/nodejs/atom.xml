@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: NodeJS | AllenToFight Blog]]></title>
+  <link href="http://xiekunRonaldo.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://xiekunRonaldo.github.io/"/>
+  <updated>2014-12-07T21:27:10+08:00</updated>
+  <id>http://xiekunRonaldo.github.io/</id>
+  <author>
+    <name><![CDATA[AllenToFight]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[NodeJS技巧]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/10/26/nodejsji-qiao/"/>
+    <updated>2014-10-26T12:29:55+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/10/26/nodejsji-qiao</id>
+    <content type="html"><![CDATA[<ol>
+<li>用Curl测试NodeJS
+Node启动后,可以用<code>curl -i http://localhost:8080</code>来测试返回结果,<code>-i</code>表示打印出header和返回结果,假设我们要运行的程序如下</li>
+</ol>
+
+
+<p>```javascript
+var http = require(&ldquo;http&rdquo;);</p>
+
+<p>function process_request(req, res) {</p>
+
+<pre><code>var body = 'Thanks for calling!\n';
+var content_length = body.length;
+res.writeHead(200, {
+    'Content-Length': content_length,
+    'Content-Type': 'text/plain'
+});
+res.end(body);
+</code></pre>
+
+<p>}</p>
+
+<p>var s = http.createServer(process_request);
+s.listen(8080);
+```
+用curl后返回的结果为</p>
+
+<p><code>javascript
+HTTP/1.1 200 OKContent-Length: 20Content-Type: text/plainDate: Tue, 15 Feb 2013 03:05:08 GMT
+Connection: keep-alive
+Thanks for calling!
+</code>
+注意到以上的keep-alive,表示在同一次网络链接上允许有多个request</p>
+
+<ol>
+<li>Node的调试
+在node后加上<code>debug</code>即可</li>
+</ol>
+
+
+<p><code>javascript
+node debug debugging.js
+</code></p>
+
+<p>Node debugger的几个键命令</p>
+
+<ul>
+<li><code>cont</code>—Continue running.<em> <code>next</code>—Step over the next statement.</em> <code>step</code>—Step into the next statement (if possible; otherwise, just step over).<em> <code>out</code>—Step out of the current executing function.</em> <code>backtrace</code>—Show me the current call execution frame or call stack.<em> <code>repl</code>—Start the Node REPL to allow you to view variable values and execute code.</em> <code>watch(expr)</code>—Add the given expression to the watch list, which is shown whenever you step or move through anything in the debugger.* <code>list(n)</code>—List the n lines of source code before and after the currently stopped line in the debugger.
+用<a href="https://github.com/node-inspector/node-inspector">node-inspector</a>
+3.删除Array的元素
+注意 <code>delete arr[0]</code>只是将arr的首个元素替换为undefine，实际并未真正删除,若要真正删除可用<code>arr.splice(index, length)</code></li>
+<li>将匿名函数赋给变量后,由于匿名函数没有名字，不好调试，可以改成以下形式
+```javascript
+var x = function bad_apple() {
+ throw new Error(&ldquo;whoopsie&rdquo;);}
+
+<blockquote><p>x();Error: whoopsieat bad_apple (repl:2:7)at repl:1:1at REPLServer.self.eval (repl.js:109:21)
+at rli.on.self.bufferedCmd (repl.js:258:20)```</p></blockquote></li>
+<li>有时会碰到req.session保存的变量不起作用的情况,按以下方式解决</li>
+</ul>
+
+
+<p>```javascript
+app.use(express.cookieParser(&ldquo;kitten on  keyboard&rdquo;));
+// app.use(express.cookieSession({
+//     secret: &ldquo;FLUFFY BUNNIES&rdquo;,
+//     maxAge: 86400000
+// }));</p>
+
+<p>// app.use(express.session());
+app.use(express.session({</p>
+
+<pre><code>secret: '1234567890QWERTY'
+</code></pre>
+
+<p>}));
+```</p>
+
+<p><code>注意</code>,要注释掉<code>express.cookieParser</code></p>
+]]></content>
+  </entry>
+  
+</feed>

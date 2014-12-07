@@ -9,7 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Nov 25th, 2013 博客 部署octopress成功 今天经过一番探索,按船哥的博文指引，查阅了一些资料后，终于成功的部署了octopress博客系统，成功地写出了博客，用得主题是很流行的greyshade主题,整理一下需要注意的几个问题 侧栏social links支持众多社交网站, &hellip;">
+	<meta name="description" content="Jun 25th, 2014 C语言 C指针所引发的一个问题 void fortune_cookie(char msg[]) { printf("Message reads: %s\n", msg); printf("msg occupies %i bytes\n", sizeof(msg &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,470 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-25T21:39:33+08:00" data-updated="true" itemprop="datePublished">Jun 25<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cyu-yan/'>C语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/25/czhi-zhen-suo-yin-fa-de-%5B%3F%5D-ge-wen-ti/" itemprop="url">C指针所引发的一个问题</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<pre><code>void fortune_cookie(char msg[]) {
+     printf("Message reads: %s\n", msg);
+     printf("msg occupies %i bytes\n", sizeof(msg)); 
+} 
+
+int main () {
+    char msg[] = "Turtles!";
+    fortune_cookie(msg);
+    return 0;
+}
+</code></pre>
+
+<p>运行以上代码会输出什么,有人说是</p>
+
+<pre><code>Message reads Turtles!
+msg occupies 9 bytes("Turtles!"的8个字节再加代表字符串结尾的\0这个字节，所以是9个字节)
+</code></pre>
+
+<p>如果你这么想，那就错了,实际的结果是</p>
+
+<pre><code>Message reads Turtles!
+msg occupies 4 (or 8) bytes
+</code></pre>
+
+<p>解释如下</p>
+
+<h2>数组变量就像指针一样</h2>
+
+<p>是的，只是像，而不等于指针</p>
+
+<p>当你创建了一个数组,数组变量其实可以被当作指向数组首元素地址的指针,当写了如下代码时</p>
+
+<pre><code>char quote[] = "Cookies make you fat";
+</code></pre>
+
+<p>实际上quote代表的是string中的首字符的地址，即字符&#8217;C&#8217;对应的地址</p>
+
+<pre><code>printf("The quote string is stored at: %p\n", quote);
+</code></pre>
+
+<p>以上将打印一个16进制的地址,尽管quote是一个数组，但是你可以把&#8221;quote&#8221;当成一个指针变量，因为它本身就是代表首字符串中的首字符的地址.</p>
+
+<p>所以当调用</p>
+
+<pre><code>fortune_cookie(msg);
+</code></pre>
+
+<p>时，其实我们给fortune_cookie函数传的是一个指针,它返回的是指向一个字符串的指针的大小，在32位上操作系统，一个指针占了4个字节的空间，而在64位上，一个指针则占据了8个字节,故有以上结果</p>
+
+<h2>数组变量不是指针</h2>
+
+<p>尽管在调用函数时，数组参数是可以被当作指针传递，但实际上仍有一些不同，考虑以下情况</p>
+
+<pre><code>char s[] = "How big is it?"; 
+char *t = s;
+</code></pre>
+
+<ol>
+<li>sizeof(数组) 是一个数组的大小.
+ sizeof(s) = 15   sizeof(t) = 4 或 8</li>
+<li>数组的地址
+ &amp;s = s     &amp;t != t
+如果你写&amp;s,表示数组s的地址是什么,数组s的地址就是s,&amp;t表示t变量的地址，显然不等于t(表示s的地址)</li>
+<li><p>一个数组变量不能指向任何地方
+ 如果你创建了一个指针，机器将会为之分配4或8个字节来存储它,但如果你创建了一个数组，机器将为此<code>数组</code>分配空间，而不分为此<code>数组变量</code>分配<strong>任何</strong>的空间,数组变量仅代表数组的首地址</p>
+
+<p> 由于数组变量没有任何的存储空间，所以它不能指向任何地方,当程序编译时，所以的数组变量都被数组的地址替换了，所以数组变量并不存在最后的可执行文件中，这也就是为什么数组变量不能指向任何其他地方的原因</p></li>
+</ol>
+
+
+<h2>指针退化(Pointer decay)</h2>
+
+<p>由于数组变量和指针变量有些区别，当你把数组赋给指针时需要特别小心，如果你将一个数组赋给一个指针变量，此时的指针变量将只包含数组的地址,没法知道数组的大小，所以一些信息丢失了，这种丢失信息的情况就叫做指针退化</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-24T07:58:39+08:00" data-updated="true" itemprop="datePublished">Jun 24<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/bian-cheng-yu-yan/'>编程语言</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/24/c-plus-plus-and-objective-c/" itemprop="url">C++ &amp; Objective C</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>译自<a href="http://paralaxer.com/cpp-vs-objective-c/">C++ vs Objective C</a></p>
+
+<h2>C++ 是一辆手动档汽车</h2>
+
+<p>如果说object C是一辆自动档汽车，那么C++就是一辆手动档的汽车</p>
+
+<p>也许有人会说自动档汽车更好，因为它更容易操纵，不过,用自动档的人可能会在经过一条石子路时因没有将离和器置空档的经验而无法让车停下来</p>
+
+<p>C的运行速度更快，也能对它进行更多的掌控，然而相应得，它对程序员的技能提出了更高的要求</p>
+
+<p>比如，C++在解引用指针前不检查指针(是否为空或有效)来节省时间，这提升了你游戏的运行速度,给了你更多的掌控，同时它也使得你必须在debug模式下使用用assert</p>
+
+<h2>发送消息给空对象</h2>
+
+<p>我们来看一下ObjC和C++的一个最根本的区别之一</p>
+
+<p>用Object C,你能安全地发送信息给nil对象(付出的代价是程序的执行时间会慢一点)</p>
+
+<pre><code>// in Objective C
+Node* node = nil;
+
+// this will not crash, it will just do nothing
+[node setPosition:Point(10,10)];
+</code></pre>
+
+<p>在C++中，如果你解引用一个空指针，将会产生一个运行时错误</p>
+
+<pre><code>// in C++
+Node* node = nullptr; // nullptr introduced in C++11
+
+// this will crash
+node-&gt;setPosition(Point(10,10));
+
+// using a safeguard, this will not crash
+if(node)
+   node-&gt;setPosition(Point(10,10));
+
+// using an assertion will trigger a debuggable error
+assert(node);
+node-&gt;setPosition(Point(10,10));
+</code></pre>
+
+<p>在底层，Objc实际上实现了一个空对象，对任何发送给它的消息，它都返回0，这种实现方式让编程更安全，也更简单，不过，这么做也会导致一些bug难以察觉</p>
+
+<p>C++在解引用前不会检查一个指针是否为空,如上所示,如果node为null,C++会用null去执行setPosition函数,如果通过一个null指针去访问它的成员变量,你的程序将会崩溃</p>
+
+<p>一种解决方法是用<a href="http://www.cplusplus.com/reference/cassert/assert/">断言</a>,它仅在非发布模式下起作用,如果传给断言的表达式为假，程序终止，如果此时有个调试器，程序终止时将停在断言失败的那一行，这样，你就能看到哪一行代码出问题了</p>
+
+<pre><code>Node* node = nullptr;
+
+// this will pause execution when debugging
+assert(node);
+</code></pre>
+
+<p>由于断言通常被定义为宏,用它的一个好处是在发布模式下(或者其他任何定义了NDEBUG的模式中)，此断言宏不做任何事情,本质上,编译器不会为它产生任何二进制的代码，这样，在debug模式时，你就可以放心地用它,同时,也保证了发布模式下的程序运行速度(由于针对assert的二进制代码被忽略掉了)</p>
+
+<h2>可读性</h2>
+
+<p>我们来看看两者的另一个基本的区别,Object C生来就比C++有更好的可读性,因为方法的参数名称也集成到了方法名中</p>
+
+<pre><code>// Objective C
+[layer addChild:sprite z:1];
+
+// C++
+layer-&gt;addChild(sprite, 1);
+</code></pre>
+
+<p>你能看到两者在可读性上的差别吗?</p>
+
+<p>Objective C有更好的可读性因为addChild方法中的第二个参数清楚地显示了z参数,在C++中,没人知道1代表什么</p>
+
+<p>如今,像Xcode之类IDE提供了自动补全的功能，这也减轻了你写代码的负担，当你敲addChild时，IDE们会自动为你显示参数类型和名字,这样IDE就为你清楚地显示了相应的参数是什么(类型和名字),不过如果你好久没碰你的项目了，然后回头看addChild方法的时候，你就会感到困惑，不明白第二个参数代表什么意思</p>
+
+<p>用一些名字定义良好的变量，你可以让C++代码更具有可读性</p>
+
+<pre><code>int z = 1;
+layer-&gt;addChild(sprite, z);
+</code></pre>
+
+<h2>速度和可移植性</h2>
+
+<p>我们已经讨论了C++为何比Objective C更快,那么可移植性呢,这才是C++闪光的地方</p>
+
+<p>C++比OC更具有可移植性,它可以在多个平台上(如Windows,Mac, Linux,iOS,Android等平台上)被原生的编译集成</p>
+
+<p>说到Android,如果你升级NDK的GCC编译器，技术上是可以编译OC的,但要注意，你需要所有的Foundation 类</p>
+
+<p>还记得 NSObject, NSString, NSArray否？它们在Mac上完美的实现了，而在Windows上则没有,所有这些都必须用一种跨平台的方式重新实现</p>
+
+<p>幸运的是,有一些像<a href="http://www.cocotron.org">Cocotron</a>这样的项目致力于此,然而如果到一些android相关的具体问题上,比如输入和声音,你仍然需要一个跨平台的库, 这些库实现了相应平台的细节，所以你就不需要做了.</p>
+
+<p>这就是为什么C++和Cocos2dX 如此cool的原因,cocos2dx处理了平台相关的问题,并且用C++来实现它们</p>
+
+<p>除了速度，可移植性和可读性，我们来看看更具体的区别,比如oc的dClass和id类型</p>
+
+<h2>Class和id类型</h2>
+
+<p>OC有一个叫Class类型的实现,它允许你获得对象的类并且将你存储在一个变量中.</p>
+
+<p>C++并没有相应的Class类型的实现方式，但它有一个叫做运行时类型信息(RTTI)的东西,可以粗略地将一个指针转换为一个字符串,这个字符串包含有一个以<a href="http://www.cplusplus.com/reference/typeinfo/type_info/">typeid</a>表示的对象类,不过,由于各个平台的转换结果不同,这种解决方式似乎并不可靠</p>
+
+<p>OC的Class类型使得从字符串创建类可以变得相当优雅，考虑以下情况</p>
+
+<pre><code>// Objective C
+NSString* string = @"Hammer";
+Class class = NSClassFromString(string);
+id object = [[class alloc] init];
+
+// C++
+Tool* tool = nullptr;
+std::string string = "Hammer";
+if( string == "Hammer" )
+   tool = new Hammer;
+</code></pre>
+
+<p>以上显示了OC的类类型的优雅以及在C++中相应的可能的解决方式</p>
+
+<p>你可以看到以上代码中我们用了ObjC的id类型,它本质上是一个指向对象类型的指针,大致相当于C++中的void*,但仍有不用两者的许多理由</p>
+
+<h2>惰性</h2>
+
+<p>假设有一个叫做Parent的父类,有一个继续它的Child子类，同时有一个叫做goToSleep的方法</p>
+
+<p>在C++中,如果你在Child中重新定义了Child的接口，你就不得不在Child的接口中(头文件中)重新定义goToSleep这个方法，但在OC中，你无需这么做，只要在@implementation中实现它即可</p>
+
+<pre><code>/ Objective C
+@interface Parent : NSObject
+   -(void) goToSleep;
+@end
+
+@interface Child : Parent
+   // woo! don't have to redefine goToSleep
+@end
+
+@implementation Parent
+   -(void) goToSleep {}
+@end
+
+@implementation Child
+   -(void) goToSleep {}
+@end
+
+// C++
+class Parent
+{
+   public:
+      virtual void goToSleep();
+};
+
+class Child : public Parent
+{
+   public:
+      // goToSleep has to be redefined
+      // if it is to be overridden
+      virtual void goToSleep();
+};
+
+void Parent::goToSleep() {}
+
+void Child::goToSleep() {}
+</code></pre>
+
+<p>C++之所以迫使程序员重新定义被重写的函数的原因是因为这么做可以让编译器的工作变得更加容易，编辑器无需因为一些神秘的方法去检查类的继承关系</p>
+
+<h2>虚函数</h2>
+
+<p>在以上的例子中,我们看到了C++中virtual关键字的使用,当virtual被用在函数时，位于继承层次中最低的那个类有最高的优先级调用此函数(比如以上例子中，Child的goToSleep先被调用)</p>
+
+<p>在OC中,所以的方法本质上是虚函数,这让编程变得简单，不过相应的，这么做也导致了<a href="http://stackoverflow.com/questions/4882105/c-polymorphism-inheritance-question-redefinition-of-base-functions-vs-virtual/4882155#4882155">性能的下降</a></p>
+
+<p>另外，如前所述，C++相当于手动档汽车,你可以根据需要指定或不指定函数为virtual</p>
+
+<h2>栈</h2>
+
+<p>在OC中，你只能在堆上分配对象
+在C++中，你可以在栈上分配对象，有栈上创建对象比在堆上创建快，同时也保证了，对象超出相应的作用范围时析构函数能被调用,即便在已经抛出异常的情况下</p>
+
+<p>举个例子</p>
+
+<pre><code>// Objective C
+// 仅分配在堆上
+Tool* tool = [[Tool alloc] init];
+
+// C++
+//我们采用了快速的，可信任的栈分配
+Tool tool;
+</code></pre>
+
+<h2>运算符重载</h2>
+
+<p>在C++中，你可以重载运算符,比如，如果你写了一个Vector对象,你可以重载&#8221;+&ldquo;符号,这样Vector的对象就能进行相加的运算了</p>
+
+<pre><code>// C++
+class Vector
+{
+   const Vector operator+(const Vector&amp; v) const
+   {
+      return Vector(x + v.x, y + v.y, z + v.z);
+   }
+}
+
+// this '+' calls the overloaded operator+
+// isn't it nice?
+Vector v1,v2,v3;
+v3 = v1 + v2;
+</code></pre>
+
+<p>而在OC中，则不能重载运行符，不过你可以在方法命名上动些脑筋</p>
+
+<pre><code>// Objective C
+v3 = [v1 addVector:v2];
+</code></pre>
+
+<p>不过，这样一来，OC在处理一些事情时便显得有些哆嗦了，如下</p>
+
+<pre><code>// Objective C
+NSString* a = @"something";
+NSString* b = @"else";
+if( [a isEqualToString:b] )
+   [self doSomething];
+
+// C++
+string a = "something";
+string b = "else";
+if( a == b )
+   doSomething();
+</code></pre>
+
+<h2>私有性</h2>
+
+<p>OC在技术上是没有私有方法的，不过我们可以在.m文件中定义一个空的类别，并在此空的类别中定义此方法(来模拟私有方法),达种方法是很优雅的,因为这样一来私有方法就无需在公共接口中声明了(因此由于头文件的变化，你的代码将会重新进行索引和编译)</p>
+
+<pre><code>// 在OC的头文件中 (.h)
+@interface Something : NSObject
+   // See? No private method
+@end
+
+// 在实现文件中 (.m)
+// 用一个类别来扩展接口
+// (空类别代表私有的一些属性)
+@interface Something () // a blank category
+   -(void) privateMethod;
+@end
+</code></pre>
+
+<p>在C++中，有公有和私有的概念，不过私有的属性或方法必须在公有接口另声明</p>
+
+<p>如果你确实不想在公有接口中声明私有的方法，你可以采用在.m文件中声明静态函数的形式来避免它(这和之前提到的OC的空类别有点类似)</p>
+
+<h2>类扩展</h2>
+
+<p>如上例所示，OC可以用一个类别来扩展一个类</p>
+
+<p>类别是很优雅的，因为一个类可以在任何地方被扩展,如在.h和.m文件中，或是其他地方</p>
+
+<p>技术上C++是不能扩展一个类的，不过它有<a href="http://www.cprogramming.com/tutorial/multiple_inheritance.html">多继承</a></p>
+
+<h2>默认参数</h2>
+
+<p>C++还有一个很cool的地方:默认参数.函数中的参数可以有一个默认值,这样我们可以选择在调用函数时是否给此参数传值</p>
+
+<pre><code>// C++
+class Something
+{
+   void doSomething(int i, float f = 0.0f) {}
+};
+
+Something s;
+
+// can be called with or without the f parameter
+s.doSomething(5);
+s.doSomething(5, 1.0f);
+</code></pre>
+
+<p>OC则没有默认参数，不过它可以采用定义多个方法的形式来实现</p>
+
+<pre><code>// Objective C
+@interface Something : NSObject
+   -(void) doSomething:(int)i;
+   -(void) doSomething:(int)i withF:(float)f;
+@end
+
+@implementation Something
+   -(void) doSomething:(int)i
+   {
+      [self doSomething:i withF:0.0f];
+   }
+
+   -(void) doSomething:(int)i withF:(float)f
+   {
+      // do something with i and f...
+   }
+@end
+
+Something* s = [[Something alloc] init];
+
+// either method can be called, however
+// two separate methods have been implemented
+[s doSomething:5];
+[s doSomething:5 withF:1.0f];
+</code></pre>
+
+<h2>结论:混合使用C++和OC</h2>
+
+<p>以上就是C++和OC的主要区别
+需要记住两者总是可以共存的，实际上你可以采用<a href="http://en.wikipedia.org/wiki/Objective-C#Objective-C.2B.2B">Objecttive C++</a>的使用来让两者共存</p>
+
+<p>你可以将.m文件改为.mm文件，这样编辑器就知道是用Object C++了，从而可以使用Object C,C++或者两者混用</p>
+
+<pre><code>// In the file AppDelegate.mm
+@implementation AppDelegate
+   -(void) applicationDidFinishLaunching:(NSNotification*)aNotification
+   {
+      // Do some Objective C stuff
+      window = [[Window alloc] initWithContentRect:...];
+
+      // Now switch to C++ and launch Cocos2dx
+      Application::getInstance()-&gt;run();
+   }
+@end
+</code></pre>
+
+<p>如以上例子所见,Objective C++是很常见的,它对于在同一个方法中响应iOS和Mac的通知并启动Cocos2d-x是必须的</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

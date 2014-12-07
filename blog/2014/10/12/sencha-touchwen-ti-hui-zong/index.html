@@ -136,6 +136,21 @@
 </span><span class='line'>  }
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
+
+<p>3.创建实例的方式有两种<code>Ext.create()</code>和new,不过建议用Ext.create，这样可以用到动态加载的好处</p>
+
+<p>4.NestedList的方法中判断是哪一个record(用tpl)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">getItemTextTpl</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">record</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="s1">&#39;&lt;tpl if=&quot;text==\&#39;Fruit\&#39;&quot;&gt;{text}&lt;/tpl&gt;{&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">getDisplayField</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 </article>

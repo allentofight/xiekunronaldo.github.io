@@ -9,7 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jul 30th, 2014 Ruby Exceptions-catch-throw The Exception Class 异常的信息被封装进了Exception类的对象或者Exception类的子类对象里,Ruby预定义了exceptions的hierarchy,如下 如果你需要抛出异常, &hellip;">
+	<meta name="description" content="Jul 30th, 2014 Ruby Fibers Threads Processes Ruby gives you two basic ways to organize your program so that you can run different parts of it &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,386 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-30T15:42:25+08:00" data-updated="true" itemprop="datePublished">Jul 30<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/30/fibers-threads-processes/" itemprop="url">Fibers Threads Processes</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Ruby gives you two basic ways to organize your program so that you can run different parts of it apparently “at the same time.” Fibers let you suspend execution of one part of your program and run some other part. For more decoupled execution, you can split up cooper- ating tasks within the program, using multiple threads, or you can split up tasks between different programs, using multiple processes. Let’s look at each in turn.####Fibers
+Ruby 1.9引入了fibers的概念,尽管名字意味着某种轻量级的线程，实际上，fibers仅仅是一种非常简单的coroutine机制，它能让你写一些看起来用了线程的程序，实际上没有引发任何线程中内在的复杂机制
+计算一个文件中单词的出现次数，不用fibers版本</p>
+
+<pre><code>counts = Hash.new(0) 
+File.foreach("testfile") do |line|
+    line.scan(/\w+/) do |word| 
+    word = word.downcase 
+    counts[word] += 1
+    end 
+end
+counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
+produces:
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1这段代码非常的ugly,它混合了查找word和计算word两种逻辑,来看看用Fiber的方法
+words = Fiber.new do 
+    File.foreach("testfile") do |line|          line.scan(/\w+/) do |word| 
+        Fiber.yield word.downcase
+        end 
+    end     nil ￼end
+counts = Hash.new(0)
+while word = words.resume 
+    counts[word] += 1
+end
+counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
+produces:
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
+</code></pre>
+
+<p>再来看一个demo</p>
+
+<pre><code>twos = Fiber.new do 
+    num = 2     loop do         Fiber.yield(num) unless num % 3 == 0 
+        num += 2
+        end 
+    end 10.times { print twos.resume, " " } 
+produces:
+2 4 8 10 14 16 20 22 26 28
+</code></pre>
+
+<p>以上也可以用之前提到的lazy Enumberators中实现由于fibers也是对象，你可以将它们存储在变量中，并且fibers只能在创建它们的线程中resume
+fibers can yield control only back to the code that resumed them,不过Ruby提供了两种标准库来拓展这种行为fiber库和continuation库</p>
+
+<h4>多线程</h4>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-30T14:27:07+08:00" data-updated="true" itemprop="datePublished">Jul 30<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/30/basic-input-and-output/" itemprop="url">Basic Input and Output</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>两个I/O routines
+第一个是基本的交互界面</p>
+
+<pre><code>print "Enter your name: " 
+
+name = gets
+</code></pre>
+
+<p>一系列I/O相关的方法在Kernel module里实现gets, open, print, printf, putc, puts, readline, readlines, 和 test,这些方法通常都与标准输入，标准输出有关
+第二个则是与IO对象交互
+IO类，有两个子类File和BasicSocket</p>
+
+<h5>开头文件</h5>
+
+<pre><code>file = File.new("testfile", "r") 
+# ... process the file 
+file.close
+</code></pre>
+
+<p>File与Block</p>
+
+<pre><code>File.open("testfile", "r") do |file| 
+    # ... process the file
+end # &lt;- file automatically closed here与exception结合
+class File
+    def File.open(*args)
+        result = f = File.new(*args) 
+            if block_given?
+                begin
+                    result = yield f
+                ensure
+                    f.close
+                end 
+            end
+            result
+            end 
+end
+</code></pre>
+
+<h5>读写文件</h5>
+
+<p>来看一段copy.rb代码</p>
+
+<pre><code>while line = gets 
+
+    puts line
+end
+</code></pre>
+
+<p>如果运行程序木有命令行参数，则与console交互</p>
+
+<pre><code>$ ruby copy.rb 
+
+These are lines 
+
+These are lines 
+
+that I am typing 
+
+that I am typing 
+
+^D
+</code></pre>
+
+<p>如果带文件名，则与文件交互</p>
+
+<pre><code>$ ruby copy.rb testfile 
+
+This is line one
+This is line two
+This is line three
+And so on...
+</code></pre>
+
+<p>我们可以用File类来读写文件</p>
+
+<pre><code>File.open("testfile") do |file| 
+    while line = file.gets          puts line       end 
+end
+    produces:
+This is line one
+This is line two
+This is line three
+And so on...
+</code></pre>
+
+<h5>Iterators for Reading</h5>
+
+<p>你可以用各种iterators与IO流交互
+O#each_byte invokes a block with the next 8-bit byte from the IO object,chr则将integer转化为ASCII字符</p>
+
+<pre><code>File.open("testfile") do |file| 
+    file.each_byte.with_index do |ch, index|
+        print "#{ch.chr}:#{ch} "
+        break if index &gt; 10 
+    end
+end
+produces:
+T:84 h:104 i:105 s:115  :32 i:105 s:115  :32 l:108 i:105 n:110 e:101
+</code></pre>
+
+<p>IO#each_line</p>
+
+<pre><code>File.open("testfile") do |file|
+    file.each_line {|line| puts "Got #{line.dump}" }
+end
+produces:
+Got "This is line one\n"
+Got "This is line two\n"
+Got "This is line three\n"
+Got "And so on...\n"
+</code></pre>
+
+<p>你也可以将一串字符传给each_line来作为一个line separator,默认是\n</p>
+
+<pre><code>File.open("testfile") do |file|
+    file.each_line("e") {|line| puts "Got #{ line.dump }" }
+end
+produces:
+Got "This is line"
+Got " one"
+Got "\nThis is line"
+Got " two\nThis is line"
+Got " thre"
+Got "e"
+Got "\nAnd so on...\n"
+</code></pre>
+
+<p>combine iterator和autoclosing block,我们得到了IO.foreach,这个方法打开文件，调用iterator一次一行，然后自动关闭文件</p>
+
+<pre><code>IO.foreach("testfile") {|line| puts line }将整个文件文件的内容保存在一个string或每行保存在一个数组里
+//保存在string中
+# read into string
+str = IO.read("testfile")
+str.length # =&gt; 66
+str[0, 30] # =&gt; "This is line one\nThis is line "
+
+//保存在array中
+
+# read into an array    arr = IO.readlines("testfile") 
+arr.length # =&gt; 4
+arr[0] # =&gt; "This is line one\n"
+</code></pre>
+
+<h4>写入文件</h4>
+
+<pre><code># Note the "w", which opens the file for writing
+File.open("output.txt", "w") do |file| 
+file.puts "Hello"
+file.puts "1 + 2 = #{1+2}"
+end
+# Now read the file in and print its contents to STDOUT
+puts File.read("output.txt")
+produces:
+Hello 1+2=3
+</code></pre>
+
+<p>如果将二进制数据转为string,有以下三种方法</p>
+
+<pre><code>str1 = "\001\002\003" # =&gt; "\u0001\u0002\u0003" 
+
+str2 = ""
+str2 &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3 # =&gt; "\u0001\u0002\u0003" 
+[ 1, 2, 3 ].pack("c*") # =&gt; "\x01\x02\x03"
+</code></pre>
+
+<p>你也可以用&lt;&lt;将对象添加到输出流中</p>
+
+<pre><code>endl = "\n"
+STDOUT &lt;&lt; 99 &lt;&lt; " red balloons" &lt;&lt; endl
+produces:
+99 red balloons 
+</code></pre>
+
+<p>&lt;&lt;方法在打印前将用to_s将它的参数转为string</p>
+
+<h5>Doing I/O with StringsStringIO对象，它们操作起来就像I/O对象，但它们只是读写strings，而不是files</h5>
+
+<pre><code>require 'stringio'
+ip = StringIO.new("now is\nthe time\nto learn\nRuby!")
+op = StringIO.new("", "w")
+ip.each_line do |line| 
+    op.puts line.reverse
+end
+op.string # =&gt; "\nsi won\n\nemit eht\n\nnrael ot\n!ybuR\n"
+</code></pre>
+
+<h4>Talking to Networkds</h4>
+
+<p>socekt库封装了TCP,UDP,SOCKS和Unix domainsockes require &lsquo;socket&rsquo;    client = TCPSocket.open(&lsquo;127.0.0.1&rsquo;, &lsquo;www&rsquo;)</p>
+
+<pre><code>client.send("OPTIONS /~dave/ HTTP/1.0\n\n", 0) 
+puts client.readlines
+client.close
+produces:
+# 0 means standard packet
+HTTP/1.1 200 OK
+Date: Mon, 27 May 2013 17:31:00 GMT
+Server: Apache/2.2.22 (Unix) DAV/2 PHP/5.3.15 with Suhosin-Patch mod_ssl/2.2.22
+OpenSSL/0.9.8r
+Allow: GET,HEAD,POST,OPTIONS
+Content-Length: 0
+Connection: close
+Content-Type: text/html
+</code></pre>
+
+<p>在高层,lib/net library modules提供了对通信协议的许多支持(FTP, HTTP, POP, SMTP, and telnet)</p>
+
+<pre><code>//以下只是一部分代码
+require 'net/http'
+http = Net::HTTP.new('pragprog.com', 80)
+response = http.get('/book/ruby3/programming-ruby-1-9')
+if response.message == "OK"
+puts response.body.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
+end
+produces:
+       http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
+       http://pragprog.com/assets/drm-
+       free80-9120ffac998173dc0ba7e5875d082f18.png
+       http://imagery.pragprog.com/products/99/ruby3_xlargecover.jpg?
+       1349967653open-url库中的Object#open方法能识别文件中的http://和ftp://URLs,也能自动处理重定向 
+require 'open-uri'
+open('http://pragprog.com') do |f|
+puts f.read.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
+end
+produces:
+       http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
+       http://pragprog.com/assets/drm-free80-9120ffac998173dc0ba7e5875d082f18.png
+       http://imagery.pragprog.com/products/353/jvrails2_xlargebeta.jpg?1368826914
+</code></pre>
+
+<h4>Parsing HTML</h4>
+
+<pre><code>require 'open-uri'
+page = open('http://pragprog.com/titles/ruby3/programming-ruby-1-9').read 
+if page =~ %r{&lt;title&gt;(.*?)&lt;/title&gt;}m
+    puts "Title is #{$1.inspect}" 
+end
+produces:
+       Title is "The Pragmatic Bookshelf | Programming Ruby 1.9"
+</code></pre>
+
+<p>但用此法不太妥当，可能title和尖括号间多个个空格如何是好，可以用第三方库Nokogiri</p>
+
+<pre><code>require 'open-uri' 
+require 'nokogiri'
+doc = Nokogiri::HTML(open("http://pragprog.com/"))
+puts "Page title is " + doc.xpath("//title").inner_html
+# Output the first paragraph in the div with an id="copyright" 
+# (nokogiri supports both xpath and css-like selectors)
+puts doc.css('div#copyright p')
+# Output the second hyperlink in the site-links div using xpath and css
+puts "\nSecond hyperlink is"
+puts doc.xpath('id("site-links")//a[2]') puts doc.css('#site-links a:nth-of-type(2)')
+produces:
+Page title is The Pragmatic Bookshelf
+&lt;p&gt;
+    The &lt;em&gt;Pragmatic BookshelfTM&lt;/em&gt; is an imprint of
+        &lt;a href="http://pragprog.com/"&gt;The Pragmatic Programmers, LLC&lt;/a&gt;.
+    &lt;br&gt;
+    Copyright © 1999–2013 The Pragmatic Programmers, LLC.
+    All Rights Reserved.
+&lt;/p&gt;
+Second hyperlink is
+&lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
+&lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
+</code></pre>
+
+<p>Nokogiri can also update and create HTML and XML.</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -3023,520 +3403,6 @@ dup方法来创建一个全新的对象</p>
     produces:
             from prog.rb:4:in `&lt;main&gt;'
     prog.rb:4:in `[]=': can't modify frozen String (RuntimeError)
-</code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-23T20:11:08+08:00" data-updated="true" itemprop="datePublished">Jul 23<span>rd</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/23/ruby-new/" itemprop="url">Ruby-new</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h4>Ruby中一切皆对象</h4>
-
-<p>创建对象，假设有一个Song的类，按如下方式创建实例</p>
-
-<pre><code>song1 = Song.new("Ruby Tuesday")
-song2 = Song.new("Enveloped in Python")
-</code></pre>
-
-<p>如何理解一切皆对象，看以下demo</p>
-
-<pre><code>puts "gin joint".length 
-puts "Rick".index("c") 
-puts 42.even?           //42是否是偶数
-puts sam.play(song)
-</code></pre>
-
-<p>在java中，如果要算一个值的绝对值，可按如下方式</p>
-
-<pre><code>num = Math.abs(num)
-</code></pre>
-
-<p>但在Ruby中，由于一切皆对象，可按如下方式</p>
-
-<pre><code>um = -1234          # =&gt; -1234 
-positive = num.abs  # =&gt; 1234
-</code></pre>
-
-<p>同样的规则适用于所有的Ruby对象，在C中，你可以写strlen(name)，但在ruby中，你可以写name.length,无比轻松</p>
-
-<h5>Ruby中的方法</h5>
-
-<p>形式如下</p>
-
-<pre><code>def say_goodnight(name)
-    result = "Good night, " + name
-    return result
-end
-
-    # Time for bed...
-puts say_goodnight("John-Boy") 
-puts say_goodnight("Mary-Ellen")
-</code></pre>
-
-<p>无需分号表示每个语句的结尾，只要你把每一条语句都放在一单独的行上    puts say_goodnight(&ldquo;Mary-Ellen&rdquo;)
-相当于</p>
-
-<pre><code>puts(say_goodnight("Mary-Ellen"))
-</code></pre>
-
-<h5>字符串</h5>
-
-<p>创建字符串有两种方法，一种是单引号括起来的，一种是双引号括起来的,双引号括起来的字符串，ruby需要做更多的工作，首先，ruby会寻找以反斜杠开头的序列，并将它替换为一个二进制的值,如&#8221;\n&#8221;,另外，双引号形式的字符串还需要做的将#{expression}序列替换成expression的值,我们能用它来替换之前我们写的程序</p>
-
-<pre><code>def say_goodnight(name)
-    result = "Good night, #{name}" 
-    return result
-end
-puts say_goodnight('Pa') 
-produces:   Good night, Pa
-</code></pre>
-
-<p>任意的复杂的表达式都能放在#{&hellip;}里，如下</p>
-
-<pre><code>def say_goodnight(name)
-    result = "Good night, #{name.capitalize}" 
-    return result
-end
-puts say_goodnight('uncle') 
-produces:
-Good night, Uncle
-</code></pre>
-
-<p>我们还能对以上方法进行简化，ruby方法返回的值是最一个表达式对应的值，所以我们可以不必写临时变量和return语句</p>
-
-<pre><code>    def say_goodnight(name)
-    "Good night, #{name.capitalize}"
-end
-puts say_goodnight('ma') 
-produces:
-Good night, Ma
-</code></pre>
-
-<h4>Ruby的名字</h4>
-
-<p>ruby的命名遵循以下惯例,第一个名字的首字符表示这个名字的使用场合</p>
-
-<ul>
-<li>局部变量，方法参数，方法名都 以一个小写字母或下划线开头</li>
-<li>全局变量以一个$符开头，对象实例变量以@开头</li>
-<li>类变量以两个@@开头</li>
-<li><p>类名，模块名，常量必须以大写字母开头
-使用的demo如下</p>
-
-<pre><code>  Local Variable:     name fish_and_chips x_axis thx1138 _x _26
-  Instance Variable:  @name @point_1 @X @_ @plan9
-  Class Variable:     @@total @@symtab @@N @@x_pos @@SINGLE
-  Global Variable:   $debug $CUSTOMER $_ $plan9 $Global
-  Class Name:         String ActiveRecord MyClass     Constant Name:      FEET_PER_MILE DEBUG
-</code></pre>
-
-<h4>数组和哈希字典</h4>
-
-<p>数组</p>
-
-<pre><code>  a = [ 1, 'cat', 3.14 ] # array with three elements 
-  puts "The first element is #{a[0]}"
-  # set the third element
-  a[2] = nil
-  puts "The array is now #{a.inspect}"
-  produces:
-  The first element is 1
-  The array is now [1, "cat", nil]
-</code></pre>
-
-<p>简便地创建数组的方法</p>
-
-<pre><code>  a = %w{ ant bee cat dog elk } 
-  a[0] # =&gt; "ant"
-  a[3] # =&gt; "dog"
-</code></pre>
-
-<p>哈希字典</p>
-
-<pre><code>  inst_section = {
-  'cello' =&gt; 'string', 
-  'clarinet' =&gt; 'woodwind', 
-  'drum' =&gt; 'percussion', 
-  'oboe' =&gt; 'woodwind', 
-  'trumpet' =&gt; 'brass', 
-  'violin' =&gt; 'string'    }
-</code></pre>
-
-<p><code>=&gt;</code>符号的左为key，右为value
-在控制台上我们用p而不是puts，因为p可以更显式地打印nil值</p>
-
-<pre><code>  p inst_section['oboe']
-  p inst_section['cello']
-  p inst_section['bassoon']
-</code></pre></li>
-</ul>
-
-
-<p>produces:</p>
-
-<pre><code>    "woodwind"
-    "string"
-    nil
-</code></pre>
-
-<p>默认情况下hash的key如果对应的value不存在，则value的值为nil，我们可以改变这个默认傎</p>
-
-<pre><code>histogram = Hash.new(0)
-histogram['ruby'] # =&gt; 0
-histogram['ruby'] = histogram['ruby'] + 1 
-histogram['ruby'] # =&gt; 1
-</code></pre>
-
-<h4>符号(Symbols)</h4>
-
-<p>通常在编程的时候，你需要为某些重要的东西指定一个名字，比如，你也许想要用名字来指示指南针的方向，所以，你可以像以下这么写</p>
-
-<pre><code>NORTH = 1 
-EAST =2 
-SOUTH = 3 
-WEST =4
-</code></pre>
-
-<p>定义好之后，你就可以用这些名字而不是数字了</p>
-
-<pre><code>walk(NORTH)
-look(EAST)
-</code></pre>
-
-<p>然而，很多时候，这些名字对应的数值是不相关的(只要它们是唯一的)你所要做的只是区分这四个方向而已
-Ruby提供了一个很简单的替代方案:符号(Symbols).Symbols只是常量名字，不过你无需定义它，并且它们也保证是唯一的，一个符号常量以:开头，紧跟着字符串
-walk(:north)
-look(:east)
-无须为一个symbol赋任何值,Ruby已经为你考虑好了.Ruby保证不管符号出现在你，一个特定和符号总量有相同的值，因此，你可以按如下方式使用symbol</p>
-
-<pre><code>def walk(direction)
-    if direction == :north
-    # ...
-    end
- end
-</code></pre>
-
-<p>symbols通常被用来当作hash的key，我们可以将我们之前写的hash写为以下形式</p>
-
-<pre><code>    inst_section = {
-    :cello =&gt; 'string', 
-    :clarinet =&gt; 'woodwind', 
-    :drum =&gt; 'percussion', 
-    :oboe =&gt; 'woodwind', 
-    :trumpet =&gt; 'brass', 
-    :violin =&gt; 'string'
-}
-</code></pre>
-
-<p>事实上，symbols是如此频繁地被当作hash的键，ruby提供了一个更简洁的语法，你可以用name:value的形式来创建hash，如果key是symbols的话</p>
-
-<pre><code>inst_section = {
-    cello: 'string', 
-    clarinet: 'woodwind', 
-    drum: 'percussion', 
-    oboe: 'woodwind', 
-    trumpet: 'brass', 
-    violin: 'string'
-}
-puts "An oboe is a #{inst_section[:oboe]} instrument"
-produces:
-An oboe is a woodwind instrument
-</code></pre>
-
-<h4>条件语句</h4>
-
-<p>if语句</p>
-
-<pre><code>today = Time.now
-if today.saturday?
-    puts "Do chores around the house"
-elsif today.sunday?
-     puts "Relax"
-else
-     puts "Go to work" 
-end
-</code></pre>
-
-<p>produces:</p>
-
-<pre><code>Go to work
-</code></pre>
-
-<p>较短的if语句也可以这么写</p>
-
-<pre><code>puts "Danger, Will Robinson" if radiation &gt; 3000
-</code></pre>
-
-<p>while语句</p>
-
-<pre><code>while weight &lt; 100 and num_pallets &lt;= 5
-         pallet  = next_pallet()
-         weight += pallet.weight
-         num_pallets += 1
-end
-</code></pre>
-
-<p>较短的while语句也可以这么写</p>
-
-<pre><code>    square = 4
-    square = square*square while square &lt; 1000
-</code></pre>
-
-<p>ruby中的许多语句返回一个值，这意味着你可以用它们作为条件判断，比如,内核方法gets从标准输入流中返回下一行或者当到达文件的末尾时会返回nil，由于Ruby有条件语句中将nil视为假的，你可以用以下代码来处理文件对应的行</p>
-
-<pre><code>while line = gets 
-    puts line.downcase
-end
-</code></pre>
-
-<h4>正则表达式</h4>
-
-<pre><code>/\d\d:\d\d:\d\d/    # a time such as 12:34:56
-/Perl.*Python/      # Perl, zero or more other chars, then Python
-/Perl Python/       # Perl, a space, and Python
-/Perl *Python/     # Perl, zero or more spaces, and Python
-/Perl +Python/     # Perl, one or more spaces, and Python
-/Perl\s+Python/   # Perl, whitespace characters, then Python
-/Ruby (Perl|Python)/ # Ruby, a space, and either Perl or Python
-</code></pre>
-
-<p>结果if语句使用</p>
-
-<pre><code>line = gets
-if line =~ /Perl|Python/
-    puts "Scripting language mentioned: #{line}" 
-end
-</code></pre>
-
-<p>正则表达式的替代方法</p>
-
-<pre><code>line = gets
-newline = line.sub(/Perl/, 'Ruby') # replace first 'Perl' with 'Ruby'   newerline =     newline.gsub(/Python/, 'Ruby') # replace every 'Python' with 'Ruby'
-</code></pre>
-
-<h4>Blocks和迭代器</h4>
-
-<p>我们首先看看代码块(code blocks),code blocks是一串代码，你能将它与方法调用结合起来,就当它们是参数一样,这是难以置信的强大特性
-你用代码块来实现回调(但比java中的匿名内部类简单),把它们像C中的函数指针那样来传递(比C函数指针更简单)，或者实现迭代器的功能
-代码块的形式如下</p>
-
-<pre><code>{ puts "Hello" }
-</code></pre>
-
-<p>或</p>
-
-<pre><code>do
-  club.enroll(person)
-  person.socialize
-end
-</code></pre>
-
-<p>&ldquo;{}&#8221;block主要用在单行中,&#8221;do&hellip;.end&#8221;主要用在多行中
-你可以将block放在一个调用方法的尾部</p>
-
-<pre><code>greet { puts "Hi" } //greet是方法
-</code></pre>
-
-<p>如果方法有参数，则将block放在这些参数的最后</p>
-
-<pre><code>verbose_greet("Dave", "loyal customer") { puts "Hi" }
-</code></pre>
-
-<p>方法可以用Ruby提供的yield来调用block多次</p>
-
-<pre><code>def call_block
-
-    puts "Start of method" 
-    yield
-    yield
-    puts "End of method"
-end
-
-    call_block { puts "In the block" }
-</code></pre>
-
-<p>打印结果</p>
-
-<pre><code>    Start of method
-    In the block
-    In the block
-    End of method
-</code></pre>
-
-<p>调用yield的时候可以带参数,这些参数将被传到block中去，在block中，你将这些被接收的参数用|params&hellip;|的形式列出来,如下</p>
-
-<pre><code>def who_says_what yield("Dave", "hello") 
-    yield("Andy", "goodbye")
-
-end
-who_says_what {|person, phrase| puts "#{person} says #{phrase}"}
-</code></pre>
-
-<p>打印结果</p>
-
-<pre><code>Dave says hello Andy says goodbye
-</code></pre>
-
-<p>Code blocks广泛用在ruby的库中用来实现迭代器</p>
-
-<pre><code>    animals = %w( ant bee cat dog ) # create an array
-animals.each {|animal| puts animal }    # iterate over the contents
-</code></pre>
-
-<p>produces:</p>
-
-<pre><code>ant
-bee
-cat
-dog
-</code></pre>
-
-<p>再来看几个例子</p>
-
-<pre><code>    [ 'cat', 'dog', 'horse' ].each {|name| print name, " " } 
-5.times { print "*" }
-3.upto(6) {|i| print i }
-('a'..'e').each {|char| print char }
-puts
-</code></pre>
-
-<p>produces:</p>
-
-<pre><code>cat dog horse *****3456abcde####读写
-
-printf("Number: %5.2f,\nString: %s\n", 1.23, "hello")
-</code></pre>
-
-<p>produces:    Number:  1.23,    String: hello有很多方法可以将输入读入程序中，最常见的gets方法，它返回标准输入流的下一行</p>
-
-<pre><code>line = gets print line
-</code></pre>
-
-<h4>命令行参数</h4>
-
-<p>当你从命令行运行一个Ruby程序时，你能传送一些参数给它，你能用两种不同的参数来访问这些参数
-首先，ARGV就是这些参数组成的数组，假设有一个叫cmd_line.rb的程序如下</p>
-
-<pre><code>puts "You gave #{ARGV.size} arguments" 
-p ARGV
-</code></pre>
-
-<p>当我们向此程序传入这些参数时，我们参看到输出结果</p>
-
-<pre><code>$ ruby cmd_line.rb ant bee cat dog 
-You gave 4 arguments
-["ant", "bee", "cat", "dog"]
-</code></pre>
-
-<p>通常，传入的参数是你要处理的文件的名字，这种情况下，你应该用第二种技巧,<code>ARGF</code>,它是一种特别的I/O对象，代表了通过命令行传入的文件名的所有内容, 我们之后再学习它</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-21T22:23:15+08:00" data-updated="true" itemprop="datePublished">Jul 21<span>st</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/21/chu-shi-ruby/" itemprop="url">初识Ruby</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>在终端中输入irb与ruby交互</p>
-
-<pre><code>    2.1.2 :002 &gt; def sum(n1, n2)
-    2.1.2 :003?&gt;   n1+n2
-    2.1.2 :004?&gt;   end
-     =&gt; :sum
-    2.1.2 :005 &gt; sum(3, 4)
-     =&gt; 7
-</code></pre>
-
-<p>通常我们将ruby程序写在文件里，假设现在有一个myprog.rb的程序如下</p>
-
-<pre><code>    gettingstarted/myprog.rb        puts "Hello, Ruby Programmer"       puts "It is now #{Time.now}"
-</code></pre>
-
-<p>现在我们可以敲入以下命令来运行程序</p>
-
-<pre><code>    $ ruby myprog.rb        Hello, Ruby Programmer)     It is noew 2014-07-21 22:27:47 +0800
-</code></pre>
-
-<p>在Unix中，我们可以在程序的第一行添加&#8221;shebang&#8221;的符号，如下</p>
-
-<pre><code>    #! /usr/bin/ruby
-    puts "Hello, Ruby Programmer" 
-    puts "It is now #{Time.now}"
-</code></pre>
-
-<p>如果你用<code>chmod+x myprog.rb</code>命令让此文件成为可执行程序，Unix能让你将此文件作为一个程序来运行</p>
-
-<pre><code>    $ ./myprog.rb       Hello, Ruby Programmer      It is now 2013-05-27 12:30:36 -0500####Ruby文档:RDoc和ri
-</code></pre>
-
-<p>Ruby库越来越大，已经不可能将有关它们的文档写进一本书中了，ruby的标准库有9000多个！幸运的是，一种为这些方法(类，模块)提供文档的方法是存在的，许多在它们内部写文档的方法是采用一个RDoc的工具
-如果一个源文件用RDoc来文档注释，那么它的文档是可以被提取出来并被转化成HTML和ri的形式的
-ri是一个浏览本地RDoc的，命令行浏览器，许多ruby的发行版现在用ri程序来安装文档资源
-要发现针对某个类的文档，我们可以在命令行敲入<code>ri ClassName</code>的形式来查看,如以下</p>
-
-<pre><code>$ ri GC
------------------------------------------------------------------------------------ 
-The GC module provides an interface to Ruby's garbage collection mechanism. Some of the underlying  methods are also available via the ObjectSpace module.           You may obtain information about the operation of the GC through GC::Profiler.    -----------------------------------------------------------------------------------    Class methods:      count, disable, enable, malloc_allocated_size, malloc_allocations,      start, stat, stress, stress=    Instance methods:      garbage_collect
-</code></pre>
-
-<p>查看某个指定类的方法</p>
-
-<pre><code>ri GC::enable
---------------------------------------------------------------- GC::enable GC.enable =&gt; true or false   --------------------------------------------------------------------------- Enables garbage collection, returning true if garbage collection was    disabled.   GC.disable  GC.enable   GC.enable   #=&gt; false   #=&gt; true    #=&gt; false   
 </code></pre>
 
 		

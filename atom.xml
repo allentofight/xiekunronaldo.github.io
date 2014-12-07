@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-10-21T21:25:42+08:00</updated>
+  <updated>2014-12-07T21:27:10+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,147 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NodeJS技巧]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/10/26/nodejsji-qiao/"/>
+    <updated>2014-10-26T12:29:55+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/10/26/nodejsji-qiao</id>
+    <content type="html"><![CDATA[<ol>
+<li>用Curl测试NodeJS
+Node启动后,可以用<code>curl -i http://localhost:8080</code>来测试返回结果,<code>-i</code>表示打印出header和返回结果,假设我们要运行的程序如下</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">process_request</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">body</span> <span class="o">=</span> <span class="s1">&#39;Thanks for calling!\n&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">content_length</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s1">&#39;Content-Length&#39;</span><span class="o">:</span> <span class="nx">content_length</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">process_request</span><span class="p">);</span>
+</span><span class='line'><span class="nx">s</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>用curl后返回的结果为</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span> <span class="mi">200</span> <span class="nx">OK</span>
+</span><span class='line'><span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span><span class="o">:</span> <span class="mi">20</span>
+</span><span class='line'><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">text</span><span class="o">/</span><span class="nx">plain</span>
+</span><span class='line'><span class="nb">Date</span><span class="o">:</span> <span class="nx">Tue</span><span class="p">,</span> <span class="mi">15</span> <span class="nx">Feb</span> <span class="mi">2013</span> <span class="mi">03</span><span class="o">:</span><span class="mi">05</span><span class="o">:</span><span class="mi">08</span> <span class="nx">GMT</span>
+</span><span class='line'><span class="nx">Connection</span><span class="o">:</span> <span class="nx">keep</span><span class="o">-</span><span class="nx">alive</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Thanks</span> <span class="k">for</span> <span class="nx">calling</span><span class="o">!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意到以上的keep-alive,表示在同一次网络链接上允许有多个request</p>
+
+<ol>
+<li>Node的调试
+在node后加上<code>debug</code>即可</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">node</span> <span class="nx">debug</span> <span class="nx">debugging</span><span class="p">.</span><span class="nx">js</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Node debugger的几个键命令</p>
+
+<ul>
+<li><code>cont</code>—Continue running.<em> <code>next</code>—Step over the next statement.</em> <code>step</code>—Step into the next statement (if possible; otherwise, just step over).<em> <code>out</code>—Step out of the current executing function.</em> <code>backtrace</code>—Show me the current call execution frame or call stack.<em> <code>repl</code>—Start the Node REPL to allow you to view variable values and execute code.</em> <code>watch(expr)</code>—Add the given expression to the watch list, which is shown whenever you step or move through anything in the debugger.* <code>list(n)</code>—List the n lines of source code before and after the currently stopped line in the debugger.
+用<a href="https://github.com/node-inspector/node-inspector">node-inspector</a>
+3.删除Array的元素
+注意 <code>delete arr[0]</code>只是将arr的首个元素替换为undefine，实际并未真正删除,若要真正删除可用<code>arr.splice(index, length)</code></li>
+<li>将匿名函数赋给变量后,由于匿名函数没有名字，不好调试，可以改成以下形式
+&#8220;`javascript
+var x = function bad_apple() {
+ throw new Error(&ldquo;whoopsie&rdquo;);}
+
+<blockquote><p>x();Error: whoopsieat bad_apple (repl:2:7)at repl:1:1at REPLServer.self.eval (repl.js:109:21)
+at rli.on.self.bufferedCmd (repl.js:258:20)&#8220;`</p></blockquote></li>
+<li>有时会碰到req.session保存的变量不起作用的情况,按以下方式解决</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">cookieParser</span><span class="p">(</span><span class="s2">&quot;kitten on  keyboard&quot;</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// app.use(express.cookieSession({</span>
+</span><span class='line'><span class="c1">//     secret: &quot;FLUFFY BUNNIES&quot;,</span>
+</span><span class='line'><span class="c1">//     maxAge: 86400000</span>
+</span><span class='line'><span class="c1">// }));</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// app.use(express.session());</span>
+</span><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">session</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">secret</span><span class="o">:</span> <span class="s1">&#39;1234567890QWERTY&#39;</span>
+</span><span class='line'><span class="p">}));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>注意</code>,要注释掉<code>express.cookieParser</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SafariWebContent 笔记]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/10/25/safariwebcontent-bi-ji/"/>
+    <updated>2014-10-25T17:20:09+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/10/25/safariwebcontent-bi-ji</id>
+    <content type="html"><![CDATA[<p>我们将学习到以下内容</p>
+
+<ul>
+<li>确保软件与Safari兼容</li>
+<li>提升Safari的用户体验，尤其是在移动设备上</li>
+<li>将涉及到audio和video时，有效地利用动态改变的网络带宽</li>
+</ul>
+
+
+<h4>Making it Work</h4>
+
+<p>Safari 支持的的音频格式AAC, MP3, AIFF,和WAVE,支持用H.264压缩编码的视频(通常是MP4).移动设备对mp4的支持没有PC端来得给力</p>
+
+<p>PC的Safari支持插件.iOS的不支持,为让你的手机能正常访问网页,最好不要信赖插件来展示内容</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Speaking Javascript学习笔记]]></title>
@@ -47,7 +188,7 @@ A major difference between the two is how they are compared; each object has a u
 <li>Booleans: true, false * Numbers: 1736, 1.351 * Strings: &lsquo;abc&rsquo;, &ldquo;abc&rdquo; * Two “nonvalues”: undefined, null
 Primitives have the following characteristics:</li>
 <li><p>Compared by value
-&#8220;`</p>
+&#8220;`javascript</p>
 
 <blockquote><p>3 === 3true> &lsquo;abc&rsquo; === &lsquo;abc&#8217;true&#8220;`</p></blockquote></li>
 <li><p>Always immutable</p>
@@ -618,15 +759,16 @@ Also mostly an error value:</li>
 
 
 <p>The try clause surrounds critical code, and the catch clause is executed if an exception is thrown inside the try clause. Using the preceding code:
-&#8220;`</p>
+&#8220;`javascript</p>
 
 <blockquote><p>getPersons([2, -5, 137])    [Error: ID must not be negative: -5]    [ { id: 2 }, { id: 137 } ]&#8220;`</p>
 
 <h4>Strict Mode</h4>
 
-<p>Strict mode (see <code>Strict Mode</code> on page 62) enables more warnings and makes JavaScript a cleaner language (nonstrict mode is sometimes called <code>sloppy mode</code>). To switch it on, type the following line first in a JavaScript file or a <code>&lt;script&gt;</code> tag:<code>
+<p>Strict mode (see <code>Strict Mode</code> on page 62) enables more warnings and makes JavaScript a cleaner language (nonstrict mode is sometimes called <code>sloppy mode</code>). To switch it on, type the following line first in a JavaScript file or a <code>&lt;script&gt;</code> tag:
+<code>javascript
 'use strict';</code>You can also enable strict mode per function:
-&#8220;`
+&#8220;`javascript
 function functionInStrictMode() {</p>
 
 <pre><code>'use strict';}```
@@ -635,7 +777,7 @@ function functionInStrictMode() {</p>
 <h4>Variables Are Function-Scoped</h4>
 
 <p>The scope of a variable is always the complete function (as opposed to the current block). For example:
-&#8220;`
+&#8220;`javascript
 function foo() {</p>
 
 <pre><code>var x = -512;
@@ -651,7 +793,7 @@ We can see that the variable tmp is not restricted to the block starting in line
 <h4>Variables Are Hoisted</h4>
 
 <p>Each variable declaration is <code>hoisted</code>: the declaration is moved to the <code>beginning</code> of the function, but assignments that it makes stay put. As an example, consider the variable declaration in line (1) in the following function:
-&#8220;`
+&#8220;`javascript
 function foo() {</p>
 
 <pre><code>console.log(tmp); // undefined 
@@ -662,7 +804,7 @@ if (false) {
 
 <p>}<code>
 Internally, the preceding function is executed like this:
-</code>
+</code>javascript
 function foo() {</p>
 
 <pre><code>var tmp; // hoisted declaration 
@@ -969,21 +1111,22 @@ As an example, let’s go back to the earlier object jane:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>forEach has a second parameter that allows you to provide a value for this:
-<code>
-logHiToFriends: function() {
-  'use strict';
-  this.friends.forEach(function(friend, this) {
-      console.log(this.name + ' says hi to ' + friend);
-  }, this);
-}</code>
+<p>javascript
+* forEach has a second parameter that allows you to provide a value for this:
+&#8220;`javascript
+logHiToFriends: function() {</p>
+
+<pre><code>'use strict';
+this.friends.forEach(function(friend, this) {
+    console.log(this.name + ' says hi to ' + friend);
+}, this);
+</code></pre>
+
+<p>}&#8220;`</p>
 
 <h4>Constructors: Factories for Objects</h4>
 
-<p>JavaScript objects also support a feature that is truly object-oriented: inheritance</p></li>
-</ul>
-
+<p> JavaScript objects also support a feature that is truly object-oriented: inheritance</p>
 
 <p> In addition to being “real” functions and methods, functions play another role in Java‐ Script: they become constructors—factories for objects—if invoked via the <code>new</code> operator.</p>
 
@@ -1010,7 +1153,7 @@ logHiToFriends: function() {
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We can see that a constructor has two parts. First, the function Point sets up the instance data. Second, the property Point.prototype contains an object with the methods. The former data is specific to each instance, while the latter data is shared among all instances.&#8220;&#8220;</p>
+<p>We can see that a constructor has two parts. First, the function Point sets up the instance data. Second, the property Point.prototype contains an object with the methods. The former data is specific to each instance, while the latter data is shared among all instances.&#8220;&#8220;javascript</p>
 
 <blockquote><p>var p = new Point(3, 5);
 p.x3> p.dist()
@@ -1222,28 +1365,38 @@ If you omit the parentheses, you get a syntax error, because JavaScript sees a f
 
 <p>  Functions must be declared at the top level of a scope</p>
 
-<p>  In strict mode, all functions must be declared at the top level of a scope (global scope or directly inside a function</p>
-
-<p>  <code>
-  function strictFunc() {
-  'use strict'; {
-      // SyntaxError:
-      function nested() {}
-  }
-}
- </code>
-If you want to work around this limitation, you can create a function inside a block via a variable declaration and a function expression:
-<code>
-function strictFunc() {
-  'use strict';
-  {
-      // OK:
-      var nested = function() {};
-  }
-}</code></p></li>
-<li>The arguments objects has fewer properties</li>
+<p>  In strict mode, all functions must be declared at the top level of a scope (global scope or directly inside a function</p></li>
 </ul>
 
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">strictFunc</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="s1">&#39;use strict&#39;</span><span class="p">;</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// SyntaxError:</span>
+</span><span class='line'>    <span class="kd">function</span> <span class="nx">nested</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to work around this limitation, you can create a function inside a block via a variable declaration and a function expression:
+&#8220;`javascript
+function strictFunc() {</p>
+
+<pre><code>'use strict'; 
+{
+    // OK:
+    var nested = function() {};
+}
+</code></pre>
+
+<p>}&#8220;`
+* The arguments objects has fewer properties</p>
 
 <p>The arguments object is simpler in strict mode: the properties arguments.callee and arguments.caller have been eliminated, you can’t assign to the variable arguments, and arguments does not track changes to parameters (if a parameter changes, the cor‐ responding array element does not change with it).</p>
 
@@ -1303,7 +1456,7 @@ function strictFunc() {
 <h5>Setting and Deleting Immutable Properties Fails with an Exception in Strict Mode</h5>
 
 <p>Illegal manipulations of properties throw exceptions in strict mode. For example, at‐ tempting to set the value of a read-only property throws an exception, as does attempting to delete a nonconfigurable property
-&#8220;`var str = &lsquo;abc&rsquo;;</p>
+&#8220;`javascriptvar str = &lsquo;abc&rsquo;;</p>
 
 <p>function sloppyFunc() {</p>
 
@@ -1324,7 +1477,7 @@ str.length = 7; // TypeError: Cannot assign to // read-only property 'length'
 <h5>Unqualified Identifiers Can’t Be Deleted in Strict Mode</h5>
 
 <p>In sloppy mode, you can delete a global variable foo like this:
-<code>
+<code>javascript
 delete foo</code>
 In strict mode, you get a syntax error whenever you try to delete unqualified identifiers. You can still delete global variables like this:</p>
 
@@ -1670,14 +1823,14 @@ In strict mode, you get a syntax error whenever you try to delete unqualified id
 In the preceding code, undefined is guaranteed to have the right value, because itis a parameter whose value has not been provided by the function call.
 * Technique 2
 Compare with void 0, which is always (the correct) undefined
-<code>
+<code>javascript
 if (x === void 0) // always safe</code></p>
 
 <h4>Wrapper Objects for Primitives</h4>
 
 <p>The three primitive types boolean, number, and string have corresponding constructors: Boolean, Number, String. Their instances (so-called wrapper objects) contain (wrap) primitive values. The constructors can be used in two ways:
 * Asconstructors,theycreateobjectsthatarelargelyincompatiblewiththeprimitive values that they wrap:
-&#8220;`</p>
+&#8220;`javascript</p>
 
 <blockquote><p>typeof new String(&lsquo;abc&rsquo;)&lsquo;object&rsquo;> new String(&lsquo;abc&rsquo;) === &lsquo;abc&#8217;false&#8220;`
 * As functions,they convert values to the corresponding primitive types(see“Functions for Converting to Boolean, Number, String, and Object” on page 78). This is the recommended method of conversion:</p></blockquote>
@@ -1826,7 +1979,7 @@ if (x === void 0) // always safe</code></p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>As another example, if one of the operands is a string, the plus operator (+) converts the other one to a string:&#8220;`</p>
+<p>As another example, if one of the operands is a string, the plus operator (+) converts the other one to a string:&#8220;`javascript</p>
 
 <blockquote><p>3 + &lsquo; times&rsquo;&lsquo;3 times&rsquo;&#8220;`</p>
 
@@ -1945,17 +2098,17 @@ If PreferredType is String, steps 2 and 3 are swapped. The PreferredType can als
 <h5>Examples: ToPrimitive() in action</h5>
 
 The default implementation of valueOf() returns this, while the default implementa‐ tion of toString() returns type information:
-&#8220;`
+&#8220;`javascript
 
 <blockquote><p>var empty = {};> empty.valueOf() === empty
 true> empty.toString()&lsquo;[object Object]&rsquo;<code>
 Therefore, Number() skips valueOf() and converts the result of toString() to a num‐ ber; that is, it converts '[object Object]' to NaN:
-</code>
+</code>javascript
 Number({})NaN<code>
-The following object customizes valueOf(), which influences Number(), but doesn’t change anything for String():</code>
+The following object customizes valueOf(), which influences Number(), but doesn’t change anything for String():</code>javascript
 var n = { valueOf: function () { return 123 } }; > Number(n)123> String(n)&lsquo;[object Object]&rsquo;<code>
 The following object customizes toString(). Because the result can be converted to a number, Number() can return a number:
-</code>
+</code>javascript
 var s = { toString: function () { return &lsquo;7&rsquo;; } };
 String(s)&lsquo;7&rsquo;> Number(s)7&#8220;`</p>
 
@@ -1993,11 +2146,11 @@ String(s)&lsquo;7&rsquo;> Number(s)7&#8220;`</p>
 <h4>Strict Equality (===, !==)</h4>
 
 <p>Values with different types are never strictly equal. If both values have the same type, then the following assertions hold:<em> undefined === undefined</em> null === null* Two numbers:
-<code>
+<code>javascript
 x === x // unless x is NaN+0 === -0NaN !== NaN // read explanation that follows</code>
 * Two booleans, two strings: obvious results
 * Two objects (including arrays and functions): x === y if and only if x and y are the <code>same</code> object; that is, if you want to compare different objects, you have to implement your own comparison algorithm:
-&#8220;`</p>
+&#8220;`javascript</p>
 
 <blockquote><p>var b = {}, c = {};
 b === cfalse> b === btrue&#8220;`
@@ -2006,7 +2159,7 @@ b === cfalse> b === btrue&#8220;`
 <h4>Pitfall: NaN</h4>
 
 <p>The special number value NaN (see “NaN” on page 106) is not equal to itself:
-<code>
+<code>javascript
 NaN === NaNfalse</code>
 Thus, you need to use other means to check for it, which are described in “Pitfall: checking whether a value is NaN” on page 107.</p>
 
@@ -2019,19 +2172,25 @@ Thus, you need to use other means to check for it, which are described in “Pit
 <p>Otherwise, if the operands are:</p>
 
 <ol>
-<li><p>undefined and null, then they are considered leniently equal:</p>
+<li>undefined and null, then they are considered leniently equal:</li>
+</ol>
 
-<p> &#8220;`</p>
 
-<blockquote><p>undefined == null    true
- &#8220;`</p></blockquote></li>
-<li><p>A string and a number, then convert the string to a number and compare both operands via strict equality.</p></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kc">undefined</span> <span class="o">==</span> <span class="kc">null</span>
+</span><span class='line'>  <span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>A string and a number, then convert the string to a number and compare both operands via strict equality.</li>
 <li>A boolean and a nonboolean, then convert the boolean to a number and compare leniently (again).</li>
 <li>An object and a number or a string, then try to convert the object to a primitive (via the algorithm described in “Algorithm: ToPrimitive()—Converting a Value to a Primitive” on page 79) and compare leniently (again).
 
 <h4>Pitfall: lenient equality is different from conversion to boolean</h4>
 
-&#8220;`
+&#8220;`javascript
 
 <blockquote><p>2 == truefalse> 2 == falsefalse> 1 == truetrue> 0 == falsetrue// 2 === 1// 2 === 0// 1 === 1// 0 === 0&#8220;`
 Similarly, while the empty string is equal to false, not all nonempty strings are equal to true:</p></blockquote></li>
@@ -2086,7 +2245,7 @@ Similarly, while the empty string is equal to false, not all nonempty strings ar
 <h4>Pitfall: lenient equality and objects</h4>
 
 <p>If you compare an object to a nonobject, it is converted to a primitive, which leads to strange results:
-<code>
+<code>javascript
 {} == '[object Object]'true&gt; ['123'] == 123true&gt; [] == 0true</code>
 However, two objects are only equal if they are they same object. That means that you can’t really compare two wrapper objects:</p></blockquote>
 
@@ -2138,13 +2297,13 @@ If you are not sure whether a value x is a number or a number-as-a-string, you c
 <code>
 if (x == 123) ...</code>
 The preceding checks whether x is either 123 or &lsquo;123&rsquo;. Again, this is very compact, andagain, it is better to be explicit:
-<code>
+<code>javascript
 if (Number(x) === 123) ...</code>
 
 <h4>Use case: comparing wrapper instances with primitives</h4>
 
 Lenient equals lets you compare primitives with wrapped primitives:
-&#8220;`
+&#8220;`javascript
 
 <blockquote><p>&lsquo;abc&rsquo; == new String(&lsquo;abc&rsquo;)true&#8220;`
 There are three reasons against this approach. First, lenient equality does not work between wrapped primitives:</p></blockquote></li>
@@ -2797,6 +2956,838 @@ parseInt() shouldn’t be used to convert numbers to integers: coercion to strin
 </span><span class='line'><span class="s1">&#39;3e-3&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<h3>String</h3>
+
+<h4>Escaping in String Literals</h4>
+
+<ul>
+<li>Line continuations</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;written \</span>
+</span><span class='line'><span class="s1">over \</span>
+</span><span class='line'><span class="s1">multiple \</span>
+</span><span class='line'><span class="s1">lines&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">str</span> <span class="o">===</span> <span class="s1">&#39;written over multiple lines&#39;</span><span class="p">);</span> <span class="c1">// true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Character escape sequences
+
+<ol>
+<li> Control characters: \b is a backspace, \f is a form feed, \n is a line feed (new‐line), \r is a carriage return, \t is a horizontal tab, and \v is a vertical tab.</li>
+<li> Escapedcharactersthatrepresentthemselves:\&lsquo;isasinglequote,\&ldquo;isadouble quote,and\isabackslash.Allcharactersexceptb f n r t v x uanddecimal digits represent themselves, too. Here are two examples:</li>
+</ol>
+
+
+<p>  <code>javascript
+      &gt; '\"'      '"'     &gt; '\q'      'q'
+ </code></p></li>
+<li>NUL character (This character is represented by \0.)</li>
+<li><p>Hexadecimal escape sequences
+  \xHH (HH are two hexadecimal digits) specifies a character via an ASCII code. For example:</p>
+
+<p>  <code>javascript
+      &gt; '\x4D'        'M'
+ </code></p></li>
+</ul>
+
+
+<h4>Manually Converting to String</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">String</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">(</span><span class="nx">Invoked</span> <span class="nx">as</span> <span class="nx">a</span> <span class="kd">function</span><span class="p">,</span> <span class="nx">not</span> <span class="nx">as</span> <span class="nx">a</span> <span class="nx">constructor</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;&#39;</span><span class="o">+</span><span class="nx">value</span>
+</span><span class='line'><span class="nx">value</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="p">(</span><span class="nx">Does</span> <span class="nx">not</span> <span class="nx">work</span> <span class="k">for</span> <span class="kc">undefined</span> <span class="nx">and</span> <span class="kc">null</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;false&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="mf">7.35</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;7.35&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">({</span> <span class="nx">first</span><span class="o">:</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="nx">last</span><span class="o">:</span> <span class="s1">&#39;Doe&#39;</span> <span class="p">})</span>
+</span><span class='line'><span class="s1">&#39;[object Object]&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">([</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">])</span>
+</span><span class='line'><span class="s1">&#39;a,b,c&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that for displaying data, JSON.stringify() (“JSON.stringify(value, replacer?, space?)” on page 337) often works better than the canonical conversion to string:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="nx">first</span><span class="o">:</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="nx">last</span><span class="o">:</span> <span class="s1">&#39;Doe&#39;</span> <span class="p">}))</span>
+</span><span class='line'><span class="p">{</span><span class="s2">&quot;first&quot;</span><span class="o">:</span><span class="s2">&quot;John&quot;</span><span class="p">,</span><span class="s2">&quot;last&quot;</span><span class="o">:</span><span class="s2">&quot;Doe&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">([</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">]))</span>
+</span><span class='line'><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Pitfall: conversion is not invertible</h4>
+
+<p>Given how often JavaScript automatically converts, it is a shame that the conversion isn’t always invertible, especially with regard to booleans:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;false&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Boolean</span><span class="p">(</span><span class="s1">&#39;false&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Concatenation: Joining an Array of String Fragments</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;Say hello &#39;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39; times fast&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;Say hello 7 times fast&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>String Constructor Method</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;abc&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="p">[</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">])</span>
+</span><span class='line'><span class="s1">&#39;abc&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>String Prototype Methods</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">})</span>
+</span><span class='line'><span class="p">[</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span> <span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;c&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;b&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;bc&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;a,  b,c, d&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>  <span class="c1">// string</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;  b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39; d&#39;</span> <span class="p">]</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;a,  b,c, d&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/,/</span><span class="p">)</span>  <span class="c1">// simple regular expression</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;  b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39; d&#39;</span> <span class="p">]</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;a,  b,c, d&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/, */</span><span class="p">)</span>   <span class="c1">// more complex regular expression</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="p">]</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;a,  b,c, d&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/, */</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1">// setting a limit</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span> <span class="p">]</span>
+</span><span class='line'>        <span class="o">&gt;</span> <span class="s1">&#39;test&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">()</span>  <span class="c1">// no separator provided</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;test&#39;</span> <span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// If there is a group, then the matches are also returned as array elements:</span>
+</span><span class='line'> <span class="o">&gt;</span> <span class="s1">&#39;a,  b  ,  &#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/(,)/</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;  b  &#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;  &#39;</span> <span class="p">]</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;a,  b  ,  &#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/ *(,) */</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span> <span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'> <span class="o">&gt;</span> <span class="s1">&#39;abc&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Transform</h5>
+
+<ol>
+<li>String.prototype.trim() Removes all whitespace from the beginning and the end of the string:</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;\r\nabc \t&#39;</span><span class="p">.</span><span class="nx">trim</span><span class="p">()</span>
+</span><span class='line'><span class="s1">&#39;abc&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>String.prototype.concat(str1?, str2?, &hellip;)</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="s1">&#39;hello&#39;</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;world&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="s1">&#39;hello world!&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Pitfall: Losing this When Extracting a Method</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">count</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">inc</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="p">.</span><span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">func</span> <span class="o">=</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">inc</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">func</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">count</span> <span class="c1">// didn’t work 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here’s the explanation: we have called the value of counter.inc as a function. Hence, this is the global object and we have performed window.count++. window.count does not exist and is undefined. Applying the ++ operator to it sets it to NaN:&#8220;`</p>
+
+<blockquote><p>count  // global variableNaN<code>``
+</code>How to get a warning`
+If method inc() is in strict mode, you get a warning:</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">inc</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="s1">&#39;use strict&#39;</span><span class="p">;</span> <span class="k">this</span><span class="p">.</span><span class="nx">count</span><span class="o">++</span> <span class="p">};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">func2</span> <span class="o">=</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">inc</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">func2</span><span class="p">()</span>
+</span><span class='line'><span class="nx">TypeError</span><span class="o">:</span> <span class="nx">Cannot</span> <span class="nx">read</span> <span class="nx">property</span> <span class="s1">&#39;count&#39;</span> <span class="nx">of</span> <span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>How to properly extract a method</h5>
+
+<p>Thanks to bind(), we can make sure that inc doesn’t lose the connection with counter:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">func3</span> <span class="o">=</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">inc</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">counter</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">func3</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">counter</span><span class="p">.</span><span class="nx">count</span> <span class="c1">// it worked!</span>
+</span><span class='line'><span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Warning</code></p>
+
+<p>Each call to bind() creates a new function. That has consequences when you’re registering and unregistering callbacks (e.g., for event handling). You need to store the value you registered somewhere and use it for unregistering, too.</p>
+
+<h4>Pitfall: Functions Inside Methods Shadow this</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">friends</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Tarzan&#39;</span><span class="p">,</span> <span class="s1">&#39;Cheeta&#39;</span><span class="p">],</span>
+</span><span class='line'>    <span class="nx">loop</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="p">.</span><span class="nx">friends</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span>
+</span><span class='line'>            <span class="kd">function</span><span class="p">(</span><span class="nx">friend</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// (1)</span>
+</span><span class='line'>                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39; knows &#39;</span> <span class="o">+</span> <span class="nx">friend</span><span class="p">);</span> <span class="c1">// (2) }</span>
+</span><span class='line'>            <span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Obviously, this fails, because the function at (1) has its own this, which is undefined here:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">loop</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">TypeError</span><span class="o">:</span> <span class="nx">Cannot</span> <span class="nx">read</span> <span class="nx">property</span> <span class="s1">&#39;name&#39;</span> <span class="nx">of</span> <span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are three ways to work around this problem.</p>
+
+<ul>
+<li>Workaround 1: that = this</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">loop</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">friends</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">friend</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">that</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39; knows &#39;</span> <span class="o">+</span> <span class="nx">friend</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here’s the interaction:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">loop</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">Jane</span> <span class="nx">knows</span> <span class="nx">Tarzan</span>
+</span><span class='line'>    <span class="nx">Jane</span> <span class="nx">knows</span> <span class="nx">Cheeta</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Workaround 2: bind()
+We can use bind() to give the callback a fixed value for this—namely, the method’s this (line (1)):<code>javascript
+loop: function() {
+  'use strict';
+  this.friends.forEach(function(friend) {
+      console.log(this.name + ' knows ' + friend);
+  }.bind(this)); // (1) }</code></li>
+<li>Workaround 3: a thisValue for forEach()
+A workaround that is specific to forEach() (see “Examination Methods” on page 291) is to provide a second parameter after the callback that becomes the this of the callback:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">loop</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">friends</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">friend</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39; knows &#39;</span> <span class="o">+</span> <span class="nx">friend</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Layer 2: The Prototype Relationship Between Objects</h4>
+
+<p><img src="http://xiekunRonaldo.github.io/images/2014/10/Figure17-1.png"></p>
+
+<p>To see how prototype-based (or prototypal) inheritance works, let’s look at an example(with invented syntax for specifying the [[Prototype]] property):
+&#8220;`javascript
+var proto = {</p>
+
+<pre><code>describe: function() {
+    return 'name: ' + this.name;
+}
+</code></pre>
+
+<p>};
+var obj = {</p>
+
+<pre><code>[
+    [Prototype]
+]: proto,
+name: 'obj'
+</code></pre>
+
+<p>};&#8220;`
+The object obj inherits the property describe from proto. It also has a so-called own (noninherited, direct) property, name.</p>
+
+<p><code>Inheritance</code></p>
+
+<p>obj inherits the property describe; you can access it as if the object itself had that property:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">describe</span>
+</span><span class='line'><span class="p">[</span><span class="nb">Function</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Whenever you access a property via obj, JavaScript starts the search for it in that object and continues with its prototype, the prototype’s prototype, and so on. That’s why we can access proto.describe via obj.describe. The prototype chain behaves as if it were a single object. That illusion is maintained when you call a method: the value of this is always the object where the search for the method began, not where the method was found. That allows the method to access all of the properties of the prototype chain. For example:
+&#8220;`javascript</p>
+
+<blockquote><p>obj.describe()&lsquo;name: obj&rsquo;<code>
+* Overriding
+</code>javascript
+obj.describe = function () { return &lsquo;overridden&rsquo; };
+obj.describe()&lsquo;overridden&rsquo;&#8220;`
+* Sharing Data Between Objects via a Prototype</p></blockquote>
+
+<p>The objects jane and tarzan both contain the same method, describe(). That is something that we would like to avoid by using sharing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">jane</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">describe</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s1">&#39;Person named &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">tarzan</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Tarzan&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">describe</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s1">&#39;Person named &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The following code creates objects jane and tarzan that share the prototype Person Proto:
+&#8220;`javascript
+var PersonProto = {</p>
+
+<pre><code>describe: function() {
+    return 'Person named ' + this.name;
+}
+</code></pre>
+
+<p>};
+var jane = {</p>
+
+<pre><code>[
+    [Prototype]
+]: PersonProto,
+name: 'Jane'
+</code></pre>
+
+<p>};
+var tarzan = {</p>
+
+<pre><code>[
+    [Prototype]
+]: PersonProto,
+name: 'Tarzan'
+</code></pre>
+
+<p>};&#8220;`
+And here is the interaction:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">jane</span><span class="p">.</span><span class="nx">describe</span><span class="p">()</span>
+</span><span class='line'><span class="nx">Person</span> <span class="nx">named</span> <span class="nx">Jane</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">tarzan</span><span class="p">.</span><span class="nx">describe</span><span class="p">()</span>
+</span><span class='line'><span class="nx">Person</span> <span class="nx">named</span> <span class="nx">Tarzan</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Getting and Setting the Prototype</h4>
+
+<p>So far, we have pretended that you can access the internal property [[Prototype]] from JavaScript. But the language does not let you do that. Instead, there are functions for reading the prototype and for creating a new object with a given prototype.</p>
+
+<ul>
+<li>Creating a new object with a given prototype
+This invocation:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">proto</span><span class="p">,</span> <span class="nx">propDescObj</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>creates an object whose prototype is proto. Optionally, properties can be added via descriptors (which are explained in “Property Descriptors” on page 223). In the following example, object jane gets the prototype PersonProto and a mutable property name whose value is &lsquo;Jane&rsquo; (as specified via a property descriptor):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">PersonProto</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">describe</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s1">&#39;Person named &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">jane</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">PersonProto</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">name</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">writable</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is the interaction:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">jane</span><span class="p">.</span><span class="nx">describe</span><span class="p">()</span>
+</span><span class='line'><span class="s1">&#39;Person named Jane&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But you frequently just create an empty object and then manually add properties, be‐ cause descriptors are verbose:
+<code>javascript
+var jane = Object.create(PersonProto);
+jane.value = 'Jane';</code>
+* Reading the prototype of an object
+This method call:
+<code>javascript   Object.getPrototypeOf(obj)</code>
+returns the prototype of obj. Continuing the preceding example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">getPrototypeOf</span><span class="p">(</span><span class="nx">jane</span><span class="p">)</span> <span class="o">===</span> <span class="nx">PersonProto</span>
+</span><span class='line'><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Checking whether one object a prototype of another one
+This syntax:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">isPrototypeOf</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>checks whether the receiver of the method is a (direct or indirect) prototype of obj. In other words: are the receiver and obj in the same prototype chain, and does obj come before the receiver? For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">B</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">A</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">C</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">B</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">A</span><span class="p">.</span><span class="nx">isPrototypeOf</span><span class="p">(</span><span class="nx">C</span><span class="p">)</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">C</span><span class="p">.</span><span class="nx">isPrototypeOf</span><span class="p">(</span><span class="nx">A</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Finding the object where a property is defined
+The following function iterates over the property chain of an object obj. It returns the first object that has an own property with the key propKey, or null if there is no such object:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getDefiningObject</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">propKey</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">obj</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span> <span class="c1">// make sure it’s an object</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="nx">obj</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">{}.</span><span class="nx">hasOwnProperty</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">propKey</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">obj</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">getPrototypeOf</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'>        <span class="c1">// obj is null if we have reached the end</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">obj</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>The Special Property <strong>proto</strong>
+Some JavaScript engines have a special property for getting and setting the prototype of an object: <strong>proto</strong>. It brings direct access to [[Prototype]] to the language:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">__proto__</span> <span class="o">===</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">__proto__</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">getPrototypeOf</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="o">===</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span> <span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>proto</strong> is not part of the ECMAScript 5 standard,However, more and more engines are adding support for <strong>proto</strong> and it will be part of ECMAScript 6.The following expression checks whether an engine supports <strong>proto</strong> as a special property:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">getPrototypeOf</span><span class="p">({</span> <span class="nx">__proto__</span><span class="o">:</span> <span class="kc">null</span> <span class="p">})</span> <span class="o">===</span> <span class="kc">null</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Setting and Deleting Affects Only Own Properties</h4>
+
+<ul>
+<li>Setting a property</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">proto</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">foo</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span> <span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">proto</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="s1">&#39;a&#39;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setting foo has the desired result:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="s1">&#39;b&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, we have created an own property and not changed proto.foo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">proto</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="s1">&#39;a&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Deleting an inherited property</li>
+</ul>
+
+
+<p>You can only delete own properties. Let’s again set up an object, obj, with a prototype, proto:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">proto</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">foo</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span> <span class="p">};</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">proto</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Deleting the inherited property foo has no effect:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="k">delete</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="s1">&#39;a&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Changing properties anywhere in the prototype chain</li>
+</ul>
+
+
+<p>If you want to change an inherited property, you first have to find the object that owns it (see “Finding the object where a property is defined” on page 215) and then perform the change on that object. For example, let’s delete the property foo from the previous example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="k">delete</span> <span class="nx">getDefiningObject</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">).</span><span class="nx">foo</span><span class="p">;</span>
+</span><span class='line'><span class="kc">true</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="kc">undefined</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Accessors (Getters and Setters)</h4>
+
+<ul>
+<li>Defining Accessors via an Object Literal</li>
+</ul>
+
+
+<p>The following example uses an object literal to define a setter and a getter for property foo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">get</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s1">&#39;getter&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">set</span> <span class="nx">foo</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;setter: &#39;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here’s the interaction:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bla&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">setter</span><span class="o">:</span> <span class="nx">bla</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="s1">&#39;getter&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Defining Accessors via Property Descriptors</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span>
+</span><span class='line'>    <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="p">{</span> <span class="c1">// object with property descriptors</span>
+</span><span class='line'>        <span class="nx">foo</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// property descriptor get: function () {</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s1">&#39;getter&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;setter: &#39;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Accessors and Inheritance</h4>
+
+<p>Getters and setters are inherited from prototypes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">proto</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">get</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;hello&#39;</span> <span class="p">}</span> <span class="p">};</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">proto</span><span class="p">);</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span>
+</span><span class='line'><span class="s1">&#39;hello&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
@@ -2837,6 +3828,21 @@ parseInt() shouldn’t be used to convert numbers to integers: coercion to strin
 </span><span class='line'>      background: url("images/yourimage@2x.png") no-repeat;
 </span><span class='line'>  }
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.创建实例的方式有两种<code>Ext.create()</code>和new,不过建议用Ext.create，这样可以用到动态加载的好处</p>
+
+<p>4.NestedList的方法中判断是哪一个record(用tpl)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">getItemTextTpl</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">record</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="s1">&#39;&lt;tpl if=&quot;text==\&#39;Fruit\&#39;&quot;&gt;{text}&lt;/tpl&gt;{&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">getDisplayField</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
@@ -16669,334 +17675,6 @@ There are two <code>type-casting</code> patterns, the is pattern and the as patt
 
 <p>*Size Class
 Size classes have vertical and horizontal dimensions called &ldquo;regular&rdquo; and &ldquo;compact&rdquo;. The iPad in both portrait and landscape defaults to the regular size class in both horizontal and vertical directions. The iPhone in portrait defaults to compact size class for horizontal and regular size class for vertical. The iPhone in landscape defaults to compact size class for both horizontal and vertical.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fibers Threads Processes]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/07/30/fibers-threads-processes/"/>
-    <updated>2014-07-30T15:42:25+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/07/30/fibers-threads-processes</id>
-    <content type="html"><![CDATA[<p>Ruby gives you two basic ways to organize your program so that you can run different parts of it apparently “at the same time.” Fibers let you suspend execution of one part of your program and run some other part. For more decoupled execution, you can split up cooper- ating tasks within the program, using multiple threads, or you can split up tasks between different programs, using multiple processes. Let’s look at each in turn.####Fibers
-Ruby 1.9引入了fibers的概念,尽管名字意味着某种轻量级的线程，实际上，fibers仅仅是一种非常简单的coroutine机制，它能让你写一些看起来用了线程的程序，实际上没有引发任何线程中内在的复杂机制
-计算一个文件中单词的出现次数，不用fibers版本</p>
-
-<pre><code>counts = Hash.new(0) 
-File.foreach("testfile") do |line|
-    line.scan(/\w+/) do |word| 
-    word = word.downcase 
-    counts[word] += 1
-    end 
-end
-counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
-produces:
-and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1这段代码非常的ugly,它混合了查找word和计算word两种逻辑,来看看用Fiber的方法
-words = Fiber.new do 
-    File.foreach("testfile") do |line|          line.scan(/\w+/) do |word| 
-        Fiber.yield word.downcase
-        end 
-    end     nil ￼end
-counts = Hash.new(0)
-while word = words.resume 
-    counts[word] += 1
-end
-counts.keys.sort.each {|k| print "#{k}:#{counts[k]} "} 
-produces:
-and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
-</code></pre>
-
-<p>再来看一个demo</p>
-
-<pre><code>twos = Fiber.new do 
-    num = 2     loop do         Fiber.yield(num) unless num % 3 == 0 
-        num += 2
-        end 
-    end 10.times { print twos.resume, " " } 
-produces:
-2 4 8 10 14 16 20 22 26 28
-</code></pre>
-
-<p>以上也可以用之前提到的lazy Enumberators中实现由于fibers也是对象，你可以将它们存储在变量中，并且fibers只能在创建它们的线程中resume
-fibers can yield control only back to the code that resumed them,不过Ruby提供了两种标准库来拓展这种行为fiber库和continuation库</p>
-
-<h4>多线程</h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Basic Input and Output]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/07/30/basic-input-and-output/"/>
-    <updated>2014-07-30T14:27:07+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/07/30/basic-input-and-output</id>
-    <content type="html"><![CDATA[<p>两个I/O routines
-第一个是基本的交互界面</p>
-
-<pre><code>print "Enter your name: " 
-
-name = gets
-</code></pre>
-
-<p>一系列I/O相关的方法在Kernel module里实现gets, open, print, printf, putc, puts, readline, readlines, 和 test,这些方法通常都与标准输入，标准输出有关
-第二个则是与IO对象交互
-IO类，有两个子类File和BasicSocket</p>
-
-<h5>开头文件</h5>
-
-<pre><code>file = File.new("testfile", "r") 
-# ... process the file 
-file.close
-</code></pre>
-
-<p>File与Block</p>
-
-<pre><code>File.open("testfile", "r") do |file| 
-    # ... process the file
-end # &lt;- file automatically closed here与exception结合
-class File
-    def File.open(*args)
-        result = f = File.new(*args) 
-            if block_given?
-                begin
-                    result = yield f
-                ensure
-                    f.close
-                end 
-            end
-            result
-            end 
-end
-</code></pre>
-
-<h5>读写文件</h5>
-
-<p>来看一段copy.rb代码</p>
-
-<pre><code>while line = gets 
-
-    puts line
-end
-</code></pre>
-
-<p>如果运行程序木有命令行参数，则与console交互</p>
-
-<pre><code>$ ruby copy.rb 
-
-These are lines 
-
-These are lines 
-
-that I am typing 
-
-that I am typing 
-
-^D
-</code></pre>
-
-<p>如果带文件名，则与文件交互</p>
-
-<pre><code>$ ruby copy.rb testfile 
-
-This is line one
-This is line two
-This is line three
-And so on...
-</code></pre>
-
-<p>我们可以用File类来读写文件</p>
-
-<pre><code>File.open("testfile") do |file| 
-    while line = file.gets          puts line       end 
-end
-    produces:
-This is line one
-This is line two
-This is line three
-And so on...
-</code></pre>
-
-<h5>Iterators for Reading</h5>
-
-<p>你可以用各种iterators与IO流交互
-O#each_byte invokes a block with the next 8-bit byte from the IO object,chr则将integer转化为ASCII字符</p>
-
-<pre><code>File.open("testfile") do |file| 
-    file.each_byte.with_index do |ch, index|
-        print "#{ch.chr}:#{ch} "
-        break if index &gt; 10 
-    end
-end
-produces:
-T:84 h:104 i:105 s:115  :32 i:105 s:115  :32 l:108 i:105 n:110 e:101
-</code></pre>
-
-<p>IO#each_line</p>
-
-<pre><code>File.open("testfile") do |file|
-    file.each_line {|line| puts "Got #{line.dump}" }
-end
-produces:
-Got "This is line one\n"
-Got "This is line two\n"
-Got "This is line three\n"
-Got "And so on...\n"
-</code></pre>
-
-<p>你也可以将一串字符传给each_line来作为一个line separator,默认是\n</p>
-
-<pre><code>File.open("testfile") do |file|
-    file.each_line("e") {|line| puts "Got #{ line.dump }" }
-end
-produces:
-Got "This is line"
-Got " one"
-Got "\nThis is line"
-Got " two\nThis is line"
-Got " thre"
-Got "e"
-Got "\nAnd so on...\n"
-</code></pre>
-
-<p>combine iterator和autoclosing block,我们得到了IO.foreach,这个方法打开文件，调用iterator一次一行，然后自动关闭文件</p>
-
-<pre><code>IO.foreach("testfile") {|line| puts line }将整个文件文件的内容保存在一个string或每行保存在一个数组里
-//保存在string中
-# read into string
-str = IO.read("testfile")
-str.length # =&gt; 66
-str[0, 30] # =&gt; "This is line one\nThis is line "
-
-//保存在array中
-
-# read into an array    arr = IO.readlines("testfile") 
-arr.length # =&gt; 4
-arr[0] # =&gt; "This is line one\n"
-</code></pre>
-
-<h4>写入文件</h4>
-
-<pre><code># Note the "w", which opens the file for writing
-File.open("output.txt", "w") do |file| 
-file.puts "Hello"
-file.puts "1 + 2 = #{1+2}"
-end
-# Now read the file in and print its contents to STDOUT
-puts File.read("output.txt")
-produces:
-Hello 1+2=3
-</code></pre>
-
-<p>如果将二进制数据转为string,有以下三种方法</p>
-
-<pre><code>str1 = "\001\002\003" # =&gt; "\u0001\u0002\u0003" 
-
-str2 = ""
-str2 &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3 # =&gt; "\u0001\u0002\u0003" 
-[ 1, 2, 3 ].pack("c*") # =&gt; "\x01\x02\x03"
-</code></pre>
-
-<p>你也可以用&lt;&lt;将对象添加到输出流中</p>
-
-<pre><code>endl = "\n"
-STDOUT &lt;&lt; 99 &lt;&lt; " red balloons" &lt;&lt; endl
-produces:
-99 red balloons 
-</code></pre>
-
-<p>&lt;&lt;方法在打印前将用to_s将它的参数转为string</p>
-
-<h5>Doing I/O with StringsStringIO对象，它们操作起来就像I/O对象，但它们只是读写strings，而不是files</h5>
-
-<pre><code>require 'stringio'
-ip = StringIO.new("now is\nthe time\nto learn\nRuby!")
-op = StringIO.new("", "w")
-ip.each_line do |line| 
-    op.puts line.reverse
-end
-op.string # =&gt; "\nsi won\n\nemit eht\n\nnrael ot\n!ybuR\n"
-</code></pre>
-
-<h4>Talking to Networkds</h4>
-
-<p>socekt库封装了TCP,UDP,SOCKS和Unix domainsockes require &lsquo;socket&rsquo;    client = TCPSocket.open(&lsquo;127.0.0.1&rsquo;, &lsquo;www&rsquo;)</p>
-
-<pre><code>client.send("OPTIONS /~dave/ HTTP/1.0\n\n", 0) 
-puts client.readlines
-client.close
-produces:
-# 0 means standard packet
-HTTP/1.1 200 OK
-Date: Mon, 27 May 2013 17:31:00 GMT
-Server: Apache/2.2.22 (Unix) DAV/2 PHP/5.3.15 with Suhosin-Patch mod_ssl/2.2.22
-OpenSSL/0.9.8r
-Allow: GET,HEAD,POST,OPTIONS
-Content-Length: 0
-Connection: close
-Content-Type: text/html
-</code></pre>
-
-<p>在高层,lib/net library modules提供了对通信协议的许多支持(FTP, HTTP, POP, SMTP, and telnet)</p>
-
-<pre><code>//以下只是一部分代码
-require 'net/http'
-http = Net::HTTP.new('pragprog.com', 80)
-response = http.get('/book/ruby3/programming-ruby-1-9')
-if response.message == "OK"
-puts response.body.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
-end
-produces:
-       http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
-       http://pragprog.com/assets/drm-
-       free80-9120ffac998173dc0ba7e5875d082f18.png
-       http://imagery.pragprog.com/products/99/ruby3_xlargecover.jpg?
-       1349967653open-url库中的Object#open方法能识别文件中的http://和ftp://URLs,也能自动处理重定向 
-require 'open-uri'
-open('http://pragprog.com') do |f|
-puts f.read.scan(/&lt;img alt=".*?" src="(.*?)"/m).uniq[0,3]
-end
-produces:
-       http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
-       http://pragprog.com/assets/drm-free80-9120ffac998173dc0ba7e5875d082f18.png
-       http://imagery.pragprog.com/products/353/jvrails2_xlargebeta.jpg?1368826914
-</code></pre>
-
-<h4>Parsing HTML</h4>
-
-<pre><code>require 'open-uri'
-page = open('http://pragprog.com/titles/ruby3/programming-ruby-1-9').read 
-if page =~ %r{&lt;title&gt;(.*?)&lt;/title&gt;}m
-    puts "Title is #{$1.inspect}" 
-end
-produces:
-       Title is "The Pragmatic Bookshelf | Programming Ruby 1.9"
-</code></pre>
-
-<p>但用此法不太妥当，可能title和尖括号间多个个空格如何是好，可以用第三方库Nokogiri</p>
-
-<pre><code>require 'open-uri' 
-require 'nokogiri'
-doc = Nokogiri::HTML(open("http://pragprog.com/"))
-puts "Page title is " + doc.xpath("//title").inner_html
-# Output the first paragraph in the div with an id="copyright" 
-# (nokogiri supports both xpath and css-like selectors)
-puts doc.css('div#copyright p')
-# Output the second hyperlink in the site-links div using xpath and css
-puts "\nSecond hyperlink is"
-puts doc.xpath('id("site-links")//a[2]') puts doc.css('#site-links a:nth-of-type(2)')
-produces:
-Page title is The Pragmatic Bookshelf
-&lt;p&gt;
-    The &lt;em&gt;Pragmatic BookshelfTM&lt;/em&gt; is an imprint of
-        &lt;a href="http://pragprog.com/"&gt;The Pragmatic Programmers, LLC&lt;/a&gt;.
-    &lt;br&gt;
-    Copyright © 1999–2013 The Pragmatic Programmers, LLC.
-    All Rights Reserved.
-&lt;/p&gt;
-Second hyperlink is
-&lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
-&lt;a href="http://pragprog.com/about"&gt;About Us&lt;/a&gt;
-</code></pre>
-
-<p>Nokogiri can also update and create HTML and XML.</p>
 ]]></content>
   </entry>
   
