@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sencha | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/sencha/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-12-10T10:10:35+08:00</updated>
+  <updated>2014-12-11T23:35:35+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -58,7 +58,8 @@
 <p>}
 ```
 5.本地资源编译到device上无法加载的问题
-需要在app.json的resources数据里加上本地资源的路径!</p>
+需要在app.json的resources数据里加上本地资源的路径!
+6.Ext.widget() 可以用xtype 来创建实例!</p>
 ]]></content>
   </entry>
   
