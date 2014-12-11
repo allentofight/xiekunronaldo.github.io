@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Touch | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/touch/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-12-11T23:58:23+08:00</updated>
+  <updated>2014-12-12T00:01:24+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -58,8 +58,9 @@
 </ul>
 
 
-<p>The output of the Ext.getClass() function is a complex object dump, showing the complete internal structure of class objects:￼￼
-<code>javascript
+<p>The output of the Ext.getClass() function is a complex object dump, showing the complete internal structure of class objects:</p>
+
+<p><code>javascript
 $className: "Ext.Button"    $isClass: true    $onExtended: Array[2]    addConfig: function (config, fullMerge) {    addInheritableStatics: function (members) {    addMember: function (name, member) {    addMembers: function (members) {    addStatics: function (members) {    addXtype: function (xtype) {    arguments: null    borrow: function (fromClass, members) {    callParent: function (args) {    caller: null    create: function () {    createAlias: function (a, b) {    displayName: "Ext.Button"    extend: function (parent) {    getName: function () {    implement: function () {    length: 0    mixin: function (name, mixinClass) {    name: ""    onExtended: function (fn, scope) {    override: function (members) {    prototype: Object    superclass: Object    triggerExtended: function () {    xtype: "button"    __proto__: function Empty() {}     </code></p>
 ]]></content>
   </entry>
