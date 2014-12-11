@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-12-12T00:02:38+08:00</updated>
+  <updated>2014-12-12T00:04:25+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -45,9 +45,10 @@
   Ext.destroy() is used to remove objects from memory completely, avoiding memory leaks or dangling references. The objects passed as parameters of this function will be removed from the DOM, and their event listeners will be removed as well.</p></li>
 <li>each()
   Ext.each() is a shortcut to Ext.Array.each(), and as the name implies, it takes an array as both parameter and function, and executes the function passing each element of the array as parameter. The callback function can be return false at any time to stop the iteration process.</li>
-<li>getBody(), getDoc(), and getHead()
-  These three functions return a pointer to the current HTML elements representing the <body>, <html>, and <head> elements, respectively.* getClass() and getClassName()
-  These functions can be used to query any Sencha Touch object about itsclass:</li>
+<li><p>getBody(), getDoc(), and getHead()
+  These three functions return a pointer to the current HTML elements representing the <body>, <html>, and <head> elements, respectively.* getClass() and getClassName()</p>
+
+<p>  These functions can be used to query any Sencha Touch object about itsclass:</p></li>
 </ul>
 
 
