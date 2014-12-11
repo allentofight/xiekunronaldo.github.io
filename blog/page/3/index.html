@@ -9,7 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Jul 30th, 2014 Ruby Fibers Threads Processes Ruby gives you two basic ways to organize your program so that you can run different parts of it &hellip;">
+	<meta name="description" content="Aug 3rd, 2014 wwdc2014 Whats New in Xcode6 Storyboard中能实时看到Custom Fonts swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,71 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-03T15:35:28+08:00" data-updated="true" itemprop="datePublished">Aug 3<span>rd</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/wwdc2014/'>wwdc2014</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/08/03/whats-new-in-xcode6/" itemprop="url">Whats New in Xcode6</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Storyboard中能实时看到Custom Fonts</p>
+
+<p><img src="/images/2014/8/customfont.png"></p>
+
+<p>swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import modules,
+创建.swift文件时，默认创建了.h头文件，所以如果在.m文件中引用swift文件中的类，可以用import .swift对应的头文件来引用
+在ios8中，可以@import第三方的framework了!</p>
+
+<h5>在IB中动态改变显示效果，如动态改变圆角</h5>
+
+<p>注意以下几个方法的使用
+<code>class</code>前写@IBDesignable,属性前写@IBInspectable,还有override以下方法</p>
+
+<p>@override func prepareForInterfaceBuilder(){}</p>
+
+<p>UIView的这个方法可以实现live-rendering,注意要与@IBDesignable配合使用，如果要使用UIImage,则需用以下方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>        let bundle = NSBundle(forClass: self.dynamicType)
+</span><span class='line'>        self.image = UIImage(named: "sex_girl1", inBundle: bundle,            compatibleWithTraitCollection: self.traitCollection)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>UIImage(named:)无效!</p>
+
+<p>*Quicklook Preview</p>
+
+<p>Model实现debugQuickLookObject即可</p>
+
+<p>*Size Class
+Size classes have vertical and horizontal dimensions called &ldquo;regular&rdquo; and &ldquo;compact&rdquo;. The iPad in both portrait and landscape defaults to the regular size class in both horizontal and vertical directions. The iPhone in portrait defaults to compact size class for horizontal and regular size class for vertical. The iPhone in landscape defaults to compact size class for both horizontal and vertical.</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -3023,386 +3088,6 @@ produces:
 a=1
 b = [2, 3, 4] in block2
 ￼
-</code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-23T21:41:14+08:00" data-updated="true" itemprop="datePublished">Jul 23<span>rd</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>Ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/23/lei-dui-xiang-bian-liang/" itemprop="url">类-对象-变量</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>假设有以下文件</p>
-
-<pre><code>        //data.csv
-
-        "Date","ISBN","Price"
-        "2013-04-12","978-1-9343561-0-4",39.45
-        "2013-04-13","978-1-9343561-6-6",45.67
-        "2013-04-14","978-1-9343560-7-4",36.95
-</code></pre>
-
-<p>现在我们的任务就是从这个CSV文件中计算出有相同title的书各有多少本，以及书的总价
-我们设计了一个BookInStock的类</p>
-
-<pre><code>class BookInStock
-
-end
-</code></pre>
-
-<p>用new来创建对象</p>
-
-<pre><code>a_book = BookInStock.new
-</code></pre>
-
-<p>以此创建的类无任何信息，我们可以为此类提供一个initialize的方法，此方法能让我们在每个对象都创建好后就设置对象的状态，我们将此状态存储在实例变量中(以@开头),现在我们更新如下</p>
-
-<pre><code>class BookInStock
-    def initialize(isbn, price)
-        @isbn = isbn
-        @price = Float(price)
-    end 
-end
-</code></pre>
-
-<p>initialize是一个特别的方法，当你调用BookInStore.new去创建一个对象的时候,Ruby分配了一些内存给此未初始化的对象，然后调用了initialize的方法，传递了任何传递给new方法的参数，这样就给了你一次设置对象状态的机会</p>
-
-<pre><code>    b1 = BookInStock.new("isbn1", 3) 
-p b1
-
-produces:
-    #&lt;BookInStock:0x007fac4910f3e0 @isbn="isbn1", @price=3.0&gt;
-</code></pre>
-
-<p>p方法能打印出一个对象的内部表示形式(如@isbn, @price)而puts方法只是简单地将字符串输出到标准输出上，当你将一个对象传给puts时，由于puts不知道如何处理，所以它作了一个简单地处理:对象类的名字+:+对象的内存地址,我们可以改变puts的这种输出形式，只要重写to_s即可</p>
-
-<pre><code>class BookInStock
-    def initialize(isbn, price)
-            @isbn = isbn
-            @price = Float(price)
-    end
-        def to_s
-    "ISBN: #{@isbn}, price: #{@price}" 
-    end
-end
-        b1 = BookInStock.new("isbn1", 3)
-puts b1
-</code></pre>
-
-<p>结果  ISBN: isbn1, price: 3.0</p>
-
-<h5>对象和属性</h5>
-
-<p>以上的@isbn, @price不能访问，无任何意义，可以为它添加get方法</p>
-
-<pre><code>class BookInStock
-    def initialize(isbn, price)
-        @isbn = isbn
-        @price = Float(price)
-    end
-    def isbn
-        @isbn
-    end
-
-    def price 
-        @price
-    end
-# ..
-end
-book = BookInStock.new("isbn1", 12.34) 
-
-puts "ISBN = #{book.isbn}"
-puts "Price = #{book.price}"
-</code></pre>
-
-<p>结果</p>
-
-<pre><code>    ISBN   = isbn1
-Price  = 12.34
-</code></pre>
-
-<p>由于get方法的使用是如此频繁,Ruby提供了一个简便的方法，attr_reader能为你创建这些属性的get方法</p>
-
-<pre><code>class BookInStock   
-  attr_reader :isbn, :price
-    def initialize(isbn, price) 
-        @isbn = isbn
-        @price = Float(price)
-    end     # ..    end book = BookInStock.new("isbn1", 12.34) 
-
-puts "ISBN = #{book.isbn}"
-    puts "Price = #{book.price}"
-</code></pre>
-
-<p>结果: ISBN   = isbn1  Price  = 12.34对应,attr_reader后面跟的是symbols
-这里通常有一个误解，特别是那些学过Java和C#的人,他们认为attr_reader在某种程序上声明了实例变量，实际上是没有的，它只是生成了访问方法，但无声明任何变量，这些变量只有在你使用它们的时候才出现，Ruby是完全让实例变量与访问方法解藕的</p>
-
-<h4>可写属性</h4>
-
-<p>以上我们只是设置了只读方法,现在我看看如何设置可写方法</p>
-
-<pre><code>class BookInStock
-    attr_writer :isbn, :price
-    def initialize(isbn, price) 
-
-        @isbn = isbn
-        @price = Float(price)
-    end
-    def price=(new_price) 
-        @price = new_price
-    end
-# ...
-end
-
-book = BookInStock.new("isbn1", 33.80) 
-puts "ISBN = #{book.isbn}"
-puts "Price = #{book.price}" 
-book.price = book.price * 0.75
-puts "New price = #{book.price}"
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>ISBN      = isbn1
-Price     = 33.8
-New price = 25.349999999999998
-</code></pre>
-
-<p>同样的,Ruby也提供了一个创建属性设置方法的捷径，如果你想有一个只写不可读的方法，可以使用attr_writer,不过这种情况极其罕见，如果你想为某个属性设置可读可写的方法，你可以用attr_accessor</p>
-
-<pre><code>    class BookInStock 
-    attr_reader :isbn 
-    attr_accessor :price
-    def initialize(isbn, price) 
-        @isbn = isbn
-        @price = Float(price)
-    end
-# ...   end
-book = BookInStock.new("isbn1", 33.80) 
-puts "ISBN = #{book.isbn}"
-puts "Price = #{book.price}" 
-book.price = book.price * 0.75
-puts "New price = #{book.price}"
-结果: ISBN      = isbn1
-Price     = 33.8
-New price = 25.349999999999998
-</code></pre>
-
-<h4>虚属性</h4>
-
-<pre><code>class BookInStock 
-
-    attr_reader :isbn
-    attr_accessor :price
-    def initialize(isbn, price) 
-
-        @isbn = isbn
-        @price = Float(price)
-    end
-    def price_in_cents 
-        Integer(price*100 + 0.5)
-    end
-# ...
-end
-</code></pre>
-
-<p>我们看看以下会输出什么</p>
-
-<pre><code>puts "Price in cents = #{book.price_in_cents}"
-</code></pre>
-
-<p>结果</p>
-
-<pre><code>rice in cents = 3380
-</code></pre>
-
-<p><code>book.price_in_cents</code>表示的就是虚属性，由于<code>price_in_cents</code>不对应任何对象的属性，但我们却提供了访问方法，依然可以通过.的形式访问它,同样的，我们也可以提供一个它的写方法</p>
-
-<pre><code>def price_in_cents=(cents) 
-
-    @price = cents / 100.0  end
-
-book = BookInStock.new("isbn1", 33.80)
-puts "Price = #{book.price}"
-puts "Price in cents = #{book.price_in_cents}" 
-
-
-book.price_in_cents = 1234
-puts "Price = #{book.price}"
-puts "Price in cents = #{book.price_in_cents}"
-produces:
-Price          = 33.8
-Price in cents = 3380
-Price          = 12.34
-Price in cents = 1234
-</code></pre>
-
-<h4>类与其他类的协同工作</h4>
-
-<p>已知BookInStock定义如上,现在不少csv文件，我们需要将csv文件的每一行转为一个BookInStock,并将每一个BookInStock保存到一个数组中，然后计算所有书的总价,所计算的几个csv文件我们通过命令行传入,现在我们将这个程序分成三个rb文件来操作(假设这三个文件在同一目录下)</p>
-
-<ol>
-<li><p>book_in_stock.rb</p>
-
-<pre><code> class BookInStock 
-
-     attr_reader :isbn, :price
-     def initialize(isbn, price) 
-         @isbn = isbn
-         @price = Float(price)
-     end 
- end
-</code></pre></li>
-</ol>
-
-
-<p>2.csv_reader.rb
-此文件有两个外部信赖，它需要标准的CSV的库，也需要存储在book_in_stock.rb中的BookInStock的类,我们用require来加载Ruby的CSV库，用require_relative来加载book_in_stock文件</p>
-
-<pre><code>require 'csv'
-require_relative 'book_in_stock'
-
-class CsvReader 
-
-    def initialize
-        @books_in_stock = []
-    end
-    def read_in_csv_data(csv_file_name) 
-        CSV.foreach(csv_file_name, headers: true) do |row|
-            @books_in_stock &lt;&lt; BookInStock.new(row["ISBN"], row["Price"]) 
-        end
-    end 
-end
-</code></pre>
-
-<p>3.stock_stats.rb
-这是我们的主程序</p>
-
-<pre><code>require_relative 'csv_reader'   reader = CsvReader.new
-ARGV.each do |csv_file_name|        STDERR.puts "Processing #{csv_file_name}" 
-    reader.read_in_csv_data(csv_file_name)  end
-￼￼￼puts "Total value = #{reader.total_value_in_stock}"
-</code></pre>
-
-<p>运行程序如下</p>
-
-<pre><code>$ ruby stock_stats.rb data.csv
-Processing data.csv
-Total value = 122.07000000000001
-</code></pre>
-
-<h5>访问控制</h5>
-
-<p>Ruby给你三种访问控制权限</p>
-
-<ul>
-<li>Public</li>
-<li>Protected</li>
-<li>Private
-三种访问控制权限与其他语言的一样，不过有一点与其他面向对象的语言很不一样，那就是，Ruby中的访问控制是程序运行后才被确定的，是动态的，而不是静态的，只有当代码执行了访问受限的代码才能知道是否有访问不合法的错误发生
-
-<h6>如何指定访问控制</h6>
-
-<p>有以下两种方法</p>
-
-<pre><code>  class MyClass
-
-      def method1     # 默认是 'public'
-
-      #...
-
-      end
-
-  protected
-
-      def method2
-
-      #....
-
-      end
-
-  private 
-
-      def method3
-
-      #...
-
-      end
-
-  end
-</code></pre></li>
-</ul>
-
-
-<p>或</p>
-
-<pre><code>    class MyClass 
-
-        def method1 
-
-        end         def method2             end
-# ... and so on       public    :method1, :method4        protected :method2          private   :method3    end
-</code></pre>
-
-<h4>变量</h4>
-
-<pre><code>    person = "Tim"
-    puts "The object in 'person' is a #{person.class}" 
-    puts "The object has an id of #{person.object_id}" 
-    puts "and a value of '#{person}'"
-    produces:
-       The object in 'person' is a String
-       The object has an id of 70230663692980
-       and a value of 'Tim'
-</code></pre>
-
-<p>那么，变量是否是一个对象呢，答案是否定的，一个变量只是一个对象的引用,来看以下例子，一目了然</p>
-
-<pre><code>    person1 = "Tim"
-
-    person2 = person1 
-
-    person1[0] = 'J'
-    puts "person1 is #{person1}" 
-    puts "person2 is #{person2}"        produces:                      person1 is Jim              person2 is Jim
-</code></pre>
-
-<p>你可以用String的
-dup方法来创建一个全新的对象</p>
-
-<pre><code>    person1 = "Tim"     person2 = person1.dup person1[0] = "J"      puts "person1 is #{person1}" puts "person2 is #{person2}"       produces:       person1 is Jim      person2 is Tim我们也可以冻结一个对象来避免对它作出修改
-    person1 = "Tim"
-    person2 = person1
-    person1.freeze # prevent modifications to the object person2[0] = "J"
-    produces:
-            from prog.rb:4:in `&lt;main&gt;'
-    prog.rb:4:in `[]=': can't modify frozen String (RuntimeError)
 </code></pre>
 
 		

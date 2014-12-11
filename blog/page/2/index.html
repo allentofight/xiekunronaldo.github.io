@@ -9,7 +9,7 @@
 	<meta name="author" content="AllenToFight">
 
 	
-	<meta name="description" content="Oct 7th, 2014 Sencha, Touch Data Models Every field can be given a data type,When no datatype is specified, the datatype will be set to auto, which &hellip;">
+	<meta name="description" content="Oct 7th, 2014 Sencha, Touch Remote Connections (Server Proxies) Models and stores can load and save data via a so-called proxy. Sencha Touch has two &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,348 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-07T11:09:16+08:00" data-updated="true" itemprop="datePublished">Oct 7<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/sencha/'>Sencha</a>, <a class='category' href='/blog/categories/touch/'>Touch</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/10/07/remote-connections-server-proxies/" itemprop="url">Remote Connections (Server Proxies)</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Models and stores can load and save data via a so-called <code>proxy</code>. Sencha Touch has two main types of proxies: <code>client proxies</code> and <code>server proxies</code>. Client proxies save and load their data locally. Server proxies interact with a remote server.You can read more about client proxies and saving data offline (with techniques such as Local Storage, Session Storage, Web SQL, and AppCache) in Chapter 10. In this chapter, I will talk about the different kinds of server proxies.</p>
+
+<p>A server proxy communicates by sending requests to some remote server. There are four types of server proxies you can use out of the box:</p>
+
+<ul>
+<li><p>Ext.data.proxy.Ajax</p>
+
+<p>  Sends a request to the server on the <code>same domain</code> by using — you guessed it — AJAX.</p></li>
+<li><p>Ext.data.proxy.JsonP</p>
+
+<p>  Sends a request to a server on a different domain by using JSON with padding (JSONP).</p></li>
+<li><p>Ext.data.proxy.Rest</p>
+
+<p>  A kind of AJAX proxy that automatically maps to four readable actions, the RESTful HTTP verbs: create, read, update, and destroy.</p></li>
+<li>Ext.data.proxy.Direct
+  Uses the Ext.Direct technology (originally created for Ext JS) to remote server-side methods to the client side. Ext.Direct allows communication between the client side of a Sencha app and all popular server platforms.</li>
+</ul>
+
+
+<p>Let’s implement the two most used server proxies for receiving data: the AJAX proxy and the JSONP proxy. We’ll also discuss how to communicate with a server without using a proxy, by making AJAX and JSONP requests.
+For the FindACab app, you will implement a JSONP proxy to retrieve TaxiServices data for a certain location from an external web server (Yelp.com).
+In this chapter, you’ll learn about:
+* Saving or retrieving data from the same domain with AJAX</p>
+
+<pre><code>How to implement AJAX proxies 
+How to implement an AJAX request* Retrieving data from an external domain with JSONP
+How to implement JSONP proxies 
+How to implement a JSONP request
+</code></pre>
+
+<ul>
+<li>Saving or retrieving data from an external domain with AJAX
+  How to implement <code>CORS</code>
+
+<h4>Saving or Retrieving Data from the Same Domain with AJAX</h4>
+
+<h5>Implementing AJAX Proxies</h5>
+
+<p>At the top of your model or store class, you will require Ext.data.proxy.Ajax, so the Ext.Loader knows to load the AJAX proxy framework class first. Next, you will create a proxy object:<code>
+config: {   //model or store configs here   proxy: {        type: 'ajax',       url: 'data/data.json'   }}</code>
+The proxy object can be set into the config object from a store or a model</p></li>
+</ul>
+
+
+<p>The URL can point to a web service URL, or it can just point to some file <code>locally</code>. In Example 8-1, an AJAX proxy was used to load the local file, /data/data.json, which is in the same web folder as the app folder.</p>
+
+<p>You can set a proxy object and it will load the data. To let the proxy understand (read) the data, you can set a reader object (Ext.data.reader.Reader).</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>proxy: { type: 'ajax',   url: 'data/data.json',  reader: {       type: 'json',       rootProperty: 'results'     }}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note the steps to set up the reader object:</p>
+
+<ul>
+<li>First, set up a type. There are two types of data responses that the reader can interpret: json and xml.</li>
+<li>Define the rootProperty. It points to the root node of your data, from where it has to start reading the data.
+There are more configs you can set in Ext.data.reader.Reader. The ones I use regularly are:</li>
+<li>successProperty
+  Should point to the response property with a success attribute (by default, it points to the property name success).</li>
+<li>messageProperty
+  Should point to the response property with a response message (this property is optional).</li>
+<li><p>totalProperty</p>
+
+<p>  Should point to the response property with a total number of records in the dataset. This is required only while paging, when the whole dataset is not passed in one go, but is being paged from the remote server (by default, it points to the property name total).
+Let’s take a look at the FindACab app in Example 8-1. Here I retrieve data from the same domain into the store by setting an AJAX proxy into the data store.
+<code>
+Ext.define('FindACab.store.Cabs', {
+  extend: 'Ext.data.Store',
+  requires: ['Ext.data.proxy.Ajax'],
+  config: {
+      model: 'FindACab.model.Cab',
+      autoLoad: true,
+      proxy: {
+          type: "ajax",
+          url : "data/data.json",
+          reader: {
+              type: "json",
+              rootProperty: "businesses"
+          }
+      },
+  }
+});</code>
+Sometimes when you want to retrieve data from an external server, the response data is just not what you expected. For example, you want to reorder, cache, or rename properties, or you just want to add more data or maybe you don’t have control over the remote server to provide JSONP. In these cases, an AJAX proxy can be really handy. You can create an own “proxy” on the server side that connects to the external server and fetches the data. When it is retrieved on the server side, you modify the response. This custom proxy script is running on the same server as your app does, so you can hook it up with a Sencha Touch AJAX proxy back to the Sencha Touch data store. In PHP, such a scenario might look like this:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;? php
+</span><span class='line'>
+</span><span class='line'>function URL_get_contents($URL) {
+</span><span class='line'>    if (!function_exists('cURL_init')) {
+</span><span class='line'>        die('CURL is not installed!');
+</span><span class='line'>    }
+</span><span class='line'>    $ch = cURL_init();
+</span><span class='line'>    cURL_setopt($ch, CURLOPT_URL, $URL);
+</span><span class='line'>    cURL_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+</span><span class='line'>    $output = cURL_exec($ch);
+</span><span class='line'>    $httpCode = cURL_getinfo($ch, CURLINFO_HTTP_CODE); //get the code of request
+</span><span class='line'>    cURL_close($ch);
+</span><span class='line'>    if ($httpCode == 400) return 'Bummer';
+</span><span class='line'>    if ($httpCode == 200) {
+</span><span class='line'>        $data = json_decode($output); // do some fancy stuff here $data = json_encode($data);
+</span><span class='line'>        header('Content-Type: application/json');
+</span><span class='line'>        echo $data;
+</span><span class='line'>    }
+</span><span class='line'>} 
+</span><span class='line'>?&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Retrieving data through AJAX proxies can be handy. The data is directly in your store, which is great for the data-bind components that connect to a store, such as the <code>Ext.List</code>
+Sometimes you don’t need to retrieve data through a proxy. Maybe you don’t want to display the data results into a data-aware component, or you just don’t need a model or a store. Other times, the proxy is already in use by a client proxy (you can set just one proxy per model or store),Although in such a scenario you could also switch proxies with setProxy on the model or store, you can also choose to make plain AJAX requests. I will discuss this option next.</p>
+
+<h4>Implementing an AJAX Request</h4>
+
+<p>In the previous section, we retrieved data in a store via an AJAX proxy. Sometimes you don’t need to save or retrieve data in a store, maybe because you are not displaying the data in a data-aware component, such a as an XTemplate,n that case, a simple Ext.Ajax request, with parameters to pass in, might be an easier solution for saving and retrieving data on the same domain than hooking up an AJAX proxy to a store.</p>
+
+<p>At the top of your class you will require Ext.Ajax, so the Ext.Loader knows to load the AJAX framework class first. Next you will create the request:&#8220;`
+Ext.Ajax.request({</p>
+
+<pre><code>        url: 'somescript.php',
+        timeout: 60000,
+        method: 'POST',
+        params: {
+            location: 'Amsterdam NL'
+        },
+        success: function(response){
+            //remove loading mask
+            Ext.Viewport.unmask();
+            try {
+                var text = response.responseText;
+                var results = Ext.JSON.decode(text);
+                console.log(results.businesses);
+            } catch (e) {
+                //you can never assume that data is the way you want.
+                console.error(e);
+            }
+        },
+        failure: function(e){
+            //remove loading mask
+            Ext.Viewport.unmask();
+            console.error(e);
+        }
+    });```Ext.Ajax is a singleton instance of an Ext.data.Connection, which is the class that is used to communicate with server-side code.
+</code></pre>
+
+<p><code>XHR2, NEW IN SENCHA TOUCH 2.3</code>
+A new config setting, released in Sencha Touch 2.3, is to set up your AJAX request through the XHR2 (AJAX2) object. You will just need to enable the boolean property xhr2:true in the request object. XMLHttpRequest Level 2 is like XHR but with a huge makeover that allows you to do things like uploading progress events (Sencha Touch 2.3 also has a new progressbar component, Ext.ProgressIndicator!) and support for uploading/downloading binary data.Check out “<a href="http://bit.ly/xmlhttprequest2">New Tricks in XMLHttpRequest2</a>” and <a href="http://docs.sencha.com/touch/2.3.1/#!/guide/xhr2_guide">“XHR2 Uploads and Downloads”</a> to get more information about XHR2.
+Sometimes you don’t have access to the source — for example, because the script is hosted on an external website. In the case of the FindACab app, we want it to receive data from Yelp.com. The next part discusses the tricks to retrieve data from an external domain.</p>
+
+<h4>Retrieving Data from an External Domain with JSONP</h4>
+
+<p>While AJAX in general cannot send and retrieve data from an external domain because of the cross-domain policy, JSONP can send and retrieve data from an external domain. It <code>only</code> uses HTTP <code>GET</code> and therefore cannot use HTTP <code>POST</code> to post (large) data to an external domain
+In other words, you can send data, but it’s sent in the query string rather than the request body,sending data through GET is less secure than over POST because the data that will be sent is part of the URL. So it’s visible in the <code>browser history</code> or in <code>server logfiles</code>.
+It is impossible to request or send data to external domains because of the same-origin policy; the browser ignores any connection, assuming nobody else is allowed. JSONP works differently; it’s a little like a magic trick — one that is well known.
+Under the hood, it works as follows (again, see Figure 8-2):
+<img src="/images/2014/10/figure8-2.png"></p>
+
+<h4>Implementing JSONP Proxies</h4>
+
+<p>The JSONP proxy works only when the server supports JSONP or when you have control over the server. Also, this trick can only send and retrieve data via GET requests.&#8220;`
+proxy: {</p>
+
+<pre><code>type: 'jsonp',
+URL: 'http://externaldomain.com/users',
+reader: {
+    type: 'json',
+    rootProperty: 'results'
+}
+</code></pre>
+
+<p>}&#8220;`</p>
+
+<h4>Implementing the JSONP Proxy for the FindACab App</h4>
+
+<p>Did you notice that the fields of the business object in the previous JSON response have the same names as the fields from the Sencha FindACab.model.Cab model? These fields map to the model fields, so you can later use them in your code. What if the JSON response has a slightly different name than the name that is defined in the model? You can either change the model field name, or you can add a mapping property to the model field.
+For example, when you have a complex data feed that looks like this (note the
+car:brand: notation):&#8220;`
+{</p>
+
+<pre><code>results: [
+    car: brand: [{
+        name: "BMW",
+        series: 7
+    }, {
+        name: "BMW",
+        series: 5
+    }]
+    ...
+}```
+</code></pre>
+
+<p>You can add a mapping attribute to the field. In this case, brand maps to <code>["car:brand"][0].name:</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.define("MyApp.model.Car", {
+</span><span class='line'>    extend: "Ext.data.Model",
+</span><span class='line'>    config: {
+</span><span class='line'>        fields: [{
+</span><span class='line'>            name: "brand"
+</span><span class='line'>            mapping: "['car:brand'][0].name"
+</span><span class='line'>        }]
+</span><span class='line'>    }
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>JSONP request
+&#8220;`
+Ext.define(&lsquo;FindACab.store.Cabs&rsquo;, {</p>
+
+<pre><code>extend: 'Ext.data.Store',
+requires: ['Ext.data.proxy.JsonP'],
+config: {
+    model: 'FindACab.model.Cab',
+    autoLoad: true,
+    proxy: {
+        type: 'jsonp',
+        noCache: false,
+        url: FindACab.utils.Commons.Commons.YELP_API,
+        extraParams: {
+            term: FindACab.utils.Commons.YELP_TERM,
+            ywsid: FindACab.utils.Commons.YELP_KEY,
+            location: FindACab.utils.Commons.LOCATION
+        },
+        reader: {
+            type: 'json',
+            rootProperty: 'businesses',
+        }
+    },
+}
+</code></pre>
+
+<p>});&#8220;`
+Instead of using the proxy for a JSONP request, you can also use the Ext.data.JsonP method, which you will do in the next section.</p>
+
+<h4>Implementing a JSONP Request</h4>
+
+<p>View components — like lists, dataviews, or charts — are data-aware. You need to hook up a data store to preview the view with data. The previous section explained how to <code>retrieve</code> external data from Yelp in a data store. Later, this data will be displayed in an <code>Ext.dataview.List</code> view component,When retrieving external data, sometimes you don’t need to retrieve data in a store — for example, when you’re displaying data in an <code>Ext.XTemplate</code> (or another component that isn’t data-aware) &mdash; because you want to have the control over the HTML and styling of the component.In that case, a simple Ext.JsonP request, with parameters to pass in, might be an easier solution for retrieving data from an external domain than retrieving it through a JSONP proxy.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Ext.data.JsonP.request({
+</span><span class='line'>            url: 'somescript.php',
+</span><span class='line'>            callbackKey: 'callback',
+</span><span class='line'>            params: {
+</span><span class='line'>                location: "Amsterdam NL"
+</span><span class='line'>            },
+</span><span class='line'>            success: function(response, request){
+</span><span class='line'>                //remove loading mask
+</span><span class='line'>            },
+</span><span class='line'>            failure: function(e){
+</span><span class='line'>                //remove loading mask
+</span><span class='line'>            }
+</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Saving or Retrieving Data from an External Domain with AJAX</h4>
+
+<p>You want to post (or get) data from an external domain, but posting data is only possible with AJAX, not with JSONP. JSONP cannot send data with HTTP POST, and AJAX in general cannot retrieve and post data from external domains so you might run into a problem. What you actually want is an AJAX request to save and retrieve data to an external domain. Read on for the trick to this.</p>
+
+<h5>Implementing CORS</h5>
+
+<p>You will need to set up Access-Control-Allow HTTP headers on the web server to post (and retrieve) data with AJAX to an external URL.
+Sencha Touch provides additional configuration. In an Ext.Ajax.request or AJAX proxy, you have to set the withCredentials boolean to true and set the useDefaultXhrHeader boolean to false to not send the default Xhr header with every request.</p>
+
+<p>Sencha Touch provides additional configuration. In an Ext.Ajax.request or AJAX proxy, you have to set the withCredentials boolean to true and set the useDefaultXhrHeader boolean to false to not send the default Xhr header with every request.
+The Ext.Ajax() method (and also the model.save() and form.submit() methods) transmit through the XMLHttpRequest() object, and therefore you can run into security restrictions — cross-domain restrictions — when posting to a different domain. However, there is a way to post data to another server with AJAX; you need to set up your server so it’s possible to set up the HTTP headers (Access-Control-Allow headers) on the web server for that. This technique is called cross-origin resource sharing (CORS), and it enables you to override the default restrictions that prevent a web server from making AJAX requests to domains other than where the app is launched. CORS is supported by the modern browsers.
+An example of such an HTTP header might look like:
+<code>
+Access-Control-Allow-Origin: *</code></p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -12701,71 +13043,6 @@ There are two <code>type-casting</code> patterns, the is pattern and the as patt
 <p>  You can subclass a generic class, but the subclass must also be a generic class.</p></li>
 </ul>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-03T15:35:28+08:00" data-updated="true" itemprop="datePublished">Aug 3<span>rd</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/wwdc2014/'>wwdc2014</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/08/03/whats-new-in-xcode6/" itemprop="url">Whats New in Xcode6</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Storyboard中能实时看到Custom Fonts</p>
-
-<p><img src="/images/2014/8/customfont.png"></p>
-
-<p>swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import modules,
-创建.swift文件时，默认创建了.h头文件，所以如果在.m文件中引用swift文件中的类，可以用import .swift对应的头文件来引用
-在ios8中，可以@import第三方的framework了!</p>
-
-<h5>在IB中动态改变显示效果，如动态改变圆角</h5>
-
-<p>注意以下几个方法的使用
-<code>class</code>前写@IBDesignable,属性前写@IBInspectable,还有override以下方法</p>
-
-<p>@override func prepareForInterfaceBuilder(){}</p>
-
-<p>UIView的这个方法可以实现live-rendering,注意要与@IBDesignable配合使用，如果要使用UIImage,则需用以下方式</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>        let bundle = NSBundle(forClass: self.dynamicType)
-</span><span class='line'>        self.image = UIImage(named: "sex_girl1", inBundle: bundle,            compatibleWithTraitCollection: self.traitCollection)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>UIImage(named:)无效!</p>
-
-<p>*Quicklook Preview</p>
-
-<p>Model实现debugQuickLookObject即可</p>
-
-<p>*Size Class
-Size classes have vertical and horizontal dimensions called &ldquo;regular&rdquo; and &ldquo;compact&rdquo;. The iPad in both portrait and landscape defaults to the regular size class in both horizontal and vertical directions. The iPhone in portrait defaults to compact size class for horizontal and regular size class for vertical. The iPhone in landscape defaults to compact size class for both horizontal and vertical.</p>
 
 		
 		

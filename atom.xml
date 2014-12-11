@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-12-11T23:35:35+08:00</updated>
+  <updated>2014-12-11T23:58:23+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sencha Touch 工具集]]></title>
+    <link href="http://xiekunRonaldo.github.io/blog/2014/12/11/sencha-touch-gong-ju-ji/"/>
+    <updated>2014-12-11T23:41:50+08:00</updated>
+    <id>http://xiekunRonaldo.github.io/blog/2014/12/11/sencha-touch-gong-ju-ji</id>
+    <content type="html"><![CDATA[<h1>Ext</h1>
+
+<ul>
+<li><p>emptyFn</p>
+
+<p>  Ext.emptyFn contains a reusable, empty function that you can pass as a default param‐ eter to callbacks or event handlers.</p></li>
+<li><p>version</p>
+
+<p>  Ext.version returns the version of the current Sencha Touch library loaded in the browser.</p></li>
+<li><p>bind()</p>
+
+<p>  Ext.bind() is used to attach functions to objects, setting the correct this pointer at the end of the operation. This function is required to solve some quirks inherent to JavaScript.</p></li>
+<li><p>clone()</p>
+
+<p>  Ext.clone() can be used to create a shallow copy of the object passed as parameter.</p></li>
+<li><p>widget()</p>
+
+<p>   Ext.widget() can be used to create in‐ stances just by using the xtype instead of the whole class name.</p></li>
+<li><p>decode() and encode()</p>
+
+<p>  Ext.decode() is a shortcut to Ext.JSON.decode(), used to parse a JSON string and return the corresponding object. Similarly, Ext.encode() is a shorthand for Ext.JSON.encode() and returns the JSON string that represents the object passed as parameter.</p></li>
+<li><p>defer()</p>
+
+<p>  Ext.defer() is a shortcut for Ext.Function.defer(), used to delay the execution of a function by some milliseconds. The function also takes as parameters the context of execution, some optional arguments, and of course the number of milliseconds before executing the function. For more control over delayed execution, check the Ext.DelayedTask class, which provides tighter control and more options.* destroy()
+  Ext.destroy() is used to remove objects from memory completely, avoiding memory leaks or dangling references. The objects passed as parameters of this function will be removed from the DOM, and their event listeners will be removed as well.</p></li>
+<li>each()
+  Ext.each() is a shortcut to Ext.Array.each(), and as the name implies, it takes an array as both parameter and function, and executes the function passing each element of the array as parameter. The callback function can be return false at any time to stop the iteration process.</li>
+<li><p>getBody(), getDoc(), and getHead()
+  These three functions return a pointer to the current HTML elements representing the <body>, <html>, and <head> elements, respectively.* getClass() and getClassName()
+  These functions can be used to query any Sencha Touch object about itsclass:
+&#8220;`javascript</p>
+
+<p>  var button = Ext.create(&lsquo;Ext.Button&rsquo;);</p>
+
+<p>  var classObject = Ext.getClass(button);</p>
+
+<p>  var className = Ext.getClassName(button);&#8220;`</p></li>
+</ul>
+
+
+<p>The output of the Ext.getClass() function is a complex object dump, showing the complete internal structure of class objects:￼￼
+<code>javascript
+$className: "Ext.Button"    $isClass: true    $onExtended: Array[2]    addConfig: function (config, fullMerge) {    addInheritableStatics: function (members) {    addMember: function (name, member) {    addMembers: function (members) {    addStatics: function (members) {    addXtype: function (xtype) {    arguments: null    borrow: function (fromClass, members) {    callParent: function (args) {    caller: null    create: function () {    createAlias: function (a, b) {    displayName: "Ext.Button"    extend: function (parent) {    getName: function () {    implement: function () {    length: 0    mixin: function (name, mixinClass) {    name: ""    onExtended: function (fn, scope) {    override: function (members) {    prototype: Object    superclass: Object    triggerExtended: function () {    xtype: "button"    __proto__: function Empty() {}     </code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NodeJS技巧]]></title>
@@ -3847,7 +3898,8 @@ Some JavaScript engines have a special property for getting and setting the prot
 
 <p>5.本地资源编译到device上无法加载的问题
 需要在app.json的resources数据里加上本地资源的路径!
-6.Ext.widget() 可以用xtype 来创建实例!</p>
+6.Ext.widget() 可以用xtype 来创建实例!
+7.工具集(Foundation Utilities)</p>
 ]]></content>
   </entry>
   
@@ -17640,45 +17692,6 @@ There are two <code>type-casting</code> patterns, the is pattern and the as patt
 <p>  You can subclass a generic class, but the subclass must also be a generic class.</p></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Whats new in xcode6]]></title>
-    <link href="http://xiekunRonaldo.github.io/blog/2014/08/03/whats-new-in-xcode6/"/>
-    <updated>2014-08-03T15:35:28+08:00</updated>
-    <id>http://xiekunRonaldo.github.io/blog/2014/08/03/whats-new-in-xcode6</id>
-    <content type="html"><![CDATA[<p>Storyboard中能实时看到Custom Fonts</p>
-
-<p><img src="http://xiekunRonaldo.github.io/images/2014/8/customfont.png"></p>
-
-<p>swift如需使用不在某文件中定义的类，不需要import,会自动import，不过，你依然需要为你信赖的framework import modules,
-创建.swift文件时，默认创建了.h头文件，所以如果在.m文件中引用swift文件中的类，可以用import .swift对应的头文件来引用
-在ios8中，可以@import第三方的framework了!</p>
-
-<h5>在IB中动态改变显示效果，如动态改变圆角</h5>
-
-<p>注意以下几个方法的使用
-<code>class</code>前写@IBDesignable,属性前写@IBInspectable,还有override以下方法</p>
-
-<p>@override func prepareForInterfaceBuilder(){}</p>
-
-<p>UIView的这个方法可以实现live-rendering,注意要与@IBDesignable配合使用，如果要使用UIImage,则需用以下方式</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>        let bundle = NSBundle(forClass: self.dynamicType)
-</span><span class='line'>        self.image = UIImage(named: "sex_girl1", inBundle: bundle,            compatibleWithTraitCollection: self.traitCollection)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>UIImage(named:)无效!</p>
-
-<p>*Quicklook Preview</p>
-
-<p>Model实现debugQuickLookObject即可</p>
-
-<p>*Size Class
-Size classes have vertical and horizontal dimensions called &ldquo;regular&rdquo; and &ldquo;compact&rdquo;. The iPad in both portrait and landscape defaults to the regular size class in both horizontal and vertical directions. The iPhone in portrait defaults to compact size class for horizontal and regular size class for vertical. The iPhone in landscape defaults to compact size class for both horizontal and vertical.</p>
 ]]></content>
   </entry>
   
