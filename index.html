@@ -140,30 +140,94 @@
 <p>  Ext.decode() is a shortcut to Ext.JSON.decode(), used to parse a JSON string and return the corresponding object. Similarly, Ext.encode() is a shorthand for Ext.JSON.encode() and returns the JSON string that represents the object passed as parameter.</p></li>
 <li><p>defer()</p>
 
-<p>  Ext.defer() is a shortcut for Ext.Function.defer(), used to delay the execution of a function by some milliseconds. The function also takes as parameters the context of execution, some optional arguments, and of course the number of milliseconds before executing the function. For more control over delayed execution, check the Ext.DelayedTask class, which provides tighter control and more options.* destroy()
+<p>  Ext.defer() is a shortcut for Ext.Function.defer(), used to delay the execution of a function by some milliseconds. The function also takes as parameters the context of execution, some optional arguments, and of course the number of milliseconds before executing the function. For more control over delayed execution, check the Ext.DelayedTask class, which provides tighter control and more options.</p></li>
+<li><p>destroy()
   Ext.destroy() is used to remove objects from memory completely, avoiding memory leaks or dangling references. The objects passed as parameters of this function will be removed from the DOM, and their event listeners will be removed as well.</p></li>
 <li>each()
   Ext.each() is a shortcut to Ext.Array.each(), and as the name implies, it takes an array as both parameter and function, and executes the function passing each element of the array as parameter. The callback function can be return false at any time to stop the iteration process.</li>
 <li><p>getBody(), getDoc(), and getHead()
-  These three functions return a pointer to the current HTML elements representing the <body>, <html>, and <head> elements, respectively.* getClass() and getClassName()</p>
+  These three functions return a pointer to the current HTML elements representing the <body>, <html>, and <head> elements, respectively.</p></li>
+<li><p>getClass() and getClassName()</p>
 
 <p>  These functions can be used to query any Sencha Touch object about itsclass:</p></li>
 </ul>
 
 
-<p>&#8220;`javascript</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">button</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">classObject</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">getClass</span><span class="p">(</span><span class="nx">button</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">className</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">getClassName</span><span class="p">(</span><span class="nx">button</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>var button = Ext.create('Ext.Button'); 
-
-var classObject = Ext.getClass(button); 
-
-var className = Ext.getClassName(button);```
-</code></pre>
 
 <p>The output of the Ext.getClass() function is a complex object dump, showing the complete internal structure of class objects:</p>
 
-<p><code>javascript
-$className: "Ext.Button"    $isClass: true    $onExtended: Array[2]    addConfig: function (config, fullMerge) {    addInheritableStatics: function (members) {    addMember: function (name, member) {    addMembers: function (members) {    addStatics: function (members) {    addXtype: function (xtype) {    arguments: null    borrow: function (fromClass, members) {    callParent: function (args) {    caller: null    create: function () {    createAlias: function (a, b) {    displayName: "Ext.Button"    extend: function (parent) {    getName: function () {    implement: function () {    length: 0    mixin: function (name, mixinClass) {    name: ""    onExtended: function (fn, scope) {    override: function (members) {    prototype: Object    superclass: Object    triggerExtended: function () {    xtype: "button"    __proto__: function Empty() {}     </code></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$className</span><span class="o">:</span> <span class="s2">&quot;Ext.Button&quot;</span>
+</span><span class='line'><span class="nx">$isClass</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'><span class="nx">$onExtended</span><span class="o">:</span> <span class="nb">Array</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="nx">addConfig</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">fullMerge</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">addInheritableStatics</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">members</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">addMember</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">member</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">addMembers</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">members</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">addStatics</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">members</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">addXtype</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">xtype</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">arguments</span><span class="o">:</span> <span class="kc">null</span>
+</span><span class='line'><span class="nx">borrow</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">fromClass</span><span class="p">,</span> <span class="nx">members</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">callParent</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">caller</span><span class="o">:</span> <span class="kc">null</span>
+</span><span class='line'><span class="nx">create</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">createAlias</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">displayName</span><span class="o">:</span> <span class="s2">&quot;Ext.Button&quot;</span>
+</span><span class='line'><span class="nx">extend</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">parent</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">getName</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">implement</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">length</span><span class="o">:</span> <span class="mi">0</span>
+</span><span class='line'><span class="nx">mixin</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">mixinClass</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="nx">onExtended</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">override</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">members</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">prototype</span><span class="o">:</span> <span class="nb">Object</span>
+</span><span class='line'><span class="nx">superclass</span><span class="o">:</span> <span class="nb">Object</span>
+</span><span class='line'><span class="nx">triggerExtended</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">xtype</span><span class="o">:</span> <span class="s2">&quot;button&quot;</span>
+</span><span class='line'><span class="nx">__proto__</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">Empty</span><span class="p">()</span> <span class="p">{}</span>       
+</span></code></pre></td></tr></table></div></figure>
+
 
 		
 		

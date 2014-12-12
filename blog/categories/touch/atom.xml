@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Touch | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/touch/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-12-12T00:04:25+08:00</updated>
+  <updated>2014-12-12T19:39:21+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -41,12 +41,14 @@
 <p>  Ext.decode() is a shortcut to Ext.JSON.decode(), used to parse a JSON string and return the corresponding object. Similarly, Ext.encode() is a shorthand for Ext.JSON.encode() and returns the JSON string that represents the object passed as parameter.</p></li>
 <li><p>defer()</p>
 
-<p>  Ext.defer() is a shortcut for Ext.Function.defer(), used to delay the execution of a function by some milliseconds. The function also takes as parameters the context of execution, some optional arguments, and of course the number of milliseconds before executing the function. For more control over delayed execution, check the Ext.DelayedTask class, which provides tighter control and more options.* destroy()
+<p>  Ext.defer() is a shortcut for Ext.Function.defer(), used to delay the execution of a function by some milliseconds. The function also takes as parameters the context of execution, some optional arguments, and of course the number of milliseconds before executing the function. For more control over delayed execution, check the Ext.DelayedTask class, which provides tighter control and more options.</p></li>
+<li><p>destroy()
   Ext.destroy() is used to remove objects from memory completely, avoiding memory leaks or dangling references. The objects passed as parameters of this function will be removed from the DOM, and their event listeners will be removed as well.</p></li>
 <li>each()
   Ext.each() is a shortcut to Ext.Array.each(), and as the name implies, it takes an array as both parameter and function, and executes the function passing each element of the array as parameter. The callback function can be return false at any time to stop the iteration process.</li>
 <li><p>getBody(), getDoc(), and getHead()
-  These three functions return a pointer to the current HTML elements representing the <body>, <html>, and <head> elements, respectively.* getClass() and getClassName()</p>
+  These three functions return a pointer to the current HTML elements representing the <body>, <html>, and <head> elements, respectively.</p></li>
+<li><p>getClass() and getClassName()</p>
 
 <p>  These functions can be used to query any Sencha Touch object about itsclass:</p></li>
 </ul>
@@ -58,13 +60,44 @@
 
 var classObject = Ext.getClass(button); 
 
-var className = Ext.getClassName(button);```
+var className = Ext.getClassName(button);
 </code></pre>
+
+<p>```</p>
 
 <p>The output of the Ext.getClass() function is a complex object dump, showing the complete internal structure of class objects:</p>
 
 <p><code>javascript
-$className: "Ext.Button"    $isClass: true    $onExtended: Array[2]    addConfig: function (config, fullMerge) {    addInheritableStatics: function (members) {    addMember: function (name, member) {    addMembers: function (members) {    addStatics: function (members) {    addXtype: function (xtype) {    arguments: null    borrow: function (fromClass, members) {    callParent: function (args) {    caller: null    create: function () {    createAlias: function (a, b) {    displayName: "Ext.Button"    extend: function (parent) {    getName: function () {    implement: function () {    length: 0    mixin: function (name, mixinClass) {    name: ""    onExtended: function (fn, scope) {    override: function (members) {    prototype: Object    superclass: Object    triggerExtended: function () {    xtype: "button"    __proto__: function Empty() {}     </code></p>
+$className: "Ext.Button"
+$isClass: true
+$onExtended: Array[2]
+addConfig: function (config, fullMerge) {
+addInheritableStatics: function (members) {
+addMember: function (name, member) {
+addMembers: function (members) {
+addStatics: function (members) {
+addXtype: function (xtype) {
+arguments: null
+borrow: function (fromClass, members) {
+callParent: function (args) {
+caller: null
+create: function () {
+createAlias: function (a, b) {
+displayName: "Ext.Button"
+extend: function (parent) {
+getName: function () {
+implement: function () {
+length: 0
+mixin: function (name, mixinClass) {
+name: ""
+onExtended: function (fn, scope) {
+override: function (members) {
+prototype: Object
+superclass: Object
+triggerExtended: function () {
+xtype: "button"
+__proto__: function Empty() {}      
+</code></p>
 ]]></content>
   </entry>
   
