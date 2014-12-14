@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sencha | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/sencha/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-12-12T19:39:21+08:00</updated>
+  <updated>2014-12-14T12:23:43+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -18,7 +18,7 @@
     <link href="http://xiekunRonaldo.github.io/blog/2014/12/11/sencha-touch-gong-ju-ji/"/>
     <updated>2014-12-11T23:41:50+08:00</updated>
     <id>http://xiekunRonaldo.github.io/blog/2014/12/11/sencha-touch-gong-ju-ji</id>
-    <content type="html"><![CDATA[<h1>Ext</h1>
+    <content type="html"><![CDATA[<h2>Ext</h2>
 
 <ul>
 <li><p>emptyFn</p>
@@ -98,6 +98,344 @@ triggerExtended: function () {
 xtype: "button"
 __proto__: function Empty() {}      
 </code></p>
+
+<ul>
+<li>getCmp() and getStore()
+  These functions return pointers to specific Sencha Touch objects; getCmp() takes an ID as a parameter and returns a pointer to the corresponding component (not HTML element, but <code>component</code>!). On the other hand, getStore() is a shortcut to Ext.da ta.StoreManager.lookup() and provides a handy mechanism to get a pointer to any store defined in the current application.</li>
+<li>id()
+  The id() function is used to create unique ID values for individual components.</li>
+<li>isArray(), isBoolean(), isDate(), isDefined(), isElement(), and others</li>
+</ul>
+
+
+<p><code>javascript
+var array = [];
+var bool = Ext.isArray(array);
+</code></p>
+
+<ul>
+<li>iterate()</li>
+</ul>
+
+
+<p><code>javascript
+var obj = {
+key1: 'value1',
+key2: 'value2', key3: 345, key4: false
+};
+Ext.iterate(obj, function (key, value) {
+var str = key + ': ' + value;
+console.log(str); }, this);
+var arr = [ 'value1', 'value2', 678, true ]; var index = 0;
+Ext.iterate(arr, function (item) {
+var str = index + '&gt; ' + item;
+console.log(str);
+++index; }, this);
+</code></p>
+
+<ul>
+<li>typeOf()</li>
+</ul>
+
+
+<p>Similarly to the isArray() family of functions previously described, the typeOf() function works as an extended (and patched) alternative to the typeof() function provided by the JavaScript standard. The following code shows an example of how to use it:</p>
+
+<p>```javascript
+var undef;
+var nil = null;
+var str = &lsquo;string&rsquo;;
+var num = 234;
+var bool = true;
+var date = new Date();
+var func = function () {</p>
+
+<pre><code>console.log('something');
+</code></pre>
+
+<p>};
+var obj = { key1: &lsquo;value1&rsquo; };
+var arr = [ &lsquo;value1&rsquo;, &lsquo;value2&rsquo; ];
+var reg = /match/gi;
+var elem = Ext.getDoc().dom;
+var all = [ undef, nil, str, num, bool, date, func, obj, arr, reg, elem ];
+var index = 0;
+Ext.iterate(all, function (item) {</p>
+
+<pre><code>var txt = index + '&gt; ' + item + ': ' + Ext.typeOf(item); 
+console.log(txt);
+++index;
+</code></pre>
+
+<p>}, this);
+```
+The result of the execution of this code is the following:</p>
+
+<p>```javascript
+ 0> undefined: undefined</p>
+
+<pre><code>1&gt; null: null
+2&gt; string: string
+3&gt; 234: number
+4&gt; true: boolean
+5&gt; Wed Nov 07 2012 14:24:22 GMT+0100 (CET): date
+6&gt; function () {
+    console.log('something');
+}: function
+7&gt; [object Object]: object
+8&gt; value1,value2: array
+9&gt; /match/gi: regexp
+10&gt; [object HTMLHtmlElement]: element
+</code></pre>
+
+<p>```</p>
+
+<h2>Ext.Array</h2>
+
+<ul>
+<li>clean()</li>
+</ul>
+
+
+<p>The clean() function removes “empty” items from an array. The mentioned earlier empty in this case is brought by the Ext.isEmpty() function, described later in this chapter.</p>
+
+<p><code>javascript
+var sampleArray = [1234, true, 'asdfadf', null, 'another string', '', 0];
+var cleanArray = Ext.Array.clean(sampleArray);
+</code>
+The preceding code yields an array that only contains the values [ 1234, true, &lsquo;asd fadf&rsquo;, &lsquo;another string&rsquo;, 0 ].</p>
+
+<ul>
+<li>contains()</li>
+</ul>
+
+
+<p>The contains() function returns a Boolean value stating whether a certain value exists in the array or not.</p>
+
+<p>`&ldquo;javascript
+var sampleArray = [1234, true, &lsquo;asdfadf&rsquo;, null, &lsquo;another string&rsquo;, &rdquo;, 0];
+var tests = [false, &lsquo;&rsquo;, &lsquo;whatever&rsquo;, &lsquo;asdfadf&rsquo;, 1234, 6578];
+Ext.Array.each(tests, function (item) {
+if (Ext.Array.contains(sampleArray, item)) {</p>
+
+<pre><code>        console.log('"' + item + '" IS contained');
+    }
+</code></pre>
+
+<p>else {</p>
+
+<pre><code>console.log('"' + item + '" is NOT contained');
+</code></pre>
+
+<p>}
+}, this);
+```
+The result of the code is the following:</p>
+
+<p>```javascript
+&ldquo;false&rdquo; is NOT contained</p>
+
+<pre><code>"" IS contained
+"whatever" is NOT contained
+"asdfadf" IS contained
+"1234" IS contained
+"6578" is NOT contained
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>difference()
+The difference() function returns a new array containing the result of subtracting, from the first array passed as parameter, the elements that exist in a second array passed as parameter. For example:</li>
+</ul>
+
+
+<p><code>javascript
+var sampleArray = [1234, true, 'asdfadf', null, 'another string', '', 0];
+var anotherArray = ['asdfadf', new Date(), 1234, true, '', 234];
+var difference = Ext.Array.difference(sampleArray, anotherArray);
+</code>
+The contents of the preceding difference variable are the following: [ null, &lsquo;another string&rsquo;, 0 ].</p>
+
+<ul>
+<li>erase()</li>
+</ul>
+
+
+<p>The erase() function provides a simpler API to the standard Array.splice() method of the JavaScript standard library. It allows you to remove a certain number of items from an array, starting at a particular point.</p>
+
+<p><code>javascript
+var sampleArray = [1234, true, 'asdfadf', null, 'another string', '', 0];
+var erasedArray = Ext.Array.erase(sampleArray, 1, 3);
+</code></p>
+
+<ul>
+<li>every() and some()</li>
+</ul>
+
+
+<p>The every() and some() functions iterate over the items of an array, evaluating each of them in a function passed as parameter; both functions work very similarly, with the difference that every() stops iterating as soon as the function returns false, while some() will stop iterating as soon as the function returns true. For example:</p>
+
+<p>`&ldquo;javascript
+var sampleArray = [1234, true, &lsquo;asdfadf&rsquo;, null, &lsquo;another string&rsquo;, &rdquo;, 0];
+var result = Ext.Array.every(sampleArray, function (item) {</p>
+
+<pre><code>    // If here the inner function returns "false" at any point, the
+    // loop ends and the value in "result" will be "false."
+    // In this case, however, as 'whatever' is not contained in the
+    // sampleArray, the function always returns true, and 'result'
+    // contains true as well.
+</code></pre>
+
+<p>return (item !== &lsquo;whatever&rsquo;); }, this);</p>
+
+<pre><code>console.log('Result of `every()`: ' + result);
+</code></pre>
+
+<p>var sampleArray = [1234, true, &lsquo;asdfadf&rsquo;, null, &lsquo;another string&rsquo;, &lsquo;&rsquo;, 0];
+console.log(&lsquo;Original Array&rsquo;);
+console.dir(sampleArray);
+var result = Ext.Array.some(sampleArray, function (item) {
+// If here the inner function returns &ldquo;true&rdquo; at any point, the
+// loop ends and the value in &ldquo;result&rdquo; will be &ldquo;true.&rdquo;
+// In this case, however, as &lsquo;another string&rsquo; is contained in the
+// sampleArray, the function returns true at some point, and &lsquo;result&rsquo; // contains true as well.
+return (item === &lsquo;another string&rsquo;);
+}, this);
+console.log(&lsquo;Result of some(): &rsquo; + result);
+```
+The respective outputs would look like this:</p>
+
+<p>```javascript
+Result of every(): true
+Result of some(): true</p>
+
+<p>```</p>
+
+<ul>
+<li><p>filter()</p>
+
+<p>  The filter() function evaluates every item of the array passed as parameter, and it returns a new array that contains all the values where the provided function returns true.</p></li>
+</ul>
+
+
+<p><code>javascript
+var sampleArray = [1234, true, 'asdfadf', null, 'another string', '', 0];
+var filteredArray = Ext.Array.filter(sampleArray, function (item) {
+return (typeof(item) === 'string'); }, this);
+</code></p>
+
+<ul>
+<li><p>flatten()</p>
+
+<p>  The flatten() function takes an array with nested arrays and brings all the values in the nested arrays as part of the topmost one:</p></li>
+</ul>
+
+
+<p><code>javascript
+var sampleArray = [1234, true, 'asdfadf', ['inner array', true, false, 234], 'an other string', '', 0];
+var flattenedArray = Ext.Array.flatten(sampleArray);
+</code></p>
+
+<ul>
+<li><p>from()
+The from() function creates a new array from any object or primitive passed as parameter:
+<code>javascript
+var bool = true;
+var booleanArray = Ext.Array.from(bool);
+</code></p></li>
+<li><p>include()
+  The include() function works like a selective push() method: It adds new items to an array only if those items do not already exist, ensuring that the each element appears only once:
+<code>javascript
+var sampleArray = [1234, 456, true, 'test'];
+Ext.Array.include(sampleArray, true);
+Ext.Array.include(sampleArray, 'whatever');
+</code>
+The result of the preceding code is the following array: [ 1234, 456, true, &lsquo;test&rsquo;, &lsquo;whatever&rsquo; ]. The value true is not added a second time, since it already exists when the first call to include() is made.</p></li>
+<li><p>indexOf()
+  As the name implies, this function returns the index of the item passed as parameter. In case the object is not found, the function returns -1:</p></li>
+<li><p>insert()
+The insert() function allows you to interpolate values in an existing array at a partic‐ ular position:
+<code>javascript
+var sampleArray = [1234, 456, true, 'test'];
+var itemsToInsert = [768, 'something', false, null];
+var insertedArray = Ext.Array.insert(sampleArray, 1, itemsToInsert);
+</code>
+The result of the preceding code is the following: [ 1234, 768, &ldquo;something&rdquo;, false, null, 456, true, &ldquo;test&rdquo;]. The values of the array itemsToInsert have been em‐ bedded in the first array, starting at position number 1.</p></li>
+<li><p>intersect()
+The intersect() function returns a new array that merges the values from all the arrays passed as parameter (this function can take a large number of arguments):
+<code>javascript
+var sampleArray = [1234, 456, true, 'test'];
+var anotherArray = [true, false, 'test', 'whatever', 456];
+var intersection = Ext.Array.intersect(anotherArray, sampleArray);
+</code>
+The result of the intersection is the following: [ true ].</p></li>
+<li><p>map() and pluck()
+The map() and pluck() functions will sound familiar to developers versed in functional languages such as Haskell or Lisp. They both operate over the contents of an array but in different ways: map() will execute a function in each item, returning a new array with the results of each execution. On the other hand, pluck() will return a new array with the values of a particular key from an array of objects:
+<code>javascript
+var sampleArray = [1234, 456, true, 'test'];
+var mapped = Ext.Array.map(sampleArray, function (item) {
+return item + '_boom'; }, this);
+</code></p></li>
+</ul>
+
+
+<p>The mapped array looks like this: [ &lsquo;1234_boom&rsquo;, &lsquo;456_boom&rsquo;, &lsquo;true_boom&rsquo;, &lsquo;test_boom&rsquo; ].
+```javascript
+var sampleArray = [{ key1: &lsquo;value1&rsquo;,</p>
+
+<pre><code>    key2: 'value2'
+    }, {
+    key1: 'value3',
+    key2: 'value4'
+}, {
+    key1: 'value5',
+    key2: 'value6'
+}, {
+    key1: 'value7',
+    key2: 'value8'
+}, {
+    key1: 'value9',
+    key2: 'value0'
+}];
+</code></pre>
+
+<p>console.log(&lsquo;Original Array&rsquo;); console.dir(sampleArray);
+var plucked = Ext.Array.pluck(sampleArray, &lsquo;key1&rsquo;);
+```</p>
+
+<p>After this code executes, plucked contains all the values referenced by the key key1: [ &lsquo;value1&rsquo;, &lsquo;value3&rsquo;, &lsquo;value5&rsquo;, &lsquo;value7&rsquo;, &lsquo;value9&rsquo; ].</p>
+
+<ul>
+<li>max(), mean(), min(), and sum()</li>
+</ul>
+
+
+<p><code>javascript
+var sampleArray = [1234, 456, -234, 654, 0, 'whatever']; var max = Ext.Array.max(sampleArray);
+var min = Ext.Array.min(sampleArray);
+var sum = Ext.Array.sum(sampleArray);
+var sampleArray2 = [1234, 456, -234, 654, 0]; var mean = Ext.Array.mean(sampleArray2);
+</code>
+max(), mean(), min(), and sum()
+All of these functions perform the typical mathematical operations on any array:
+<code>javascript
+var sampleArray = [1234, 456, -234, 654, 0, 'whatever']; var max = Ext.Array.max(sampleArray);
+var min = Ext.Array.min(sampleArray);
+var sum = Ext.Array.sum(sampleArray);
+var sampleArray2 = [1234, 456, -234, 654, 0]; var mean = Ext.Array.mean(sampleArray2);
+</code>
+After executing the preceding code, max is 1234, min is equal to -234, sum is 2110what ever (pay attention to how the string was added at the end of the mathematical sum!) and mean is equal to 422.</p>
+
+<ul>
+<li>merge() and union()
+The merge() function (and its alias union()) create a new array with all the values of those passed as parameter, but appearing only once:
+<code>javascript
+var sampleArray = [1234, 456, true, 'test'];
+var anotherArray = [true, false, 'test', 'whatever', 456]; var merge = Ext.Array.merge(anotherArray, sampleArray);
+</code>
+The result of the preceding code is the following: [ true, false, &lsquo;test&rsquo;, &lsquo;whatev er&rsquo;, 456, 1234 ].</li>
+</ul>
+
 ]]></content>
   </entry>
   

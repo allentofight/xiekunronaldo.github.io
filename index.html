@@ -117,7 +117,7 @@
 	</div>
 	<h1 class="title" itemprop="name"><a href="/blog/2014/12/11/sencha-touch-gong-ju-ji/" itemprop="url">Sencha Touch 工具集</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<h1>Ext</h1>
+		<h2>Ext</h2>
 
 <ul>
 <li><p>emptyFn</p>
@@ -228,6 +228,489 @@
 </span><span class='line'><span class="nx">__proto__</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">Empty</span><span class="p">()</span> <span class="p">{}</span>       
 </span></code></pre></td></tr></table></div></figure>
 
+
+<ul>
+<li>getCmp() and getStore()
+  These functions return pointers to specific Sencha Touch objects; getCmp() takes an ID as a parameter and returns a pointer to the corresponding component (not HTML element, but <code>component</code>!). On the other hand, getStore() is a shortcut to Ext.da ta.StoreManager.lookup() and provides a handy mechanism to get a pointer to any store defined in the current application.</li>
+<li>id()
+  The id() function is used to create unique ID values for individual components.</li>
+<li>isArray(), isBoolean(), isDate(), isDefined(), isElement(), and others</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">bool</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">array</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>iterate()</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value2&#39;</span><span class="p">,</span> <span class="nx">key3</span><span class="o">:</span> <span class="mi">345</span><span class="p">,</span> <span class="nx">key4</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">iterate</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">str</span><span class="p">);</span> <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span> <span class="s1">&#39;value2&#39;</span><span class="p">,</span> <span class="mi">678</span><span class="p">,</span> <span class="kc">true</span> <span class="p">];</span> <span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">iterate</span><span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="nx">index</span> <span class="o">+</span> <span class="s1">&#39;&gt; &#39;</span> <span class="o">+</span> <span class="nx">item</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">str</span><span class="p">);</span>
+</span><span class='line'><span class="o">++</span><span class="nx">index</span><span class="p">;</span> <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>typeOf()</li>
+</ul>
+
+
+<p>Similarly to the isArray() family of functions previously described, the typeOf() function works as an extended (and patched) alternative to the typeof() function provided by the JavaScript standard. The following code shows an example of how to use it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">undef</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">nil</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;string&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">234</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">func</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;something&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span> <span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span> <span class="s1">&#39;value2&#39;</span> <span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">reg</span> <span class="o">=</span> <span class="sr">/match/gi</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">getDoc</span><span class="p">().</span><span class="nx">dom</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">all</span> <span class="o">=</span> <span class="p">[</span> <span class="nx">undef</span><span class="p">,</span> <span class="nx">nil</span><span class="p">,</span> <span class="nx">str</span><span class="p">,</span> <span class="nx">num</span><span class="p">,</span> <span class="nx">bool</span><span class="p">,</span> <span class="nx">date</span><span class="p">,</span> <span class="nx">func</span><span class="p">,</span> <span class="nx">obj</span><span class="p">,</span> <span class="nx">arr</span><span class="p">,</span> <span class="nx">reg</span><span class="p">,</span> <span class="nx">elem</span> <span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">iterate</span><span class="p">(</span><span class="nx">all</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">index</span> <span class="o">+</span> <span class="s1">&#39;&gt; &#39;</span> <span class="o">+</span> <span class="nx">item</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">typeOf</span><span class="p">(</span><span class="nx">item</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span><span class='line'>  <span class="o">++</span><span class="nx">index</span><span class="p">;</span>
+</span><span class='line'><span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of the execution of this code is the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="mi">0</span><span class="o">&gt;</span> <span class="kc">undefined</span><span class="o">:</span> <span class="kc">undefined</span>
+</span><span class='line'>    <span class="mi">1</span><span class="o">&gt;</span> <span class="kc">null</span><span class="o">:</span> <span class="kc">null</span>
+</span><span class='line'>    <span class="mi">2</span><span class="o">&gt;</span> <span class="nx">string</span><span class="o">:</span> <span class="nx">string</span>
+</span><span class='line'>    <span class="mi">3</span><span class="o">&gt;</span> <span class="mi">234</span><span class="o">:</span> <span class="nx">number</span>
+</span><span class='line'>    <span class="mi">4</span><span class="o">&gt;</span> <span class="kc">true</span><span class="o">:</span> <span class="kr">boolean</span>
+</span><span class='line'>    <span class="mi">5</span><span class="o">&gt;</span> <span class="nx">Wed</span> <span class="nx">Nov</span> <span class="mi">07</span> <span class="mi">2012</span> <span class="mi">14</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">22</span> <span class="nx">GMT</span><span class="o">+</span><span class="mi">0100</span> <span class="p">(</span><span class="nx">CET</span><span class="p">)</span><span class="o">:</span> <span class="nx">date</span>
+</span><span class='line'>    <span class="mi">6</span><span class="o">&gt;</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;something&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span><span class="o">:</span> <span class="kd">function</span>
+</span><span class='line'>    <span class="mi">7</span><span class="o">&gt;</span> <span class="p">[</span><span class="nx">object</span> <span class="nb">Object</span><span class="p">]</span><span class="o">:</span> <span class="nx">object</span>
+</span><span class='line'>    <span class="mi">8</span><span class="o">&gt;</span> <span class="nx">value1</span><span class="p">,</span><span class="nx">value2</span><span class="o">:</span> <span class="nx">array</span>
+</span><span class='line'>    <span class="mi">9</span><span class="o">&gt;</span> <span class="sr">/match/gi</span><span class="o">:</span> <span class="nx">regexp</span>
+</span><span class='line'>    <span class="mi">10</span><span class="o">&gt;</span> <span class="p">[</span><span class="nx">object</span> <span class="nx">HTMLHtmlElement</span><span class="p">]</span><span class="o">:</span> <span class="nx">element</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ext.Array</h2>
+
+<ul>
+<li>clean()</li>
+</ul>
+
+
+<p>The clean() function removes “empty” items from an array. The mentioned earlier empty in this case is brought by the Ext.isEmpty() function, described later in this chapter.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">cleanArray</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">clean</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The preceding code yields an array that only contains the values [ 1234, true, &lsquo;asd fadf&rsquo;, &lsquo;another string&rsquo;, 0 ].</p>
+
+<ul>
+<li>contains()</li>
+</ul>
+
+
+<p>The contains() function returns a Boolean value stating whether a certain value exists in the array or not.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">tests</span> <span class="o">=</span> <span class="p">[</span><span class="kc">false</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">,</span> <span class="mi">6578</span><span class="p">];</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">tests</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="nx">item</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nx">item</span> <span class="o">+</span> <span class="s1">&#39;&quot; IS contained&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'><span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nx">item</span> <span class="o">+</span> <span class="s1">&#39;&quot; is NOT contained&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of the code is the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="s2">&quot;false&quot;</span> <span class="nx">is</span> <span class="nx">NOT</span> <span class="nx">contained</span>
+</span><span class='line'>    <span class="s2">&quot;&quot;</span> <span class="nx">IS</span> <span class="nx">contained</span>
+</span><span class='line'>    <span class="s2">&quot;whatever&quot;</span> <span class="nx">is</span> <span class="nx">NOT</span> <span class="nx">contained</span>
+</span><span class='line'>    <span class="s2">&quot;asdfadf&quot;</span> <span class="nx">IS</span> <span class="nx">contained</span>
+</span><span class='line'>    <span class="s2">&quot;1234&quot;</span> <span class="nx">IS</span> <span class="nx">contained</span>
+</span><span class='line'>    <span class="s2">&quot;6578&quot;</span> <span class="nx">is</span> <span class="nx">NOT</span> <span class="nx">contained</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>difference()
+The difference() function returns a new array containing the result of subtracting, from the first array passed as parameter, the elements that exist in a second array passed as parameter. For example:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">anotherArray</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(),</span> <span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">234</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">difference</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">difference</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="nx">anotherArray</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The contents of the preceding difference variable are the following: [ null, &lsquo;another string&rsquo;, 0 ].</p>
+
+<ul>
+<li>erase()</li>
+</ul>
+
+
+<p>The erase() function provides a simpler API to the standard Array.splice() method of the JavaScript standard library. It allows you to remove a certain number of items from an array, starting at a particular point.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">erasedArray</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">erase</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>every() and some()</li>
+</ul>
+
+
+<p>The every() and some() functions iterate over the items of an array, evaluating each of them in a function passed as parameter; both functions work very similarly, with the difference that every() stops iterating as soon as the function returns false, while some() will stop iterating as soon as the function returns true. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// If here the inner function returns &quot;false&quot; at any point, the</span>
+</span><span class='line'>        <span class="c1">// loop ends and the value in &quot;result&quot; will be &quot;false.&quot;</span>
+</span><span class='line'>        <span class="c1">// In this case, however, as &#39;whatever&#39; is not contained in the</span>
+</span><span class='line'>        <span class="c1">// sampleArray, the function always returns true, and &#39;result&#39;</span>
+</span><span class='line'>        <span class="c1">// contains true as well.</span>
+</span><span class='line'><span class="k">return</span> <span class="p">(</span><span class="nx">item</span> <span class="o">!==</span> <span class="s1">&#39;whatever&#39;</span><span class="p">);</span> <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Result of `every()`: &#39;</span> <span class="o">+</span> <span class="nx">result</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Original Array&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="c1">// If here the inner function returns &quot;true&quot; at any point, the</span>
+</span><span class='line'><span class="c1">// loop ends and the value in &quot;result&quot; will be &quot;true.&quot;</span>
+</span><span class='line'><span class="c1">// In this case, however, as &#39;another string&#39; is contained in the</span>
+</span><span class='line'><span class="c1">// sampleArray, the function returns true at some point, and &#39;result&#39; // contains true as well.</span>
+</span><span class='line'><span class="k">return</span> <span class="p">(</span><span class="nx">item</span> <span class="o">===</span> <span class="s1">&#39;another string&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Result of some(): &#39;</span> <span class="o">+</span> <span class="nx">result</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The respective outputs would look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">Result</span> <span class="nx">of</span> <span class="nx">every</span><span class="p">()</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'><span class="nx">Result</span> <span class="nx">of</span> <span class="nx">some</span><span class="p">()</span><span class="o">:</span> <span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>filter()</p>
+
+<p>  The filter() function evaluates every item of the array passed as parameter, and it returns a new array that contains all the values where the provided function returns true.</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">filteredArray</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="k">return</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">);</span> <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>flatten()</p>
+
+<p>  The flatten() function takes an array with nested arrays and brings all the values in the nested arrays as part of the topmost one:</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;inner array&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mi">234</span><span class="p">],</span> <span class="s1">&#39;an other string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">flattenedArray</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">flatten</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>from()
+The from() function creates a new array from any object or primitive passed as parameter:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">booleanArray</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nx">bool</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>include()
+  The include() function works like a selective push() method: It adds new items to an array only if those items do not already exist, ensuring that the each element appears only once:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">include</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">include</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of the preceding code is the following array: [ 1234, 456, true, &lsquo;test&rsquo;, &lsquo;whatever&rsquo; ]. The value true is not added a second time, since it already exists when the first call to include() is made.</p>
+
+<ul>
+<li><p>indexOf()
+  As the name implies, this function returns the index of the item passed as parameter. In case the object is not found, the function returns -1:</p></li>
+<li><p>insert()
+The insert() function allows you to interpolate values in an existing array at a partic‐ ular position:</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">itemsToInsert</span> <span class="o">=</span> <span class="p">[</span><span class="mi">768</span><span class="p">,</span> <span class="s1">&#39;something&#39;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">null</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">insertedArray</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">itemsToInsert</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of the preceding code is the following: [ 1234, 768, &ldquo;something&rdquo;, false, null, 456, true, &ldquo;test&rdquo;]. The values of the array itemsToInsert have been em‐ bedded in the first array, starting at position number 1.</p>
+
+<ul>
+<li>intersect()
+The intersect() function returns a new array that merges the values from all the arrays passed as parameter (this function can take a large number of arguments):</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">anotherArray</span> <span class="o">=</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="mi">456</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">intersection</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">intersect</span><span class="p">(</span><span class="nx">anotherArray</span><span class="p">,</span> <span class="nx">sampleArray</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of the intersection is the following: [ true ].</p>
+
+<ul>
+<li>map() and pluck()
+The map() and pluck() functions will sound familiar to developers versed in functional languages such as Haskell or Lisp. They both operate over the contents of an array but in different ways: map() will execute a function in each item, returning a new array with the results of each execution. On the other hand, pluck() will return a new array with the values of a particular key from an array of objects:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">mapped</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="k">return</span> <span class="nx">item</span> <span class="o">+</span> <span class="s1">&#39;_boom&#39;</span><span class="p">;</span> <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The mapped array looks like this: [ &lsquo;1234_boom&rsquo;, &lsquo;456_boom&rsquo;, &lsquo;true_boom&rsquo;, &lsquo;test_boom&rsquo; ].</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[{</span> <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value2&#39;</span>
+</span><span class='line'>        <span class="p">},</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value3&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value4&#39;</span>
+</span><span class='line'>    <span class="p">},</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value5&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value6&#39;</span>
+</span><span class='line'>    <span class="p">},</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value7&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value8&#39;</span>
+</span><span class='line'>    <span class="p">},</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value9&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value0&#39;</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Original Array&#39;</span><span class="p">);</span> <span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">plucked</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">pluck</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="s1">&#39;key1&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After this code executes, plucked contains all the values referenced by the key key1: [ &lsquo;value1&rsquo;, &lsquo;value3&rsquo;, &lsquo;value5&rsquo;, &lsquo;value7&rsquo;, &lsquo;value9&rsquo; ].</p>
+
+<ul>
+<li>max(), mean(), min(), and sum()</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">];</span> <span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">sum</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sampleArray2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span> <span class="kd">var</span> <span class="nx">mean</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">mean</span><span class="p">(</span><span class="nx">sampleArray2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>max(), mean(), min(), and sum()
+All of these functions perform the typical mathematical operations on any array:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">];</span> <span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">sum</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sampleArray2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span> <span class="kd">var</span> <span class="nx">mean</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">mean</span><span class="p">(</span><span class="nx">sampleArray2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After executing the preceding code, max is 1234, min is equal to -234, sum is 2110what ever (pay attention to how the string was added at the end of the mathematical sum!) and mean is equal to 422.</p>
+
+<ul>
+<li>merge() and union()
+The merge() function (and its alias union()) create a new array with all the values of those passed as parameter, but appearing only once:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">anotherArray</span> <span class="o">=</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="mi">456</span><span class="p">];</span> <span class="kd">var</span> <span class="nx">merge</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">anotherArray</span><span class="p">,</span> <span class="nx">sampleArray</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of the preceding code is the following: [ true, false, &lsquo;test&rsquo;, &lsquo;whatev er&rsquo;, 456, 1234 ].</p>
 
 		
 		
