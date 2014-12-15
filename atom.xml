@@ -4,7 +4,7 @@
   <title><![CDATA[AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-12-14T12:23:43+08:00</updated>
+  <updated>2014-12-15T08:37:06+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -259,7 +259,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Ext.Array</h2>
+<h3>Ext.Array</h3>
 
 <ul>
 <li>clean()</li>
@@ -606,12 +606,1733 @@ The merge() function (and its alias union()) create a new array with all the val
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
+<span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">anotherArray</span> <span class="o">=</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="mi">456</span><span class="p">];</span> <span class="kd">var</span> <span class="nx">merge</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">anotherArray</span><span class="p">,</span> <span class="nx">sampleArray</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">anotherArray</span> <span class="o">=</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="mi">456</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">merge</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">anotherArray</span><span class="p">,</span> <span class="nx">sampleArray</span><span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>The result of the preceding code is the following: [ true, false, &lsquo;test&rsquo;, &lsquo;whatev er&rsquo;, 456, 1234 ].</p>
+
+<ul>
+<li>remove()
+The remove() function, as the name implies, removes items from an array, but only if they exist (of course!):</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="s2">&quot;BOOM&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="s1">&#39;non existent value&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">The</span> <span class="nx">result</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">code</span> <span class="nx">is</span> <span class="nx">that</span> <span class="nx">sampleArray</span> <span class="nx">now</span> <span class="nx">contains</span> <span class="nx">the</span> <span class="nx">values</span> <span class="p">[</span> <span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span>
+</span><span class='line'><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;BOOM&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span> <span class="p">].</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>replace() and splice()
+The replace() function takes two arrays as parameters and replaces values in the first array using the values in the second. For that it also requires some indexing information, in particular the location where to start making replacements in the first array, and the number of such replacements to make.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="s2">&quot;BOOM&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span> <span class="kd">var</span> <span class="nx">replacements</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;boom&#39;</span><span class="p">,</span> <span class="s1">&#39;boom again&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">replacements</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of the preceding code is the following: [ 1234, 456, -234, 654, &ldquo;boom&rdquo;, &ldquo;boom again&rdquo;, &ldquo;BOOM&rdquo;, true, &ldquo;test&rdquo; ]. As you can see, the values of the replace ments array was inserted after the fifth item, replacing the values 0 and whatever.
+The splice() function does exactly the same; however, it uses the same signature of the function of the same name in the JavaScript standard library:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="s2">&quot;BOOM&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;boom&#39;</span><span class="p">,</span> <span class="s1">&#39;boom again&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of this code is exactly the same as the one returned by the replace() function.</p>
+
+<ul>
+<li>slice()
+The slice() function returns a subsection of an existing array, and it takes both the start and end indexes.
+<code>warning</code>
+  A very common error when using this function is to consider the second argument to be the length of the requested slice; it is not a length, it is the ending index!</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="o">-</span><span class="mi">234</span><span class="p">,</span> <span class="mi">654</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="s2">&quot;BOOM&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">];</span> <span class="kd">var</span> <span class="nx">slice</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>sort()
+The sort() function takes an array and a comparison function as parameter and returns a new array with the same items as the original one, but sorted:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;ASDFADF&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">76</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sorted</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item1</span><span class="p">,</span> <span class="nx">item2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">item1</span> <span class="o">===</span> <span class="nx">item2</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">return</span> <span class="p">(</span><span class="nx">item1</span> <span class="o">&lt;</span> <span class="nx">item2</span><span class="p">)</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span> <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of the code is the following: [ -76, &ldquo;&rdquo;, null, &ldquo;&rdquo;, 0, true, 1234, &ldquo;ASD FADF&rdquo;, &ldquo;another string&rdquo;].</p>
+
+<ul>
+<li>toArray()
+The toArray() function transforms an “iterable object” into a real array. This includes the arguments object (automatic object containing all the arguments of a function in JavaScript) as well as any literal object whose keys are numeric:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">iterable</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="mi">0</span><span class="o">:</span> <span class="s1">&#39;value0&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="mi">1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="mi">2</span><span class="o">:</span> <span class="s1">&#39;value2&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="mi">3</span><span class="o">:</span> <span class="s1">&#39;value3&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="mi">4</span><span class="o">:</span> <span class="s1">&#39;value4&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">length</span><span class="o">:</span> <span class="mi">5</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">toArray</span><span class="p">(</span><span class="nx">iterable</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The preceding code yields an array with these values: [ &lsquo;value0&rsquo;, &lsquo;value1&rsquo;, &lsquo;value2&rsquo;, &lsquo;value3&rsquo;, &lsquo;value4&rsquo; ].</p>
+
+<ul>
+<li>unique()
+The unique() function returns a new array with only one instance of each repeated object in the original array:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="s1">&#39;whatever&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">unique</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of this function call is the following: [ 1234, 456, &lsquo;whatever&rsquo; ].</p>
+
+<h1>Ext.ComponentQuery</h1>
+
+<p>The Ext.ComponentQuery singleton object provides a very useful query() function, used to retrieve pointers to one or many individual components in the application using a syntax similar to that of CSS selectors. This functionality is heavily used in Sencha Touch controllers</p>
+
+<p><code>warning</code></p>
+
+<pre><code>Although very similar to Ext.DomQuery, the Ext.Component Query.query() function does not return pointers to DOM elements, but rather Sencha Touch components, themselves represented by one or many DOM elements. The results of Ext.ComponentQuery are then higher in the abstraction ladder.
+</code></pre>
+
+<ul>
+<li>Component Query Syntax
+The component query syntax is very similar to that of CSS selectors; to retrieve com‐ ponents, you can use the following options:
+
+<ul>
+<li>The xtype property.</li>
+<li>The itemId property, using the #myItemId syntax (just like in CSS).</li>
+<li>Attributes wrapped in brackets, such as button[action=saveFile].</li>
+<li>Functions returning “truthy” values, using curly brackets: {isHidden()}.</li>
+<li>Optionally, you can use the > sign to indicate parent/child relationships, or the comma (,) to concatenate different queries in one: panel > button, or button, segmentedbutton are some examples.</li>
+<li>Finally,thenotoperatorcanalsobeused:not buttonwillreturnallthecomponents that are not buttons in the application.
+
+<h1>Ext.DateExtras</h1>
+
+<p>Sencha Touch includes a series of utility methods for managing <code>date</code> and <code>time</code> infor‐ mation contained within the Ext.DateExtras object. These functions all work with the standard <code>Date</code> class provided by the standard JavaScript library.
+Similarly to the Ext.Array functions, many of these functions do not exist as instance methods of the Date class, but rather as static methods of the Ext.Date object.
+<code>warning</code>
+Pay attention to the fact that these functions are not included by default by Sencha Touch; to use them in your code, you have to include the following line in the controller or view where you wish to use them: requires: &lsquo;Ext.DateExtras&rsquo;. However, to use them, you have to use the Ext.Date object.</p></li>
+</ul>
+</li>
+<li>add()
+The add() function allows you to increment or decrement a given date by a certain interval. The type of interval can be specified using the constants available in the Ext.Date object, such as DAY, HOUR, or MONTH.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">futureDate</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">,</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">DAY</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of this code is a date 10 days in the future.</p>
+
+<ul>
+<li>between()
+The between() function takes three dates and evaluates whether the first one is located amid the other two dates passed as parameters:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">anotherDate</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">,</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">YEAR</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">betweenDate</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">,</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">MONTH</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">inBetween</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">between</span><span class="p">(</span><span class="nx">betweenDate</span><span class="p">,</span> <span class="nx">sampleDate</span><span class="p">,</span> <span class="nx">anotherDate</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>clearTime()
+This useful function removes any time information from the date passed as parameter.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">noTime</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">clearTime</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>getDayOfYear(), getWeekOfYear(), isLeapYear()</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">dayOfYear</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getDayOfYear</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span> <span class="kd">var</span> <span class="nx">week</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getWeekOfYear</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">isLeap</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">isLeapYear</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>getDaysInMonth(), getFirstDateOfMonth(), getFirstDayOfMonth(), getLastDateOfMonth(), getLastDayOfMonth()</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">daysInMonth</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getDaysInMonth</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">firstDate</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getFirstDateOfMonth</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span> <span class="kd">var</span> <span class="nx">firstDay</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getFirstDayOfMonth</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span> <span class="kd">var</span> <span class="nx">firstDayName</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">dayNames</span><span class="p">[</span><span class="nx">firstDay</span><span class="p">];</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">lastDate</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getLastDateOfMonth</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span> <span class="kd">var</span> <span class="nx">lastDay</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getLastDayOfMonth</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span> <span class="kd">var</span> <span class="nx">lastDayName</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">dayNames</span><span class="p">[</span><span class="nx">lastDay</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>getElapsed()
+The getElapsed() function returns the time interval in milliseconds between two dates passed as parameter:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">anotherDate</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">,</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">YEAR</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="kd">var</span> <span class="nx">elapsed</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getElapsed</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">,</span> <span class="nx">anotherDate</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The preceding code returns the value 315532800000, which is the number of millisec‐ onds contained in a 10-year period.</p>
+
+<ul>
+<li>getGMTOffset(), getTimezone(), isDST()
+These functions provide information about the time zone of the date instance passed as a parameter:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sampleDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">offset</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getGMTOffset</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">timezone</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getTimezone</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">isDST</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">isDST</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At the moment of this writing, the values returned by these functions are as follows: +0100 for the offset, CET for the time zone, and false for the DST information.
+* getMonthNumber(), getShortDayName(), getShortMonthName(), getSuffix()
+These functions are useful helpers for displaying time and date information in a human- readable way:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">number</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getMonthNumber</span><span class="p">(</span><span class="s2">&quot;June&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">shortDayName</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getShortDayName</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">shortMonthName</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getShortMonthName</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sampleDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">suffix</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">getSuffix</span><span class="p">(</span><span class="nx">sampleDate</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the last case, at the moment of this writing the suffix returned is th, but of course it could be any value, such as st, nd, rd, or th.
+* isValid()
+The isValid() function takes at least values for year, month, and day (in that order), optionally for time information and checks whether they correspond to valid date val‐ ues. This might be handy when checking user input in forms, for example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">isValid1</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">isValid</span><span class="p">(</span><span class="mi">1984</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">isValid2</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">isValid</span><span class="p">(</span><span class="mi">355423</span><span class="p">,</span> <span class="mi">4564564</span><span class="p">,</span> <span class="mi">23424</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can easily imagine, the first set of values yields a valid date, while the second does not.
+* parse()
+Finally, the parse() function takes a string with date information and an optional format parameter and returns the Date instance that corresponds.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">parsed</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Date</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;2012-11-15&#39;</span><span class="p">,</span> <span class="s1">&#39;Y-m-d&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ext.DomHelper and Ext.DomQuery</h2>
+
+<p>Sencha Touch also provides the required functionality for web developers to refer to the HTML elements that make up a web page, individually or as a group. For that, it exposes functions similar to those of jQuery or Zepto, taking very similar parameters and behaving in similar ways.
+* select() and selectNode()
+Using select() and selectNode(), developers can retrieve pointers to individual HTML objects (or groups thereof) in the current context:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">divs</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">DomQuery</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">&#39;DIV&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">DomQuery</span><span class="p">.</span><span class="nx">selectNode</span><span class="p">(</span><span class="s1">&#39;#queryDiv&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The allowed element selectors are the following (in this example, we are using li and ul as an example, but any HTML tag can be used in this context):</p>
+
+<p><code>*</code></p>
+
+<pre><code>any element
+</code></pre>
+
+<p><code>ul, li</code></p>
+
+<pre><code>an element with any of these tags
+</code></pre>
+
+<p><code>ul li</code></p>
+
+<pre><code>all descendant li elements of ul
+</code></pre>
+
+<p><code>ul &gt; li</code></p>
+
+<pre><code>all li that are direct children of ul
+</code></pre>
+
+<p><code>ul + li</code></p>
+
+<pre><code>all li elements that are immediately preceded by ul
+</code></pre>
+
+<p><code>ul ~ li</code></p>
+
+<pre><code>all li elements that are preceded by a sibling element with the tag ul
+</code></pre>
+
+<p>Developers can also use attribute selectors:
+* ul[class]</p>
+
+<pre><code>an ul element that has a class attribute
+</code></pre>
+
+<ul>
+<li><p>ul[class=main]</p>
+
+<p>  an ul element that has a class attribute with the main value</p></li>
+<li><p>ul[class$=main]</p>
+
+<p>  an ul element that has a class attribute that ends with the main value</p></li>
+<li><p>ul[class*=main]</p>
+
+<p>  an ul element that has a class attribute that contains the main value</p></li>
+<li><p>ul[class%=2]</p>
+
+<p>  an ul element that has a class attribute whose value is evenly divisable by 2</p></li>
+<li><p>ul[class!=main]</p>
+
+<p>  an ul element that has a class attribute that does not equal the main value
+Finally, <code>pseudo-class</code> selectors are also possible: li:first-child, li:last-child, li:only-child, li:4th-child, li:odd, li:even, etc.</p></li>
+</ul>
+
+
+<h2>append(), insertBefore(), insertAfter(), overwrite(), insertHtml()</h2>
+
+<p>Once you have selected one or many nodes, Ext.DomHelper provides useful functions that allow you to manipulate the HTML nodes. For example, taking the following HTML fragment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">div</span> <span class="kr">class</span><span class="o">=</span><span class="s2">&quot;outerDiv&quot;</span><span class="o">&gt;&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;someDiv&quot;</span> <span class="kr">class</span><span class="o">=</span><span class="s2">&quot;innerDiv&quot;</span><span class="o">&gt;&lt;</span><span class="err">/div&gt;&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can operate on it as follows, and Figure 2-2 shows the result:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">DomQuery</span><span class="p">.</span><span class="nx">selectNode</span><span class="p">(</span><span class="s1">&#39;#someDiv&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">DomHelper</span><span class="p">.</span><span class="nx">overwrite</span><span class="p">(</span><span class="nx">div</span><span class="p">,</span> <span class="s1">&#39;&lt;div id=&quot;someDiv&quot;&gt;This is an overwritten DIV&lt;/ div&gt;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">DomHelper</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">div</span><span class="p">,</span> <span class="s1">&#39;&lt;p&gt;A paragraph added using append()&lt;/p&gt;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">DomHelper</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">div</span><span class="p">,</span> <span class="s1">&#39;&lt;p&gt;A paragraph inserted before the div&lt;/p&gt;&#39;</span><span class="p">);</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">DomHelper</span><span class="p">.</span><span class="nx">insertAfter</span><span class="p">(</span><span class="nx">div</span><span class="p">,</span> <span class="s1">&#39;&lt;p&gt;A paragraph inserted after the div&lt;/p&gt;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="c1">// Valid parameters:</span>
+</span><span class='line'><span class="c1">// beforeBegin: &lt;HERE&gt;&lt;div&gt;Contents&lt;/div&gt;</span>
+</span><span class='line'><span class="c1">// afterBegin: &lt;div&gt;&lt;HERE&gt;Contents&lt;/div&gt;</span>
+</span><span class='line'><span class="c1">// beforeEnd: &lt;div&gt;Contents&lt;HERE&gt;&lt;/div&gt;</span>
+</span><span class='line'><span class="c1">// afterEnd: &lt;div&gt;Contents&lt;/div&gt;&lt;HERE&gt;</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">DomHelper</span><span class="p">.</span><span class="nx">insertHtml</span><span class="p">(</span><span class="s1">&#39;beforeBegin&#39;</span><span class="p">,</span> <span class="nx">div</span><span class="p">,</span> <span class="s1">&#39;&lt;div class=&quot;inserted&quot;&gt;inserted as HTML&lt;/div&gt;&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://xiekunRonaldo.github.io/images/2014/12/Figure2-2.png"></p>
+
+<h2>Ext.env.Feature</h2>
+
+<p>The Ext.env.Feature class (of which Ext.feature is the singleton instance) exposes a series of properties, each highlighting a particular HTML5 feature of the browser where the application is running:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Available features:&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="nx">key</span> <span class="k">in</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">feature</span><span class="p">.</span><span class="nx">has</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">value</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">feature</span><span class="p">.</span><span class="nx">has</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
+</span><span class='line'>        <span class="nx">text</span> <span class="o">=</span> <span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After executing this code in Safari 6.0.2 on OS X Mountain Lion, this is the result:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="nx">Available</span> <span class="nx">features</span><span class="o">:</span>
+</span><span class='line'>    <span class="nx">Canvas</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">Svg</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">Vml</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">Touch</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="nx">Orientation</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="nx">OrientationChange</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="nx">DeviceMotion</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="nx">Geolocation</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">SqlDatabase</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">WebSockets</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">Range</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">CreateContextualFragment</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">History</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">CssTransforms</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">Css3dTransforms</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">CssAnimations</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">CssTransitions</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">Audio</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">Video</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">ClassList</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">LocalStorage</span><span class="o">:</span> <span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ext.Function</h2>
+
+<p>The Ext.Function object contains useful helper&hellip;well, <code>functions</code>, that extend and aug‐ ment the already interesting native capabilities of JavaScript functions. Many of these functions are used by Sencha Touch for managing <code>event</code> handling, supporting <code>extended events</code> (such as <code>double-tap</code> events) and other features. They are also available for developers to use (and maybe abuse).</p>
+
+<ul>
+<li>createDelayed()</li>
+</ul>
+
+
+<p>The createDelayed() function wraps a function, causes a delay in milliseconds, and returns a new function that fires the wrapped function after the requested delay:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;this is fn, this is the value: &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">delayed</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">createDelayed</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="p">[</span> <span class="mi">345</span> <span class="p">]);</span>
+</span><span class='line'><span class="nx">delayed</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This function causes the text this is fn, this is the value: &ldquo;345&rdquo; on the console after approximately a second and a half.</p>
+
+<ul>
+<li>createInterceptor()
+The createInterceptor() function takes a function and wraps it with another one, composing everything into a third one that is returned. When this returned function is executed, all input is piped to the wrapping function (the second argument) which must return true or false. The original function (the wrapped one, passed as first argument) is executed only if the wrapper returns true.
+In the following example, originalFn() is executed only when interceptor() is called with a value of 234; the check is performed by newFn().</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">originalFn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;original function, this is the value: &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">newFn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;inside newFn, value is &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span> <span class="k">return</span> <span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="mi">234</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">interceptor</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">createInterceptor</span><span class="p">(</span><span class="nx">originalFn</span><span class="p">,</span> <span class="nx">newFn</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">interceptor</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">interceptor</span><span class="p">(</span><span class="mi">666</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">interceptor</span><span class="p">(</span><span class="mi">234</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The output of the code is the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="nx">inside</span> <span class="nx">newFn</span><span class="p">,</span> <span class="nx">value</span> <span class="nx">is</span> <span class="s2">&quot;0&quot;</span>
+</span><span class='line'>    <span class="nx">inside</span> <span class="nx">newFn</span><span class="p">,</span> <span class="nx">value</span> <span class="nx">is</span> <span class="s2">&quot;666&quot;</span>
+</span><span class='line'>    <span class="nx">inside</span> <span class="nx">newFn</span><span class="p">,</span> <span class="nx">value</span> <span class="nx">is</span> <span class="s2">&quot;234&quot;</span>
+</span><span class='line'>    <span class="k">this</span> <span class="nx">is</span> <span class="nx">the</span> <span class="nx">original</span> <span class="kd">function</span><span class="p">,</span> <span class="k">this</span> <span class="nx">is</span> <span class="nx">the</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;234&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>his mechanism is very useful to filter input to functions, composing them as required, on the fly, at runtime.</p>
+
+<ul>
+<li>createSequence()
+The createSequence() function is used to chain the execution of functions together; it takes two functions, and returns a new one. When the returned function is called, the wrapped functions are called, with their parameters passed accordingly. However, the return value of the wrapping function is the return value of the first function wrapped.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">first</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;inside the first() function, value = &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s1">&#39;first&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">second</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;inside the second() function, value = &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s1">&#39;second&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">third</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">createSequence</span><span class="p">(</span><span class="nx">first</span><span class="p">,</span> <span class="nx">second</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">third</span><span class="p">(</span><span class="s1">&#39;boom&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;third() returns &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The execution of the code yields the following result in the console:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">inside</span> <span class="nx">the</span> <span class="nx">first</span><span class="p">()</span> <span class="kd">function</span><span class="p">,</span> <span class="nx">value</span> <span class="o">=</span> <span class="s2">&quot;boom&quot;</span>
+</span><span class='line'><span class="nx">inside</span> <span class="nx">the</span> <span class="nx">second</span><span class="p">()</span> <span class="kd">function</span><span class="p">,</span> <span class="nx">value</span> <span class="o">=</span> <span class="s2">&quot;boom&quot;</span>
+</span><span class='line'><span class="nx">third</span><span class="p">()</span> <span class="nx">returns</span> <span class="s2">&quot;first&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>createThrottled()
+The createThrottled() function is a particularly interesting one: It wraps a function and takes a delay in milliseconds as a parameter; it then filters the execution of the wrapped function, allowing it at least to wait for the specified delay before executing it again.</li>
+</ul>
+
+
+<p>In the following example, the first call to throttled() executes immediately. However, in the following ones, no matter how many of them are triggered, only one will be executed, and after 4 seconds.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;This is being throttled&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">throttled</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">createThrottled</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">// The first call is executed immediately:</span>
+</span><span class='line'>    <span class="nx">throttled</span><span class="p">();</span>
+</span><span class='line'><span class="c1">// No matter how many times we try, this will only be executed // once, and after 4 seconds:</span>
+</span><span class='line'><span class="nx">throttled</span><span class="p">();</span>
+</span><span class='line'><span class="nx">throttled</span><span class="p">();</span>
+</span><span class='line'><span class="nx">throttled</span><span class="p">();</span>
+</span><span class='line'><span class="nx">throttled</span><span class="p">();</span>
+</span><span class='line'><span class="nx">throttled</span><span class="p">();</span>
+</span><span class='line'><span class="nx">throttled</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>defer()
+defer() is used to delay the execution of a function by some milliseconds. The function also takes as parameters the context of execution and, of course, the number of milli‐ seconds before executing the function.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">defer</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;This function has been deferred 1500 ms, arg = &quot;&#39;</span> <span class="o">+</span> <span class="nx">arg</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">},</span> <span class="mi">1500</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="p">[</span> <span class="s1">&#39;argument1&#39;</span> <span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For more control over delayed execution, check the Ext.DelayedTask class, which provides tighter control and more options, including the capability of <code>canceling</code> a scheduled execution <code>before it happens</code>.</p>
+
+<ul>
+<li>flexSetter()</li>
+</ul>
+
+
+<p>The flexSetter() function is used to provide more flexibility for passing arguments to functions. When wrapping a function using flexSetter(), it can be called using its original signature or using dictionaries of key-value pairs, allowing to chain assignations and calls in a more straightforward manner. The method wrapped by Ext.Func tion.flexSetter() must take two arguments.
+For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">setValue</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">flexSetter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;name: &quot;&#39;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;&quot;, value: &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">setValue</span><span class="p">(</span><span class="s1">&#39;name1&#39;</span><span class="p">,</span> <span class="s1">&#39;value1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">setValue</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">name2</span><span class="o">:</span> <span class="s1">&#39;value2&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">name3</span><span class="o">:</span> <span class="s1">&#39;value3&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">name4</span><span class="o">:</span> <span class="s1">&#39;value4&#39;</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The preceding code yields the following output in the console; the wrapped function by Ext.Function.flexSetter() is called as many times as required, once for each pair of name and value parameters:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;name1&quot;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;value1&quot;</span>
+</span><span class='line'><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;name2&quot;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;value2&quot;</span>
+</span><span class='line'><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;name3&quot;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;value3&quot;</span>
+</span><span class='line'><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;name4&quot;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;value4&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>pass()
+The pass() function is useful to wrap a function and prepopulate the argument list, all while allowing the wrapper function to pass <code>new</code> arguments to the wrapped function.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">originalFunction</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;inside the original function, arguments:&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nx">arguments</span><span class="p">));</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">callback</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">pass</span><span class="p">(</span><span class="nx">originalFunction</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;second&#39;</span><span class="p">]);</span>
+</span><span class='line'><span class="nx">callback</span><span class="p">();</span>
+</span><span class='line'><span class="nx">callback</span><span class="p">(</span><span class="s1">&#39;third&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code yields the following console messages:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">inside</span> <span class="nx">the</span> <span class="nx">original</span> <span class="kd">function</span><span class="p">,</span> <span class="nx">arguments</span><span class="o">:</span>
+</span><span class='line'><span class="nb">Array</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'>    <span class="mi">0</span><span class="o">:</span> <span class="s2">&quot;first&quot;</span>
+</span><span class='line'>    <span class="mi">1</span><span class="o">:</span> <span class="s2">&quot;second&quot;</span>
+</span><span class='line'><span class="nx">inside</span> <span class="nx">the</span> <span class="nx">original</span> <span class="kd">function</span><span class="p">,</span> <span class="nx">arguments</span><span class="o">:</span>
+</span><span class='line'><span class="nb">Array</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'>    <span class="mi">0</span><span class="o">:</span> <span class="s2">&quot;first&quot;</span>
+</span><span class='line'>    <span class="mi">1</span><span class="o">:</span> <span class="s2">&quot;second&quot;</span>
+</span><span class='line'>    <span class="mi">2</span><span class="o">:</span> <span class="s2">&quot;third&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ext.JSON</h2>
+
+<p>The Ext.JSON object contains an implementation of Douglas Crockford’s own JSON parser, including two functions, encode() and decode():</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="s1">&#39;{&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;2012-11-06T13:24:07&quot;,&quot;key3&quot;:true,&quot;key4&quot;: 345.65,&quot;key5&quot;:[&quot;value2&quot;,&quot;value3&quot;,768]}&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">decoded</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">decode</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">decoded</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key2</span><span class="o">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(),</span>
+</span><span class='line'><span class="nx">key3</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key4</span><span class="o">:</span> <span class="mf">345.65</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key5</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s1">&#39;value2&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;value3&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="mi">768</span>
+</span><span class='line'><span class="p">]</span> <span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">encoded</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">encoded</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ext.Logger</h2>
+
+<p>The Ext.Logger object contains several useful methods that can be used to debug your Sencha Touch applications; you can think of them as extensions and complements to the usual console.log() function that we have been using in this book so far.</p>
+
+<ul>
+<li>deprecate(), error(), log(), and warn()</li>
+</ul>
+
+
+<p>These four functions provide useful additional information to the developer when ver‐ ifying the behavior of her code on the console. They include visual hints such as icons and color to provide <code>more information</code> than the usual console.log() statement.
+It could not be easier to use them:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">deprecate</span><span class="p">(</span><span class="s1">&#39;this method is deprecated&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;this is an error message&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;this is an generic log message&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s1">&#39;this is a warning message&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result of the call of these methods appears in Figure 2-3.
+<img src="http://xiekunRonaldo.github.io/images/2014/12/Figure2-3.png"></p>
+
+<h2>Ext.Number</h2>
+
+<p>The Ext.Number object contains some functions that provide useful functionality for formatting and verifying numeric input in Sencha Touch applications.
+* constrain()
+This function takes three parameters: a numeric value and minimum and maximum bound values. It then checks whether the first numeric value is located within the min‐ imum and maximum bounds, and if so, it returns it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">constrained</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Number</span><span class="p">.</span><span class="nx">constrain</span><span class="p">(</span><span class="mi">234</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6030</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="s1">&#39;Constrained value: &#39;</span> <span class="o">+</span> <span class="nx">constrained</span><span class="p">;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the preceding code, the value shown will include the constrained value 234, because it is indeed located within the provided range.</p>
+
+<h1>from()</h1>
+
+<p>The from() function takes two values: a generic value and a default value, which must be numeric; the function then tries to parse a numeric value from the first parameter, and if this is not possible, it will return the default value provided in the second pa‐ rameter.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">num1</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Number</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="s1">&#39;4535&#39;</span><span class="p">,</span> <span class="mi">1111</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">num2</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Number</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="s1">&#39;Some other value&#39;</span><span class="p">,</span> <span class="mi">1111</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt1</span> <span class="o">=</span> <span class="s1">&#39;Retrieved value: &#39;</span> <span class="o">+</span> <span class="nx">num1</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt2</span> <span class="o">=</span> <span class="s1">&#39;Retrieved value: &#39;</span> <span class="o">+</span> <span class="nx">num2</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the preceding example, the output will be as follows:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">Retrieved</span> <span class="nx">value</span><span class="o">:</span> <span class="mi">4535</span>
+</span><span class='line'><span class="nx">Retrieved</span> <span class="nx">value</span><span class="o">:</span> <span class="mi">1111</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first value could be parsed as a numeric input, while the second could not; hence, the default value is returned.</p>
+
+<ul>
+<li>snap()
+This function is used to round (or “snap”) numbers, providing minimum and maximum bounds at the same time. The first parameter is the number to be rounded; the second parameter is an incremental factor, of which the result of the function will be a multiple; and the final two parameters are minimum and maximum values, used to constrain the final result:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Number</span><span class="p">.</span><span class="nx">snap</span><span class="p">(</span><span class="mi">223</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="s1">&#39;Snapped value: &#39;</span> <span class="o">+</span> <span class="nx">num</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The preceding code will show the snapped value “200.”</p>
+
+<ul>
+<li>toFixed()</li>
+</ul>
+
+
+<p>Finally, this function can be used to format a number as a string, using a fixed-point precision that is specified as the second parameter:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Number</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">243.54234534</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="s1">&#39;Fixed value: &#39;</span> <span class="o">+</span> <span class="nx">num</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ext.Object</h2>
+
+<ul>
+<li>each()</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key2</span><span class="o">:</span> <span class="mi">123</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key3</span><span class="o">:</span> <span class="kc">true</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="p">[</span><span class="nx">key</span><span class="p">,</span> <span class="s1">&#39;: &#39;</span><span class="p">,</span> <span class="nx">value</span><span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span><span class='line'><span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The console output of the preceding code is the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">key1</span><span class="o">:</span> <span class="nx">value1</span>
+</span><span class='line'><span class="nx">key2</span><span class="o">:</span> <span class="mi">123</span>
+</span><span class='line'><span class="nx">key3</span><span class="o">:</span> <span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>fromQueryString() and toQueryString()
+These functions perform two reverse operations, allowing the encoding and decoding of complex object structures as simple key-value pairs that could be used as URL parameters.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">txt1</span> <span class="o">=</span> <span class="s1">&#39;key1=value1&amp;key2=123&amp;key3=true&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">fromQueryString</span><span class="p">(</span><span class="nx">txt1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">obj1</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key2</span><span class="o">:</span> <span class="mi">123</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key3</span><span class="o">:</span> <span class="kc">true</span> <span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt2</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">toQueryString</span><span class="p">(</span><span class="nx">obj2</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The output of the preceding code is the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">Object</span>
+</span><span class='line'>        <span class="nx">key1</span><span class="o">:</span> <span class="s2">&quot;value1&quot;</span>
+</span><span class='line'><span class="nx">key2</span><span class="o">:</span> <span class="s2">&quot;123&quot;</span>
+</span><span class='line'>        <span class="nx">key3</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span>
+</span><span class='line'>    <span class="nx">key1</span><span class="o">=</span><span class="nx">value1</span><span class="o">&amp;</span><span class="nx">key2</span><span class="o">=</span><span class="mi">123</span><span class="o">&amp;</span><span class="nx">key3</span><span class="o">=</span><span class="kc">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>getKey(), getKeys(), getSize(), getValues()
+Predictably enough, these functions provide insight into the internal structure and contents of the object being inspected:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key2</span><span class="o">:</span> <span class="mi">123</span><span class="p">,</span>
+</span><span class='line'><span class="nx">key3</span><span class="o">:</span> <span class="kc">true</span> <span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getKey</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s1">&#39;value1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">keys</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getKeys</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">size</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getSize</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">values</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getValues</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">keys</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">values</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The output of the code is quite self-explanatory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="nx">key1</span>
+</span><span class='line'>    <span class="nb">Array</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'>        <span class="mi">0</span><span class="o">:</span> <span class="s2">&quot;key1&quot;</span>
+</span><span class='line'>        <span class="mi">1</span><span class="o">:</span> <span class="s2">&quot;key2&quot;</span>
+</span><span class='line'>        <span class="mi">2</span><span class="o">:</span> <span class="s2">&quot;key3&quot;</span>
+</span><span class='line'>        <span class="nx">length</span><span class="o">:</span> <span class="mi">3</span>
+</span><span class='line'><span class="mi">3</span> <span class="nb">Array</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'>        <span class="mi">0</span><span class="o">:</span> <span class="s2">&quot;value1&quot;</span>
+</span><span class='line'>        <span class="mi">1</span><span class="o">:</span> <span class="mi">123</span>
+</span><span class='line'>        <span class="mi">2</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>        <span class="nx">length</span><span class="o">:</span> <span class="mi">3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>merge()
+The Ext.Object.merge() function recursively joins two distinct literal objects; an ex‐ ample will show exactly how this works:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value2&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key3</span><span class="o">:</span> <span class="mi">345</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key4</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key5</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">innerKey1</span><span class="o">:</span> <span class="s1">&#39;innerValue1&#39;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">key6</span><span class="o">:</span> <span class="mi">345</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key7</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key8</span><span class="o">:</span> <span class="s1">&#39;value2&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key9</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key5</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">innerKey2</span><span class="o">:</span> <span class="s1">&#39;innerValue1&#39;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">merged</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">obj1</span><span class="p">,</span> <span class="nx">obj2</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">merged</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>warning</code></p>
+
+<pre><code>Ext.Object.merge() is aliased to Ext.merge() for convenience.
+</code></pre>
+
+<ul>
+<li>toQueryObjects()</li>
+</ul>
+
+
+<p>This function will encode an object into an array containing name-value pairs that can be used as parameters for sending complex nested structures as part of POST HTTP requests to a server:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">day</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">month</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">year</span><span class="o">:</span> <span class="mi">2002</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">time</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'><span class="nx">hour</span><span class="o">:</span> <span class="mi">9</span><span class="p">,</span>
+</span><span class='line'><span class="nx">minute</span><span class="o">:</span> <span class="mi">20</span> <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">objs</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">toQueryObjects</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="nx">obj</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">objs</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The preceding code returns an array object containing the values of the original object in nested keys that can be sent as parameters for a POST HTTP request:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="nb">Array</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+</span><span class='line'>        <span class="mi">0</span><span class="o">:</span> <span class="nb">Object</span>
+</span><span class='line'>            <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;date[day]&quot;</span>
+</span><span class='line'>            <span class="nx">value</span><span class="o">:</span> <span class="mi">5</span>
+</span><span class='line'>        <span class="mi">1</span><span class="o">:</span> <span class="nb">Object</span>
+</span><span class='line'>            <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;date[month]&quot;</span>
+</span><span class='line'>            <span class="nx">value</span><span class="o">:</span> <span class="mi">3</span>
+</span><span class='line'>        <span class="mi">2</span><span class="o">:</span> <span class="nb">Object</span>
+</span><span class='line'>            <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;date[year]&quot;</span>
+</span><span class='line'>            <span class="nx">value</span><span class="o">:</span> <span class="mi">2002</span>
+</span><span class='line'>        <span class="mi">3</span><span class="o">:</span> <span class="nb">Object</span>
+</span><span class='line'>            <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;date[time][hour]&quot;</span>
+</span><span class='line'>            <span class="nx">value</span><span class="o">:</span> <span class="mi">9</span>
+</span><span class='line'>        <span class="mi">4</span><span class="o">:</span> <span class="nb">Object</span>
+</span><span class='line'>            <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;date[time][minute]&quot;</span>
+</span><span class='line'>            <span class="nx">value</span><span class="o">:</span> <span class="mi">20</span>
+</span><span class='line'>        <span class="nx">length</span><span class="o">:</span> <span class="mi">5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ext.String</h2>
+
+<ul>
+<li>capitalize()
+This function takes a string as a parameter and returns the same string with its first letter capitalized:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sample</span> <span class="o">=</span> <span class="s2">&quot;whatever you shouldn&#39;t usually do.&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">sample</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After executing this code,the console shows the text Whatever you shouldn&rsquo;t usually do.</p>
+
+<ul>
+<li>ellipsis()
+This function cuts the string passed as parameter before the number of characters specified, and adds, if required, an ellipsis at the end; for example, the following code will display the text whatever you&hellip; in the console.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sample</span> <span class="o">=</span> <span class="s2">&quot;whatever you shouldn&#39;t usually do.&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">ellipsis</span><span class="p">(</span><span class="nx">sample</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>escape() and escapeRegex()
+These two functions can be used to properly encode characters such as apostrophes, which cannot be properly displayed in some circumstances:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sample</span> <span class="o">=</span> <span class="s2">&quot;whatever you shouldn&#39;t usually do.&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt1</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">escape</span><span class="p">(</span><span class="nx">sample</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt2</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">escapeRegex</span><span class="p">(</span><span class="nx">sample</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This shows the following text in the console:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">whatever</span> <span class="nx">you</span> <span class="nx">shouldn</span><span class="err">\</span><span class="s1">&#39;t usually do.</span>
+</span><span class='line'><span class="s1">whatever you shouldn&#39;</span><span class="nx">t</span> <span class="nx">usually</span> <span class="k">do</span><span class="err">\</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>format()
+This function provides a very useful equivalent to the sprintf() family of functions available in many other programming languages; it takes a template string, an undefined list of parameters, and it performs the required substitutions:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sample</span> <span class="o">=</span> <span class="s1">&#39;&lt;p class=&quot;{0}&quot;&gt;This is a &lt;strong&gt;{1}&lt;/strong&gt;&lt;/p&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="nx">sample</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;paragraph&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>htmlDecode() and htmlEncode()</li>
+</ul>
+
+
+<p>These two functions perform inverse operations, decoding and encoding characters using their equivalent HTML entities:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sample1</span> <span class="o">=</span> <span class="s1">&#39;&amp;lt;p class=&amp;quot;test&amp;quot;&amp;gt;</span>
+</span><span class='line'><span class="s1">This is a &amp;lt;strong&amp;gt;paragraph&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;&#39;</span><span class="p">;</span> <span class="kd">var</span> <span class="nx">txt1</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">htmlDecode</span><span class="p">(</span><span class="nx">sample1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt1</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sample2</span> <span class="o">=</span> <span class="s1">&#39;&lt;p class=&quot;test&quot;&gt;This is a &lt;strong&gt;paragraph&lt;/strong&gt;&lt;/p&gt;&#39;</span><span class="p">;</span> <span class="kd">var</span> <span class="nx">txt2</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">htmlEncode</span><span class="p">(</span><span class="nx">sample2</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The console would show the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">&lt;</span><span class="nx">p</span> <span class="kr">class</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="o">&gt;</span><span class="nx">This</span> <span class="nx">is</span> <span class="nx">a</span> <span class="o">&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">paragraph</span><span class="o">&lt;</span><span class="err">/strong&gt;&lt;/p&gt;</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span><span class="nx">p</span> <span class="kr">class</span><span class="o">=&amp;</span><span class="nx">quot</span><span class="p">;</span><span class="nx">test</span><span class="o">&amp;</span><span class="nx">quot</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">gt</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">This</span> <span class="nx">is</span> <span class="nx">a</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span><span class="nx">strong</span><span class="o">&amp;</span><span class="nx">gt</span><span class="p">;</span><span class="nx">paragraph</span><span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span><span class="err">/strong&amp;gt;&amp;lt;/p&amp;gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>leftPad(), repeat(), and trim()
+These functions are quite self-explanatory:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sample1</span> <span class="o">=</span> <span class="s2">&quot;whatever you shouldn&#39;t usually do.&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt1</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">leftPad</span><span class="p">(</span><span class="nx">sample</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt1</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt2</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">repeat</span><span class="p">(</span><span class="s1">&#39;=-=-=-=&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt2</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sample3</span> <span class="o">=</span> <span class="s2">&quot; whatever you shouldn&#39;t usually do. &quot;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt3</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">trim</span><span class="p">(</span><span class="nx">sample3</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt3</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The output in the console would be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'> <span class="o">----------------</span><span class="nx">whatever</span> <span class="nx">you</span> <span class="nx">shouldn</span><span class="s1">&#39;t usually do.</span>
+</span><span class='line'><span class="s1">    =-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=</span>
+</span><span class='line'><span class="s1">    whatever you shouldn&#39;</span><span class="nx">t</span> <span class="nx">usually</span> <span class="k">do</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>toggle()
+This function provides a very simple way to display mutually exclusive strings depend‐ ing on a simple condition: whenever one value is passed as parameter, the other is returned:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="s1">&#39;No&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">toggle</span><span class="p">(</span><span class="nx">txt</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the preceding code, the string Yes would be returned by the function.</p>
+
+<ul>
+<li>urlAppend()
+This function takes care of serializing and appending encoded parameters to a URL:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sample</span> <span class="o">=</span> <span class="s1">&#39;http://test.com/whatever&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">params</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key2</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">key3</span><span class="o">:</span> <span class="mf">34536.65</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">paramsTxt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">toQueryString</span><span class="p">(</span><span class="nx">params</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">urlAppend</span><span class="p">(</span><span class="nx">sample</span><span class="p">,</span> <span class="nx">paramsTxt</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The preceding code would return the following: <a href="http://test.com/whatever?">http://test.com/whatever?</a> key1=value1&amp;key2=true&amp;key3=34536.65.</p>
+
+<h2>Ext.mixin.Observable</h2>
+
+<p>The Ext.mixin.Observable mixin is the component that enables Sencha Touch objects to publish, fire, and listen to events; in the following example, the Animal class uses the mixin so that instances of it can listen to individual eating and beingEaten events, which are fired by the eat() method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Defining the animal class</span>
+</span><span class='line'>    <span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;Animal&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">mixins</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Ext.mixin.Observable&#39;</span><span class="p">],</span>
+</span><span class='line'>        <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;(some animal name here)&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">kind</span><span class="o">:</span> <span class="s1">&#39;(animal kind here)&#39;</span>
+</span><span class='line'><span class="p">},</span>
+</span><span class='line'><span class="nx">constructor</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+</span><span class='line'><span class="p">},</span>
+</span><span class='line'><span class="nx">eat</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">animal</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="c1">// Here is where the magic happens this.fireEvent(&#39;eating&#39;, animal); animal.fireEvent(&#39;beingEaten&#39;, this);</span>
+</span><span class='line'><span class="p">}</span> <span class="p">});</span>
+</span><span class='line'>    <span class="c1">// Creating two instances of the Animal class</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">lion</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Animal&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Simba&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">kind</span><span class="o">:</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">eating</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">prey</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="s1">&#39;{0} the {1} is eating {2} the {3}!&#39;</span><span class="p">;</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">kind</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getKind</span><span class="p">();</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">preyName</span> <span class="o">=</span> <span class="nx">prey</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">preyKind</span> <span class="o">=</span> <span class="nx">prey</span><span class="p">.</span><span class="nx">getKind</span><span class="p">();</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="nx">template</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">kind</span><span class="p">,</span> <span class="nx">preyName</span><span class="p">,</span>
+</span><span class='line'>                <span class="nx">preyKind</span><span class="p">);</span>
+</span><span class='line'>                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'><span class="p">}</span> <span class="p">});</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">zebra</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Animal&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Pumbaa&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">kind</span><span class="o">:</span> <span class="s1">&#39;Warthog&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">beingEaten</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">predator</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="s1">&#39;{0} the {1} is being eaten by {2} the {3}!&#39;</span><span class="p">;</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">kind</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getKind</span><span class="p">();</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">predName</span> <span class="o">=</span> <span class="nx">predator</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">predKind</span> <span class="o">=</span> <span class="nx">predator</span><span class="p">.</span><span class="nx">getKind</span><span class="p">();</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="nx">template</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">kind</span><span class="p">,</span> <span class="nx">predName</span><span class="p">,</span> <span class="nx">predKind</span><span class="p">);</span>
+</span><span class='line'>            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>    <span class="c1">// And now nature follows its path</span>
+</span><span class='line'><span class="nx">lion</span><span class="p">.</span><span class="nx">eat</span><span class="p">(</span><span class="nx">zebra</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ext.util.DelayedTask</h2>
+
+<p>The Ext.util.DelayedTask provides a simple API around the standard setTime out() and clearTimeout() functions of the standard JavaScript library. DelayedTask instances can be delayed and canceled using a very simple API:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">task</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.util.DelayedTask&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;This message took 1.5 seconds to appear&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">task</span><span class="p">.</span><span class="nx">delay</span><span class="p">(</span><span class="mi">1500</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Predictably enough, the cancel() method can be called on tasks to prevent their execution.</p>
+
+<p><code>Tips</code> What is the difference with Ext.defer()?</p>
+
+<pre><code>Ext.util.DelayedTask objects wrap a function to be called at some point in the future. These objects also expose the cancel() method, giving more control to the developer, as the task not only can be passed as parameter to other parts of the application, but it can also be canceled if needed. On the other hand, the Ext.Function.defer() provides a non-cancelable, one-shot execution of a function.
+</code></pre>
+
+<h2>Ext.util.HashMap</h2>
+
+<p>The Ext.util.HashMap is a container class that can be used in lieu of standard JavaScript literal dictionaries; it provides a very simple API and, most importantly, it exposes useful events that allow applications to be <code>notified</code> <code>when items are added or removed</code> from these containers.</p>
+
+<ul>
+<li><p>add(), clear(), remove(), removeByKey(), replace()
+These methods are used to manipulate the items inside an Ext.util.HashMap instance. They all trigger the execution of the corresponding events:</p></li>
+<li><p>add</p></li>
+<li>clear</li>
+<li>remove</li>
+<li>replace
+The following code shows an example of use:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.util.HashMap&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">map</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;EVENT; item added; key: &quot;&#39;</span> <span class="o">+</span> <span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;&quot;,</span>
+</span><span class='line'><span class="s1">        value: &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;clear&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">map</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;EVENT; map cleared&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;remove&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">map</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;EVENT; item removed; key: &quot;&#39;</span> <span class="o">+</span> <span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;&quot;,</span>
+</span><span class='line'><span class="s1">        value: &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">map</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">old</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;EVENT; item replaced; key: &quot;&#39;</span> <span class="o">+</span> <span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;&quot;, old value: &quot;&#39;</span> <span class="o">+</span> <span class="nx">old</span> <span class="o">+</span><span class="s1">&#39;&quot;, new value: &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;value1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key3&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;value1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key3&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">removeByKey</span><span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">,</span> <span class="s1">&#39;new value&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>contains(), containsKey()
+These two functions are used to test for the existence of values (or keys) in a particular instance.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.util.HashMap&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;value1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key3&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Map contains &quot;value1&quot; : &#39;</span> <span class="o">+</span> <span class="nx">map</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s1">&#39;value1&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Map contains &quot;key2&quot; : &#39;</span> <span class="o">+</span> <span class="nx">map</span><span class="p">.</span><span class="nx">containsKey</span><span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>each()
+The each() method takes a function as parameter; this function is called for each key- value pair in the hash map following the iterator pattern.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.util.HashMap&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;value1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key3&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;&gt; &#39;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>get(), getCount(), getKeys(), getValues()
+These functions are used to inspect the current state of the instance.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.util.HashMap&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;value1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">);</span>
+</span><span class='line'><span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key3&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Map has &#39;</span> <span class="o">+</span> <span class="nx">map</span><span class="p">.</span><span class="nx">getCount</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; values&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">map</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;key1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;object with key &quot;key1&quot; = &quot;&#39;</span> <span class="o">+</span> <span class="nx">obj</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">keys</span> <span class="o">=</span> <span class="nx">map</span><span class="p">.</span><span class="nx">getKeys</span><span class="p">();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">keys</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">values</span> <span class="o">=</span> <span class="nx">map</span><span class="p">.</span><span class="nx">getValues</span><span class="p">();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">values</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ext.util.Inflector</h2>
+
+<p>The Ext.util.Inflector class provides some utility functions that are used to manage the pluralization and singularization of words in English.</p>
+
+<ul>
+<li>isTransnumeral()
+In English, a transnumeral word is a word that does not change when used in plural or singular forms.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fish&#39;</span><span class="p">,</span> <span class="s1">&#39;people&#39;</span><span class="p">,</span> <span class="s1">&#39;gents&#39;</span><span class="p">,</span> <span class="s1">&#39;women&#39;</span><span class="p">,</span> <span class="s1">&#39;happiness&#39;</span><span class="p">,</span> <span class="s1">&#39;sheep&#39;</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">];</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">iterate</span><span class="p">(</span><span class="nx">words</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="p">[</span><span class="nx">item</span><span class="p">,</span> <span class="s1">&#39; is transnumeral: &#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">Ext</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Inflector</span><span class="p">.</span><span class="nx">isTransnumeral</span><span class="p">(</span><span class="nx">item</span><span class="p">)].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span><span class='line'><span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This yields the following console output:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">fish</span> <span class="nx">is</span> <span class="nx">transnumeral</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">people</span> <span class="nx">is</span> <span class="nx">transnumeral</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="nx">gents</span> <span class="nx">is</span> <span class="nx">transnumeral</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="nx">women</span> <span class="nx">is</span> <span class="nx">transnumeral</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="nx">happiness</span> <span class="nx">is</span> <span class="nx">transnumeral</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="nx">sheep</span> <span class="nx">is</span> <span class="nx">transnumeral</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="nx">code</span> <span class="nx">is</span> <span class="nx">transnumeral</span><span class="o">:</span> <span class="kc">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>ordinalize()
+This function takes a number as a parameter and returns the proper ordinal string:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">words</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">345</span><span class="p">,</span> <span class="mi">456</span><span class="p">,</span> <span class="mi">822</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">80</span><span class="p">];</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">iterate</span><span class="p">(</span><span class="nx">words</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Inflector</span><span class="p">.</span><span class="nx">ordinalize</span><span class="p">(</span><span class="nx">item</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span> <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result is the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="mi">1</span><span class="nx">st</span>
+</span><span class='line'><span class="mi">2</span><span class="nx">nd</span>
+</span><span class='line'><span class="mi">3</span><span class="nx">rd</span>
+</span><span class='line'><span class="mi">4</span><span class="nx">th</span>
+</span><span class='line'><span class="mi">5</span><span class="nx">th</span>
+</span><span class='line'><span class="mi">345</span><span class="nx">th</span>
+</span><span class='line'><span class="mi">456</span><span class="nx">th</span>
+</span><span class='line'><span class="mi">822</span><span class="nx">nd</span>
+</span><span class='line'><span class="mi">21</span><span class="nx">st</span>
+</span><span class='line'><span class="mi">80</span><span class="nx">th</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>pluralize(), singularize()
+These functions take a word in either plural and singular form and return the opposite version.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">singular</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;mouse&#39;</span><span class="p">,</span> <span class="s1">&#39;thing&#39;</span><span class="p">,</span> <span class="s1">&#39;boom&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="nx">Ext</span><span class="p">.</span><span class="nx">iterate</span><span class="p">(</span><span class="nx">singular</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;One&#39;</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="s1">&#39;many&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">Ext</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Inflector</span><span class="p">.</span><span class="nx">pluralize</span><span class="p">(</span><span class="nx">item</span><span class="p">)].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span> <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">plural</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;people&#39;</span><span class="p">,</span> <span class="s1">&#39;countries&#39;</span><span class="p">,</span> <span class="s1">&#39;mice&#39;</span><span class="p">,</span> <span class="s1">&#39;things&#39;</span><span class="p">,</span> <span class="s1">&#39;booms&#39;</span><span class="p">];</span>
+</span><span class='line'>    <span class="nx">Ext</span><span class="p">.</span><span class="nx">iterate</span><span class="p">(</span><span class="nx">plural</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Many&#39;</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Inflector</span><span class="p">.</span><span class="nx">singularize</span><span class="p">(</span><span class="nx">item</span><span class="p">)].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the result:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">One</span> <span class="nx">person</span> <span class="nx">many</span> <span class="nx">people</span>
+</span><span class='line'><span class="nx">One</span> <span class="nx">country</span> <span class="nx">many</span> <span class="nx">countries</span>
+</span><span class='line'><span class="nx">One</span> <span class="nx">mouse</span> <span class="nx">many</span> <span class="nx">mice</span>
+</span><span class='line'><span class="nx">One</span> <span class="nx">thing</span> <span class="nx">many</span> <span class="nx">things</span>
+</span><span class='line'><span class="nx">One</span> <span class="nx">boom</span> <span class="nx">many</span> <span class="nx">booms</span>
+</span><span class='line'><span class="nx">Many</span> <span class="nx">people</span> <span class="nx">one</span> <span class="nx">person</span>
+</span><span class='line'><span class="nx">Many</span> <span class="nx">countries</span> <span class="nx">one</span> <span class="nx">country</span>
+</span><span class='line'><span class="nx">Many</span> <span class="nx">mice</span> <span class="nx">one</span> <span class="nx">mouse</span>
+</span><span class='line'><span class="nx">Many</span> <span class="nx">things</span> <span class="nx">one</span> <span class="nx">thing</span>
+</span><span class='line'><span class="nx">Many</span> <span class="nx">booms</span> <span class="nx">one</span> <span class="nx">boom</span>
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   

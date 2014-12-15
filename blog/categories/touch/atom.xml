@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Touch | AllenToFight Blog]]></title>
   <link href="http://xiekunRonaldo.github.io/blog/categories/touch/atom.xml" rel="self"/>
   <link href="http://xiekunRonaldo.github.io/"/>
-  <updated>2014-12-14T12:23:43+08:00</updated>
+  <updated>2014-12-15T08:37:06+08:00</updated>
   <id>http://xiekunRonaldo.github.io/</id>
   <author>
     <name><![CDATA[AllenToFight]]></name>
@@ -189,7 +189,7 @@ The result of the execution of this code is the following:</p>
 
 <p>```</p>
 
-<h2>Ext.Array</h2>
+<h3>Ext.Array</h3>
 
 <ul>
 <li>clean()</li>
@@ -427,15 +427,1255 @@ var sampleArray2 = [1234, 456, -234, 654, 0]; var mean = Ext.Array.mean(sampleAr
 After executing the preceding code, max is 1234, min is equal to -234, sum is 2110what ever (pay attention to how the string was added at the end of the mathematical sum!) and mean is equal to 422.</p>
 
 <ul>
-<li>merge() and union()
+<li><p>merge() and union()
 The merge() function (and its alias union()) create a new array with all the values of those passed as parameter, but appearing only once:
 <code>javascript
 var sampleArray = [1234, 456, true, 'test'];
-var anotherArray = [true, false, 'test', 'whatever', 456]; var merge = Ext.Array.merge(anotherArray, sampleArray);
+var anotherArray = [true, false, 'test', 'whatever', 456];
+var merge = Ext.Array.merge(anotherArray, sampleArray);
 </code>
-The result of the preceding code is the following: [ true, false, &lsquo;test&rsquo;, &lsquo;whatev er&rsquo;, 456, 1234 ].</li>
+The result of the preceding code is the following: [ true, false, &lsquo;test&rsquo;, &lsquo;whatev er&rsquo;, 456, 1234 ].</p></li>
+<li><p>remove()
+The remove() function, as the name implies, removes items from an array, but only if they exist (of course!):
+<code>javascript
+var sampleArray = [1234, 456, -234, 654, 0, 'whatever', "BOOM", true, 'test']; Ext.Array.remove(sampleArray, 'whatever');
+Ext.Array.remove(sampleArray, -234);
+Ext.Array.remove(sampleArray, true);
+Ext.Array.remove(sampleArray, 'non existent value');
+The result of the code is that sampleArray now contains the values [ 1234, 456, 654,
+'0', 'BOOM', 'test' ].
+</code></p></li>
+<li><p>replace() and splice()
+The replace() function takes two arrays as parameters and replaces values in the first array using the values in the second. For that it also requires some indexing information, in particular the location where to start making replacements in the first array, and the number of such replacements to make.
+<code>javascript
+var sampleArray = [1234, 456, -234, 654, 0, 'whatever', "BOOM", true, 'test']; var replacements = ['boom', 'boom again'];
+Ext.Array.replace(sampleArray, 4, 2, replacements);
+</code>
+The result of the preceding code is the following: [ 1234, 456, -234, 654, &ldquo;boom&rdquo;, &ldquo;boom again&rdquo;, &ldquo;BOOM&rdquo;, true, &ldquo;test&rdquo; ]. As you can see, the values of the replace ments array was inserted after the fifth item, replacing the values 0 and whatever.
+The splice() function does exactly the same; however, it uses the same signature of the function of the same name in the JavaScript standard library:
+<code>javascript
+var sampleArray = [1234, 456, -234, 654, 0, 'whatever', "BOOM", true, 'test']; Ext.Array.splice(sampleArray, 4, 2, 'boom', 'boom again');
+</code>
+The result of this code is exactly the same as the one returned by the replace() function.</p></li>
+<li><p>slice()
+The slice() function returns a subsection of an existing array, and it takes both the start and end indexes.
+<code>warning</code>
+  A very common error when using this function is to consider the second argument to be the length of the requested slice; it is not a length, it is the ending index!
+<code>javascript
+var sampleArray = [1234, 456, -234, 654, 0, 'whatever', "BOOM", true, 'test']; var slice = Ext.Array.slice(sampleArray, 4, 7);
+</code></p></li>
+<li><p>sort()
+The sort() function takes an array and a comparison function as parameter and returns a new array with the same items as the original one, but sorted:
+<code>javascript
+var sampleArray = [1234, true, 'ASDFADF', -76, '', null, 'another string', '', 0];
+var sorted = Ext.Array.sort(sampleArray, function (item1, item2) {
+if (item1 === item2) { return 0;
+}
+return (item1 &lt; item2) ? -1 : 1; });
+</code>
+The result of the code is the following: [ -76, &ldquo;&rdquo;, null, &ldquo;&rdquo;, 0, true, 1234, &ldquo;ASD FADF&rdquo;, &ldquo;another string&rdquo;].</p></li>
+<li><p>toArray()
+The toArray() function transforms an “iterable object” into a real array. This includes the arguments object (automatic object containing all the arguments of a function in JavaScript) as well as any literal object whose keys are numeric:</p></li>
 </ul>
 
+
+<p>```javascript
+var iterable = {</p>
+
+<pre><code>0: 'value0', 
+1: 'value1', 
+2: 'value2', 
+3: 'value3', 
+4: 'value4',
+length: 5 
+</code></pre>
+
+<p>};
+var array = Ext.Array.toArray(iterable);
+```
+The preceding code yields an array with these values: [ &lsquo;value0&rsquo;, &lsquo;value1&rsquo;, &lsquo;value2&rsquo;, &lsquo;value3&rsquo;, &lsquo;value4&rsquo; ].</p>
+
+<ul>
+<li>unique()
+The unique() function returns a new array with only one instance of each repeated object in the original array:</li>
+</ul>
+
+
+<p><code>javascript
+var sampleArray = [1234, 456, 'whatever', 'whatever', 456, 'whatever'];
+var unique = Ext.Array.unique(sampleArray);
+</code>
+The result of this function call is the following: [ 1234, 456, &lsquo;whatever&rsquo; ].</p>
+
+<h1>Ext.ComponentQuery</h1>
+
+<p>The Ext.ComponentQuery singleton object provides a very useful query() function, used to retrieve pointers to one or many individual components in the application using a syntax similar to that of CSS selectors. This functionality is heavily used in Sencha Touch controllers</p>
+
+<p><code>warning</code></p>
+
+<pre><code>Although very similar to Ext.DomQuery, the Ext.Component Query.query() function does not return pointers to DOM elements, but rather Sencha Touch components, themselves represented by one or many DOM elements. The results of Ext.ComponentQuery are then higher in the abstraction ladder.
+</code></pre>
+
+<ul>
+<li>Component Query Syntax
+The component query syntax is very similar to that of CSS selectors; to retrieve com‐ ponents, you can use the following options:
+
+<ul>
+<li>The xtype property.</li>
+<li>The itemId property, using the #myItemId syntax (just like in CSS).</li>
+<li>Attributes wrapped in brackets, such as button[action=saveFile].</li>
+<li>Functions returning “truthy” values, using curly brackets: {isHidden()}.</li>
+<li>Optionally, you can use the > sign to indicate parent/child relationships, or the comma (,) to concatenate different queries in one: panel > button, or button, segmentedbutton are some examples.</li>
+<li>Finally,thenotoperatorcanalsobeused:not buttonwillreturnallthecomponents that are not buttons in the application.
+
+<h1>Ext.DateExtras</h1>
+
+<p>Sencha Touch includes a series of utility methods for managing <code>date</code> and <code>time</code> infor‐ mation contained within the Ext.DateExtras object. These functions all work with the standard <code>Date</code> class provided by the standard JavaScript library.
+Similarly to the Ext.Array functions, many of these functions do not exist as instance methods of the Date class, but rather as static methods of the Ext.Date object.
+<code>warning</code>
+Pay attention to the fact that these functions are not included by default by Sencha Touch; to use them in your code, you have to include the following line in the controller or view where you wish to use them: requires: &lsquo;Ext.DateExtras&rsquo;. However, to use them, you have to use the Ext.Date object.</p></li>
+</ul>
+</li>
+<li>add()
+The add() function allows you to increment or decrement a given date by a certain interval. The type of interval can be specified using the constants available in the Ext.Date object, such as DAY, HOUR, or MONTH.</li>
+</ul>
+
+
+<p><code>javascript
+var sampleDate = new Date();
+var futureDate = Ext.Date.add(sampleDate, Ext.Date.DAY, 10);
+</code>
+The result of this code is a date 10 days in the future.</p>
+
+<ul>
+<li>between()
+The between() function takes three dates and evaluates whether the first one is located amid the other two dates passed as parameters:</li>
+</ul>
+
+
+<p><code>javascript
+var sampleDate = new Date();
+var anotherDate = Ext.Date.add(sampleDate, Ext.Date.YEAR, 10);
+var betweenDate = Ext.Date.add(sampleDate, Ext.Date.MONTH, 5);
+var inBetween = Ext.Date.between(betweenDate, sampleDate, anotherDate);
+</code>
+* clearTime()
+This useful function removes any time information from the date passed as parameter.</p>
+
+<p><code>javascript
+var sampleDate = new Date();
+var noTime = Ext.Date.clearTime(sampleDate);
+</code>
+* getDayOfYear(), getWeekOfYear(), isLeapYear()</p>
+
+<p><code>javascript
+var sampleDate = new Date();
+var dayOfYear = Ext.Date.getDayOfYear(sampleDate); var week = Ext.Date.getWeekOfYear(sampleDate);
+var isLeap = Ext.Date.isLeapYear(sampleDate);
+</code>
+* getDaysInMonth(), getFirstDateOfMonth(), getFirstDayOfMonth(), getLastDateOfMonth(), getLastDayOfMonth()</p>
+
+<p><code>javascript
+var sampleDate = new Date();
+var daysInMonth = Ext.Date.getDaysInMonth(sampleDate);
+var firstDate = Ext.Date.getFirstDateOfMonth(sampleDate); var firstDay = Ext.Date.getFirstDayOfMonth(sampleDate); var firstDayName = Ext.Date.dayNames[firstDay];
+var lastDate = Ext.Date.getLastDateOfMonth(sampleDate); var lastDay = Ext.Date.getLastDayOfMonth(sampleDate); var lastDayName = Ext.Date.dayNames[lastDay];
+</code>
+* getElapsed()
+The getElapsed() function returns the time interval in milliseconds between two dates passed as parameter:
+<code>javascript
+var sampleDate = new Date();
+var anotherDate = Ext.Date.add(sampleDate, Ext.Date.YEAR, 10); var elapsed = Ext.Date.getElapsed(sampleDate, anotherDate);
+</code>
+The preceding code returns the value 315532800000, which is the number of millisec‐ onds contained in a 10-year period.</p>
+
+<ul>
+<li>getGMTOffset(), getTimezone(), isDST()
+These functions provide information about the time zone of the date instance passed as a parameter:</li>
+</ul>
+
+
+<p><code>javascript
+var sampleDate = new Date();
+var offset = Ext.Date.getGMTOffset(sampleDate);
+var timezone = Ext.Date.getTimezone(sampleDate);
+var isDST = Ext.Date.isDST(sampleDate);
+</code>
+At the moment of this writing, the values returned by these functions are as follows: +0100 for the offset, CET for the time zone, and false for the DST information.
+* getMonthNumber(), getShortDayName(), getShortMonthName(), getSuffix()
+These functions are useful helpers for displaying time and date information in a human- readable way:</p>
+
+<p><code>javascript
+var number = Ext.Date.getMonthNumber("June");
+var shortDayName = Ext.Date.getShortDayName(4);
+var shortMonthName = Ext.Date.getShortMonthName(4);
+var sampleDate = new Date();
+var suffix = Ext.Date.getSuffix(sampleDate);
+</code>
+In the last case, at the moment of this writing the suffix returned is th, but of course it could be any value, such as st, nd, rd, or th.
+* isValid()
+The isValid() function takes at least values for year, month, and day (in that order), optionally for time information and checks whether they correspond to valid date val‐ ues. This might be handy when checking user input in forms, for example:</p>
+
+<p><code>javascript
+var isValid1 = Ext.Date.isValid(1984, 4, 6);
+var isValid2 = Ext.Date.isValid(355423, 4564564, 23424);
+</code>
+As you can easily imagine, the first set of values yields a valid date, while the second does not.
+* parse()
+Finally, the parse() function takes a string with date information and an optional format parameter and returns the Date instance that corresponds.</p>
+
+<p><code>javascript
+var parsed = Ext.Date.parse('2012-11-15', 'Y-m-d');
+</code></p>
+
+<h2>Ext.DomHelper and Ext.DomQuery</h2>
+
+<p>Sencha Touch also provides the required functionality for web developers to refer to the HTML elements that make up a web page, individually or as a group. For that, it exposes functions similar to those of jQuery or Zepto, taking very similar parameters and behaving in similar ways.
+* select() and selectNode()
+Using select() and selectNode(), developers can retrieve pointers to individual HTML objects (or groups thereof) in the current context:</p>
+
+<p><code>javascript
+var divs = Ext.DomQuery.select('DIV');
+var div = Ext.DomQuery.selectNode('#queryDiv');
+</code>
+The allowed element selectors are the following (in this example, we are using li and ul as an example, but any HTML tag can be used in this context):</p>
+
+<p><code>*</code></p>
+
+<pre><code>any element
+</code></pre>
+
+<p><code>ul, li</code></p>
+
+<pre><code>an element with any of these tags
+</code></pre>
+
+<p><code>ul li</code></p>
+
+<pre><code>all descendant li elements of ul
+</code></pre>
+
+<p><code>ul &gt; li</code></p>
+
+<pre><code>all li that are direct children of ul
+</code></pre>
+
+<p><code>ul + li</code></p>
+
+<pre><code>all li elements that are immediately preceded by ul
+</code></pre>
+
+<p><code>ul ~ li</code></p>
+
+<pre><code>all li elements that are preceded by a sibling element with the tag ul
+</code></pre>
+
+<p>Developers can also use attribute selectors:
+* ul[class]</p>
+
+<pre><code>an ul element that has a class attribute
+</code></pre>
+
+<ul>
+<li><p>ul[class=main]</p>
+
+<p>  an ul element that has a class attribute with the main value</p></li>
+<li><p>ul[class$=main]</p>
+
+<p>  an ul element that has a class attribute that ends with the main value</p></li>
+<li><p>ul[class*=main]</p>
+
+<p>  an ul element that has a class attribute that contains the main value</p></li>
+<li><p>ul[class%=2]</p>
+
+<p>  an ul element that has a class attribute whose value is evenly divisable by 2</p></li>
+<li><p>ul[class!=main]</p>
+
+<p>  an ul element that has a class attribute that does not equal the main value
+Finally, <code>pseudo-class</code> selectors are also possible: li:first-child, li:last-child, li:only-child, li:4th-child, li:odd, li:even, etc.</p></li>
+</ul>
+
+
+<h2>append(), insertBefore(), insertAfter(), overwrite(), insertHtml()</h2>
+
+<p>Once you have selected one or many nodes, Ext.DomHelper provides useful functions that allow you to manipulate the HTML nodes. For example, taking the following HTML fragment:
+```javascript</p>
+
+<div class="outerDiv"><div id="someDiv" class="innerDiv"></div></div>
+
+
+<p>```
+We can operate on it as follows, and Figure 2-2 shows the result:</p>
+
+<p><code>javascript
+var div = Ext.DomQuery.selectNode('#someDiv');
+Ext.DomHelper.overwrite(div, '&lt;div id="someDiv"&gt;This is an overwritten DIV&lt;/ div&gt;');
+Ext.DomHelper.append(div, '&lt;p&gt;A paragraph added using append()&lt;/p&gt;');
+Ext.DomHelper.insertBefore(div, '&lt;p&gt;A paragraph inserted before the div&lt;/p&gt;'); Ext.DomHelper.insertAfter(div, '&lt;p&gt;A paragraph inserted after the div&lt;/p&gt;');
+// Valid parameters:
+// beforeBegin: &lt;HERE&gt;&lt;div&gt;Contents&lt;/div&gt;
+// afterBegin: &lt;div&gt;&lt;HERE&gt;Contents&lt;/div&gt;
+// beforeEnd: &lt;div&gt;Contents&lt;HERE&gt;&lt;/div&gt;
+// afterEnd: &lt;div&gt;Contents&lt;/div&gt;&lt;HERE&gt;
+Ext.DomHelper.insertHtml('beforeBegin', div, '&lt;div class="inserted"&gt;inserted as HTML&lt;/div&gt;');
+</code></p>
+
+<p><img src="/images/2014/12/Figure2-2.png"></p>
+
+<h2>Ext.env.Feature</h2>
+
+<p>The Ext.env.Feature class (of which Ext.feature is the singleton instance) exposes a series of properties, each highlighting a particular HTML5 feature of the browser where the application is running:</p>
+
+<p>`&ldquo;javascript
+var key = null;
+var value = false;
+var text = &rdquo;; console.log(&lsquo;Available features:&rsquo;);
+for (key in Ext.feature.has) {</p>
+
+<pre><code>    value = Ext.feature.has[key];
+    text = key + ': ' + value;
+    console.log(text);
+</code></pre>
+
+<p>}
+```
+After executing this code in Safari 6.0.2 on OS X Mountain Lion, this is the result:</p>
+
+<p>```javascript
+ Available features:</p>
+
+<pre><code>Canvas: true
+Svg: true
+Vml: true
+Touch: false
+Orientation: false
+OrientationChange: false
+DeviceMotion: false
+Geolocation: true
+SqlDatabase: true
+WebSockets: true
+Range: true
+CreateContextualFragment: true
+History: true
+CssTransforms: true
+Css3dTransforms: true
+CssAnimations: true
+CssTransitions: true
+Audio: true
+Video: true
+ClassList: true
+LocalStorage: true
+</code></pre>
+
+<p>```</p>
+
+<h2>Ext.Function</h2>
+
+<p>The Ext.Function object contains useful helper&hellip;well, <code>functions</code>, that extend and aug‐ ment the already interesting native capabilities of JavaScript functions. Many of these functions are used by Sencha Touch for managing <code>event</code> handling, supporting <code>extended events</code> (such as <code>double-tap</code> events) and other features. They are also available for developers to use (and maybe abuse).</p>
+
+<ul>
+<li>createDelayed()</li>
+</ul>
+
+
+<p>The createDelayed() function wraps a function, causes a delay in milliseconds, and returns a new function that fires the wrapped function after the requested delay:</p>
+
+<p>```javascript
+var fn = function (value) {</p>
+
+<pre><code>console.log('this is fn, this is the value: "' + value + '"');
+</code></pre>
+
+<p>};
+var delayed = Ext.Function.createDelayed(fn, 1500, this, [ 345 ]);
+delayed();
+```
+This function causes the text this is fn, this is the value: &ldquo;345&rdquo; on the console after approximately a second and a half.</p>
+
+<ul>
+<li>createInterceptor()
+The createInterceptor() function takes a function and wraps it with another one, composing everything into a third one that is returned. When this returned function is executed, all input is piped to the wrapping function (the second argument) which must return true or false. The original function (the wrapped one, passed as first argument) is executed only if the wrapper returns true.
+In the following example, originalFn() is executed only when interceptor() is called with a value of 234; the check is performed by newFn().</li>
+</ul>
+
+
+<p>```javascript
+var originalFn = function (value) {
+console.log(&lsquo;original function, this is the value: &ldquo;&rsquo; + value + &lsquo;&rdquo;&rsquo;);
+};
+var newFn = function (value) {
+console.log(&lsquo;inside newFn, value is &ldquo;&rsquo; + value + &lsquo;&rdquo;&rsquo;); return (value === 234);
+};
+var interceptor = Ext.Function.createInterceptor(originalFn, newFn);</p>
+
+<pre><code>interceptor(0);
+interceptor(666);
+interceptor(234);
+</code></pre>
+
+<p>```
+The output of the code is the following:</p>
+
+<p>```javascript
+ inside newFn, value is &ldquo;0&rdquo;</p>
+
+<pre><code>inside newFn, value is "666"
+inside newFn, value is "234"
+this is the original function, this is the value: "234"
+</code></pre>
+
+<p>```
+his mechanism is very useful to filter input to functions, composing them as required, on the fly, at runtime.</p>
+
+<ul>
+<li>createSequence()
+The createSequence() function is used to chain the execution of functions together; it takes two functions, and returns a new one. When the returned function is called, the wrapped functions are called, with their parameters passed accordingly. However, the return value of the wrapping function is the return value of the first function wrapped.</li>
+</ul>
+
+
+<p>```javascript
+var first = function (value) {</p>
+
+<pre><code>console.log('inside the first() function, value = "' + value + '"'); 
+return 'first';
+</code></pre>
+
+<p>};
+var second = function (value) {</p>
+
+<pre><code>console.log('inside the second() function, value = "' + value + '"'); 
+return 'second';
+</code></pre>
+
+<p>};
+var third = Ext.Function.createSequence(first, second);
+var value = third(&lsquo;boom&rsquo;);
+console.log(&lsquo;third() returns &ldquo;&rsquo; + value + &lsquo;&rdquo;&rsquo;);
+<code>
+The execution of the code yields the following result in the console:
+</code>javascript</p>
+
+<pre><code>inside the first() function, value = "boom"
+inside the second() function, value = "boom"
+third() returns "first"
+</code></pre>
+
+<p>```
+* createThrottled()
+The createThrottled() function is a particularly interesting one: It wraps a function and takes a delay in milliseconds as a parameter; it then filters the execution of the wrapped function, allowing it at least to wait for the specified delay before executing it again.</p>
+
+<p>In the following example, the first call to throttled() executes immediately. However, in the following ones, no matter how many of them are triggered, only one will be executed, and after 4 seconds.</p>
+
+<p>```javascript
+var fn = function () {
+console.log(&lsquo;This is being throttled&rsquo;);
+};
+var throttled = Ext.Function.createThrottled(fn, 4000, this);</p>
+
+<pre><code>// The first call is executed immediately:
+throttled();
+</code></pre>
+
+<p>// No matter how many times we try, this will only be executed // once, and after 4 seconds:
+throttled();
+throttled();
+throttled();
+throttled();
+throttled();
+throttled();
+```</p>
+
+<ul>
+<li>defer()
+defer() is used to delay the execution of a function by some milliseconds. The function also takes as parameters the context of execution and, of course, the number of milli‐ seconds before executing the function.</li>
+</ul>
+
+
+<p><code>javascript
+Ext.Function.defer(function (arg) {
+console.log('This function has been deferred 1500 ms, arg = "' + arg + '"');
+}, 1500, this, [ 'argument1' ]);
+</code>
+For more control over delayed execution, check the Ext.DelayedTask class, which provides tighter control and more options, including the capability of <code>canceling</code> a scheduled execution <code>before it happens</code>.</p>
+
+<ul>
+<li>flexSetter()</li>
+</ul>
+
+
+<p>The flexSetter() function is used to provide more flexibility for passing arguments to functions. When wrapping a function using flexSetter(), it can be called using its original signature or using dictionaries of key-value pairs, allowing to chain assignations and calls in a more straightforward manner. The method wrapped by Ext.Func tion.flexSetter() must take two arguments.
+For example:</p>
+
+<p>```javascript</p>
+
+<pre><code>var setValue = Ext.Function.flexSetter(function(name, value) { 
+    console.log('name: "' + name + '", value: "' + value + '"');
+});
+setValue('name1', 'value1');
+setValue({
+    name2: 'value2',
+    name3: 'value3',
+    name4: 'value4'
+});
+</code></pre>
+
+<p>```
+The preceding code yields the following output in the console; the wrapped function by Ext.Function.flexSetter() is called as many times as required, once for each pair of name and value parameters:</p>
+
+<p>```javascript</p>
+
+<pre><code>name: "name1", value: "value1"
+name: "name2", value: "value2"
+name: "name3", value: "value3"
+name: "name4", value: "value4"
+</code></pre>
+
+<p><code>
+* pass()
+The pass() function is useful to wrap a function and prepopulate the argument list, all while allowing the wrapper function to pass `new` arguments to the wrapped function.
+</code>javascript
+var originalFunction = function(){</p>
+
+<pre><code>console.log('inside the original function, arguments:'); 
+console.dir(Ext.Array.from(arguments));
+</code></pre>
+
+<p>};
+var callback = Ext.Function.pass(originalFunction, [&lsquo;first&rsquo;, &lsquo;second&rsquo;]);
+callback();
+callback(&lsquo;third&rsquo;);
+```
+This code yields the following console messages:</p>
+
+<p>```javascript
+inside the original function, arguments:
+Array[2]</p>
+
+<pre><code>0: "first"
+1: "second"
+</code></pre>
+
+<p>inside the original function, arguments:
+Array[3]</p>
+
+<pre><code>0: "first"
+1: "second"
+2: "third"
+</code></pre>
+
+<p>```</p>
+
+<h2>Ext.JSON</h2>
+
+<p>The Ext.JSON object contains an implementation of Douglas Crockford’s own JSON parser, including two functions, encode() and decode():</p>
+
+<p>```javascript
+var txt = &lsquo;{&ldquo;key1&rdquo;:&ldquo;value1&rdquo;,&ldquo;key2&rdquo;:&ldquo;2012-11-06T13:24:07&rdquo;,&ldquo;key3&rdquo;:true,&ldquo;key4&rdquo;: 345.65,&ldquo;key5&rdquo;:[&ldquo;value2&rdquo;,&ldquo;value3&rdquo;,768]}&rsquo;;
+var decoded = Ext.JSON.decode(txt);
+console.dir(decoded);
+var obj = {
+key1: &lsquo;value1&rsquo;,
+key2: new Date(),
+key3: true,
+key4: 345.65,
+key5: [</p>
+
+<pre><code>        'value2',
+        'value3',
+        768
+</code></pre>
+
+<p>] };
+var encoded = Ext.JSON.encode(obj);
+console.log(encoded);
+```</p>
+
+<h2>Ext.Logger</h2>
+
+<p>The Ext.Logger object contains several useful methods that can be used to debug your Sencha Touch applications; you can think of them as extensions and complements to the usual console.log() function that we have been using in this book so far.</p>
+
+<ul>
+<li>deprecate(), error(), log(), and warn()</li>
+</ul>
+
+
+<p>These four functions provide useful additional information to the developer when ver‐ ifying the behavior of her code on the console. They include visual hints such as icons and color to provide <code>more information</code> than the usual console.log() statement.
+It could not be easier to use them:</p>
+
+<p>```javascript</p>
+
+<pre><code>Ext.Logger.deprecate('this method is deprecated');
+Ext.Logger.error('this is an error message');
+Ext.Logger.log('this is an generic log message', 0);
+Ext.Logger.warn('this is a warning message');
+</code></pre>
+
+<p>```
+The result of the call of these methods appears in Figure 2-3.
+<img src="/images/2014/12/Figure2-3.png"></p>
+
+<h2>Ext.Number</h2>
+
+<p>The Ext.Number object contains some functions that provide useful functionality for formatting and verifying numeric input in Sencha Touch applications.
+* constrain()
+This function takes three parameters: a numeric value and minimum and maximum bound values. It then checks whether the first numeric value is located within the min‐ imum and maximum bounds, and if so, it returns it.</p>
+
+<p><code>javascript
+var constrained = Ext.Number.constrain(234, 0, 6030);
+var txt = 'Constrained value: ' + constrained; console.log(txt);
+</code>
+In the preceding code, the value shown will include the constrained value 234, because it is indeed located within the provided range.</p>
+
+<h1>from()</h1>
+
+<p>The from() function takes two values: a generic value and a default value, which must be numeric; the function then tries to parse a numeric value from the first parameter, and if this is not possible, it will return the default value provided in the second pa‐ rameter.</p>
+
+<p><code>javascript
+var num1 = Ext.Number.from('4535', 1111);
+var num2 = Ext.Number.from('Some other value', 1111);
+var txt1 = 'Retrieved value: ' + num1;
+var txt2 = 'Retrieved value: ' + num2;
+console.log(txt1);
+console.log(txt2);
+</code>
+In the preceding example, the output will be as follows:</p>
+
+<p>```javascript</p>
+
+<pre><code>Retrieved value: 4535
+Retrieved value: 1111
+</code></pre>
+
+<p>```
+The first value could be parsed as a numeric input, while the second could not; hence, the default value is returned.</p>
+
+<ul>
+<li><p>snap()
+This function is used to round (or “snap”) numbers, providing minimum and maximum bounds at the same time. The first parameter is the number to be rounded; the second parameter is an incremental factor, of which the result of the function will be a multiple; and the final two parameters are minimum and maximum values, used to constrain the final result:
+<code>javascript
+var num = Ext.Number.snap(223, 100, 0, 1000);
+var txt = 'Snapped value: ' + num;
+console.log(txt);
+</code>
+The preceding code will show the snapped value “200.”</p></li>
+<li><p>toFixed()</p></li>
+</ul>
+
+
+<p>Finally, this function can be used to format a number as a string, using a fixed-point precision that is specified as the second parameter:</p>
+
+<p><code>javascript
+var num = Ext.Number.toFixed(243.54234534, 2);
+var txt = 'Fixed value: ' + num;
+console.log(txt);
+</code></p>
+
+<h2>Ext.Object</h2>
+
+<ul>
+<li>each()</li>
+</ul>
+
+
+<p>```javascript
+var obj = {
+key1: &lsquo;value1&rsquo;,
+key2: 123,
+key3: true };</p>
+
+<p>Ext.Object.each(obj, function (key, value) {</p>
+
+<pre><code>var txt = [key, ': ', value].join(''); 
+console.log(txt);
+</code></pre>
+
+<p>}, this);
+<code>
+The console output of the preceding code is the following:
+</code>javascript
+key1: value1
+key2: 123
+key3: true
+```</p>
+
+<ul>
+<li>fromQueryString() and toQueryString()
+These functions perform two reverse operations, allowing the encoding and decoding of complex object structures as simple key-value pairs that could be used as URL parameters.</li>
+</ul>
+
+
+<p><code>javascript
+var txt1 = 'key1=value1&amp;key2=123&amp;key3=true';
+var obj1 = Ext.Object.fromQueryString(txt1);
+console.dir(obj1);
+var obj2 = {
+key1: 'value1',
+key2: 123,
+key3: true };
+var txt2 = Ext.Object.toQueryString(obj2);
+console.log(txt2);
+</code>
+The output of the preceding code is the following:</p>
+
+<p>```javascript
+Object</p>
+
+<pre><code>    key1: "value1"
+</code></pre>
+
+<p>key2: &ldquo;123&rdquo;</p>
+
+<pre><code>    key3: "true"
+key1=value1&amp;key2=123&amp;key3=true
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>getKey(), getKeys(), getSize(), getValues()
+Predictably enough, these functions provide insight into the internal structure and contents of the object being inspected:</li>
+</ul>
+
+
+<p><code>javascript
+var obj = {
+key1: 'value1',
+key2: 123,
+key3: true };
+var key = Ext.Object.getKey(obj, 'value1');
+var keys = Ext.Object.getKeys(obj);
+var size = Ext.Object.getSize(obj);
+var values = Ext.Object.getValues(obj);
+console.dir(key);
+console.dir(keys);
+console.dir(size);
+console.dir(values);
+</code>
+The output of the code is quite self-explanatory:</p>
+
+<p>```javascript
+ key1</p>
+
+<pre><code>Array[3]
+    0: "key1"
+    1: "key2"
+    2: "key3"
+    length: 3
+</code></pre>
+
+<p>3 Array[3]</p>
+
+<pre><code>    0: "value1"
+    1: 123
+    2: true
+    length: 3
+</code></pre>
+
+<p>```
+* merge()
+The Ext.Object.merge() function recursively joins two distinct literal objects; an ex‐ ample will show exactly how this works:</p>
+
+<p>```javascript
+var obj1 = {</p>
+
+<pre><code>key1: 'value1',
+key2: 'value2', 
+key3: 345, 
+key4: false, 
+key5: {
+    innerKey1: 'innerValue1'
+}
+</code></pre>
+
+<p>};
+var obj2 = {</p>
+
+<pre><code>key6: 345, 
+key7: 'value1', 
+key8: 'value2', 
+key9: false, 
+key5: {
+    innerKey2: 'innerValue1'
+}
+</code></pre>
+
+<p>};
+var merged = Ext.Object.merge(obj1, obj2);
+console.dir(merged);
+<code>``
+</code>warning`</p>
+
+<pre><code>Ext.Object.merge() is aliased to Ext.merge() for convenience.
+</code></pre>
+
+<ul>
+<li>toQueryObjects()</li>
+</ul>
+
+
+<p>This function will encode an object into an array containing name-value pairs that can be used as parameters for sending complex nested structures as part of POST HTTP requests to a server:
+```javascript
+var obj = { day: 5,</p>
+
+<pre><code>    month: 3,
+    year: 2002,
+    time: {
+</code></pre>
+
+<p>hour: 9,
+minute: 20 }
+};
+var objs = Ext.Object.toQueryObjects(&lsquo;date&rsquo;, obj, true);
+console.dir(objs);
+```
+The preceding code returns an array object containing the values of the original object in nested keys that can be sent as parameters for a POST HTTP request:</p>
+
+<p>```javascript
+ Array[5]</p>
+
+<pre><code>    0: Object
+        name: "date[day]"
+        value: 5
+    1: Object
+        name: "date[month]"
+        value: 3
+    2: Object
+        name: "date[year]"
+        value: 2002
+    3: Object
+        name: "date[time][hour]"
+        value: 9
+    4: Object
+        name: "date[time][minute]"
+        value: 20
+    length: 5
+</code></pre>
+
+<p>```</p>
+
+<h2>Ext.String</h2>
+
+<ul>
+<li>capitalize()
+This function takes a string as a parameter and returns the same string with its first letter capitalized:</li>
+</ul>
+
+
+<p><code>javascript
+var sample = "whatever you shouldn't usually do.";
+var txt = Ext.String.capitalize(sample);
+console.log(txt);
+</code>
+After executing this code,the console shows the text Whatever you shouldn&rsquo;t usually do.</p>
+
+<ul>
+<li>ellipsis()
+This function cuts the string passed as parameter before the number of characters specified, and adds, if required, an ellipsis at the end; for example, the following code will display the text whatever you&hellip; in the console.</li>
+</ul>
+
+
+<p><code>javascript
+var sample = "whatever you shouldn't usually do.";
+var txt = Ext.String.ellipsis(sample, 15);
+console.log(txt);
+</code></p>
+
+<ul>
+<li>escape() and escapeRegex()
+These two functions can be used to properly encode characters such as apostrophes, which cannot be properly displayed in some circumstances:</li>
+</ul>
+
+
+<p><code>javascript
+var sample = "whatever you shouldn't usually do.";
+var txt1 = Ext.String.escape(sample);
+var txt2 = Ext.String.escapeRegex(sample);
+console.log(txt1);
+console.log(txt2);
+</code>
+This shows the following text in the console:</p>
+
+<p><code>javascript
+whatever you shouldn\'t usually do.
+whatever you shouldn't usually do\.
+</code></p>
+
+<ul>
+<li>format()
+This function provides a very useful equivalent to the sprintf() family of functions available in many other programming languages; it takes a template string, an undefined list of parameters, and it performs the required substitutions:</li>
+</ul>
+
+
+<p><code>javascript
+var sample = '&lt;p class="{0}"&gt;This is a &lt;strong&gt;{1}&lt;/strong&gt;&lt;/p&gt;';
+var txt = Ext.String.format(sample, 'test', 'paragraph');
+console.log(txt);
+</code></p>
+
+<ul>
+<li>htmlDecode() and htmlEncode()</li>
+</ul>
+
+
+<p>These two functions perform inverse operations, decoding and encoding characters using their equivalent HTML entities:</p>
+
+<p><code>javascript
+var sample1 = '&amp;lt;p class=&amp;quot;test&amp;quot;&amp;gt;
+This is a &amp;lt;strong&amp;gt;paragraph&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;'; var txt1 = Ext.String.htmlDecode(sample1);
+console.log(txt1);
+var sample2 = '&lt;p class="test"&gt;This is a &lt;strong&gt;paragraph&lt;/strong&gt;&lt;/p&gt;'; var txt2 = Ext.String.htmlEncode(sample2);
+console.log(txt2);
+</code></p>
+
+<p>The console would show the following:</p>
+
+<p>```
+ <p class="test">This is a <strong>paragraph</strong></p></p>
+
+<pre><code>&amp;lt;p class=&amp;quot;test&amp;quot;&amp;gt;
+This is a &amp;lt;strong&amp;gt;paragraph&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>leftPad(), repeat(), and trim()
+These functions are quite self-explanatory:
+<code>javascript
+var sample1 = "whatever you shouldn't usually do.";
+var txt1 = Ext.String.leftPad(sample, 10, '-');
+console.log(txt1);
+var txt2 = Ext.String.repeat('=-=-=-=', 50, '/');
+console.log(txt2);
+var sample3 = " whatever you shouldn't usually do. ";
+var txt3 = Ext.String.trim(sample3);
+console.log(txt3);
+</code>
+The output in the console would be:</li>
+</ul>
+
+
+<p>```javascript
+ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;whatever you shouldn&rsquo;t usually do.</p>
+
+<pre><code>=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=/=-=-=-=
+whatever you shouldn't usually do.
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li><p>toggle()
+This function provides a very simple way to display mutually exclusive strings depend‐ ing on a simple condition: whenever one value is passed as parameter, the other is returned:
+<code>javascript
+var txt = 'No';
+txt = Ext.String.toggle(txt, 'Yes', 'No');
+console.log(txt);
+</code>
+In the preceding code, the string Yes would be returned by the function.</p></li>
+<li><p>urlAppend()
+This function takes care of serializing and appending encoded parameters to a URL:</p></li>
+</ul>
+
+
+<p>```javascript
+var sample = &lsquo;<a href="http://test.com/whatever">http://test.com/whatever</a>&rsquo;;
+var params = {</p>
+
+<pre><code>key1: 'value1', 
+key2: true, 
+key3: 34536.65
+</code></pre>
+
+<p>};
+var paramsTxt = Ext.Object.toQueryString(params);
+var txt = Ext.String.urlAppend(sample, paramsTxt);
+console.log(txt);
+```
+The preceding code would return the following: <a href="http://test.com/whatever?">http://test.com/whatever?</a> key1=value1&amp;key2=true&amp;key3=34536.65.</p>
+
+<h2>Ext.mixin.Observable</h2>
+
+<p>The Ext.mixin.Observable mixin is the component that enables Sencha Touch objects to publish, fire, and listen to events; in the following example, the Animal class uses the mixin so that instances of it can listen to individual eating and beingEaten events, which are fired by the eat() method:</p>
+
+<p>```javascript
+// Defining the animal class</p>
+
+<pre><code>Ext.define('Animal', {
+    mixins: ['Ext.mixin.Observable'],
+    config: {
+        name: '(some animal name here)',
+        kind: '(animal kind here)'
+</code></pre>
+
+<p>},
+constructor: function(config) { this.initConfig(config);
+},
+eat: function (animal) {
+// Here is where the magic happens this.fireEvent(&lsquo;eating&rsquo;, animal); animal.fireEvent(&lsquo;beingEaten&rsquo;, this);
+} });</p>
+
+<pre><code>// Creating two instances of the Animal class
+</code></pre>
+
+<p>var lion = Ext.create(&lsquo;Animal&rsquo;, { name: &lsquo;Simba&rsquo;,</p>
+
+<pre><code>    kind: 'Lion',
+    listeners: {
+            eating: function (prey) {
+            var template = '{0} the {1} is eating {2} the {3}!';
+            var name = this.getName();
+            var kind = this.getKind();
+            var preyName = prey.getName();
+            var preyKind = prey.getKind();
+            var txt = Ext.String.format(template, name, kind, preyName,
+            preyKind);
+            console.log(txt);
+        }
+</code></pre>
+
+<p>} });
+var zebra = Ext.create(&lsquo;Animal&rsquo;, { name: &lsquo;Pumbaa&rsquo;,</p>
+
+<pre><code>    kind: 'Warthog',
+    listeners: {
+        beingEaten: function (predator) {
+        var template = '{0} the {1} is being eaten by {2} the {3}!'; 
+        var name = this.getName();
+        var kind = this.getKind();
+        var predName = predator.getName();
+        var predKind = predator.getKind();
+        var txt = Ext.String.format(template, name, kind, predName, predKind);
+        console.log(txt);
+        } 
+</code></pre>
+
+<p>}
+});</p>
+
+<pre><code>// And now nature follows its path
+</code></pre>
+
+<p>lion.eat(zebra);
+```</p>
+
+<h2>Ext.util.DelayedTask</h2>
+
+<p>The Ext.util.DelayedTask provides a simple API around the standard setTime out() and clearTimeout() functions of the standard JavaScript library. DelayedTask instances can be delayed and canceled using a very simple API:</p>
+
+<p>```javascript
+var task = Ext.create(&lsquo;Ext.util.DelayedTask&rsquo;, function() {</p>
+
+<pre><code>    console.log('This message took 1.5 seconds to appear');
+</code></pre>
+
+<p>});
+task.delay(1500);
+```
+Predictably enough, the cancel() method can be called on tasks to prevent their execution.</p>
+
+<p><code>Tips</code> What is the difference with Ext.defer()?</p>
+
+<pre><code>Ext.util.DelayedTask objects wrap a function to be called at some point in the future. These objects also expose the cancel() method, giving more control to the developer, as the task not only can be passed as parameter to other parts of the application, but it can also be canceled if needed. On the other hand, the Ext.Function.defer() provides a non-cancelable, one-shot execution of a function.
+</code></pre>
+
+<h2>Ext.util.HashMap</h2>
+
+<p>The Ext.util.HashMap is a container class that can be used in lieu of standard JavaScript literal dictionaries; it provides a very simple API and, most importantly, it exposes useful events that allow applications to be <code>notified</code> <code>when items are added or removed</code> from these containers.</p>
+
+<ul>
+<li><p>add(), clear(), remove(), removeByKey(), replace()
+These methods are used to manipulate the items inside an Ext.util.HashMap instance. They all trigger the execution of the corresponding events:</p></li>
+<li><p>add</p></li>
+<li>clear</li>
+<li>remove</li>
+<li>replace
+The following code shows an example of use:</li>
+</ul>
+
+
+<p>```javascript
+var map = Ext.create(&lsquo;Ext.util.HashMap&rsquo;);
+map.on(&lsquo;add&rsquo;, function (map, key, value, eOpts) {</p>
+
+<pre><code>    console.log('EVENT; item added; key: "' + key + '",
+    value: "' + value + '"');
+</code></pre>
+
+<p>});
+map.on(&lsquo;clear&rsquo;, function (map, eOpts) {</p>
+
+<pre><code>console.log('EVENT; map cleared');
+</code></pre>
+
+<p>});
+map.on(&lsquo;remove&rsquo;, function (map, key, value, eOpts) {</p>
+
+<pre><code>    console.log('EVENT; item removed; key: "' + key + '",
+    value: "' + value + '"');
+</code></pre>
+
+<p>});
+map.on(&lsquo;replace&rsquo;, function (map, key, value, old, eOpts) {</p>
+
+<pre><code>console.log('EVENT; item replaced; key: "' + key + '", old value: "' + old +'", new value: "' + value + '"');
+</code></pre>
+
+<p>});
+map.add(&lsquo;key1&rsquo;, &lsquo;value1&rsquo;);
+map.add(&lsquo;key2&rsquo;, 1234);
+map.add(&lsquo;key3&rsquo;, true);
+map.clear();
+map.add(&lsquo;key1&rsquo;, &lsquo;value1&rsquo;);
+map.add(&lsquo;key2&rsquo;, 1234);
+map.add(&lsquo;key3&rsquo;, true);
+map.remove(true);
+map.removeByKey(&lsquo;key2&rsquo;);
+map.replace(&lsquo;key2&rsquo;, &lsquo;new value&rsquo;);
+```</p>
+
+<ul>
+<li>contains(), containsKey()
+These two functions are used to test for the existence of values (or keys) in a particular instance.</li>
+</ul>
+
+
+<p><code>javascript
+var map = Ext.create('Ext.util.HashMap');
+map.add('key1', 'value1');
+map.add('key2', 1234);
+map.add('key3', true);
+console.log('Map contains "value1" : ' + map.contains('value1'));
+console.log('Map contains "key2" : ' + map.containsKey('key2'));
+</code></p>
+
+<ul>
+<li>each()
+The each() method takes a function as parameter; this function is called for each key- value pair in the hash map following the iterator pattern.</li>
+</ul>
+
+
+<p>```javascript
+var map = Ext.create(&lsquo;Ext.util.HashMap&rsquo;);
+map.add(&lsquo;key1&rsquo;, &lsquo;value1&rsquo;);
+map.add(&lsquo;key2&rsquo;, 1234);
+map.add(&lsquo;key3&rsquo;, true);
+map.each(function (key, value) {</p>
+
+<pre><code>var txt = key + '&gt; ' + value; 
+console.log(txt);
+</code></pre>
+
+<p>});
+```</p>
+
+<ul>
+<li>get(), getCount(), getKeys(), getValues()
+These functions are used to inspect the current state of the instance.</li>
+</ul>
+
+
+<p><code>javascript
+var map = Ext.create('Ext.util.HashMap');
+map.add('key1', 'value1');
+map.add('key2', 1234);
+map.add('key3', true);
+console.log('Map has ' + map.getCount() + ' values');
+var obj = map.get('key1');
+console.log('object with key "key1" = "' + obj + '"');
+var keys = map.getKeys();
+console.dir(keys);
+var values = map.getValues();
+console.dir(values);
+</code></p>
+
+<h2>Ext.util.Inflector</h2>
+
+<p>The Ext.util.Inflector class provides some utility functions that are used to manage the pluralization and singularization of words in English.</p>
+
+<ul>
+<li>isTransnumeral()
+In English, a transnumeral word is a word that does not change when used in plural or singular forms.</li>
+</ul>
+
+
+<p>```javascript
+var words = [&lsquo;fish&rsquo;, &lsquo;people&rsquo;, &lsquo;gents&rsquo;, &lsquo;women&rsquo;, &lsquo;happiness&rsquo;, &lsquo;sheep&rsquo;, &lsquo;code&rsquo;]; Ext.iterate(words, function (item) {</p>
+
+<pre><code>var txt = [item, ' is transnumeral: ', 
+Ext.util.Inflector.isTransnumeral(item)].join(''); 
+console.log(txt);
+</code></pre>
+
+<p>}, this);
+```
+This yields the following console output:</p>
+
+<p>```javascript
+fish is transnumeral: true</p>
+
+<pre><code>people is transnumeral: false
+gents is transnumeral: false
+women is transnumeral: false
+happiness is transnumeral: false
+sheep is transnumeral: true
+code is transnumeral: false
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li><p>ordinalize()
+This function takes a number as a parameter and returns the proper ordinal string:
+<code>javascript
+var words = [1, 2, 3, 4, 5, 345, 456, 822, 21, 80];
+Ext.iterate(words, function (item) {
+  var txt = Ext.util.Inflector.ordinalize(item);
+  console.log(txt); }, this);
+</code>
+The result is the following:
+<code>javascript
+  1st
+  2nd
+  3rd
+  4th
+  5th
+  345th
+  456th
+  822nd
+  21st
+  80th
+</code></p></li>
+<li><p>pluralize(), singularize()
+These functions take a word in either plural and singular form and return the opposite version.
+<code>javascript
+var singular = ['person', 'country', 'mouse', 'thing', 'boom'];
+Ext.iterate(singular, function (item) {
+  var txt = ['One', item, 'many',
+  Ext.util.Inflector.pluralize(item)].join(' ');
+  console.log(txt); }, this);
+  var plural = ['people', 'countries', 'mice', 'things', 'booms'];
+  Ext.iterate(plural, function (item) {
+      var txt = ['Many', item, 'one', Ext.util.Inflector.singularize(item)].join(' ');
+      console.log(txt);
+  }, this);
+</code>
+This is the result:</p></li>
+</ul>
+
+
+<p><code>javascript
+One person many people
+One country many countries
+One mouse many mice
+One thing many things
+One boom many booms
+Many people one person
+Many countries one country
+Many mice one mouse
+Many things one thing
+Many booms one boom
+</code></p>
 ]]></content>
   </entry>
   
