@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">require &#39;open-uri&#39;
+
+page = open(&#39;http://pragprog.com/titles/ruby3/programming-ruby-1-9&#39;).read 
+
+if page =~ %r{&lt;title&gt;(.*?)&lt;/title&gt;}m
+
+    puts &quot;Title is #{$1.inspect}&quot; 
+
+end
+
+produces:
+
+       Title is &quot;The Pragmatic Bookshelf | Programming Ruby 1.9&quot;
+</code></pre>
+</div>

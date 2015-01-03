@@ -1,0 +1,11 @@
+<div class="highlight"><pre><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">cookieParser</span><span class="p">(</span><span class="s2">&quot;kitten on  keyboard&quot;</span><span class="p">));</span>
+<span class="c1">// app.use(express.cookieSession({</span>
+<span class="c1">//     secret: &quot;FLUFFY BUNNIES&quot;,</span>
+<span class="c1">//     maxAge: 86400000</span>
+<span class="c1">// }));</span>
+
+<span class="c1">// app.use(express.session());</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">session</span><span class="p">({</span>
+    <span class="nx">secret</span><span class="o">:</span> <span class="s1">&#39;1234567890QWERTY&#39;</span>
+<span class="p">}));</span>
+</pre></div>

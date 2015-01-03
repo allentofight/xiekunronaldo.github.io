@@ -1,0 +1,21 @@
+<div class="highlight"><pre><code class="text">f = File.open(&quot;testfile&quot;) 
+
+begin
+
+# .. process
+
+rescue
+
+  # .. handle error
+
+else
+
+puts &quot;Congratulations-- no errors!&quot; 
+
+ensure
+
+f.close
+
+end
+</code></pre>
+</div>

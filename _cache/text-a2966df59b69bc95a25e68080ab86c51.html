@@ -1,0 +1,12 @@
+<div class="highlight"><pre><code class="text">typedef union { 
+    short count;
+    float weight;
+    float volume;
+} quantity;
+//By name
+quantity q = {.weight=1.5};
+//By dot notation
+quantity q;
+q.volume = 3.7;
+</code></pre>
+</div>

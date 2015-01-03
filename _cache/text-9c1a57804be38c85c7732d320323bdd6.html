@@ -1,0 +1,29 @@
+<div class="highlight"><pre><code class="text">triangular_numbers = Enumerator.new do |yielder| # ...
+
+# as before...
+
+# ...
+
+end
+
+def infinite_select(enum, &amp;block) 
+
+Enumerator.new do |yielder|
+
+enum.each do |value|
+
+yielder.yield(value) if block.call(value)
+
+end
+
+end
+
+end
+
+p infinite_select(triangular_numbers) {|val| val % 10 == 0}.first(5)
+
+produces:
+
+[10, 120, 190, 210, 300]
+</code></pre>
+</div>

@@ -1,0 +1,13 @@
+<div class="highlight"><pre><code class="text">You can specify additional requirements on type parameters and their associated types by including a where clause after the generic parameter list. A where clause consists of the keyword where, followed by a comma-separated list of one or more requirements.
+
+The requirements in a where clause specify that a type parameter inherits from a class or conforms to a protocol or protocol composition.
+
+you can express the constraints that a generic type T inherits from a class C and conforms to a protocol P as &lt;T where T: C, T: P&gt;.
+
+As mentioned above, you can constrain the associated types of type parameters to conform to protocols. For example, the generic parameter clause &lt;T: Generator where T.Element: Equatable&gt; specifies that T conforms to the Generator protocol and the associated type of T, T.Element, conforms to the Equatable protocol (T has the associated type Element because Generator declares Element and T conforms to Generator).
+
+You can also specify the requirement that two types be identical, using the == operator. For example, the generic parameter clause &lt;T: Generator, U: Generator where T.Element == U.Element&gt; expresses the constraints that T and U conform to the Generator protocol and that their associated types must be identical.
+
+You can subclass a generic class, but the subclass must also be a generic class.
+</code></pre>
+</div>

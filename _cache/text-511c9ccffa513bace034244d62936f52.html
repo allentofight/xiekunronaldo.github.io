@@ -1,0 +1,27 @@
+<div class="highlight"><pre><code class="text">alias old_backquote ` 
+
+    def `(cmd)
+
+    result = old_backquote(cmd) 
+
+    if $? != 0
+
+        puts &quot;*** Command #{cmd} failed: status = #{$?.exitstatus}&quot; 
+
+    end
+    result
+end
+
+print `ls -l /etc/passwd`
+
+print `ls -l /etc/wibble`
+
+produces:
+
+   -rw-r--r--  1 root  wheel  5086 Jul 20  2011 /etc/passwd
+
+   ls: /etc/wibble: No such file or directory
+
+   *** Command ls -l /etc/wibble failed: status = 1
+</code></pre>
+</div>

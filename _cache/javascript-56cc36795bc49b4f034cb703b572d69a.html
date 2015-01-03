@@ -1,0 +1,9 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Available features:&#39;</span><span class="p">);</span> 
+<span class="k">for</span> <span class="p">(</span><span class="nx">key</span> <span class="k">in</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">feature</span><span class="p">.</span><span class="nx">has</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">value</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">feature</span><span class="p">.</span><span class="nx">has</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
+        <span class="nx">text</span> <span class="o">=</span> <span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">;</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>

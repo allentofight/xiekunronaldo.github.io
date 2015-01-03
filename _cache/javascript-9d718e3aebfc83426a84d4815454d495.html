@@ -1,0 +1,21 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+    <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value2&#39;</span><span class="p">,</span> 
+    <span class="nx">key3</span><span class="o">:</span> <span class="mi">345</span><span class="p">,</span> 
+    <span class="nx">key4</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span> 
+    <span class="nx">key5</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">innerKey1</span><span class="o">:</span> <span class="s1">&#39;innerValue1&#39;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">key6</span><span class="o">:</span> <span class="mi">345</span><span class="p">,</span> 
+    <span class="nx">key7</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span> 
+    <span class="nx">key8</span><span class="o">:</span> <span class="s1">&#39;value2&#39;</span><span class="p">,</span> 
+    <span class="nx">key9</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span> 
+    <span class="nx">key5</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">innerKey2</span><span class="o">:</span> <span class="s1">&#39;innerValue1&#39;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">merged</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">obj1</span><span class="p">,</span> <span class="nx">obj2</span><span class="p">);</span> 
+<span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">merged</span><span class="p">);</span>
+</pre></div>

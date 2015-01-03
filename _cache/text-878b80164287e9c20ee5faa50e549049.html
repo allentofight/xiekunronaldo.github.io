@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">require &#39;open-uri&#39;
+
+web_page = open(&quot;http://pragprog.com/podcasts&quot;) 
+
+output = File.open(&quot;podcasts.html&quot;, &quot;w&quot;)
+
+while line = web_page.gets
+
+output.puts line
+
+end
+
+output.close
+</code></pre>
+</div>

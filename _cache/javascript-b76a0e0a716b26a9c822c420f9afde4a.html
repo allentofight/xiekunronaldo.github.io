@@ -1,0 +1,40 @@
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;button&#39;</span><span class="p">,</span>
+    <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Touch to open action sheet&#39;</span><span class="p">,</span>
+    <span class="nx">itemId</span><span class="o">:</span> <span class="s1">&#39;openButton&#39;</span><span class="p">,</span>
+    <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">tap</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">button</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">button</span><span class="p">.</span><span class="nx">sheet</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">button</span><span class="p">.</span><span class="nx">sheet</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">widget</span><span class="p">(</span><span class="s1">&#39;actionsheet&#39;</span><span class="p">,</span> <span class="p">{</span>
+                    <span class="nx">items</span><span class="o">:</span> <span class="p">[{</span>
+                        <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Delete&#39;</span><span class="p">,</span>
+                        <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+                            <span class="nx">tap</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">btn</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+                                <span class="nx">button</span><span class="p">.</span><span class="nx">sheet</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+                            <span class="p">}</span>
+                        <span class="p">}</span>
+                    <span class="p">},</span> <span class="p">{</span>
+                        <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Approve&#39;</span><span class="p">,</span>
+                        <span class="nx">ui</span><span class="o">:</span> <span class="s1">&#39;confirm&#39;</span><span class="p">,</span>
+                        <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+                            <span class="nx">tap</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">btn</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+                                <span class="nx">button</span><span class="p">.</span><span class="nx">sheet</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+                            <span class="p">}</span>
+                        <span class="p">}</span>
+                    <span class="p">},</span> <span class="p">{</span>
+                        <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Cancel&#39;</span><span class="p">,</span>
+                        <span class="nx">ui</span><span class="o">:</span> <span class="s1">&#39;decline&#39;</span><span class="p">,</span>
+                        <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+                            <span class="nx">tap</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">btn</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+                                <span class="nx">button</span><span class="p">.</span><span class="nx">sheet</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+                            <span class="p">}</span>
+                        <span class="p">}</span>
+                    <span class="p">}]</span>
+                <span class="p">});</span>
+                <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">button</span><span class="p">.</span><span class="nx">sheet</span><span class="p">);</span> <span class="c1">// }</span>
+                <span class="nx">button</span><span class="p">.</span><span class="nx">sheet</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span> <span class="c1">// }</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>

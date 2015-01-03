@@ -1,0 +1,11 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">originalFn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;original function, this is the value: &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">newFn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;inside newFn, value is &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span> <span class="k">return</span> <span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="mi">234</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">interceptor</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">createInterceptor</span><span class="p">(</span><span class="nx">originalFn</span><span class="p">,</span> <span class="nx">newFn</span><span class="p">);</span>
+    <span class="nx">interceptor</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nx">interceptor</span><span class="p">(</span><span class="mi">666</span><span class="p">);</span>
+    <span class="nx">interceptor</span><span class="p">(</span><span class="mi">234</span><span class="p">);</span>
+</pre></div>

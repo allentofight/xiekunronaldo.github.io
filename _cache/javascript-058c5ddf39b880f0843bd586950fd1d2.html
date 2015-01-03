@@ -1,0 +1,6 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">formData</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span> <span class="s1">&#39;100&#39;</span> <span class="p">};</span>
+<span class="c1">// You think formData.width is a number // and get unexpected results</span>
+<span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="nx">formData</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">outer</span> <span class="o">=</span> <span class="nx">w</span> <span class="o">+</span> <span class="mi">20</span><span class="p">;</span>
+<span class="c1">// You expect outer to be 120, but it’s not console.log(outer === 120); // false console.log(outer === &#39;10020&#39;); // true</span>
+</pre></div>

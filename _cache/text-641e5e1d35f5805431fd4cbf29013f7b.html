@@ -1,0 +1,39 @@
+<div class="highlight"><pre><code class="text">def my_if(condition, then_clause, else_clause) 
+
+    if condition
+
+        then_clause.call
+
+    else
+
+        else_clause.call
+
+    end 
+
+end
+
+
+5.times do |val| 
+
+    my_if val &lt; 2,
+
+          -&gt; { puts &quot;#{val} is small&quot; }, 
+
+          -&gt; { puts &quot;#{val} is big&quot; }
+
+end
+
+produces:
+
+
+0 is small
+
+1 is small
+
+2 is big
+
+3 is big
+
+4 is big
+</code></pre>
+</div>

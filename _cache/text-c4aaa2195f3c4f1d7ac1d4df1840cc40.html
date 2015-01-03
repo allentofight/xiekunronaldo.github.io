@@ -1,0 +1,41 @@
+<div class="highlight"><pre><code class="text">module Test
+
+    State = {}
+
+    def state=(value)
+
+        State[object_id] = value
+
+    ￼￼end
+
+
+    def state State[object_id]
+
+    end 
+
+end
+
+
+class Client 
+
+    include Test
+
+end
+
+
+
+c1 = Client.new
+
+
+c2 = Client.new 
+
+
+c1.state = &#39;cat&#39; 
+
+c2.state = &#39;dog&#39; 
+
+c1.state # =&gt; &quot;cat&quot; 
+
+c2.state # =&gt; &quot;dog&quot;
+</code></pre>
+</div>

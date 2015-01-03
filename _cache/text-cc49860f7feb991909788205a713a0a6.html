@@ -1,0 +1,29 @@
+<div class="highlight"><pre><code class="text">@esmtp = true
+
+begin
+
+    # First try an extended login. If it fails, fall back to a normal login
+
+    if @esmtp then @command.ehlo(helodom) 
+
+                else @command.helo(helodom)
+
+    end
+
+rescue ProtocolError
+
+    if @esmtp then
+
+        @esmtp = false
+
+        retry 
+
+    else
+
+        raise
+
+    end 
+
+end
+</code></pre>
+</div>

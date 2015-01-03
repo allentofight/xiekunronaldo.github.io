@@ -1,0 +1,35 @@
+<div class="highlight"><pre><code class="text">class BookInStock
+
+    attr_writer :isbn, :price
+
+    def initialize(isbn, price) 
+
+        @isbn = isbn
+
+        @price = Float(price)
+
+    end
+
+    def price=(new_price) 
+
+        @price = new_price
+
+    end
+
+# ...
+
+end
+
+
+
+book = BookInStock.new(&quot;isbn1&quot;, 33.80) 
+
+puts &quot;ISBN = #{book.isbn}&quot;
+
+puts &quot;Price = #{book.price}&quot; 
+
+book.price = book.price * 0.75
+
+puts &quot;New price = #{book.price}&quot;
+</code></pre>
+</div>

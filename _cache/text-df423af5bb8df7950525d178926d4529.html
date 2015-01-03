@@ -1,0 +1,16 @@
+<div class="highlight"><pre><code class="text">    // check that both containers contain the same number of items
+    if someContainer.count != anotherContainer.count {
+        return false
+    }
+
+    // check each pair of items to see if they are equivalent
+    for i in 0..someContainer.count {
+        if someContainer[i] != anotherContainer[i] {
+            return false
+        }
+    }
+
+    // all items match, so return true
+    return true
+</code></pre>
+</div>

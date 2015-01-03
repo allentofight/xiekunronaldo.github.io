@@ -1,0 +1,14 @@
+<div class="highlight"><pre><span class="nb">String</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">(</span><span class="nx">Invoked</span> <span class="nx">as</span> <span class="nx">a</span> <span class="kd">function</span><span class="p">,</span> <span class="nx">not</span> <span class="nx">as</span> <span class="nx">a</span> <span class="nx">constructor</span><span class="p">)</span> 
+<span class="s1">&#39;&#39;</span><span class="o">+</span><span class="nx">value</span>
+<span class="nx">value</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="p">(</span><span class="nx">Does</span> <span class="nx">not</span> <span class="nx">work</span> <span class="k">for</span> <span class="kc">undefined</span> <span class="nx">and</span> <span class="kc">null</span><span class="o">!</span><span class="p">)</span>
+
+
+<span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="s1">&#39;false&#39;</span>
+<span class="o">&gt;</span> <span class="nb">String</span><span class="p">(</span><span class="mf">7.35</span><span class="p">)</span>
+<span class="s1">&#39;7.35&#39;</span>
+<span class="o">&gt;</span> <span class="nb">String</span><span class="p">({</span> <span class="nx">first</span><span class="o">:</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="nx">last</span><span class="o">:</span> <span class="s1">&#39;Doe&#39;</span> <span class="p">})</span>
+<span class="s1">&#39;[object Object]&#39;</span>
+<span class="o">&gt;</span> <span class="nb">String</span><span class="p">([</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">])</span>
+<span class="s1">&#39;a,b,c&#39;</span>
+</pre></div>

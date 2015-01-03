@@ -1,0 +1,12 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">first</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;inside the first() function, value = &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span> 
+    <span class="k">return</span> <span class="s1">&#39;first&#39;</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">second</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;inside the second() function, value = &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span> 
+    <span class="k">return</span> <span class="s1">&#39;second&#39;</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">third</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">createSequence</span><span class="p">(</span><span class="nx">first</span><span class="p">,</span> <span class="nx">second</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">third</span><span class="p">(</span><span class="s1">&#39;boom&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;third() returns &quot;&#39;</span> <span class="o">+</span> <span class="nx">value</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+</pre></div>

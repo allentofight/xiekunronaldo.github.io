@@ -1,0 +1,13 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Chapter4Data.model.Person&#39;</span><span class="p">)</span> 
+<span class="nx">person</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;firstName&#39;</span><span class="p">,</span> <span class="s1">&#39;Aaron&#39;</span><span class="p">);</span>
+<span class="nx">person</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;lastName&#39;</span><span class="p">,</span> <span class="s1">&#39;Schwartz&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">company</span> <span class="o">=</span> <span class="nx">person</span><span class="p">.</span><span class="nx">getCompany</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">company</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Here is the company information: &#39;</span> <span class="o">+</span> <span class="nx">company</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">));</span>
+<span class="p">});</span>
+<span class="nx">person</span><span class="p">.</span><span class="nx">orders</span><span class="p">().</span><span class="nx">add</span><span class="p">({</span>
+    <span class="nx">item</span><span class="o">:</span> <span class="mi">234</span><span class="p">,</span>
+    <span class="nx">value</span><span class="o">:</span> <span class="mf">699.00</span><span class="p">,</span>
+    <span class="nx">note</span><span class="o">:</span> <span class="s1">&#39;To be delivered next month&#39;</span>
+<span class="p">});</span>
+<span class="nx">person</span><span class="p">.</span><span class="nx">orders</span><span class="p">().</span><span class="nx">sync</span><span class="p">();</span>
+</pre></div>

@@ -1,0 +1,16 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="s1">&#39;{&quot;key1&quot;:&quot;value1&quot;,&quot;key2&quot;:&quot;2012-11-06T13:24:07&quot;,&quot;key3&quot;:true,&quot;key4&quot;: 345.65,&quot;key5&quot;:[&quot;value2&quot;,&quot;value3&quot;,768]}&#39;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">decoded</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">decode</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">decoded</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+<span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+<span class="nx">key2</span><span class="o">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(),</span> 
+<span class="nx">key3</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nx">key4</span><span class="o">:</span> <span class="mf">345.65</span><span class="p">,</span> 
+<span class="nx">key5</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">&#39;value2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;value3&#39;</span><span class="p">,</span>
+            <span class="mi">768</span>
+<span class="p">]</span> <span class="p">};</span>
+<span class="kd">var</span> <span class="nx">encoded</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span> 
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">encoded</span><span class="p">);</span>
+</pre></div>

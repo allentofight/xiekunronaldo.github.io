@@ -1,0 +1,27 @@
+<div class="highlight"><pre><code class="text">def n_times(thing) 
+
+
+    lambda {|n| thing * n }
+
+
+end
+
+
+p1 = n_times(23)
+
+
+p1.call(3) # =&gt; 69
+
+
+p1.call(4) # =&gt; 92
+
+
+p2 = n_times(&quot;Hello &quot;)
+
+
+p2.call(3) # =&gt; &quot;Hello Hello Hello &quot;
+
+
+Blocks and Iterators • 65
+</code></pre>
+</div>

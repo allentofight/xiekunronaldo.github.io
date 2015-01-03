@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">(1..10).to_a # =&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
+
+
+(&#39;bar&#39;..&#39;bat&#39;).to_a # =&gt; [&quot;bar&quot;, &quot;bas&quot;, &quot;bat&quot;]
+
+
+enum = (&#39;bar&#39;..&#39;bat&#39;).to_enum
+
+
+enum.next # =&gt; &quot;bar&quot;
+
+
+enum.next # =&gt; &quot;bas&quot;
+</code></pre>
+</div>

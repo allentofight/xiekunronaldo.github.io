@@ -1,0 +1,48 @@
+<div class="highlight"><pre> <span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;Chapter4Data.model.Person&#39;</span><span class="p">,</span> <span class="p">{</span>
+     <span class="nx">extend</span><span class="o">:</span> <span class="s1">&#39;Ext.data.Model&#39;</span><span class="p">,</span>
+     <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+         <span class="nx">fields</span><span class="o">:</span> <span class="p">[{</span>
+             <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;entryId&#39;</span><span class="p">,</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;int&#39;</span>
+         <span class="p">},</span> <span class="p">{</span>
+             <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;firstName&#39;</span><span class="p">,</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
+         <span class="p">},</span> <span class="p">{</span>
+             <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;lastName&#39;</span><span class="p">,</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span>
+         <span class="p">},</span> <span class="p">{</span>
+             <span class="c1">//</span>
+             <span class="c1">// ... snip ...</span>
+             <span class="c1">//</span>
+         <span class="p">},</span> <span class="p">{</span>
+             <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;enabled&#39;</span><span class="p">,</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+             <span class="nx">defaultValue</span><span class="o">:</span> <span class="kc">true</span>
+         <span class="p">},</span> <span class="p">{</span>
+             <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;createdOn&#39;</span><span class="p">,</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;date&#39;</span>
+         <span class="p">}],</span>
+         <span class="nx">idProperty</span><span class="o">:</span> <span class="s1">&#39;entryId&#39;</span><span class="p">,</span>
+         <span class="nx">belongsTo</span><span class="o">:</span> <span class="s1">&#39;Company&#39;</span><span class="p">,</span>
+         <span class="nx">hasMany</span><span class="o">:</span> <span class="p">{</span>
+             <span class="nx">model</span><span class="o">:</span> <span class="s1">&#39;Orders&#39;</span><span class="p">,</span>
+             <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;orders&#39;</span>
+         <span class="p">},</span>
+         <span class="nx">validations</span><span class="o">:</span> <span class="p">[{</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;presence&#39;</span><span class="p">,</span>
+             <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;firstName&#39;</span>
+         <span class="p">},</span> <span class="p">{</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;presence&#39;</span><span class="p">,</span>
+             <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;lastName&#39;</span>
+         <span class="p">},</span> <span class="p">{</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;length&#39;</span><span class="p">,</span>
+             <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span>
+             <span class="nx">min</span><span class="o">:</span> <span class="mi">15</span>
+         <span class="p">},</span> <span class="p">{</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;inclusion&#39;</span><span class="p">,</span>
+             <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;role&#39;</span><span class="p">,</span>
+             <span class="nx">list</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;User&#39;</span><span class="p">,</span> <span class="s1">&#39;Admin&#39;</span><span class="p">]</span>
+         <span class="p">}]</span>
+     <span class="p">}</span>
+ <span class="p">});</span>
+</pre></div>

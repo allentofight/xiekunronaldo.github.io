@@ -1,0 +1,27 @@
+<div class="highlight"><pre><code class="text">def search(field, options)
+
+    options = { duration: 120 }.merge(options) 
+
+    if options.has_key?(:duration)
+
+        duration = options[:duration]
+
+        options.delete(:duration)
+
+    end
+
+    if options.has_key?(:genre)
+
+        genre = options[:genre]
+
+        options.delete(:genre)
+
+    end
+
+    fail &quot;Invalid options: #{options.keys.join(&#39;, &#39;)}&quot; unless options.empty? 
+
+    # rest of method
+
+end
+</code></pre>
+</div>

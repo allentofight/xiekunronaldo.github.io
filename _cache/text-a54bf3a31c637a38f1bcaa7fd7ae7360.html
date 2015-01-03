@@ -1,0 +1,26 @@
+<div class="highlight"><pre><code class="text">// Objective C
+@interface Something : NSObject
+   -(void) doSomething:(int)i;
+   -(void) doSomething:(int)i withF:(float)f;
+@end
+
+@implementation Something
+   -(void) doSomething:(int)i
+   {
+      [self doSomething:i withF:0.0f];
+   }
+
+   -(void) doSomething:(int)i withF:(float)f
+   {
+      // do something with i and f...
+   }
+@end
+
+Something* s = [[Something alloc] init];
+
+// either method can be called, however
+// two separate methods have been implemented
+[s doSomething:5];
+[s doSomething:5 withF:1.0f];
+</code></pre>
+</div>

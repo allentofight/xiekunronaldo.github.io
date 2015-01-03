@@ -1,0 +1,19 @@
+<div class="highlight"><pre><code class="text">typedef struct {
+char *name;
+enum response_type type; } response;
+enum response_type {DUMP, SECOND_CHANCE, MARRIAGE};
+void (*replies[])(response) = {dump, second_chance, marriage};
+
+int main()
+{
+    response r[] = {
+        {&quot;Mike&quot;, DUMP}, {&quot;Luis&quot;, SECOND_CHANCE}, 
+        {&quot;Matt&quot;, SECOND_CHANCE}, {&quot;William&quot;, MARRIAGE}
+    };
+    int i;
+    for (i = 0; i &lt; 4; i++){
+        (replies[r[i].type])(r[i]);
+    }
+}
+</code></pre>
+</div>

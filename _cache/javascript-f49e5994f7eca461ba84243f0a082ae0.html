@@ -1,0 +1,57 @@
+<div class="highlight"><pre> <span class="p">{</span>
+     <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;button&#39;</span><span class="p">,</span>
+     <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Touch to show picker&#39;</span><span class="p">,</span>
+     <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+         <span class="nx">tap</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">button</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+             <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">button</span><span class="p">.</span><span class="nx">picker</span><span class="p">)</span> <span class="p">{</span>
+                 <span class="nx">button</span><span class="p">.</span><span class="nx">picker</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">widget</span><span class="p">(</span><span class="s1">&#39;picker&#39;</span><span class="p">,</span> <span class="p">{</span>
+                     <span class="nx">slots</span><span class="o">:</span> <span class="p">[{</span> <span class="c1">//</span>
+                         <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;first_name&#39;</span><span class="p">,</span>
+                         <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;First name&#39;</span><span class="p">,</span>
+                         <span class="nx">data</span><span class="o">:</span> <span class="p">[{</span>
+                             <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span>
+                             <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;john&#39;</span>
+                         <span class="p">},</span> <span class="p">{</span>
+                             <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;James&#39;</span><span class="p">,</span>
+                             <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;james&#39;</span>
+                         <span class="p">},</span> <span class="p">{</span>
+                             <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Paul&#39;</span><span class="p">,</span>
+                             <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;paul&#39;</span>
+                         <span class="p">},</span> <span class="p">{</span>
+                             <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Michael&#39;</span><span class="p">,</span>
+                             <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;michael&#39;</span>
+                         <span class="p">}]</span>
+                     <span class="p">},</span> <span class="p">{</span>
+                         <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span>
+                         <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Last name&#39;</span><span class="p">,</span>
+                         <span class="nx">data</span><span class="o">:</span> <span class="p">[{</span>
+                             <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span>
+                             <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;smith&#39;</span>
+                         <span class="p">},</span> <span class="p">{</span>
+                             <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Raymond&#39;</span><span class="p">,</span>
+                             <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;raymond&#39;</span>
+                         <span class="p">},</span> <span class="p">{</span>
+                             <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Graham&#39;</span><span class="p">,</span>
+                             <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;graham&#39;</span>
+                         <span class="p">},</span> <span class="p">{</span>
+                             <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Fowler&#39;</span><span class="p">,</span>
+                             <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;fowler&#39;</span>
+                         <span class="p">}]</span>
+                     <span class="p">}],</span>
+                     <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span> <span class="c1">//</span>
+                         <span class="nx">cancel</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">picker</span><span class="p">,</span> <span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+                             <span class="nx">Ext</span><span class="p">.</span><span class="nx">Msg</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;cancel&#39;</span><span class="p">,</span> <span class="s1">&#39;Picker has been canceled&#39;</span><span class="p">);</span>
+                         <span class="p">},</span>
+                         <span class="nx">change</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">picker</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">opts</span><span class="p">)</span> <span class="p">{</span><span class="err">￼￼</span>
+                             <span class="nx">Ext</span><span class="p">.</span><span class="nx">Msg</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;chance&#39;</span><span class="p">,</span> <span class="s1">&#39;Picker has value: &#39;</span> <span class="o">+</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="nx">value</span><span class="p">));</span>
+                         <span class="p">}</span>
+                     <span class="p">}</span>
+                 <span class="p">});</span>
+
+                 <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">button</span><span class="p">.</span><span class="nx">picker</span><span class="p">);</span> <span class="c1">// </span>
+             <span class="p">}</span>
+             <span class="nx">button</span><span class="p">.</span><span class="nx">picker</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span> <span class="c1">// </span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+ <span class="p">}]</span>
+</pre></div>

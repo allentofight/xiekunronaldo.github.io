@@ -1,0 +1,37 @@
+<div class="highlight"><pre><code class="text">for i in File.open(&quot;ordinal&quot;).find_all {|line| line =~ /d$/} 
+
+    print i.chomp, &quot; &quot;
+
+end
+
+
+
+class Periods 
+
+    def each
+
+    yield &quot;Classical&quot; 
+
+    yield &quot;Jazz&quot; 
+
+    yield &quot;Rock&quot;
+
+    end 
+
+end
+
+periods = Periods.new 
+
+for genre in periods
+
+print genre, &quot; &quot; end
+
+produces:
+
+Classical 
+
+Jazz 
+
+Rock
+</code></pre>
+</div>

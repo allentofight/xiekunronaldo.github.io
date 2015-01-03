@@ -1,0 +1,26 @@
+<div class="highlight"><pre><code class="text">//以下只是一部分代码
+require &#39;net/http&#39;
+
+http = Net::HTTP.new(&#39;pragprog.com&#39;, 80)
+
+response = http.get(&#39;/book/ruby3/programming-ruby-1-9&#39;)
+
+if response.message == &quot;OK&quot;
+
+puts response.body.scan(/&lt;img alt=&quot;.*?&quot; src=&quot;(.*?)&quot;/m).uniq[0,3]
+
+end
+
+produces:
+
+       http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
+
+       http://pragprog.com/assets/drm-
+
+       free80-9120ffac998173dc0ba7e5875d082f18.png
+
+       http://imagery.pragprog.com/products/99/ruby3_xlargecover.jpg?
+
+       1349967653
+</code></pre>
+</div>

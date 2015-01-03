@@ -1,0 +1,12 @@
+<div class="highlight"><pre><code class="text">#include &lt;stdarg.h&gt;
+void print_ints(int args, ....){
+    va_list ap; 
+    va_start(ap, args);
+    int i;
+    for (i = 0; i &lt; args; i++) {
+        printf(&quot;argument: %i\n&quot;, va_arg(ap, int)); 
+    }
+    va_end(ap);
+}
+</code></pre>
+</div>

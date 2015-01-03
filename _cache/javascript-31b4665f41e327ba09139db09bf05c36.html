@@ -1,0 +1,21 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span> 
+<span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// If here the inner function returns &quot;false&quot; at any point, the</span>
+        <span class="c1">// loop ends and the value in &quot;result&quot; will be &quot;false.&quot;</span>
+        <span class="c1">// In this case, however, as &#39;whatever&#39; is not contained in the</span>
+        <span class="c1">// sampleArray, the function always returns true, and &#39;result&#39;</span>
+        <span class="c1">// contains true as well.</span>
+<span class="k">return</span> <span class="p">(</span><span class="nx">item</span> <span class="o">!==</span> <span class="s1">&#39;whatever&#39;</span><span class="p">);</span> <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Result of `every()`: &#39;</span> <span class="o">+</span> <span class="nx">result</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1234</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;asdfadf&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;another string&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span> 
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Original Array&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// If here the inner function returns &quot;true&quot; at any point, the</span>
+<span class="c1">// loop ends and the value in &quot;result&quot; will be &quot;true.&quot;</span>
+<span class="c1">// In this case, however, as &#39;another string&#39; is contained in the</span>
+<span class="c1">// sampleArray, the function returns true at some point, and &#39;result&#39; // contains true as well.</span>
+<span class="k">return</span> <span class="p">(</span><span class="nx">item</span> <span class="o">===</span> <span class="s1">&#39;another string&#39;</span><span class="p">);</span>
+<span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Result of some(): &#39;</span> <span class="o">+</span> <span class="nx">result</span><span class="p">);</span>
+</pre></div>

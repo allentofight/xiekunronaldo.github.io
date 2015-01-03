@@ -1,0 +1,17 @@
+<div class="highlight"><pre><code class="text">str = &quot;Dog and Cat&quot;
+
+new_str1 = str.sub(/a/, &quot;*&quot;) 
+
+new_str2 = str.gsub(/a/, &quot;*&quot;) 
+
+puts &quot;Using sub: #{new_str1}&quot; 
+
+puts &quot;Using gsub: #{new_str2}&quot;
+
+produces:
+
+Using sub: Dog *nd Cat
+
+Using gsub: Dog *nd C*t 
+</code></pre>
+</div>

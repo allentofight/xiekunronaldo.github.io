@@ -1,0 +1,27 @@
+<div class="highlight"><pre><code class="text">word_list = File.open(&quot;wordlist&quot;) 
+
+word_in_error = catch(:done) do
+
+    result = []
+
+    while line = word_list.gets
+
+    word = line.chomp
+
+    throw(:done, word) unless word =~ /^\w+$/ 
+
+    result &lt;&lt; word
+
+    end
+
+      puts result.reverse
+
+end
+
+if word_in_error
+
+    puts &quot;Failed: &#39;#{word_in_error}&#39; found, but a word was expected&quot; 
+
+end
+</code></pre>
+</div>

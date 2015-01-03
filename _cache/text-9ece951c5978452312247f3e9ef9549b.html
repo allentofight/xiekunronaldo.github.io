@@ -1,0 +1,35 @@
+<div class="highlight"><pre><code class="text">class Parent 
+
+    def say_hello
+
+
+    puts &quot;Hello from #{self}&quot; 
+
+    end
+
+end
+
+
+p = Parent.new
+
+
+p.say_hello
+
+
+class Child &lt; Parent # Subclass the parent...
+
+end 
+
+c = Child.new
+
+c.say_hello
+
+produces:
+
+
+Hello from #&lt;Parent:0x007fb87110fd98&gt;
+
+
+Hello from #&lt;Child:0x007fb87110fac8&gt;
+</code></pre>
+</div>

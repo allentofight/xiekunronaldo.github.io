@@ -1,0 +1,24 @@
+<div class="highlight"><pre><code class="text">class TaxCalculator
+
+    def initialize(name, &amp;block)
+
+        @name, @block = name, block
+
+    end
+
+    def get_tax(amount)
+
+        &quot;#@name on #{amount} = #{ @block.call(amount) }&quot; 
+
+    end
+
+end
+
+
+tc = TaxCalculator.new(&quot;Sales tax&quot;) {|amt| amt * 0.075 } 
+
+tc.get_tax(100) # =&gt; &quot;Sales tax on 100 = 7.5&quot;
+
+tc.get_tax(250) # =&gt; &quot;Sales tax on 250 = 18.75&quot;
+</code></pre>
+</div>

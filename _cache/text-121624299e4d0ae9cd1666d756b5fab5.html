@@ -1,0 +1,14 @@
+<div class="highlight"><pre><code class="text">//checksum.h
+int checksum(char *message);
+
+//checksum.c
+#include &quot;checksum.h&quot;
+int checksum(char *message) {
+    int c = 0;
+    while (*message) {
+    c += c ^ (int)(*message);
+    message++; }
+    return c; 
+}
+</code></pre>
+</div>

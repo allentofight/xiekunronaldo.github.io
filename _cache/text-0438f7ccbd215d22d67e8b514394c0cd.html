@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">// in C++
+Node* node = nullptr; // nullptr introduced in C++11
+
+// this will crash
+node-&gt;setPosition(Point(10,10));
+
+// using a safeguard, this will not crash
+if(node)
+   node-&gt;setPosition(Point(10,10));
+
+// using an assertion will trigger a debuggable error
+assert(node);
+node-&gt;setPosition(Point(10,10));
+</code></pre>
+</div>

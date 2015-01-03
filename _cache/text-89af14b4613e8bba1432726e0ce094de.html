@@ -1,0 +1,39 @@
+<div class="highlight"><pre><code class="text">class ScoreKeeper 
+
+    def initialize
+
+           @total_score = @count = 0
+
+    end
+
+    def &lt;&lt;(score)
+
+               @total_score += score
+
+               @count += 1
+
+               self
+
+    end
+
+    def average
+
+        fail &quot;No scores&quot; if @count.zero?
+
+        Float(@total_score) / @count
+
+    end 
+
+end
+
+scores = ScoreKeeper.new
+
+scores &lt;&lt; 10 &lt;&lt; 20 &lt;&lt; 40
+
+puts &quot;Average = #{scores.average}&quot;
+
+produces:
+
+       Average = 23.333333333333332
+</code></pre>
+</div>

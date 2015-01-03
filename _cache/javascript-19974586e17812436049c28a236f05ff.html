@@ -1,0 +1,14 @@
+<div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;VehicleApp.utils.Commons&#39;</span><span class="p">,</span> <span class="p">{</span> 
+	<span class="nx">statics</span><span class="o">:</span> <span class="p">{</span>
+		<span class="nx">YELP_API</span><span class="o">:</span> <span class="s1">&#39;http://api.yelp.com/business_review_search?&#39;</span><span class="p">,</span> 
+		<span class="nx">YELP_KEY</span><span class="o">:</span> <span class="s1">&#39;ftPpQUCgfSA3yV98-uJn9g&#39;</span><span class="p">,</span>
+		<span class="nx">YELP_TERM</span><span class="o">:</span> <span class="s1">&#39;Taxi&#39;</span><span class="p">,</span>
+		<span class="nx">LOCATION</span><span class="o">:</span> <span class="s1">&#39;Amsterdam NL&#39;</span><span class="p">,</span>
+		<span class="nx">getUrl</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">YELP_API</span> <span class="o">+</span> <span class="s2">&quot;term=&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">YELP_TERM</span> <span class="o">+</span>
+				<span class="s2">&quot;&amp;ywsid=&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">YELP_KEY</span>
+				<span class="o">+</span> <span class="s2">&quot;&amp;location=&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">LOCATION</span><span class="p">;</span>
+		<span class="p">},</span> 
+	<span class="p">}</span>
+<span class="p">});</span>
+</pre></div>

@@ -1,0 +1,25 @@
+<div class="highlight"><pre><code class="text">require &#39;csv&#39;
+
+require_relative &#39;book_in_stock&#39;
+
+class CsvReader 
+
+    def initialize
+
+        @books_in_stock = []
+
+    end
+
+    def read_in_csv_data(csv_file_name) 
+
+        CSV.foreach(csv_file_name, headers: true) do |row|
+
+            @books_in_stock &lt;&lt; BookInStock.new(row[&quot;ISBN&quot;], row[&quot;Price&quot;]) 
+
+        end
+
+    end 
+
+end
+</code></pre>
+</div>

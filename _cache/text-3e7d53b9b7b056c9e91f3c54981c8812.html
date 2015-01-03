@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">mon, day, year = $1, $2, $3 if date =~ /(\d\d)-(\d\d)-(\d\d)/ 
+
+puts &quot;a = #{a}&quot; if $DEBUG
+
+print total unless total.zero?
+
+File.foreach(&quot;/etc/passwd&quot;) do |line|
+
+next if line =~ /^#/ # Skip comments 
+
+parse(line) unless line =~ /^$/ # Don&#39;t parse empty lines
+
+end
+</code></pre>
+</div>

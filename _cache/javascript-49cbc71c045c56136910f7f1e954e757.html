@@ -1,0 +1,6 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">mySettings</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;VehicleApp.utils.Commons&#39;</span><span class="p">);</span>
+<span class="c1">//It is possible to create an instance of a class with static members: console.log(mySettings);</span>
+<span class="c1">//But getting access to a static member from an object fails: </span>
+<span class="nx">mySettings</span><span class="p">.</span><span class="nx">getUrl</span><span class="p">();</span>
+<span class="c1">//Uncaught TypeError: Object [object Object] has no method &#39;getUrl&#39;</span>
+</pre></div>

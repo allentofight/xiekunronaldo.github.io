@@ -1,0 +1,23 @@
+<div class="highlight"><pre><code class="text">case command 
+
+when &quot;debug&quot;
+
+  dump_debug_info
+
+  dump_symbols 
+
+when /p\s+(\w+)/
+
+dump_variable($1) 
+
+when &quot;quit&quot;, &quot;exit&quot;
+
+exit
+
+else
+
+print &quot;Illegal command: #{command}&quot; 
+
+end
+</code></pre>
+</div>

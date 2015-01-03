@@ -1,0 +1,17 @@
+<div class="highlight"><pre><code class="text">def call_block
+
+
+    puts &quot;Start of method&quot; 
+
+    yield
+
+    yield
+
+    puts &quot;End of method&quot;
+
+end
+
+
+call_block { puts &quot;In the block&quot; }
+</code></pre>
+</div>

@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">init(sideLength: Double, name: String) {
+    self.sideLength = sideLength
+    super.init(name: name)
+    numberOfSides = 4
+}
+
+func area() -&gt;  Double {
+    return sideLength * sideLength
+}
+
+override func simpleDescription() -&gt; String {
+    return &quot;A square with sides of length \(sideLength).&quot;
+}
+</code></pre>
+</div>

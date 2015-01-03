@@ -1,0 +1,19 @@
+<div class="highlight"><pre><span class="c1">// Example 4-6. Class inheritance</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;VehicleApp.vehicle.Motor&#39;</span><span class="p">,</span> <span class="p">{</span>
+	<span class="nx">extend</span><span class="o">:</span> <span class="s1">&#39;VehicleApp.vehicle.Vehicle&#39;</span><span class="p">,</span>
+	<span class="nx">config</span><span class="o">:</span> <span class="p">{</span> 
+		<span class="nx">nrOfWheels</span><span class="o">:</span> <span class="mi">2</span> <span class="c1">//</span>
+	<span class="p">},</span>
+	<span class="nx">constructor</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span> 
+		<span class="k">this</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span> <span class="c1">//</span>
+	<span class="p">},</span>
+	<span class="nx">drive</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">speed</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getNrOfWheels</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// </span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">$className</span> <span class="o">+</span>
+			<span class="s2">&quot;: Vrrroom, vrrroom on &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">getNrOfWheels</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; wheels.&quot;</span><span class="p">);</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span> 
+			<span class="k">this</span><span class="p">.</span><span class="nx">callParent</span><span class="p">([</span><span class="mi">60</span><span class="p">]);</span> <span class="c1">//</span>
+		<span class="p">}</span> 
+	<span class="p">}</span>
+<span class="p">});</span>
+</pre></div>

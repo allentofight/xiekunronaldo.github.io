@@ -1,0 +1,22 @@
+<div class="highlight"><pre><code class="text">def split_apart(first, *splat, last)
+
+    puts &quot;First: #{first.inspect}, splat: #{splat.inspect}, &quot; +
+    &quot;last: #{last.inspect}&quot; 
+
+end
+
+split_apart(1,2)
+
+split_apart(1,2,3)
+
+split_apart(1,2,3,4)
+
+produces:
+
+First: 1, splat: [], last: 2
+
+First: 1, splat: [2], last: 3
+
+First: 1, splat: [2, 3], last: 4
+</code></pre>
+</div>

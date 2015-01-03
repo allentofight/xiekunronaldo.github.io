@@ -1,0 +1,37 @@
+<div class="highlight"><pre><code class="text">/ Objective C
+@interface Parent : NSObject
+   -(void) goToSleep;
+@end
+
+@interface Child : Parent
+   // woo! don&#39;t have to redefine goToSleep
+@end
+
+@implementation Parent
+   -(void) goToSleep {}
+@end
+
+@implementation Child
+   -(void) goToSleep {}
+@end
+
+// C++
+class Parent
+{
+   public:
+      virtual void goToSleep();
+};
+
+class Child : public Parent
+{
+   public:
+      // goToSleep has to be redefined
+      // if it is to be overridden
+      virtual void goToSleep();
+};
+
+void Parent::goToSleep() {}
+
+void Child::goToSleep() {}
+</code></pre>
+</div>

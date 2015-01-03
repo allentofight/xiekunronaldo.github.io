@@ -1,0 +1,29 @@
+<div class="highlight"><pre><code class="text">print &quot;(t)imes or (p)lus: &quot; 
+
+operator = gets
+
+print &quot;number: &quot;
+
+number = Integer(gets)
+
+if operator =~ /^t/
+
+calc = lambda {|n| n*number }
+
+else
+
+  calc = lambda {|n| n+number }
+
+end
+
+puts((1..10).collect(&amp;calc).join(&quot;, &quot;))
+
+produces:
+
+(t)imes or (p)lus: t
+
+number: 2
+
+2, 4, 6, 8, 10, 12, 14, 16, 18, 20
+</code></pre>
+</div>

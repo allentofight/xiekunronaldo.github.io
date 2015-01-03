@@ -1,0 +1,31 @@
+<div class="highlight"><pre><code class="text">require_relative &#39;observer_impl&#39; 
+class TelescopeScheduler
+
+    # other classes can register to get notifications # when the schedule changes
+
+
+    include Observable
+
+
+    def initialize
+
+
+    @observer_list = [] # folks with telescope time
+
+
+    end
+
+
+    def add_viewer(viewer)
+
+
+        @observer_list &lt;&lt; viewer
+
+
+    end
+
+    # ...
+
+end
+</code></pre>
+</div>

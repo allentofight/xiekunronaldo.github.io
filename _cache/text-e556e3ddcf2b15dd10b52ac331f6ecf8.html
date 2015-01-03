@@ -1,0 +1,17 @@
+<div class="highlight"><pre><code class="text">def five(a, b, c, d, e)
+
+    &quot;I was passed #{a} #{b} #{c} #{d} #{e}&quot;
+
+end
+
+five(1,2,3,4,5) #=&gt;&quot;Iwaspassed12345&quot; 
+
+five(1, 2, 3, *[&#39;a&#39;, &#39;b&#39;]) # =&gt; &quot;I was passed 1 2 3 a b&quot; 
+
+five(*[&#39;a&#39;, &#39;b&#39;], 1, 2, 3) # =&gt; &quot;I was passed a b 1 2 3&quot; five(*(10..14)) 
+
+#=&gt;&quot;Iwaspassed1011121314&quot; 
+
+five(*[1,2], 3, *(4..5)) #=&gt;&quot;Iwaspassed12345&quot;
+</code></pre>
+</div>

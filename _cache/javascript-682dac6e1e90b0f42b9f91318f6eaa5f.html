@@ -1,0 +1,21 @@
+<div class="highlight"><pre> <span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;Chapter4Data.store.MemoryPeopleStore&#39;</span><span class="p">,</span> <span class="p">{</span>
+     <span class="nx">extend</span><span class="o">:</span> <span class="s1">&#39;Ext.data.Store&#39;</span><span class="p">,</span>
+     <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;peoplestore&#39;</span><span class="p">,</span>
+     <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+         <span class="nx">model</span><span class="o">:</span> <span class="s1">&#39;Chapter4Data.model.Person&#39;</span><span class="p">,</span>
+         <span class="nx">storeId</span><span class="o">:</span> <span class="s1">&#39;peopleStore&#39;</span><span class="p">,</span>
+         <span class="nx">autoLoad</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+         <span class="nx">sorters</span><span class="o">:</span> <span class="p">[{</span>
+             <span class="nx">property</span><span class="o">:</span> <span class="s1">&#39;firstName&#39;</span><span class="p">,</span>
+             <span class="nx">direction</span><span class="o">:</span> <span class="s1">&#39;ASC&#39;</span>
+         <span class="p">}],</span>
+         <span class="nx">proxy</span><span class="o">:</span> <span class="p">{</span>
+             <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;memory&#39;</span><span class="p">,</span>
+             <span class="nx">reader</span><span class="o">:</span> <span class="p">{</span>
+                 <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+                 <span class="nx">root</span><span class="o">:</span> <span class="s1">&#39;people&#39;</span>
+             <span class="p">}</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+ <span class="p">});</span>
+</pre></div>

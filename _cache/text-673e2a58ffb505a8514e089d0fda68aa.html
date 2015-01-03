@@ -1,0 +1,28 @@
+<div class="highlight"><pre><code class="text">words = Fiber.new do 
+
+    File.foreach(&quot;testfile&quot;) do |line|
+        line.scan(/\w+/) do |word| 
+
+        Fiber.yield word.downcase
+
+        end 
+
+    end
+    nil
+￼end
+
+counts = Hash.new(0)
+
+while word = words.resume 
+
+    counts[word] += 1
+
+end
+
+counts.keys.sort.each {|k| print &quot;#{k}:#{counts[k]} &quot;} 
+
+produces:
+
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
+</code></pre>
+</div>

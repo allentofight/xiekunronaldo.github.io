@@ -1,0 +1,21 @@
+<div class="highlight"><pre><code class="text">//保存在string中
+
+# read into string
+
+str = IO.read(&quot;testfile&quot;)
+
+str.length # =&gt; 66
+
+str[0, 30] # =&gt; &quot;This is line one\nThis is line &quot;
+
+
+//保存在array中
+
+# read into an array
+arr = IO.readlines(&quot;testfile&quot;) 
+
+arr.length # =&gt; 4
+
+arr[0] # =&gt; &quot;This is line one\n&quot;
+</code></pre>
+</div>

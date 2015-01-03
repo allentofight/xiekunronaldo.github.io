@@ -1,0 +1,21 @@
+<div class="highlight"><pre><code class="text">f = File.open(&quot;testfile&quot;) 
+
+f.each.with_index do |line, index|
+
+    puts &quot;Line #{index} is: #{line}&quot; 
+
+end
+
+
+f.close
+
+
+produces:
+
+
+Line 0 is: This is line one
+
+
+Line 1 is: This is line two
+</code></pre>
+</div>

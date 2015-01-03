@@ -1,0 +1,27 @@
+<div class="highlight"><pre><code class="text">class File
+
+    def File.open(*args)
+
+        result = f = File.new(*args) 
+
+        if block_given?
+
+            begin
+
+                result = yield f
+
+            ensure
+
+                f.close
+
+            end 
+
+        end
+
+        result
+
+        end 
+
+end
+</code></pre>
+</div>

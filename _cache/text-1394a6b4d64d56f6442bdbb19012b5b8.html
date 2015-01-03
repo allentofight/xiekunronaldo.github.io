@@ -1,0 +1,12 @@
+<div class="highlight"><pre><code class="text">requires: [&#39;Ext.data.association.HasMany&#39;],
+
+config: {
+    fields: [&#39;id&#39;, &#39;name&#39;],
+    hasMany  : { //&lt;1&gt;
+        model: &#39;AssociationsTest.model.Car&#39;, //&lt;2&gt;
+        name: &#39;cars&#39;, //&lt;3&gt;
+        foreignKey: &#39;taxiservice_id&#39; //&lt;4&gt;
+    }
+}
+</code></pre>
+</div>

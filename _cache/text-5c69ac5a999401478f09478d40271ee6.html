@@ -1,0 +1,9 @@
+<div class="highlight"><pre><code class="text">str1 = &quot;\001\002\003&quot; # =&gt; &quot;\u0001\u0002\u0003&quot; 
+
+str2 = &quot;&quot;
+
+str2 &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3 # =&gt; &quot;\u0001\u0002\u0003&quot; 
+
+[ 1, 2, 3 ].pack(&quot;c*&quot;) # =&gt; &quot;\x01\x02\x03&quot;
+</code></pre>
+</div>

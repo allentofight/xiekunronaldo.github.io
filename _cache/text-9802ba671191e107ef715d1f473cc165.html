@@ -1,0 +1,11 @@
+<div class="highlight"><pre><code class="text">begin
+    stuff = read_data(socket)
+    # .. process stuff
+rescue RetryException =&gt; detail 
+
+    retry if detail.ok_to_retry 
+
+    raise
+end
+</code></pre>
+</div>

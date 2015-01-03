@@ -1,0 +1,10 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">day</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="nx">month</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="nx">year</span><span class="o">:</span> <span class="mi">2002</span><span class="p">,</span>
+        <span class="nx">time</span><span class="o">:</span> <span class="p">{</span>
+<span class="nx">hour</span><span class="o">:</span> <span class="mi">9</span><span class="p">,</span>
+<span class="nx">minute</span><span class="o">:</span> <span class="mi">20</span> <span class="p">}</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">objs</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">toQueryObjects</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="nx">obj</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span> 
+<span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">objs</span><span class="p">);</span>
+</pre></div>

@@ -1,0 +1,19 @@
+<div class="highlight"><pre><code class="text">//hfcal.c
+#include &lt;stdio.h&gt; 
+#include &lt;hfcal.h&gt;
+
+void display_calories(float weight, float distance, float coeff) {
+    printf(&quot;Weight: %3.2f lbs\n&quot;, weight);
+    printf(&quot;Distance: %3.2f miles\n&quot;, distance);
+    printf(&quot;Calories burned: %4.2f cal\n&quot;, coeff * weight * distance);
+}
+
+//elliptical.c
+#include &lt;stdio.h&gt;
+#include &lt;hfcal.h&gt;
+int main() {
+    display_calories(115.2, 11.3, 0.79);
+    return 0; 
+}
+</code></pre>
+</div>

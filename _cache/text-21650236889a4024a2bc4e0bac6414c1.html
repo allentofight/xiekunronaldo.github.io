@@ -1,0 +1,5 @@
+<div class="highlight"><pre><code class="text">The asHTML property is declared as a lazy property, because it is only needed if and when the element actually needs to be rendered as a string value for some HTML output target. The fact that asHTML is a lazy property means that you can refer to self within the default closure, because the lazy property will not be accessed until after initialization has been completed and self is known to exist.
+
+Even though the closure refers to self multiple times, it only captures one strong reference to the HTMLElement instance.
+</code></pre>
+</div>

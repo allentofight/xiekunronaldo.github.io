@@ -1,0 +1,29 @@
+<div class="highlight"><pre><code class="text">//geo2json
+#include &lt;stdio.h&gt;
+int main() {
+    float latitude;
+    float longitude;
+    char info[80]; intstarted= 0 ￼ ￼ ;
+    puts(&quot;data=[&quot;); 
+    while (scanf(&quot;%f,%f,%79[^\n]&quot;, &amp;latitude, &amp;longitude, info) == 3) {
+        if (started) 
+            printf(&quot;,\n&quot;);
+        else
+            started= 1 ;
+
+        if ((latitude &lt; -90.0) || (latitude &gt; 90.0)) { 
+            printf(“Invalid latitude: %f\n”, latitude);
+            return 2;
+
+        }
+        if ((longitude &lt; -180.0) || (longitude &gt; 180.0)) {
+            printf(“Invalid longitude: %f\n”, longitude);
+            return 2; 
+        }
+        printf(&quot;{latitude: %f, longitude: %f, info: &#39;%s&#39;}&quot;, latitude , longitude , info );
+    }
+    puts(&quot;\n]&quot;);
+    return 0; 
+}
+</code></pre>
+</div>

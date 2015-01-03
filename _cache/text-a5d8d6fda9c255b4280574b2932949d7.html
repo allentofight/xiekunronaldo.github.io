@@ -1,0 +1,52 @@
+<div class="highlight"><pre><code class="text">    require_relative &#39;words_from_string&#39;
+
+    require &#39;test/unit&#39;
+
+    class TestWordsFromString &lt; Test::Unit::TestCase
+
+        def test_empty_string
+
+            assert_equal([], words_from_string(&quot;&quot;)) assert_equal([], words_from_string(&quot; &quot;))
+
+        end
+
+        def test_single_word
+
+            assert_equal([&quot;cat&quot;], words_from_string(&quot;cat&quot;)) 
+            assert_equal([&quot;cat&quot;], words_from_string(&quot; cat &quot;))
+
+        end
+
+        def test_many_words
+
+            assert_equal([&quot;the&quot;, &quot;cat&quot;, &quot;sat&quot;, &quot;on&quot;, &quot;the&quot;, &quot;mat&quot;],
+
+            words_from_string(&quot;the cat sat on the mat&quot;)) 
+
+        end
+
+
+        def test_ignores_punctuation 
+
+            assert_equal([&quot;the&quot;, &quot;cat&#39;s&quot;, &quot;mat&quot;],
+
+            words_from_string(&quot;&lt;the!&gt; cat&#39;s, -mat-&quot;)) 
+
+
+        end
+
+    end
+
+
+    produces:
+
+    Run options:
+
+    # Running tests:
+
+    ....
+
+    Finished tests in 0.006458s, 619.3868 tests/s, 929.0802 assertions/s.
+    4 tests, 6 assertions, 0 failures, 0 errors, 0 skips
+</code></pre>
+</div>

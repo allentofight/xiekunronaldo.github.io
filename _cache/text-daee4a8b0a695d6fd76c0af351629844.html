@@ -1,0 +1,13 @@
+<div class="highlight"><pre><code class="text">// 在OC的头文件中 (.h)
+@interface Something : NSObject
+   // See? No private method
+@end
+
+// 在实现文件中 (.m)
+// 用一个类别来扩展接口
+// (空类别代表私有的一些属性)
+@interface Something () // a blank category
+   -(void) privateMethod;
+@end
+</code></pre>
+</div>

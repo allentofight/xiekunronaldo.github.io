@@ -1,0 +1,8 @@
+<div class="highlight"><pre><code class="text">raise   //抛出当前的exception,如果没有，则抛出RuntimeError
+
+raise &quot;bad mp3 encoding&quot;    //创建一个新的RuntimeError,然后抛到调用栈上
+
+//创建InterfaceException，与之相关的信息，然后抛到stack trace上
+raise InterfaceException, &quot;Keyboard failure&quot;, caller
+</code></pre>
+</div>

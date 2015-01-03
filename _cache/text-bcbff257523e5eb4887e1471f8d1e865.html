@@ -1,0 +1,25 @@
+<div class="highlight"><pre><code class="text">class BookInStock
+
+    attr_reader :isbn, :price
+
+    def initialize(isbn, price) 
+
+    @isbn = isbn
+
+    @price = Float(price)
+
+    end
+
+    def price=(new_price) 
+
+    @price = new_price
+
+    end
+    # ...
+end
+
+book = BookInStock.new(&quot;isbn1&quot;, 33.80) 
+
+book.price = book.price * 0.75
+</code></pre>
+</div>

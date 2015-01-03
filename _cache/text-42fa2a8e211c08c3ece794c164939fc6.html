@@ -1,0 +1,13 @@
+<div class="highlight"><pre><code class="text">a, b, c, d, e = *(1..2), 3, *[4, 5] # a=1, b=2, c=3, d=4, e=5
+
+a,*b=1,2,3 # a=1, b=[2,3] a,*b=1 # a=1, b=[]
+
+*a,b=1,2,3,4        # a=[1,2,3], b=4
+
+c,*d,e=1,2,3,4      # c=1, d=[2,3], e=4
+
+f,*g,h,i,j=1,2,3,4  # f=1, g=[], h=2, i=3, j=4
+
+first, *, last = 1,2,3,4,5,6 # first=1, last=6
+</code></pre>
+</div>

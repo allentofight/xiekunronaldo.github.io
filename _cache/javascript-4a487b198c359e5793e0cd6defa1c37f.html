@@ -1,0 +1,11 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span>
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="p">{</span> <span class="c1">// object with property descriptors</span>
+        <span class="nx">foo</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// property descriptor get: function () {</span>
+            <span class="k">return</span> <span class="s1">&#39;getter&#39;</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;setter: &#39;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>

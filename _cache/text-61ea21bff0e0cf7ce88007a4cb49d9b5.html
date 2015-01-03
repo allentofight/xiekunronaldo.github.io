@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">init(sideLength: Double, name: String) {
+    self.sideLength = sideLength
+    super.init(name: name)
+    numberOfSides = 3
+}
+
+var perimeter: Double {
+get {
+    return 3.0 * sideLength
+}
+set {
+    sideLength = newValue / 3.0
+}
+</code></pre>
+</div>

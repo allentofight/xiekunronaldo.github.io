@@ -1,0 +1,16 @@
+<div class="highlight"><pre><code class="text">    person1 = &quot;Tim&quot;
+
+
+    person2 = person1
+
+
+    person1.freeze # prevent modifications to the object person2[0] = &quot;J&quot;
+
+
+    produces:
+
+            from prog.rb:4:in `&lt;main&gt;&#39;
+
+    prog.rb:4:in `[]=&#39;: can&#39;t modify frozen String (RuntimeError)
+</code></pre>
+</div>

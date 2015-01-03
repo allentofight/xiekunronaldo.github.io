@@ -1,0 +1,11 @@
+<div class="highlight"><pre><code class="text">#include &lt;stdio.h&gt; 
+#include &lt;encrypt.h&gt; 
+#include &lt;checksum.h&gt;
+int main() {
+    char s[] = &quot;Speak friend and enter&quot;; encrypt(s);
+    printf(&quot;Encrypted to &#39;%s&#39;\n&quot;, s); printf(&quot;Checksum is %i\n&quot;, checksum(s)); encrypt(s);
+    printf(&quot;Decrypted back to &#39;%s&#39;\n&quot;, s); printf(&quot;Checksum is %i\n&quot;, checksum(s));
+    return 0;
+}
+</code></pre>
+</div>

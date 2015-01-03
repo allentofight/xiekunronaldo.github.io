@@ -1,0 +1,9 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.util.HashMap&#39;</span><span class="p">);</span> 
+<span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;value1&#39;</span><span class="p">);</span> 
+<span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">);</span>
+<span class="nx">map</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;key3&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nx">map</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;&gt; &#39;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">;</span> 
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>

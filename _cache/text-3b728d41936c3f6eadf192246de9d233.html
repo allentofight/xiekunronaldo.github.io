@@ -1,0 +1,31 @@
+<div class="highlight"><pre><code class="text">class SomeClass 
+
+    def []=(*params)
+
+        value = params.pop
+
+        puts &quot;Indexed with #{params.join(&#39;, &#39;)}&quot; 
+
+        puts &quot;value = #{value.inspect}&quot;
+
+    end
+
+end
+
+s = SomeClass.new
+
+s[1] = 2
+
+s[&#39;cat&#39;, &#39;dog&#39;] = &#39;enemies&#39;
+
+produces:
+
+       Indexed with 1
+
+       value = 2
+
+       Indexed with cat, dog
+
+       value = &quot;enemies&quot;
+</code></pre>
+</div>

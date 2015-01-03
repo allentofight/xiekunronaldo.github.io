@@ -1,0 +1,44 @@
+<div class="highlight"><pre><code class="text">require &#39;open-uri&#39; 
+
+require &#39;nokogiri&#39;
+
+doc = Nokogiri::HTML(open(&quot;http://pragprog.com/&quot;))
+
+puts &quot;Page title is &quot; + doc.xpath(&quot;//title&quot;).inner_html
+
+# Output the first paragraph in the div with an id=&quot;copyright&quot; 
+
+# (nokogiri supports both xpath and css-like selectors)
+
+puts doc.css(&#39;div#copyright p&#39;)
+
+# Output the second hyperlink in the site-links div using xpath and css
+
+puts &quot;\nSecond hyperlink is&quot;
+
+puts doc.xpath(&#39;id(&quot;site-links&quot;)//a[2]&#39;) puts doc.css(&#39;#site-links a:nth-of-type(2)&#39;)
+
+produces:
+
+Page title is The Pragmatic Bookshelf
+&lt;p&gt;
+
+    The &lt;em&gt;Pragmatic BookshelfTM&lt;/em&gt; is an imprint of
+
+        &lt;a href=&quot;http://pragprog.com/&quot;&gt;The Pragmatic Programmers, LLC&lt;/a&gt;.
+
+    &lt;br&gt;
+
+    Copyright © 1999–2013 The Pragmatic Programmers, LLC.
+
+    All Rights Reserved.
+
+&lt;/p&gt;
+
+Second hyperlink is
+
+&lt;a href=&quot;http://pragprog.com/about&quot;&gt;About Us&lt;/a&gt;
+
+&lt;a href=&quot;http://pragprog.com/about&quot;&gt;About Us&lt;/a&gt;
+</code></pre>
+</div>

@@ -1,0 +1,20 @@
+<div class="highlight"><pre><code class="text">num = 10001 4.times do
+
+puts &quot;#{num.class}: #{num}&quot; num *= num
+
+end
+
+produces:
+
+       Fixnum: 10001
+
+
+       Fixnum: 100020001
+
+
+       Fixnum: 10004000600040001
+
+
+       Bignum: 100080028005600700056002800080001
+</code></pre>
+</div>

@@ -1,0 +1,31 @@
+<div class="highlight"><pre><code class="text"> class ProjectList 
+
+     def initialize
+
+        @projects = []
+
+    end
+
+    def projects=(list)
+
+        @projects = list.map(&amp;:upcase) # store list of names in uppercase 
+
+    end
+
+    def [](offset) 
+
+        @projects[offset]
+
+    end 
+
+end
+
+list = ProjectList.new
+
+list.projects = %w{ strip sand prime sand paint sand paint rub paint }
+
+list[3] # =&gt; &quot;SAND&quot;
+
+list[4] # =&gt; &quot;PAINT&quot;
+</code></pre>
+</div>

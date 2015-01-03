@@ -1,0 +1,33 @@
+<div class="highlight"><pre><code class="text">//observer_impl.rb
+
+module Observable 
+
+    def observers
+
+        @observer_list ||= []
+
+
+    end
+
+
+    def add_observer(obj)
+
+
+        observers &lt;&lt; obj
+
+
+    end
+
+
+    def notify_observers
+
+
+        observers.each {|o| o.update }
+
+
+    end 
+
+
+end
+</code></pre>
+</div>

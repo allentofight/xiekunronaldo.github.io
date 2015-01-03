@@ -1,0 +1,26 @@
+<div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.data.Store&#39;</span><span class="p">,</span> <span class="p">{</span> 
+	<span class="nx">id</span><span class="o">:</span><span class="s1">&#39;CabStore&#39;</span><span class="p">,</span>
+	<span class="nx">fields</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">],</span> 
+
+	<span class="nx">data</span> <span class="o">:</span> <span class="p">[</span>
+		<span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Taxi Amsterdam&quot;</span><span class="p">,</span> <span class="nx">description</span><span class="o">:</span> <span class="s2">&quot;The best taxi service&quot;</span> <span class="o">+</span> <span class="s2">&quot;of Amsterdam.&quot;</span><span class="p">},</span>
+		<span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Cab &amp; Co&quot;</span><span class="p">,</span> <span class="nx">description</span><span class="o">:</span> <span class="s2">&quot;Always fast.&quot;</span><span class="p">}</span> 
+	<span class="p">]</span>
+<span class="p">});</span>
+
+
+<span class="kd">var</span> <span class="nx">myTpl</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.XTemplate&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;tpl for=&quot;.&quot;&gt;&#39;</span><span class="p">,</span> 
+	<span class="s1">&#39;&lt;div class=&quot;row&quot;&gt;&#39;</span><span class="p">,</span>
+		<span class="s1">&#39;&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;&#39;</span><span class="p">,</span> 
+	<span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">,</span>
+	<span class="s1">&#39;&lt;/tpl&gt;&#39;</span>
+<span class="p">);</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.DataView&#39;</span><span class="p">,</span> <span class="p">{</span>
+	<span class="nx">itemTpl</span><span class="o">:</span> <span class="nx">myTpl</span><span class="p">,</span>
+	<span class="nx">styleHtmlContent</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+	<span class="nx">cls</span><span class="o">:</span> <span class="s1">&#39;box&#39;</span><span class="p">,</span>
+	<span class="nx">fullscreen</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+	<span class="nx">height</span><span class="o">:</span> <span class="mi">250</span>
+<span class="p">});</span>
+</pre></div>

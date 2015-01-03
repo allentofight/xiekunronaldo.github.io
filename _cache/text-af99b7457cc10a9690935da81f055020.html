@@ -1,0 +1,27 @@
+<div class="highlight"><pre><code class="text">require &#39;open-uri&#39;
+
+page = &quot;podcasts&quot;
+
+file_name = &quot;#{page}.html&quot;
+
+web_page = open(&quot;http://pragprog.com/#{page}&quot;) output = File.open(file_name, &quot;w&quot;)
+
+begin
+
+    while line = web_page.gets output.puts line
+
+end
+
+output.close 
+
+rescue Exception
+
+    STDERR.puts &quot;Failed to download #{page}: #{$!}&quot; output.close
+
+    File.delete(file_name)
+
+    raise
+
+end 
+</code></pre>
+</div>

@@ -1,0 +1,17 @@
+<div class="highlight"><pre><code class="text">class Fixnum
+
+alias old_plus + # We can reference the original &#39;+&#39; as &#39;old_plus&#39;
+
+def +(other) # Redefine addition of Fixnums. This is a BAD IDEA! 
+
+old_plus(other).succ
+
+end end
+
+1 + 2 # =&gt; 4 a=3
+
+a+=4 #=&gt;8 
+
+a + a + a # =&gt; 26    
+</code></pre>
+</div>

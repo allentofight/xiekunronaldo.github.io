@@ -1,0 +1,21 @@
+<div class="highlight"><pre><code class="text">counts = Hash.new(0) 
+
+File.foreach(&quot;testfile&quot;) do |line|
+
+    line.scan(/\w+/) do |word| 
+
+    word = word.downcase 
+
+    counts[word] += 1
+
+    end 
+
+end
+
+counts.keys.sort.each {|k| print &quot;#{k}:#{counts[k]} &quot;} 
+
+produces:
+
+and:1 is:3 line:3 on:1 one:1 so:1 this:3 three:1 two:1
+</code></pre>
+</div>

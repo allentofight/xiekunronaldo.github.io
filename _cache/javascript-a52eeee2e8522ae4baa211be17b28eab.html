@@ -1,0 +1,37 @@
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;map&#39;</span><span class="p">,</span>
+    <span class="nx">useCurrentLocation</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">mapOptions</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">zoom</span><span class="o">:</span> <span class="p">(</span><span class="nx">Ext</span><span class="p">.</span><span class="nx">os</span><span class="p">.</span><span class="nx">is</span><span class="p">.</span><span class="nx">Phone</span><span class="p">)</span> <span class="o">?</span> <span class="mi">6</span> <span class="o">:</span> <span class="mi">8</span><span class="p">,</span> <span class="c1">//</span>
+        <span class="nx">center</span><span class="o">:</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">LatLng</span><span class="p">(</span><span class="mf">46.801111</span><span class="p">,</span> <span class="mf">8.226667</span><span class="p">)</span> <span class="c1">// },</span>
+        <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">maprender</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">component</span><span class="p">,</span> <span class="nx">googleMap</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">store</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">getStore</span><span class="p">(</span><span class="s1">&#39;citiesStore&#39;</span><span class="p">);</span>
+                <span class="kd">var</span> <span class="nx">markers</span> <span class="o">=</span> <span class="p">[];</span>
+                <span class="nx">store</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">city</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">length</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//</span>
+                        <span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">LatLng</span><span class="p">(</span><span class="nx">city</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">),</span> <span class="nx">city</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">));</span>
+                        <span class="kd">var</span> <span class="nx">marker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">Marker</span><span class="p">({</span>
+                            <span class="nx">position</span><span class="o">:</span> <span class="nx">position</span><span class="p">,</span>
+                            <span class="nx">city</span><span class="o">:</span> <span class="nx">city</span>
+                        <span class="p">});</span>
+                        <span class="nx">marker</span><span class="p">.</span><span class="nx">setClickable</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+                        <span class="nx">markers</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">marker</span><span class="p">);</span>
+                        <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="nx">marker</span><span class="p">,</span> <span class="s1">&#39;mouseup&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                                <span class="kd">var</span> <span class="nx">city</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">city</span><span class="p">;</span>
+                                <span class="kd">var</span> <span class="nx">content</span> <span class="o">=</span> <span class="s1">&#39;&lt;span style=&quot;font-weight: bold&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nx">city</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&lt;/span&gt;&#39;</span><span class="p">;</span>
+                                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">component</span><span class="p">.</span><span class="nx">infoWindow</span><span class="p">)</span> <span class="p">{</span>
+                                    <span class="nx">component</span><span class="p">.</span><span class="nx">infoWindow</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">InfoWindow</span><span class="p">();</span> <span class="c1">// }</span>
+                                    <span class="nx">component</span><span class="p">.</span><span class="nx">infoWindow</span><span class="p">.</span><span class="nx">setContent</span><span class="p">(</span><span class="nx">content</span><span class="p">);</span>
+                                    <span class="nx">component</span><span class="p">.</span><span class="nx">infoWindow</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">googleMap</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+                                <span class="p">});</span>
+                        <span class="p">});</span>
+                    <span class="kd">var</span> <span class="nx">mcOptions</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="nx">gridSize</span><span class="o">:</span> <span class="mi">50</span><span class="p">,</span>
+                        <span class="nx">maxZoom</span><span class="o">:</span> <span class="mi">16</span>
+                    <span class="p">};</span>
+                    <span class="kd">var</span> <span class="nx">markerCluster</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MarkerClusterer</span><span class="p">(</span><span class="nx">googleMap</span><span class="p">,</span> <span class="nx">markers</span><span class="p">,</span>
+                        <span class="nx">mcOptions</span><span class="p">);</span> <span class="c1">// </span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</pre></div>

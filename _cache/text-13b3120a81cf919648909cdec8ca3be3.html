@@ -1,0 +1,20 @@
+<div class="highlight"><pre><code class="text">File.foreach(&quot;ordinal&quot;) do |line|
+    if (($. == 1) || line =~ /eig/) .. (($. == 3) || line =~ /nin/)
+    print line
+    end 
+
+end
+
+produces:
+
+first
+
+second
+
+third
+
+eighth
+
+ninth
+</code></pre>
+</div>

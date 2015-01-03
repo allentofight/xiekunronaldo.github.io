@@ -1,0 +1,9 @@
+<div class="highlight"><pre><code class="text">def who_says_what yield(&quot;Dave&quot;, &quot;hello&quot;) 
+    yield(&quot;Andy&quot;, &quot;goodbye&quot;)
+
+
+end
+
+who_says_what {|person, phrase| puts &quot;#{person} says #{phrase}&quot;}
+</code></pre>
+</div>

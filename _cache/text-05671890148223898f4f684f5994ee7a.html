@@ -1,0 +1,17 @@
+<div class="highlight"><pre><code class="text">require &#39;open-uri&#39;
+
+open(&#39;http://pragprog.com&#39;) do |f|
+
+puts f.read.scan(/&lt;img alt=&quot;.*?&quot; src=&quot;(.*?)&quot;/m).uniq[0,3]
+
+end
+
+produces:
+
+       http://pragprog.com/assets/logo-c5c7f9c2f950df63a71871ba2f6bb115.gif
+
+       http://pragprog.com/assets/drm-free80-9120ffac998173dc0ba7e5875d082f18.png
+
+       http://imagery.pragprog.com/products/353/jvrails2_xlargebeta.jpg?1368826914
+</code></pre>
+</div>

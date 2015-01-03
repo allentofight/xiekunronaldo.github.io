@@ -1,0 +1,9 @@
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">getDefiningObject</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">propKey</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">obj</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span> <span class="c1">// make sure it’s an object</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nx">obj</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">{}.</span><span class="nx">hasOwnProperty</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">propKey</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">obj</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">getPrototypeOf</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+        <span class="c1">// obj is null if we have reached the end</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">obj</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>

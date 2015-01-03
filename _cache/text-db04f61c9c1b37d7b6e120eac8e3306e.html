@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">require &#39;stringio&#39;
+
+ip = StringIO.new(&quot;now is\nthe time\nto learn\nRuby!&quot;)
+
+op = StringIO.new(&quot;&quot;, &quot;w&quot;)
+
+ip.each_line do |line| 
+
+    op.puts line.reverse
+
+end
+
+op.string # =&gt; &quot;\nsi won\n\nemit eht\n\nnrael ot\n!ybuR\n&quot;
+</code></pre>
+</div>

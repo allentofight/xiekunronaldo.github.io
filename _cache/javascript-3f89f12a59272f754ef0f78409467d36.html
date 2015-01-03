@@ -1,0 +1,22 @@
+<div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;Chapter3Layouts.view.TemplatesDemo&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">extend</span><span class="o">:</span> <span class="s1">&#39;Ext.Container&#39;</span><span class="p">,</span>
+        <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;templatesdemo&#39;</span><span class="p">,</span>
+        <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">scrollable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> 
+            <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">countries</span><span class="o">:</span> <span class="p">[{</span>
+                    <span class="nx">country</span><span class="o">:</span> <span class="s1">&#39;Argentina&#39;</span><span class="p">,</span> <span class="nx">flagColors</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;light blue&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">]</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="nx">country</span><span class="o">:</span> <span class="s1">&#39;Switzerland&#39;</span><span class="p">,</span> <span class="nx">flagColors</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">]</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="nx">country</span><span class="o">:</span> <span class="s1">&#39;France&#39;</span><span class="p">,</span> <span class="nx">flagColors</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">]</span>
+                <span class="p">}]</span> 
+            <span class="p">},</span>
+            <span class="nx">tpl</span><span class="o">:</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.XTemplate&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;tpl for=&quot;countries&quot;&gt;&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;&lt;div&gt;{#}. {country}: {flagColors:this.join}&lt;/div&gt;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;&lt;/tpl&gt;&#39;</span><span class="p">,</span> <span class="p">{</span>
+                <span class="nx">join</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span> 
+                    <span class="k">return</span> <span class="nx">value</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">);</span>
+                <span class="p">}</span> <span class="p">})</span>
+<span class="p">}</span> <span class="p">});</span>
+</pre></div>

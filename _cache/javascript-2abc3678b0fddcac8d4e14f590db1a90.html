@@ -1,0 +1,18 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">sampleArray</span> <span class="o">=</span> <span class="p">[{</span> <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value1&#39;</span><span class="p">,</span>
+        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value2&#39;</span>
+        <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value3&#39;</span><span class="p">,</span>
+        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value4&#39;</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value5&#39;</span><span class="p">,</span>
+        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value6&#39;</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value7&#39;</span><span class="p">,</span>
+        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value8&#39;</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="nx">key1</span><span class="o">:</span> <span class="s1">&#39;value9&#39;</span><span class="p">,</span>
+        <span class="nx">key2</span><span class="o">:</span> <span class="s1">&#39;value0&#39;</span>
+    <span class="p">}];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Original Array&#39;</span><span class="p">);</span> <span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">plucked</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Array</span><span class="p">.</span><span class="nx">pluck</span><span class="p">(</span><span class="nx">sampleArray</span><span class="p">,</span> <span class="s1">&#39;key1&#39;</span><span class="p">);</span>
+</pre></div>

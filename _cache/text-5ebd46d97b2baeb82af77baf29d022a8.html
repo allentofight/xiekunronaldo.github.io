@@ -1,0 +1,23 @@
+<div class="highlight"><pre><code class="text">class BookInStock
+
+    def initialize(isbn, price)
+
+            @isbn = isbn
+
+            @price = Float(price)
+
+    end
+
+    def to_s
+
+    &quot;ISBN: #{@isbn}, price: #{@price}&quot; 
+
+    end
+
+end
+
+b1 = BookInStock.new(&quot;isbn1&quot;, 3)
+
+puts b1
+</code></pre>
+</div>

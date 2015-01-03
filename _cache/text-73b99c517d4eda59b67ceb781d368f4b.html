@@ -1,0 +1,12 @@
+<div class="highlight"><pre><code class="text">//encyrpt.h
+void encrypt(char *message)
+
+//encrypt.c
+#include &quot;encrypt.h&quot;
+void encrypt(char *message) {
+    while (*message) { 
+        *message = *message ^ 31; message++;
+    }
+ }
+</code></pre>
+</div>

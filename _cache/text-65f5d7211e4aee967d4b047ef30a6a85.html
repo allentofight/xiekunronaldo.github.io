@@ -1,0 +1,74 @@
+<div class="highlight"><pre><code class="text">    require_relative &#39;count_frequency&#39; 
+
+
+    require &#39;test/unit&#39;
+
+
+    class TestCountFrequency &lt; Test::Unit::TestCase 
+
+
+        def test_empty_list
+
+
+            assert_equal({}, count_frequency([]))
+
+
+        end
+
+
+        def test_single_word
+
+
+            assert_equal({&quot;cat&quot; =&gt; 1}, count_frequency([&quot;cat&quot;])) 
+
+
+        end
+
+
+        def test_two_different_words
+
+
+            assert_equal({&quot;cat&quot; =&gt; 1, &quot;sat&quot; =&gt; 1}, count_frequency([&quot;cat&quot;, &quot;sat&quot;]))
+
+
+        end
+
+
+        def test_two_words_with_adjacent_repeat
+
+
+            assert_equal({&quot;cat&quot; =&gt; 2, &quot;sat&quot; =&gt; 1}, count_frequency([&quot;cat&quot;, &quot;cat&quot;, &quot;sat&quot;])) 
+
+
+        end
+
+
+        def test_two_words_with_non_adjacent_repeat
+
+
+            assert_equal({&quot;cat&quot; =&gt; 2, &quot;sat&quot; =&gt; 1}, count_frequency([&quot;cat&quot;, &quot;sat&quot;, &quot;cat&quot;]))
+
+
+        end 
+
+
+    end
+
+
+    produces:
+
+
+    Run options:
+
+
+    # Running tests:
+
+
+    .....
+
+
+    Finished tests in 0.006327s, 790.2639 tests/s, 790.2639 assertions/s.
+
+    5 tests, 5 assertions, 0 failures, 0 errors, 0 skips
+</code></pre>
+</div>

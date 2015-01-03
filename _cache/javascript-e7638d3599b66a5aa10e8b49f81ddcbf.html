@@ -1,0 +1,21 @@
+<div class="highlight"><pre><span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">callParent</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">.</span><span class="nx">getOrientation</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">handleOrientationChange</span><span class="p">({</span>
+        <span class="nx">orientation</span><span class="o">:</span> <span class="nx">o</span>
+    <span class="p">});</span>
+    <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">.</span><span class="nx">onBefore</span><span class="p">(</span><span class="s1">&#39;orientationchange&#39;</span><span class="p">,</span> <span class="s1">&#39;handleOnBeforeOrientationChange&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">buffer</span><span class="o">:</span> <span class="mi">50</span>
+    <span class="p">});</span>
+    <span class="nx">Ext</span><span class="p">.</span><span class="nx">Viewport</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;orientationchange&#39;</span><span class="p">,</span> <span class="s1">&#39;handleOrientationChange&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">buffer</span><span class="o">:</span> <span class="mi">50</span>
+    <span class="p">});</span>
+    <span class="c1">// ...</span>
+    <span class="kd">var</span> <span class="nx">showMenuButton</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getShowMenuButton</span><span class="p">();</span>
+    <span class="nx">showMenuButton</span><span class="p">.</span><span class="nx">setText</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getMenuButtonTitle</span><span class="p">());</span>
+    <span class="nx">showMenuButton</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">button</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">getOverlayView</span><span class="p">().</span><span class="nx">showBy</span><span class="p">(</span><span class="nx">button</span><span class="p">,</span> <span class="s1">&#39;tl-bc&#39;</span><span class="p">);</span>
+    <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>

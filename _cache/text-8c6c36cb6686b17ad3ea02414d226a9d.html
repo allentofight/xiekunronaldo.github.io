@@ -1,0 +1,9 @@
+<div class="highlight"><pre><code class="text">def double(p1) yield(p1*2)
+
+end
+
+double(3) {|val| &quot;I got #{val}&quot; } # =&gt; &quot;I got 6&quot; 
+
+double(&quot;tom&quot;) {|val| &quot;Then I got #{val}&quot; } # =&gt; &quot;Then I got tomtom&quot;
+</code></pre>
+</div>

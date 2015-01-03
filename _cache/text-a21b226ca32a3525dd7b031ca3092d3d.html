@@ -1,0 +1,58 @@
+<div class="highlight"><pre><code class="text">class Person
+
+    include Comparable 
+
+    attr_reader :name
+
+
+    def initialize(name) 
+
+
+        @name = name
+
+
+    end
+
+
+    def to_s
+
+
+        &quot;#{@name}&quot; 
+
+    end
+
+
+    def &lt;=&gt;(other)
+
+            self.name &lt;=&gt; other.name
+
+        end 
+
+    end
+
+p1 = Person.new(&quot;Matz&quot;) 
+
+p2 = Person.new(&quot;Guido&quot;)
+
+
+p3 = Person.new(&quot;Larry&quot;) # Compare a couple of names
+
+
+if p1 &gt; p2
+
+
+puts &quot;#{p1.name}&#39;s name &gt; #{p2.name}&#39;s name&quot;
+
+
+end
+
+
+# Sort an array of Person objects
+
+
+puts &quot;Sorted list:&quot; 
+
+
+puts [ p1, p2, p3].sort
+</code></pre>
+</div>

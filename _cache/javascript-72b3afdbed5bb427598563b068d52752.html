@@ -1,0 +1,10 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">myTpl</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span>
+<span class="s1">&#39;Ext.XTemplate&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;h1&gt;{name}&lt;/h1&gt;&lt;p&gt;{description}&lt;/p&gt;&#39;</span><span class="p">);</span>
+<span class="nx">c</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.Component&#39;</span><span class="p">,</span> <span class="p">{</span>
+		<span class="nx">tpl</span><span class="o">:</span> <span class="nx">myTpl</span><span class="p">,</span> 
+		<span class="nx">data</span><span class="o">:</span> <span class="nx">data</span><span class="p">,</span>
+		<span class="nx">styleHtmlContent</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+		<span class="nx">cls</span><span class="o">:</span> <span class="s1">&#39;box&#39;</span><span class="p">,</span>
+		<span class="nx">renderTo</span><span class="o">:</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">getBody</span><span class="p">()</span> 
+	<span class="p">});</span>
+</pre></div>

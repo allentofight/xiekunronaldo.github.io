@@ -1,0 +1,14 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;This is being throttled&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">throttled</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">Function</span><span class="p">.</span><span class="nx">createThrottled</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+    <span class="c1">// The first call is executed immediately:</span>
+    <span class="nx">throttled</span><span class="p">();</span>
+<span class="c1">// No matter how many times we try, this will only be executed // once, and after 4 seconds:</span>
+<span class="nx">throttled</span><span class="p">();</span>
+<span class="nx">throttled</span><span class="p">();</span>
+<span class="nx">throttled</span><span class="p">();</span>
+<span class="nx">throttled</span><span class="p">();</span>
+<span class="nx">throttled</span><span class="p">();</span>
+<span class="nx">throttled</span><span class="p">();</span>
+</pre></div>

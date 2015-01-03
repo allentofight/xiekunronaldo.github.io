@@ -1,0 +1,23 @@
+<div class="highlight"><pre><code class="text">File.open(&quot;testfile&quot;) do |file|
+
+    file.each_line(&quot;e&quot;) {|line| puts &quot;Got #{ line.dump }&quot; }
+
+end
+
+produces:
+
+Got &quot;This is line&quot;
+
+Got &quot; one&quot;
+
+Got &quot;\nThis is line&quot;
+
+Got &quot; two\nThis is line&quot;
+
+Got &quot; thre&quot;
+
+Got &quot;e&quot;
+
+Got &quot;\nAnd so on...\n&quot;
+</code></pre>
+</div>

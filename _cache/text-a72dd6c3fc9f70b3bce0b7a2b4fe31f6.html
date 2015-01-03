@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">begin
+
+    eval string
+
+rescue SyntaxError, NameError =&gt; boom
+
+    print &quot;String doesn&#39;t compile: &quot; + boom 
+
+rescue StandardError =&gt; bang
+
+    print &quot;Error running script: &quot; + bang 
+
+end
+</code></pre>
+</div>

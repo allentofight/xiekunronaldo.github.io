@@ -1,0 +1,54 @@
+<div class="highlight"><pre><code class="text">    module Debug 
+
+        def who_am_i?
+
+            &quot;#{self.class.name} (id: #{self.object_id}): #{self.name}&quot; 
+
+        end
+
+
+    end
+
+    class Phonograph 
+
+        include Debug 
+
+        attr_reader :name 
+
+        def initialize(name)
+
+        @name = name
+
+    end
+
+    # ...
+    end
+
+
+    class EightTrack 
+
+    include Debug 
+
+    attr_reader :name 
+
+    def initialize(name)
+
+        @name = name
+
+    end
+
+    # ...
+
+    end
+
+
+    ph = Phonograph.new(&quot;West End Blues&quot;)
+
+
+    et = EightTrack.new(&quot;Surrealistic Pillow&quot;)
+
+    ph.who_am_i? # =&gt; &quot;Phonograph (id: 70266478767560): West End Blues&quot; 
+
+    et.who_am_i? # =&gt; &quot;EightTrack (id: 70266478767520): Surrealistic Pillow&quot;
+</code></pre>
+</div>

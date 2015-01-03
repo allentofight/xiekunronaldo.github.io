@@ -1,0 +1,19 @@
+<div class="highlight"><pre><code class="text">a = [ 1, 3, &quot;cat&quot; ]
+
+h = { dog: &quot;canine&quot;, fox: &quot;vulpine&quot; }
+
+# Create Enumerators
+
+enum_a = a.to_enum
+
+enum_h = h.to_enum
+
+enum_a.next # =&gt; 1
+
+enum_h.next # =&gt; [:dog, &quot;canine&quot;] 
+
+enum_a.next # =&gt; 3
+
+enum_h.next # =&gt; [:fox, &quot;vulpine&quot;]
+</code></pre>
+</div>

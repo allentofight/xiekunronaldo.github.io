@@ -1,0 +1,13 @@
+<div class="highlight"><pre><code class="text">def read_data(socket) 
+
+    data = socket.read(512) 
+
+    if data.nil?
+
+    raise RetryException.new(true), &quot;transient read error&quot; 
+
+    end
+    # .. normal processing
+end
+</code></pre>
+</div>

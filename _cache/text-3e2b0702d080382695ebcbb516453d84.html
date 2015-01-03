@@ -1,0 +1,21 @@
+<div class="highlight"><pre><code class="text">short_enum = [1, 2, 3].to_enum 
+
+
+long_enum = (&#39;a&#39;..&#39;z&#39;).to_enum
+
+
+loop do
+
+
+    puts &quot;#{short_enum.next} - #{long_enum.next}&quot;
+
+
+end
+
+
+produces:
+
+
+1-a 2-b 3-c
+</code></pre>
+</div>

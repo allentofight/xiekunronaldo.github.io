@@ -1,0 +1,17 @@
+<div class="highlight"><pre><code class="text">file = File.open(&quot;ordinal&quot;) 
+
+while line = file.gets
+
+    puts(line) if line =~ /third/ .. line =~ /fifth/ 
+
+end
+
+produces:
+
+third
+
+fourth
+
+fifth
+</code></pre>
+</div>

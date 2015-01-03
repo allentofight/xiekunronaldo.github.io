@@ -1,0 +1,13 @@
+<div class="highlight"><pre><code class="text">// In the file AppDelegate.mm
+@implementation AppDelegate
+   -(void) applicationDidFinishLaunching:(NSNotification*)aNotification
+   {
+      // Do some Objective C stuff
+      window = [[Window alloc] initWithContentRect:...];
+
+      // Now switch to C++ and launch Cocos2dx
+      Application::getInstance()-&gt;run();
+   }
+@end
+</code></pre>
+</div>

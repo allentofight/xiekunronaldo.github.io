@@ -1,0 +1,13 @@
+<div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;TaxiController&#39;</span><span class="p">,</span> <span class="p">{</span>
+	<span class="nx">extend</span><span class="o">:</span> <span class="s1">&#39;Ext.app.Controller&#39;</span><span class="p">,</span>
+	<span class="nx">config</span><span class="o">:</span> <span class="p">{</span> <span class="nx">control</span><span class="o">:</span> <span class="p">{</span>
+		<span class="s1">&#39;taxiview&#39;</span><span class="o">:</span> <span class="p">{</span>
+			<span class="nx">calltaxi</span><span class="o">:</span> <span class="s1">&#39;onCallTaxi&#39;</span>
+		<span class="p">}</span> 
+	<span class="p">}</span>
+	<span class="p">},</span>
+	<span class="nx">onCallTaxi</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Call the Taxi&quot;</span><span class="p">);</span> 
+	<span class="p">}</span>
+<span class="p">});</span>
+</pre></div>

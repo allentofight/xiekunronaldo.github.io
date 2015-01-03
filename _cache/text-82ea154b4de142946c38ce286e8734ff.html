@@ -1,0 +1,12 @@
+<div class="highlight"><pre><code class="text">def words_from_string(string) 
+    string.downcase.scan(/[\w&#39;]+/)
+
+end
+
+p words_from_string(&quot;But I didn&#39;t inhale, he said (emphatically)&quot;)
+
+结果:
+
+[&quot;but&quot;, &quot;i&quot;, &quot;didn&#39;t&quot;, &quot;inhale&quot;, &quot;he&quot;, &quot;said&quot;, &quot;emphatically&quot;]
+</code></pre>
+</div>

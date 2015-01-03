@@ -1,0 +1,27 @@
+<div class="highlight"><pre><code class="text">def prompt_and_get(prompt)
+
+    print prompt
+
+    res = readline.chomp
+
+    throw :quit_requested if res == &quot;!&quot; 
+
+    res
+
+end
+
+catch :quit_requested do
+
+    name = prompt_and_get(&quot;Name: &quot;) 
+
+    age = prompt_and_get(&quot;Age: &quot;) 
+
+    sex = prompt_and_get(&quot;Sex: &quot;) 
+
+    # ..
+
+    # process information
+
+end
+</code></pre>
+</div>

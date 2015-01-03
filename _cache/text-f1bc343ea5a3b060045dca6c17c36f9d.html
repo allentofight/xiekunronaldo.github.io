@@ -1,0 +1,13 @@
+<div class="highlight"><pre><code class="text">def varargs(arg1, *rest)
+
+    &quot;arg1=#{arg1}. rest=#{rest.inspect}&quot;
+
+end
+
+varargs(&quot;one&quot;)                  # =&gt; arg1=one.  rest=[]
+
+varargs(&quot;one&quot;, &quot;two&quot;)           # =&gt; arg1=one.  rest=[&quot;two&quot;]
+
+varargs &quot;one&quot;, &quot;two&quot;, &quot;three&quot;   # =&gt; arg1=one.  rest=[&quot;two&quot;, &quot;three&quot;]   
+</code></pre>
+</div>

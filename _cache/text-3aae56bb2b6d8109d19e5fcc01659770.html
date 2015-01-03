@@ -1,0 +1,13 @@
+<div class="highlight"><pre><code class="text">File.foreach(&quot;testfile&quot;).with_index do |line, index| 
+
+    puts &quot;#{index}: #{line}&quot; if line !~ /on/
+
+end
+
+produces:
+
+1: This is line two
+
+2: This is line three
+</code></pre>
+</div>

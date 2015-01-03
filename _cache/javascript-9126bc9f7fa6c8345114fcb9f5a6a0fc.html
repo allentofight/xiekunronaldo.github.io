@@ -1,0 +1,23 @@
+<div class="highlight"><pre> <span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;AkoLib.view.SplitView&#39;</span><span class="p">,</span> <span class="p">{</span>
+     <span class="nx">extend</span><span class="o">:</span> <span class="s1">&#39;Ext.Container&#39;</span><span class="p">,</span>
+     <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;akosplitview&#39;</span><span class="p">,</span>
+     <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+         <span class="c1">// Custom properties</span>
+         <span class="nx">masterView</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+         <span class="nx">detailView</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+         <span class="nx">screenTitle</span><span class="o">:</span> <span class="s1">&#39;Sample Split View&#39;</span><span class="p">,</span>
+         <span class="nx">menuButtonTitle</span><span class="o">:</span> <span class="s1">&#39;Menu&#39;</span><span class="p">,</span>
+         <span class="nx">detailToolbarButtons</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+         <span class="nx">collapsesMasterView</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+         <span class="nx">showToggleButton</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+         <span class="nx">collapsed</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+         <span class="c1">// Common properties for components</span>
+         <span class="nx">itemId</span><span class="o">:</span> <span class="s1">&#39;splitView&#39;</span><span class="p">,</span>
+         <span class="nx">layout</span><span class="o">:</span> <span class="s1">&#39;hbox&#39;</span><span class="p">,</span>
+         <span class="nx">items</span><span class="o">:</span> <span class="p">[]</span>
+     <span class="p">},</span>
+     <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+         <span class="k">this</span><span class="p">.</span><span class="nx">callParent</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">});</span>
+</pre></div>

@@ -1,0 +1,24 @@
+<div class="highlight"><pre><code class="text">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+int main() {
+    char line[80];
+    FILE *in = fopen(&quot;spooky.csv&quot;,&quot;r&quot;);
+    FILE *file1 = fopen(&quot;ufos.csv&quot;, “w”);
+    FILE *file2 = fopen(&quot;disappearances.csv&quot;,&quot;w&quot;);
+    FILE *file3 = fopen(&quot;others.csv&quot;,&quot;w&quot;);  
+    while(fscanf(in,&quot;%79[^\n]\n&quot;, line) == 1){
+        if (strstr(line, &quot;UFO&quot;))
+            fprintf (file1, &quot;%s\n&quot;, line);
+        else if (strstr(line, &quot;Disappearance&quot;)) 
+            fprintf (file2, &quot;%s\n&quot;, line);
+        else fprintf (file3, &quot;%s\n&quot;, line);
+    }
+
+    fclose (file1); 
+    fclose (file2);
+    fclose (file3);
+    return 0;
+}   
+</code></pre>
+</div>

@@ -1,0 +1,37 @@
+<div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">application</span><span class="p">({</span> 
+	<span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Events&#39;</span><span class="p">,</span>
+		<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;BookTaxiBtn&#39;</span><span class="p">],</span> 
+		<span class="nx">launch</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+			<span class="kd">var</span> <span class="nx">callTaxiEventHandler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;You tapped the &#39;</span> <span class="o">+</span> <span class="nx">b</span><span class="p">.</span><span class="nx">getText</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;button&#39;</span><span class="p">);</span>
+			<span class="p">};</span>
+			<span class="kd">var</span> <span class="nx">callTaxiBtn1</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span> 
+				<span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;1: Call a Taxi - handler&#39;</span><span class="p">,</span>
+				<span class="nx">margin</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>
+				<span class="nx">handler</span><span class="o">:</span> <span class="nx">callTaxiEventHandler</span>
+			<span class="p">});</span>
+			<span class="kd">var</span> <span class="nx">callTaxiBtn2</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span> 
+				<span class="nx">margin</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>
+				<span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;2: Call a Taxi - addListener&#39;</span> 
+			<span class="p">});</span>
+			<span class="nx">callTaxiBtn2</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="nx">callTaxiEventHandler</span><span class="p">);</span>
+
+			<span class="kd">var</span> <span class="nx">callTaxiBtn3</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.Button&#39;</span><span class="p">,</span> <span class="p">{</span> 
+				<span class="nx">margin</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>
+				<span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;3: Call a Taxi - on&#39;</span> 
+			<span class="p">});</span>
+
+			<span class="nx">callTaxiBtn3</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;tap&#39;</span><span class="p">,</span> <span class="nx">callTaxiEventHandler</span><span class="p">);</span>
+			<span class="c1">//Display the buttons, for testing purposes</span>
+			<span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.Container&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">fullscreen</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> 
+			<span class="nx">padding</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+			<span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
+				<span class="nx">callTaxiBtn1</span><span class="p">,</span> 
+				<span class="nx">callTaxiBtn2</span><span class="p">,</span> 
+				<span class="nx">callTaxiBtn3</span><span class="p">,</span>
+				<span class="p">{</span> <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;booktaxibtn&#39;</span><span class="p">}</span>
+			<span class="p">]</span> 
+			<span class="p">});</span>
+		<span class="p">}</span> 
+	<span class="p">});</span>
+</pre></div>

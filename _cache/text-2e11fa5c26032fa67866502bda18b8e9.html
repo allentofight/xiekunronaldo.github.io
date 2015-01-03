@@ -1,0 +1,19 @@
+<div class="highlight"><pre><code class="text"># Note the &quot;w&quot;, which opens the file for writing
+
+File.open(&quot;output.txt&quot;, &quot;w&quot;) do |file| 
+
+file.puts &quot;Hello&quot;
+
+file.puts &quot;1 + 2 = #{1+2}&quot;
+
+end
+
+# Now read the file in and print its contents to STDOUT
+
+puts File.read(&quot;output.txt&quot;)
+
+produces:
+
+Hello 1+2=3
+</code></pre>
+</div>

@@ -1,0 +1,21 @@
+<div class="highlight"><pre><code class="text">let name: String
+let text: String?
+
+@lazy var asHTML: () -&gt; String = {
+    if let text = self.text {
+        return &quot;&lt;\(self.name)&gt;\(text)&lt;/\(self.name)&gt;&quot;
+    } else {
+        return &quot;&lt;\(self.name) /&gt;&quot;
+    }
+}
+
+init(name: String, text: String? = nil) {
+    self.name = name
+    self.text = text
+}
+
+deinit {
+    println(&quot;\(name) is being deinitialized&quot;)
+}
+</code></pre>
+</div>

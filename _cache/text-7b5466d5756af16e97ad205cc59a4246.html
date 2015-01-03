@@ -1,0 +1,33 @@
+<div class="highlight"><pre><code class="text">-&gt; params { ... }
+
+
+proc1 = -&gt; arg { puts &quot;In proc1 with #{arg}&quot; }
+
+
+proc2 = -&gt; arg1, arg2 { puts &quot;In proc2 with #{arg1} and #{arg2}&quot; } 
+
+
+proc3 = -&gt;(arg1, arg2) { puts &quot;In proc3 with #{arg1} and #{arg2}&quot; }
+
+
+proc1.call &quot;ant&quot; 
+
+
+proc2.call &quot;bee&quot;, &quot;cat&quot; 
+
+
+proc3.call &quot;dog&quot;, &quot;elk&quot;
+
+
+produces:
+
+
+In proc1 with ant
+
+
+In proc2 with bee and cat
+
+
+In proc3 with dog and elk
+</code></pre>
+</div>

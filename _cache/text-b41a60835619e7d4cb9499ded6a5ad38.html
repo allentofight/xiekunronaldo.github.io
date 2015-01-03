@@ -1,0 +1,14 @@
+<div class="highlight"><pre><code class="text">#include &lt;stdio.h&gt; 
+typedef union { 
+  float weight;
+  int count;
+} cupcake;
+
+
+int main() {
+    cupcake order = {2};
+    printf(&quot;Cupcakes quantity: %i\n&quot;, order.count);
+    return 0;
+}
+</code></pre>
+</div>

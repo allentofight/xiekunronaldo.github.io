@@ -1,0 +1,23 @@
+<div class="highlight"><pre> <span class="p">{</span>
+        <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;button&#39;</span><span class="p">,</span>
+        <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Touch to open panel&#39;</span><span class="p">,</span>
+        <span class="nx">itemId</span><span class="o">:</span> <span class="s1">&#39;openPanelButton&#39;</span><span class="p">,</span>
+        <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">tap</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">button</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">eOpts</span><span class="p">)</span> <span class="p">{</span> 
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">button</span><span class="p">.</span><span class="nx">panel</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">button</span><span class="p">.</span><span class="nx">panel</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">widget</span><span class="p">(</span><span class="s1">&#39;panel&#39;</span><span class="p">,</span> <span class="p">{</span>
+                        <span class="nx">html</span><span class="o">:</span> <span class="s1">&#39;This is a panel&#39;</span><span class="p">,</span>
+                        <span class="nx">padding</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+                        <span class="nx">width</span><span class="o">:</span> <span class="mi">280</span><span class="p">,</span>
+                        <span class="nx">modal</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> 
+                        <span class="nx">hideOnMaskTap</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// </span>
+                        <span class="nx">hidden</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> 
+                        <span class="nx">hideAnimation</span><span class="o">:</span> <span class="s1">&#39;fadeOut&#39;</span><span class="p">,</span> 
+                        <span class="nx">showAnimation</span><span class="o">:</span> <span class="s1">&#39;fadeIn&#39;</span>
+                <span class="p">});</span> 
+            <span class="p">}</span>
+                <span class="nx">button</span><span class="p">.</span><span class="nx">panel</span><span class="p">.</span><span class="nx">showBy</span><span class="p">(</span><span class="nx">button</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span> 
+<span class="p">}</span>
+</pre></div>

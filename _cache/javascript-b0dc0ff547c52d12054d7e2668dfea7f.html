@@ -1,0 +1,12 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">jane</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Jane&#39;</span><span class="p">,</span>
+    <span class="nx">friends</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Tarzan&#39;</span><span class="p">,</span> <span class="s1">&#39;Cheeta&#39;</span><span class="p">],</span>
+    <span class="nx">logHiToFriends</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">friends</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">friend</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// `this` is undefined here</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39; says hi to &#39;</span> <span class="o">+</span> <span class="nx">friend</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>

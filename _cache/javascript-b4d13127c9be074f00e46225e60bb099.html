@@ -1,0 +1,11 @@
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">taxi</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s2">&quot;VehicleApp.vehicle.Cab&quot;</span><span class="p">,</span> <span class="p">{</span> 
+	<span class="nx">driver</span><span class="o">:</span> <span class="s2">&quot;John Doe&quot;</span>
+<span class="p">});</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">taxi</span><span class="p">.</span><span class="nx">getDriver</span><span class="p">());</span> <span class="c1">//alerts &#39;John Doe&#39;;</span>
+<span class="nx">taxi</span><span class="p">.</span><span class="nx">setDriver</span><span class="p">(</span><span class="s1">&#39;The Pope&#39;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">taxi</span><span class="p">.</span><span class="nx">getDriver</span><span class="p">());</span> <span class="c1">//alerts &#39;John Doe&#39; because &#39;The Pope&#39; is invalid.</span>
+<span class="c1">//changes the driver from &#39;John Doe&#39; to &#39;Lee Boonstra&#39;</span>
+<span class="nx">taxi</span><span class="p">.</span><span class="nx">setDriver</span><span class="p">(</span><span class="s1">&#39;Lee Boonstra&#39;</span><span class="p">);</span> 
+
+<span class="nx">alert</span><span class="p">(</span><span class="nx">taxi</span><span class="p">.</span><span class="nx">getDriver</span><span class="p">());</span>
+</pre></div>

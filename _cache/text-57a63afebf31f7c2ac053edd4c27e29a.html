@@ -1,0 +1,15 @@
+<div class="highlight"><pre><code class="text">// C++
+class Vector
+{
+   const Vector operator+(const Vector&amp; v) const
+   {
+      return Vector(x + v.x, y + v.y, z + v.z);
+   }
+}
+
+// this &#39;+&#39; calls the overloaded operator+
+// isn&#39;t it nice?
+Vector v1,v2,v3;
+v3 = v1 + v2;
+</code></pre>
+</div>

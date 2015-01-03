@@ -1,0 +1,44 @@
+<div class="highlight"><pre><span class="c1">// Defining the animal class</span>
+    <span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;Animal&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">mixins</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Ext.mixin.Observable&#39;</span><span class="p">],</span>
+        <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;(some animal name here)&#39;</span><span class="p">,</span>
+            <span class="nx">kind</span><span class="o">:</span> <span class="s1">&#39;(animal kind here)&#39;</span>
+<span class="p">},</span>
+<span class="nx">constructor</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+<span class="p">},</span>
+<span class="nx">eat</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">animal</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// Here is where the magic happens this.fireEvent(&#39;eating&#39;, animal); animal.fireEvent(&#39;beingEaten&#39;, this);</span>
+<span class="p">}</span> <span class="p">});</span>
+    <span class="c1">// Creating two instances of the Animal class</span>
+<span class="kd">var</span> <span class="nx">lion</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Animal&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Simba&#39;</span><span class="p">,</span>
+        <span class="nx">kind</span><span class="o">:</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span>
+        <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">eating</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">prey</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="s1">&#39;{0} the {1} is eating {2} the {3}!&#39;</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+                <span class="kd">var</span> <span class="nx">kind</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getKind</span><span class="p">();</span>
+                <span class="kd">var</span> <span class="nx">preyName</span> <span class="o">=</span> <span class="nx">prey</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+                <span class="kd">var</span> <span class="nx">preyKind</span> <span class="o">=</span> <span class="nx">prey</span><span class="p">.</span><span class="nx">getKind</span><span class="p">();</span>
+                <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="nx">template</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">kind</span><span class="p">,</span> <span class="nx">preyName</span><span class="p">,</span>
+                <span class="nx">preyKind</span><span class="p">);</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+            <span class="p">}</span>
+<span class="p">}</span> <span class="p">});</span>
+<span class="kd">var</span> <span class="nx">zebra</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Animal&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Pumbaa&#39;</span><span class="p">,</span>
+        <span class="nx">kind</span><span class="o">:</span> <span class="s1">&#39;Warthog&#39;</span><span class="p">,</span>
+        <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">beingEaten</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">predator</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="s1">&#39;{0} the {1} is being eaten by {2} the {3}!&#39;</span><span class="p">;</span> 
+            <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+            <span class="kd">var</span> <span class="nx">kind</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getKind</span><span class="p">();</span>
+            <span class="kd">var</span> <span class="nx">predName</span> <span class="o">=</span> <span class="nx">predator</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+            <span class="kd">var</span> <span class="nx">predKind</span> <span class="o">=</span> <span class="nx">predator</span><span class="p">.</span><span class="nx">getKind</span><span class="p">();</span>
+            <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nb">String</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="nx">template</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">kind</span><span class="p">,</span> <span class="nx">predName</span><span class="p">,</span> <span class="nx">predKind</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
+            <span class="p">}</span> 
+<span class="p">}</span>
+<span class="p">});</span>
+    <span class="c1">// And now nature follows its path</span>
+<span class="nx">lion</span><span class="p">.</span><span class="nx">eat</span><span class="p">(</span><span class="nx">zebra</span><span class="p">);</span>
+</pre></div>

@@ -1,0 +1,21 @@
+<div class="highlight"><pre><code class="text">def search(field, genre: nil, duration: 120) 
+
+    p [field, genre, duration ]
+
+end
+
+search(:title)
+
+search(:title, duration: 432)
+
+search(:title, duration: 432, genre: &quot;jazz&quot;)
+
+produces:
+
+[:title, nil, 120]
+
+[:title, nil, 432]
+
+[:title, &quot;jazz&quot;, 432]
+</code></pre>
+</div>

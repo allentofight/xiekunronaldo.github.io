@@ -1,0 +1,29 @@
+<div class="highlight"><pre><code class="text">proc2 = -&gt; a, *b, &amp;block do 
+
+    puts &quot;a = #{a.inspect}&quot; 
+
+    puts &quot;b = #{b.inspect}&quot; 
+
+    block.call
+
+
+end
+
+
+proc2.call(1, 2, 3, 4) { puts &quot;in block2&quot; }
+
+
+produces:
+
+
+a=1
+
+
+b = [2, 3, 4] in block2
+
+
+
+
+￼
+</code></pre>
+</div>

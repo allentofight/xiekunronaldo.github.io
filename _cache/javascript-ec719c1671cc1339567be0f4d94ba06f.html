@@ -1,0 +1,26 @@
+<div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;AppName.packagename.ClassName&#39;</span><span class="p">,</span> <span class="p">{</span> 
+	<span class="nx">extend</span><span class="o">:</span> <span class="s1">&#39;AppName.packagename.SomeClassName&#39;</span>
+<span class="p">});</span>
+
+
+<span class="c1">// Example 4-3. Define a parent class</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;VehicleApp.vehicle.Vehicle&#39;</span><span class="p">,</span> <span class="p">{</span> 
+	<span class="nx">unit</span><span class="o">:</span> <span class="s2">&quot;mph&quot;</span><span class="p">,</span>
+	<span class="nx">drive</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">speed</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">$className</span> <span class="o">+</span> <span class="s2">&quot;: Vrrroom: &quot;</span> <span class="o">+</span> <span class="nx">speed</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">unit</span><span class="p">);</span>
+	<span class="p">}</span> 
+<span class="p">});</span>
+
+<span class="c1">// Example 4-4. Define a child class and implement inheritance</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;VehicleApp.vehicle.Car&#39;</span><span class="p">,</span> <span class="p">{</span> 
+	<span class="nx">extend</span><span class="o">:</span> <span class="s1">&#39;VehicleApp.vehicle.Vehicle&#39;</span><span class="p">,</span> <span class="nx">drive</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">speed</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">$className</span> <span class="o">+</span> <span class="s2">&quot;: Vrrroom, vrrroom: &quot;</span> <span class="o">+</span> <span class="nx">speed</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">unit</span><span class="p">);</span> 
+	<span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">vehicle</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s2">&quot;VehicleApp.vehicle.Vehicle&quot;</span><span class="p">);</span>
+<span class="nx">vehicle</span><span class="p">.</span><span class="nx">drive</span><span class="p">(</span><span class="mi">40</span><span class="p">);</span> <span class="c1">//alerts &quot;Vrrroom: 40 mph&quot; </span>
+
+<span class="kd">var</span> <span class="nx">car</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s2">&quot;VehicleApp.vehicle.Car&quot;</span><span class="p">);</span>
+<span class="nx">car</span><span class="p">.</span><span class="nx">drive</span><span class="p">(</span><span class="mi">60</span><span class="p">);</span> <span class="c1">//alerts &quot;Vrrroom, vrrroom: 60 mph&quot;</span>
+</pre></div>

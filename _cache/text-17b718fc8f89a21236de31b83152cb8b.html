@@ -1,0 +1,21 @@
+<div class="highlight"><pre><code class="text">    def count_frequency(word_list) 
+
+    counts = Hash.new(0)
+
+    for word in word_list
+
+        counts[word] += 1
+
+    end
+
+    counts
+
+end
+
+p count_frequency([&quot;sparky&quot;, &quot;the&quot;, &quot;cat&quot;, &quot;sat&quot;, &quot;on&quot;, &quot;the&quot;, &quot;mat&quot;]) 
+
+produces:
+
+{&quot;sparky&quot;=&gt;1, &quot;the&quot;=&gt;2, &quot;cat&quot;=&gt;1, &quot;sat&quot;=&gt;1, &quot;on&quot;=&gt;1, &quot;mat&quot;=&gt;1}
+</code></pre>
+</div>
