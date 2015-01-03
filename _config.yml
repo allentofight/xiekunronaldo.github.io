@@ -34,7 +34,9 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
-markdown: rdiscount
+markdown: redcarpet2
+redcarpet:
+  extensions: ["hard_wrap"]
 rdiscount:
   extensions:
     - autolink
